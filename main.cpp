@@ -11,7 +11,6 @@ using namespace DirectX;
 #include <wrl.h>
 using namespace Microsoft::WRL;
 ///
-#include "Draw.h"
 #include "DirectXInput.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -28,16 +27,6 @@ using namespace Microsoft::WRL;
 
 #include <DirectXTex.h>
 
-struct Vertex {
-	XMFLOAT3 pos;		//xyz座標
-	XMFLOAT3 normal;	//法線ベクトル
-	XMFLOAT2 uv;		//uv座標
-};
-
-//定数バッファ用データ構造体
-struct ConstBufferDataMaterial {
-	XMFLOAT4 color;
-};
 // ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	// メッセージに応じてゲーム固有の処理を行う
