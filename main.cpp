@@ -19,6 +19,7 @@ using namespace Microsoft::WRL;
 #include "Object3d.h"
 #include "Object2D.h"
 #include "ViewProjection.h"
+#include "Player.h"
 ///
 #include <random>
 
@@ -469,14 +470,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//オブジェクト色変更
 	bool isChangeColor = false;
 	XMFLOAT4 objectColor{1,1,1,1};
-	//オブジェクト移動
-	XMFLOAT3 pos = { 0,0,0 };
-	XMFLOAT3 rot = { 0,0,0 };
 
 	Controller* controller = Controller::GetInstance();
 	controller->Ini();
+
+	Player player_;
+	player_.Ini(device.Get());
 	// ゲームループ
 	while (true) {
+#pragma region
 		// メッセージがある?
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg); // キー入力メッセージの処理
@@ -511,65 +513,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 		commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-
+#pragma endregion
 		//////////////////////
 		//プログラム記入ここから//
 		//////////////////////
-		
-		float speed = 0.5f;
-		float rotSpeed = 0.1f;
-		//オブジェクトのポジション
-		if (DirectXInput::IsKeyDown(DIK_LEFT) || DirectXInput::IsKeyDown(DIK_RIGHT)||
-			DirectXInput::IsKeyDown(DIK_UP) || DirectXInput::IsKeyDown(DIK_DOWN)) {
-			if (DirectXInput::IsKeyDown(DIK_LEFT)) { pos.x -= speed; }
-			if (DirectXInput::IsKeyDown(DIK_RIGHT)) { pos.x += speed; }
-			if (DirectXInput::IsKeyDown(DIK_UP)) { pos.y += speed; }
-			if (DirectXInput::IsKeyDown(DIK_DOWN)) { pos.y -= speed; }
-		}
-		//オブジェクトの回転
-		if (DirectXInput::IsKeyDown(DIK_Q) || DirectXInput::IsKeyDown(DIK_E)||
-			DirectXInput::IsKeyDown(DIK_Z) || DirectXInput::IsKeyDown(DIK_C)) {
-			if (DirectXInput::IsKeyDown(DIK_Q)) { rot.x -= rotSpeed; }
-			if (DirectXInput::IsKeyDown(DIK_E)) { rot.x += rotSpeed; }
-			if (DirectXInput::IsKeyDown(DIK_Z)) { rot.y += rotSpeed; }
-			if (DirectXInput::IsKeyDown(DIK_C)) { rot.y -= rotSpeed; }
-		}
+		player_.Update(debugCamera.GetViewProjection());
 
-		if (controller->GetButtons(XINPUT_GAMEPAD_B)) {
-			pos.x -= speed;
-		}
-
-		Vector2 stickspeed = controller->GetLStick() * 0.00001f;
-		pos.x += stickspeed.x;
-		pos.y += stickspeed.y;
-		
-		
-		worldTransform[0].SetPosition(pos.x, pos.y, pos.z);
-		worldTransform[0].SetRotation(rot.x, rot.y, rot.z);
-
-
-		viewProjection.Update();
-		
-		//オブジェクトの更新
-		for (size_t i = 0; i < _countof(worldTransform); i++) {
-			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
-		}
-		
-		if (DirectXInput::IsKeyTrigger(DIK_SPACE)) {
-			if (graph == enemyGraph) {
-				graph = marioGraph;
-			}
-			else if (graph == marioGraph) {
-				graph = khGraph;
-			}
-			else if (graph == khGraph) {
-				graph = enemyGraph;
-			}
-		}
-
-		/*HRESULT result;
-		result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
-		assert(SUCCEEDED(result));*/
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {
 			if (isChangeColor == false) isChangeColor = true;
@@ -637,10 +586,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		////////////////
 		
 		Object3d::PreDraw(commandList.Get());
-		//全オブジェクトについて処理
-		for (int i = 0; i < _countof(worldTransform); i++) {
-			model_.Draw(&worldTransform[i], graph);
-		}
+
+		player_.Draw( khGraph);
 
 		// ビューポート設定コマンド
 		viewport.Width = window_width;

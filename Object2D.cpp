@@ -361,11 +361,6 @@ void Object2D::Ini(ID3D12Device* device)
 	//単位行列を代入
 	constMapTransform->mat = XMMatrixIdentity();
 
-	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / 1280;
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
-
 	//平行投影行列の計算
 		constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
 			0.0f, 1280,
