@@ -1,4 +1,6 @@
 #include "math.h"
+#define PI 3.141592
+
 #pragma region FLOAT2
 FLOAT2::FLOAT2() : x(0),y(0){}
 
@@ -154,6 +156,7 @@ FLOAT3& FLOAT3::operator/=(const Vector3& v)
 }
 #pragma endregion
 
+#pragma region Matrix4
 Matrix4::Matrix4()
 {
     for (int i = 0; i < 4; i++) {
@@ -226,3 +229,19 @@ Matrix4& Matrix4::operator*=(const Matrix4& m2)
 
     return *this;
 }
+#pragma endregion
+
+#pragma region 変換
+//ラジアンから角度
+float ConvertRadianToAngle(float radian) {
+    float angle = 180 / PI * radian;
+    return angle;
+}
+
+//角度からラジアン
+float ConvertAngleToRadian(float angle) {
+    float radian =  PI / 180 * angle;
+    return radian;
+}
+
+#pragma endregion

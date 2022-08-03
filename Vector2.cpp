@@ -79,6 +79,56 @@ Vector2& Vector2::operator/=(float s)
 	return *this;
 }
 
+bool Vector2::operator==(const Vector2& v)
+{
+	if (x == v.x && y == v.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Vector2::operator<(const Vector2& v)
+{
+	if (x < v.x && y < v.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Vector2::operator>(const Vector2& v)
+{
+	if (x > v.x && y > v.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Vector2::operator<=(const Vector2& v)
+{
+	if (x <= v.x && y <= v.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Vector2::operator>=(const Vector2& v)
+{
+	if (x >= v.x && y >= v.y) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 // 2項演算子オーバーロード
 // ※いろんな引数のパターンに対応するため、以下のように準備している
 //足し算ができるようにする

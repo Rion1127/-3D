@@ -22,6 +22,27 @@ void WorldTransform::SetPosition(float x, float y, float z)
 	position = { x,y,z };
 }
 
+void WorldTransform::AddScale(float x, float y, float z)
+{
+	scale.x += x;
+	scale.y += y;
+	scale.z += z;
+}
+
+void WorldTransform::AddRotation(float x, float y, float z)
+{
+	rotation.x += x;
+	rotation.y += y;
+	rotation.z += z;
+}
+
+void WorldTransform::AddPosition(float x, float y, float z)
+{
+	position.x += x;
+	position.y += y;
+	position.z += z;
+}
+
 void WorldTransform::InitializeObject3d(ID3D12Device* device)
 {
 	HRESULT result;

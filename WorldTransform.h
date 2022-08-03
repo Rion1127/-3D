@@ -23,6 +23,10 @@ public:
 	void SetRotation(float x, float y, float z);
 	void SetPosition(float x, float y, float z);
 
+	void AddScale(float x, float y, float z);
+	void AddRotation(float x, float y, float z);
+	void AddPosition(float x, float y, float z);
+
 	void InitializeObject3d(ID3D12Device* device);
 	void UpdateObject3d(ViewProjection viewProjection);
 
@@ -33,11 +37,11 @@ public:
 	//親オブジェクトへのポインタ
 	WorldTransform* parent = nullptr;
 	
-private:
 	//アフィン変換情報
 	XMFLOAT3 scale = { 1,1,1 };
 	XMFLOAT3 rotation = { 0,0,0 };
 	XMFLOAT3 position = { 0,0,0 };
+private:
 	//ワールド変換行列
 	XMMATRIX matWorld;
 

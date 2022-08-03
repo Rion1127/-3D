@@ -266,13 +266,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region
 	TextureManager::GetInstance()->Ini(device.Get());
 
-	uint32_t marioGraph, khGraph,enemyGraph,keyBladeGraph,colorGraph;
+	uint32_t marioGraph, khGraph,enemyGraph,keyBladeGraph,colorGraph,gumishipGraph;
 	uint32_t graph;
 	marioGraph = TextureManager::GetInstance()->LoadGraph("Resources/mario.jpg");
 	khGraph = TextureManager::GetInstance()->LoadGraph("Resources/KH.jpg");
 	enemyGraph = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
 	keyBladeGraph = TextureManager::GetInstance()->LoadGraph("Resources/keyBlade2.png");
 	colorGraph = TextureManager::GetInstance()->LoadGraph("Resources/coloring2-1.png");
+	gumishipGraph = TextureManager::GetInstance()->LoadGraph("Resources/gumiship.png");
 	graph = marioGraph;
 #pragma endregion
 
@@ -342,7 +343,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region viewprojection
 
 	ViewProjection viewProjection;
-	viewProjection.SetEyePos(0, 50, -200);
+	viewProjection.SetEyePos(0, 10, -70);
 	viewProjection.SetTarget(0, 0, 0);
 	viewProjection.SetUpVec(0, 1, 0);
 	viewProjection.Ini();
@@ -438,7 +439,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//////////////////////
 		//プログラム記入ここから//
 		//////////////////////
-		player_.Update(debugCamera.GetViewProjection());
+		player_.Update(/*debugCamera.GetViewProjection()*/viewProjection);
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {
@@ -508,31 +509,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		Object3d::PreDraw(commandList.Get());
 
-		player_.Draw( khGraph);
+		player_.Draw(gumishipGraph);
 
-		// ビューポート設定コマンド
-		viewport.Width = window_width;
-		viewport.Height = window_height;
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.MinDepth = 0.0f;
-		viewport.MaxDepth = 1.0f;
-		// ビューポート設定コマンドを、コマンドリストに積む
-		commandList->RSSetViewports(1, &viewport);
-		// シザー矩形
-		scissorRect.left = 0; // 切り抜き座標左
-		scissorRect.right = scissorRect.left + window_width; // 切り抜き座標右
-		scissorRect.top = 0; // 切り抜き座標上
-		scissorRect.bottom = scissorRect.top + window_height; // 切り抜き座標下
-		// シザー矩形設定コマンドを、コマンドリストに積む
-		commandList->RSSetScissorRects(1, &scissorRect);
+		//// ビューポート設定コマンド
+		//viewport.Width = window_width;
+		//viewport.Height = window_height;
+		//viewport.TopLeftX = 0;
+		//viewport.TopLeftY = 0;
+		//viewport.MinDepth = 0.0f;
+		//viewport.MaxDepth = 1.0f;
+		//// ビューポート設定コマンドを、コマンドリストに積む
+		//commandList->RSSetViewports(1, &viewport);
+		//// シザー矩形
+		//scissorRect.left = 0; // 切り抜き座標左
+		//scissorRect.right = scissorRect.left + window_width; // 切り抜き座標右
+		//scissorRect.top = 0; // 切り抜き座標上
+		//scissorRect.bottom = scissorRect.top + window_height; // 切り抜き座標下
+		//// シザー矩形設定コマンドを、コマンドリストに積む
+		//commandList->RSSetScissorRects(1, &scissorRect);
+		
 		////////////////
 		//2Dオブジェクト//
 		////////////////
-		Vector2 pos = {100,200};
+	/*	Vector2 pos = {100,200};
 
 		Obj2D.PreDraw(commandList.Get());
-		Obj2D.Draw(pos,keyBladeGraph);
+		Obj2D.Draw(pos,keyBladeGraph);*/
 		
 
 		///////////////////////

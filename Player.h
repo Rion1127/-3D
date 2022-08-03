@@ -18,5 +18,7 @@ private:
 
 	Controller* cInput;
 
+	//Vector2 mainSpeed;
+
 };
 

@@ -69,3 +69,7 @@ struct Matrix4 {
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
 };
+//ラジアンから角度
+float ConvertRadianToAngle(float radian);
+//角度からラジアン
+float ConvertAngleToRadian(float angle);
