@@ -11,7 +11,7 @@ PlayerBullet::PlayerBullet()
 	
 }
 
-void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,ViewProjection viewProjection)
+void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,Vector3 velocity)
 {
 
 	worldTransform_.InitializeObject3d(device);
@@ -19,12 +19,13 @@ void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,ViewPr
 	cInput = Controller::GetInstance();
 	cInput->Ini();
 
-	texture = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
+	texture = TextureManager::GetInstance()->LoadGraph("Resources/bullet3.png");
 
 	worldTransform_.position = worldTransform.position;
 	worldTransform_.rotation = worldTransform.rotation;
-	worldTransform_.SetScale(0.1f, 0.1f, 2);
-	worldTransform_.UpdateObject3d(viewProjection);
+	worldTransform_.SetScale(0.1f, 0.01f, 2);
+
+	velocity_ = velocity;
 }
 
 void PlayerBullet::Update(ViewProjection viewProjection)
@@ -44,7 +45,7 @@ void PlayerBullet::Draw()
 
 void PlayerBullet::Move()
 {
-	
+	worldTransform_.AddPosition(velocity_.x, velocity_.y, velocity_.z);
 }
 
 

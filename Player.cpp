@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "DirectXInput.h"
 #include "math.h"
+#include <cmath>
 #include "Player.h"
 
 Player::Player()
@@ -158,9 +159,25 @@ void Player::Move()
 void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 {
 	if (cInput->GetTriggerButtons(XINPUT_GAMEPAD_B)) {
+		//弾の速度
+		const float bulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, bulletSpeed);
+		Vector3 resultVec(0, 0, 0);
+		Vector3 frontVec(0, 0, 1);
+
+		//プレイヤーの正面ベクトル
+		resultVec.x = {
+		  cos(worldTransform.rotation.y) * frontVec.x
+		  + sin(worldTransform.rotation.y) * frontVec.z
+		};
+		resultVec.z = {
+			-sin(worldTransform.rotation.y) * frontVec.x +
+			cos(worldTransform.rotation.y) * frontVec.z
+		};
+
 		//弾を生成して初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-			newBullet->Ini(device, worldTransform, viewProjection);
+			newBullet->Ini(device, worldTransform, resultVec);
 
 			//弾をリストに登録する
 			bullets.push_back(std::move(newBullet));
