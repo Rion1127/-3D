@@ -21,8 +21,10 @@ void Player::Ini(ID3D12Device* device)
 	cInput->Ini();
 }
 
-void Player::Update(ViewProjection viewProjection)
+void Player::Update(ID3D12Device* device,ViewProjection viewProjection)
 {
+	Shot(device);
+	
 
 	Move();
 
@@ -32,6 +34,8 @@ void Player::Update(ViewProjection viewProjection)
 void Player::Draw(uint32_t graph)
 {
 	model_.Draw(&worldTransform, graph);
+
+	
 }
 
 void Player::Move()
@@ -137,9 +141,12 @@ void Player::Move()
 
 	worldTransform.AddRotation(rotSpeed.x, rotSpeed.y, rotSpeed.z);
 
-	
-	if (cInput->GetReleasButtons(XINPUT_GAMEPAD_A)) {
-		
+}
+
+void Player::Shot(ID3D12Device* device)
+{
+	if (cInput->GetTriggerButtons(XINPUT_GAMEPAD_B)) {
+		//bullet.Ini(device, worldTransform, &model_);
 	}
 
 }

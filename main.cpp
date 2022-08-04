@@ -441,7 +441,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//////////////////////
 		//プログラム記入ここから//
 		//////////////////////
-		player_.Update(/*debugCamera.GetViewProjection()*/viewProjection);
+		player_.Update(device.Get(),/*debugCamera.GetViewProjection()*/viewProjection);
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {

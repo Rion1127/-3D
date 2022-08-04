@@ -10,33 +10,30 @@ PlayerBullet::PlayerBullet()
 {
 }
 
-void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform)
+void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform, Object3d* model)
 {
+	assert(model);
 	worldTransform.InitializeObject3d(device);
 
 	texture = TextureManager::GetInstance()->LoadGraph("Resources/keyBlade2.png");
-
+	//座標のをセットする
 	worldTransform.SetPosition(worldTransform.position.x, worldTransform.position.y, worldTransform.position.z);
-	isAlive = true;
+	
 }
 
 void PlayerBullet::Update(ViewProjection viewProjection)
 {	
-	
-	Move();
 
 	worldTransform.UpdateObject3d(viewProjection);
 }
 
 void PlayerBullet::Draw()
 {
-	model_.Draw(&worldTransform, texture);
+	model_->Draw(&worldTransform, texture);
 }
 
 void PlayerBullet::Move()
 {
-	if (isAlive == true) {
-
-	}
+	
 }
 
