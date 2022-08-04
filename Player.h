@@ -1,9 +1,12 @@
 #pragma once
 #include "PlayerBullet.h"
+#include <list>
+#include <memory>
 class Player
 {
 public:
 	Player();
+	~Player();
 
 	void Ini(ID3D12Device* device);
 
@@ -14,14 +17,14 @@ public:
 private:
 	void Move();
 
-	void Shot(ID3D12Device* device);
+	void Shot(ID3D12Device* device, ViewProjection viewProjection);
 
 	WorldTransform worldTransform;
 	Object3d model_{};
 
 	Controller* cInput;
 
-	PlayerBullet bullet;
+	std::list<std::unique_ptr<PlayerBullet>> bullets;
 
 	//Vector2 mainSpeed;
 

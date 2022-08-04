@@ -4,7 +4,7 @@ class PlayerBullet
 public:
 	PlayerBullet();
 
-	void Ini(ID3D12Device* device, WorldTransform worldTransform, Object3d* model);
+	void Ini(ID3D12Device* device, WorldTransform worldTransform, ViewProjection viewProjection);
 
 	void Update(ViewProjection viewProjection);
 
@@ -13,9 +13,12 @@ public:
 private:
 	void Move();
 
-	WorldTransform worldTransform;
-	Object3d model_ ;
+	WorldTransform worldTransform_;
+	Object3d model_{};
+
+	Controller* cInput;
 
 	uint32_t texture;
+
 };
 

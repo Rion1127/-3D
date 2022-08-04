@@ -20,6 +20,7 @@ using namespace Microsoft::WRL;
 #include "Object2D.h"
 #include "ViewProjection.h"
 #include "Player.h"
+#include "PlayerBullet.h"
 ///
 #include <random>
 
@@ -399,7 +400,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player player_;
 	player_.Ini(device.Get());
 
-
 	// ゲームループ
 	while (true) {
 #pragma region
@@ -441,7 +441,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//////////////////////
 		//プログラム記入ここから//
 		//////////////////////
-		player_.Update(device.Get(),/*debugCamera.GetViewProjection()*/viewProjection);
+		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*/);
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {
@@ -515,22 +515,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		player_.Draw(gumishipGraph);
 
-		//// ビューポート設定コマンド
-		//viewport.Width = window_width;
-		//viewport.Height = window_height;
-		//viewport.TopLeftX = 0;
-		//viewport.TopLeftY = 0;
-		//viewport.MinDepth = 0.0f;
-		//viewport.MaxDepth = 1.0f;
-		//// ビューポート設定コマンドを、コマンドリストに積む
-		//commandList->RSSetViewports(1, &viewport);
-		//// シザー矩形
-		//scissorRect.left = 0; // 切り抜き座標左
-		//scissorRect.right = scissorRect.left + window_width; // 切り抜き座標右
-		//scissorRect.top = 0; // 切り抜き座標上
-		//scissorRect.bottom = scissorRect.top + window_height; // 切り抜き座標下
-		//// シザー矩形設定コマンドを、コマンドリストに積む
-		//commandList->RSSetScissorRects(1, &scissorRect);
 		
 		////////////////
 		//2Dオブジェクト//

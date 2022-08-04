@@ -13,6 +13,11 @@ Player::Player()
 	worldTransform.SetScale(1, 1, 1);
 }
 
+Player::~Player()
+{
+
+}
+
 void Player::Ini(ID3D12Device* device)
 {
 	worldTransform.InitializeObject3d(device);
@@ -23,19 +28,26 @@ void Player::Ini(ID3D12Device* device)
 
 void Player::Update(ID3D12Device* device,ViewProjection viewProjection)
 {
-	Shot(device);
-	
+	//弾を打つ
+	Shot(device, viewProjection);
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+		bullet->Update(viewProjection);
+	}
 
+	//プレイヤー挙動
 	Move();
-
+	//座標更新
 	worldTransform.UpdateObject3d(viewProjection);
 }
 
 void Player::Draw(uint32_t graph)
 {
+	//プレイヤー描画
 	model_.Draw(&worldTransform, graph);
-
-	
+	//弾描画
+	for(std::unique_ptr<PlayerBullet>& bullet : bullets){
+		bullet->Draw();
+	}
 }
 
 void Player::Move()
@@ -143,10 +155,15 @@ void Player::Move()
 
 }
 
-void Player::Shot(ID3D12Device* device)
+void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 {
 	if (cInput->GetTriggerButtons(XINPUT_GAMEPAD_B)) {
-		//bullet.Ini(device, worldTransform, &model_);
+		//弾を生成して初期化
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+			newBullet->Ini(device, worldTransform, viewProjection);
+
+			//弾をリストに登録する
+			bullets.push_back(std::move(newBullet));
 	}
 
 }

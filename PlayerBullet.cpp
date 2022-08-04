@@ -4,36 +4,47 @@
 #include "Texture.h"
 #include "DirectXInput.h"
 #include "math.h"
-#include "PlayerBullet.h"
+#include "Player.h"
 
 PlayerBullet::PlayerBullet()
 {
-}
-
-void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform, Object3d* model)
-{
-	assert(model);
-	worldTransform.InitializeObject3d(device);
-
-	texture = TextureManager::GetInstance()->LoadGraph("Resources/keyBlade2.png");
-	//座標のをセットする
-	worldTransform.SetPosition(worldTransform.position.x, worldTransform.position.y, worldTransform.position.z);
 	
 }
 
-void PlayerBullet::Update(ViewProjection viewProjection)
-{	
+void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,ViewProjection viewProjection)
+{
 
-	worldTransform.UpdateObject3d(viewProjection);
+	worldTransform_.InitializeObject3d(device);
+
+	cInput = Controller::GetInstance();
+	cInput->Ini();
+
+	texture = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
+
+	worldTransform_.position = worldTransform.position;
+	worldTransform_.rotation = worldTransform.rotation;
+	worldTransform_.SetScale(0.1f, 0.1f, 2);
+	worldTransform_.UpdateObject3d(viewProjection);
+}
+
+void PlayerBullet::Update(ViewProjection viewProjection)
+{
+
+	Move();
+
+	worldTransform_.UpdateObject3d(viewProjection);
 }
 
 void PlayerBullet::Draw()
 {
-	model_->Draw(&worldTransform, texture);
+	model_.Draw(&worldTransform_, texture);
+
+
 }
 
 void PlayerBullet::Move()
 {
 	
 }
+
 
