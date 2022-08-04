@@ -13,8 +13,6 @@ public:
 private:
 	void Move();
 
-	bool isAlive;
-
 	WorldTransform worldTransform;
 	Object3d model_{};
 

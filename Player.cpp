@@ -16,7 +16,6 @@ Player::Player()
 void Player::Ini(ID3D12Device* device)
 {
 	worldTransform.InitializeObject3d(device);
-	model_.Ini(device);
 
 	cInput = Controller::GetInstance();
 	cInput->Ini();
@@ -24,7 +23,6 @@ void Player::Ini(ID3D12Device* device)
 
 void Player::Update(ViewProjection viewProjection)
 {
-	cInput->Update();
 
 	Move();
 
@@ -138,5 +136,10 @@ void Player::Move()
 	worldTransform.rotation.z = min(worldTransform.rotation.z, +rotLimitZ);
 
 	worldTransform.AddRotation(rotSpeed.x, rotSpeed.y, rotSpeed.z);
+
+	
+	if (cInput->GetReleasButtons(XINPUT_GAMEPAD_A)) {
+		
+	}
 
 }

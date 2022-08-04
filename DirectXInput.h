@@ -79,6 +79,8 @@ public:
 	void Update();
 
 	WORD GetButtons(WORD button);
+	WORD GetTriggerButtons(WORD button);
+	WORD GetReleasButtons(WORD button);
 	//false	右スティック
 	//true	左スティック
 	Vector2 GetLStick();
@@ -89,6 +91,8 @@ public:
 private:
 
 	XINPUT_STATE state;
+	XINPUT_STATE preState;
+
 	//バイブレーション
 	XINPUT_VIBRATION vibration;
 

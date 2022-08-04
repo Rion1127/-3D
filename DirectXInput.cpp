@@ -188,6 +188,7 @@ Controller* Controller::GetInstance()
 
 void Controller::Ini()
 {
+	preState = state;
 	XInputGetState(
 		0,       // DWORD         dwUserIndex
 		&state);
@@ -195,6 +196,7 @@ void Controller::Ini()
 
 void Controller::Update()
 {
+	preState = state;
 	XInputGetState(
 		0,       // DWORD         dwUserIndex
 		&state);
@@ -203,7 +205,29 @@ void Controller::Update()
 WORD Controller::GetButtons(WORD button)
 {
 	if (state.Gamepad.wButtons == button) {
-		return button;
+		return true;
+	}
+
+	return false;
+}
+
+WORD Controller::GetTriggerButtons(WORD button)
+{
+	if ((state.Gamepad.wButtons == button) &&
+		(preState.Gamepad.wButtons != button))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+WORD Controller::GetReleasButtons(WORD button)
+{
+	if ((state.Gamepad.wButtons != button) &&
+		(preState.Gamepad.wButtons == button))
+	{
+		return true;
 	}
 
 	return false;
@@ -217,12 +241,16 @@ Vector2 Controller::GetLStick()
 	stickPos.x = state.Gamepad.sThumbLX;
 	stickPos.y = state.Gamepad.sThumbLY;
 	//デッドゾーンを設定
-	if ((state.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
-		state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
-		(state.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
-			state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
+	if ((state.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f &&
+		state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f))
 	{
-		return Vector2(0, 0);
+		stickPos.x = 0;
+	}
+
+	if ((state.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f &&
+		state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f))
+	{
+		stickPos.y = 0;
 	}
 
 	return stickPos;
