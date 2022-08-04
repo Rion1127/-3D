@@ -28,6 +28,8 @@ using namespace Microsoft::WRL;
 
 #include <DirectXTex.h>
 
+float fps();
+
 // ウィンドウプロシージャ
 LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	// メッセージに応じてゲーム固有の処理を行う
@@ -580,6 +582,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 }
 
 
+float fps()
+{
+	static float fps = 0;
+	static float lastTime = time(nullptr); // ms
+	static float frameCount = 0;
 
+	++frameCount;
+
+	float curTime = time(nullptr);
+	if (curTime - lastTime > 1000) //         1 
+	{
+		fps = frameCount;
+		frameCount = 0;
+		lastTime = curTime;
+	}
+	return fps;
+}
 
 
