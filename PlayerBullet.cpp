@@ -30,10 +30,13 @@ void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,Vector
 
 void PlayerBullet::Update(ViewProjection viewProjection)
 {
-
 	Move();
-
 	worldTransform_.UpdateObject3d(viewProjection);
+
+	//åoâﬂéûä‘Ç≈è¡Ç¶ÇÈ
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
 }
 
 void PlayerBullet::Draw()

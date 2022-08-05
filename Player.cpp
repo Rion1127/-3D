@@ -27,13 +27,17 @@ void Player::Ini(ID3D12Device* device)
 	cInput->Ini();
 }
 
-void Player::Update(ID3D12Device* device,ViewProjection viewProjection)
+void Player::Update(ID3D12Device* device, ViewProjection viewProjection)
 {
 	//弾を打つ
 	Shot(device, viewProjection);
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Update(viewProjection);
 	}
+	//タイマーが０になったら弾を削除
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+		});
 
 	//プレイヤー挙動
 	Move();
@@ -46,7 +50,7 @@ void Player::Draw(uint32_t graph)
 	//プレイヤー描画
 	model_.Draw(&worldTransform, graph);
 	//弾描画
-	for(std::unique_ptr<PlayerBullet>& bullet : bullets){
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();
 	}
 }
@@ -74,7 +78,7 @@ void Player::Move()
 
 	//限界移動座標
 	const float moveLimitX = 42;
-	const float moveLimitY = 22;
+	const float moveLimitY = 18;
 	//移動量制限
 	worldTransform.position.x = max(worldTransform.position.x, -moveLimitX);
 	worldTransform.position.x = min(worldTransform.position.x, +moveLimitX);
@@ -84,7 +88,7 @@ void Player::Move()
 	worldTransform.AddPosition(speed.x, -speed.y, 0);
 
 	Vector3 rotSpeed(0, 0, 0);
-
+	//徐々に回転させる
 	if (speed.x > 0) {
 		rotSpeed.y = ConvertAngleToRadian(speed.x * 2.5f);
 		rotSpeed.z = ConvertAngleToRadian(-speed.x * 2.5f);
@@ -104,43 +108,53 @@ void Player::Move()
 	Vector2 hikaku(0, 0);
 
 	//ローテーションを徐々に0に戻す
-	if (speed == hikaku) {
+	if (speed.x == 0) {
+		if (worldTransform.rotation.y < 0) {
+			worldTransform.AddRotation(0, ConvertAngleToRadian(1.0f), 0);
+		}
+		else if (worldTransform.rotation.y > 0) {
+			worldTransform.AddRotation(0, -ConvertAngleToRadian(1.0f), 0);
+		}
 
-			if (worldTransform.rotation.x < 0) {
-				worldTransform.AddRotation(ConvertAngleToRadian(1.0f), 0, 0);
-			}
-			else if (worldTransform.rotation.x > 0) {
-				worldTransform.AddRotation(-ConvertAngleToRadian(1.0f), 0, 0);
-			}
+		if (worldTransform.rotation.z < 0) {
+			worldTransform.AddRotation(0, 0, ConvertAngleToRadian(1.0f));
+		}
+		else if (worldTransform.rotation.z > 0) {
+			worldTransform.AddRotation(0, 0, -ConvertAngleToRadian(1.0f));
+		}
 
-			if (worldTransform.rotation.y < 0) {
-				worldTransform.AddRotation(0, ConvertAngleToRadian(1.0f), 0);
-			}
-			else if (worldTransform.rotation.y > 0) {
-				worldTransform.AddRotation(0, -ConvertAngleToRadian(1.0f), 0);
-			}
+		if (worldTransform.rotation.y <= ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.y >= -ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.y != 0)
+		{
+			worldTransform.rotation.y = 0;
+		}
 
-			if (worldTransform.rotation.z < 0) {
-				worldTransform.AddRotation(0, 0, ConvertAngleToRadian(1.0f));
-			}
-			else if (worldTransform.rotation.z > 0) {
-				worldTransform.AddRotation(0, 0, -ConvertAngleToRadian(1.0f));
-			}
-
-			while (worldTransform.rotation.x <	 ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.x >		-ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.y <		 ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.y >		 -ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.z <		 ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.z >		 -ConvertAngleToRadian(1.0f) &&
-				worldTransform.rotation.x != 0)
-			{
-				worldTransform.SetRotation(0, 0, 0);
-			}
-
+		if (worldTransform.rotation.z <= ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.z >= -ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.z != 0)
+		{
+			worldTransform.rotation.z = 0;
+		}
 	}
 
-	//限界移動座標
+	if (speed.y == 0) {
+		if (worldTransform.rotation.x < 0) {
+			worldTransform.AddRotation(ConvertAngleToRadian(1.0f), 0, 0);
+		}
+		else if (worldTransform.rotation.x > 0) {
+			worldTransform.AddRotation(-ConvertAngleToRadian(1.0f), 0, 0);
+		}
+
+		if (worldTransform.rotation.x <= ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.x >= -ConvertAngleToRadian(1.0f) &&
+			worldTransform.rotation.x != 0)
+		{
+			worldTransform.rotation.x = 0;
+		}
+	}
+
+	//限界回転量
 	const float rotLimitX = ConvertAngleToRadian(20.0f);
 	const float rotLimitY = ConvertAngleToRadian(20.0f);
 	const float rotLimitZ = ConvertAngleToRadian(20.0f);
@@ -158,29 +172,41 @@ void Player::Move()
 
 void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 {
-	if (cInput->GetTriggerButtons(XINPUT_GAMEPAD_B)) {
-		//弾の速度
-		const float bulletSpeed = 1.0f;
-		Vector3 velocity(0, 0, bulletSpeed);
-		Vector3 resultVec(0, 0, 0);
-		Vector3 frontVec(0, 0, 1);
 
-		//プレイヤーの正面ベクトル
-		resultVec.x = {
-		  cos(worldTransform.rotation.y) * frontVec.x
-		  + sin(worldTransform.rotation.y) * frontVec.z
-		};
-		resultVec.z = {
-			-sin(worldTransform.rotation.y) * frontVec.x +
-			cos(worldTransform.rotation.y) * frontVec.z
-		};
+	cooltime--;
+	if (cInput->GetButtons(XINPUT_GAMEPAD_B)) {
+		if (cooltime <= 0) {
+			//弾の速度
+			const float bulletSpeed = 3.5f;
+			Vector3 velocity(0, 0, bulletSpeed);
+			Vector3 resultVec(0, 0, 0);
+			Vector3 frontVec(0, 0, 1);
 
-		//弾を生成して初期化
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+			//プレイヤーの正面ベクトル
+			resultVec.x = {
+			  cos(worldTransform.rotation.y) * frontVec.x
+			  + sin(worldTransform.rotation.y) * frontVec.z
+			};
+			resultVec.y = {
+			  sin(worldTransform.rotation.x) * frontVec.x
+			  - sin(worldTransform.rotation.x) * frontVec.z
+			};
+			resultVec.z = {
+				-sin(worldTransform.rotation.y) * frontVec.x +
+				cos(worldTransform.rotation.y) * frontVec.z
+			};
+
+			resultVec.operator*=(bulletSpeed);
+
+			//弾を生成して初期化
+			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 			newBullet->Ini(device, worldTransform, resultVec);
 
 			//弾をリストに登録する
 			bullets.push_back(std::move(newBullet));
+
+			cooltime = maxCoolTime;
+		}
 	}
 
 }

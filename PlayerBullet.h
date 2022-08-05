@@ -8,6 +8,7 @@ public:
 
 	void Update(ViewProjection viewProjection);
 
+	bool IsDead() const { return isDead_; }
 
 	void Draw();
 private:
@@ -21,6 +22,12 @@ private:
 	Controller* cInput;
 
 	uint32_t texture;
+
+	//寿命
+	static const int32_t lifeTimer = 60 * 5;
+	int32_t deathTimer_ = lifeTimer;
+	//デスフラグ
+	bool isDead_ = false;
 
 };
 

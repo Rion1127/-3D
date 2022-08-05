@@ -26,7 +26,9 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 
-	//Vector2 mainSpeed;
+	//tamakannri
+	const float maxCoolTime = 10;
+	float cooltime = maxCoolTime;
 
 };
 
