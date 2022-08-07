@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectXInput.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectXInput.h" />
     <ClInclude Include="Enemy.h" />

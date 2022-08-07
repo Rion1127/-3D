@@ -1,8 +1,8 @@
 #include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "Object3d.h"
+
+
 #include "Texture.h"
-#include "DirectXInput.h"
+
 #include "math.h"
 #include <cmath>
 #include "Player.h"
@@ -11,7 +11,7 @@ Player::Player()
 {
 	worldTransform.SetPosition(0, 0, 0);
 	worldTransform.SetRotation(0, 0, 0);
-	worldTransform.SetScale(0.8f, 0.8f, 0.8f);
+	worldTransform.SetScale(0.5f, 0.5f, 0.5f);
 }
 
 Player::~Player()
@@ -43,6 +43,10 @@ void Player::Update(ID3D12Device* device, ViewProjection viewProjection)
 	Move();
 	//ç¿ïWçXêV
 	worldTransform.UpdateObject3d(viewProjection);
+}
+
+void Player::OnCollision()
+{
 }
 
 void Player::Draw(uint32_t graph)

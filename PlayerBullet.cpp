@@ -1,9 +1,4 @@
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "Object3d.h"
-#include "Texture.h"
-#include "DirectXInput.h"
-#include "math.h"
+
 #include "Player.h"
 
 PlayerBullet::PlayerBullet()
@@ -38,6 +33,11 @@ void PlayerBullet::Update(ViewProjection viewProjection)
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 	}
+}
+
+void PlayerBullet::OnCollision()
+{
+	isDead_ = true;
 }
 
 void PlayerBullet::Draw()

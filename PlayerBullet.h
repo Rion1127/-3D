@@ -1,4 +1,10 @@
 #pragma once
+#include "WorldTransform.h"
+#include "ViewProjection.h"
+#include "Object3d.h"
+#include "Texture.h"
+#include "DirectXInput.h"
+#include "math.h"
 class PlayerBullet
 {
 public:
@@ -7,8 +13,11 @@ public:
 	void Ini(ID3D12Device* device, WorldTransform worldTransform, Vector3 velocity, Object3d* model);
 
 	void Update(ViewProjection viewProjection);
+	//“–‚½‚è”»’è‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éŠÖ”
+	void OnCollision();
 
 	bool IsDead() const { return isDead_; }
+	XMFLOAT3 GetPosition() { return worldTransform_.position; }
 
 	void Draw();
 private:

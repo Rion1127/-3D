@@ -1,8 +1,5 @@
-#include "WorldTransform.h"
-#include "ViewProjection.h"
-#include "Object3d.h"
-#include "Texture.h"
-#include "math.h"
+
+
 #include <cmath>
 #include "Enemy.h"
 
@@ -24,6 +21,10 @@ void Enemy::Update(ViewProjection viewprojection)
 	Move();
 
 	worldTransoform.UpdateObject3d(viewprojection);
+}
+
+void Enemy::OnCollision()
+{
 }
 
 void Enemy::Draw()
@@ -52,7 +53,7 @@ void Enemy::Move()
 void Enemy::Approach()
 {
 	//手前に近づいてくる
-	worldTransoform.AddPosition(0, 0, -0.2f);
+	worldTransoform.AddPosition(0, 0, -0.01f);
 	//既定の位置に到達したら別のフェーズへ移行する
 	if (worldTransoform.position.z < 5.0f) {
 		phase_ = Phase::Leave;

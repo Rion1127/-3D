@@ -1,12 +1,22 @@
 #pragma once
+#include "WorldTransform.h"
+#include "ViewProjection.h"
+#include <d3d12.h>
+#include "Object3d.h"
+#include "Texture.h"
+#include "math.h"
 class Enemy
 {
 public:
 	void Ini(ID3D12Device* device);
 	void Update(ViewProjection viewprojection);
+
+	//“–‚½‚è”»’è‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éŠÖ”
+	void OnCollision();
+
 	void Draw();
 
-
+	XMFLOAT3 GetPosition() { return worldTransoform.position; }
 private:
 	void Move();
 	void Approach();
