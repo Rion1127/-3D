@@ -38,9 +38,9 @@ public:
 	WorldTransform* parent = nullptr;
 	
 	//アフィン変換情報
-	XMFLOAT3 scale = { 1,1,1 };
-	XMFLOAT3 rotation = { 0,0,0 };
-	XMFLOAT3 position = { 0,0,0 };
+	Vector3 scale = { 1,1,1 };
+	Vector3 rotation = { 0,0,0 };
+	Vector3 position = { 0,0,0 };
 private:
 	//ワールド変換行列
 	XMMATRIX matWorld;

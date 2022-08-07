@@ -15,8 +15,9 @@ public:
 	void OnCollision();
 
 	void Draw();
-
-	XMFLOAT3 GetPosition() { return worldTransoform.position; }
+	WorldTransform GetWorldTransform() { return worldTransoform; }
+	Vector3 GetPosition() { return worldTransoform.position; }
+	bool GetAlive() { return isAlive; }
 private:
 	void Move();
 	void Approach();
@@ -32,6 +33,10 @@ private:
 		Leave,		//—£’E‚·‚é
 	};
 	Phase phase_;
+
+	const int maxHP = 10;
+	int HP = maxHP;
+	bool isAlive = false;
 
 };
 

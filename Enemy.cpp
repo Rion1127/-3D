@@ -8,28 +8,36 @@ void Enemy::Ini(ID3D12Device* device)
 	worldTransoform.InitializeObject3d(device);
 	texture = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
 
-	worldTransoform.SetPosition(10, 10, 100);
+	worldTransoform.SetPosition(0, 0, 20);
 	worldTransoform.SetRotation(0, 0, 0);
 	worldTransoform.SetScale(1, 1, 1);
 
 	//フェーズ初期化
 	phase_ = Phase::Approach;
+	isAlive = true;
 }
 
 void Enemy::Update(ViewProjection viewprojection)
 {
-	Move();
+	//Move();
 
 	worldTransoform.UpdateObject3d(viewprojection);
+
+	if (HP <= 0) {
+		isAlive = false;
+	}
 }
 
 void Enemy::OnCollision()
 {
+	HP--;
 }
 
 void Enemy::Draw()
 {
-	model_.Draw(&worldTransoform, texture);
+	if (isAlive == true) {
+		model_.Draw(&worldTransoform, texture);
+	}
 }
 
 void Enemy::Move()

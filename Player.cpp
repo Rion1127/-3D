@@ -31,13 +31,15 @@ void Player::Update(ID3D12Device* device, ViewProjection viewProjection)
 {
 	//弾を打つ
 	Shot(device, viewProjection);
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets)
+	{
 		bullet->Update(viewProjection);
 	}
 	//タイマーが０になったら弾を削除
-	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+	bullets.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+	{
 		return bullet->IsDead();
-		});
+	});
 
 	//プレイヤー挙動
 	Move();
@@ -204,7 +206,7 @@ void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 
 			//弾を生成して初期化
 			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-			newBullet->Ini(device, worldTransform, resultVec,&model_);
+			newBullet->Ini(device, worldTransform, resultVec, &model_);
 
 			//弾をリストに登録する
 			bullets.push_back(std::move(newBullet));

@@ -17,7 +17,8 @@ public:
 	void OnCollision();
 
 	bool IsDead() const { return isDead_; }
-	XMFLOAT3 GetPosition() { return worldTransform_.position; }
+	WorldTransform GetWorldTransform() { return worldTransform_; };
+	Vector3 GetPosition() { return worldTransform_.position; }
 
 	void Draw();
 private:

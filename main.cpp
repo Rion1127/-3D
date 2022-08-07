@@ -22,6 +22,7 @@ using namespace Microsoft::WRL;
 #include "Player.h"
 #include "PlayerBullet.h"
 #include "Enemy.h"
+#include "Collision.h"
 ///
 #include <random>
 
@@ -268,7 +269,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region
 	TextureManager::GetInstance()->Ini(device.Get());
 
-	uint32_t marioGraph, khGraph,enemyGraph,keyBladeGraph,colorGraph,gumishipGraph;
+	uint32_t marioGraph, khGraph,/*enemyGraph,*/keyBladeGraph,colorGraph,gumishipGraph;
 	uint32_t graph;
 	marioGraph = TextureManager::GetInstance()->LoadGraph("Resources/mario.jpg");
 	khGraph = TextureManager::GetInstance()->LoadGraph("Resources/KH.jpg");
@@ -383,7 +384,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//親オブジェクトに対してZ軸周りに30度回転
 			worldTransform[i].SetRotation(0.0f,0.0f,0);
 			//親オブジェクトに大したZ方向-8.0ずらす
-			worldTransform[i].SetPosition(0,0, 8);
+			worldTransform[i].SetPosition(0,0, 10);
 		}
 		else {
 			worldTransform[i].SetPosition(0, -15, 0);
@@ -447,12 +448,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//////////////////////
 		//プログラム記入ここから//
 		//////////////////////
-		player_.Update(device.Get(),/*debugCamera.GetViewProjection()*/viewProjection);
-		enemy_.Update(viewProjection);
+		
+		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*/);
+		enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
 
 		for (int i = 0; i < _countof(worldTransform); i++) {
-			worldTransform[i].UpdateObject3d(viewProjection);
+			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
 		}
+
+		CheckAllCollisions(player_,enemy_);
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {

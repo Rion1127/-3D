@@ -1,5 +1,5 @@
 #pragma once
-void CheckAllCollisions(Player player_,Enemy enemy_);
+void CheckAllCollisions(Player& player, Enemy& enemy_);
 
-void RayCollision(WorldTransform a, WorldTransform b);
+bool RayCollision(WorldTransform ray, WorldTransform obj);
 
