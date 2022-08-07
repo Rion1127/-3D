@@ -21,6 +21,7 @@ using namespace Microsoft::WRL;
 #include "ViewProjection.h"
 #include "Player.h"
 #include "PlayerBullet.h"
+#include "Enemy.h"
 ///
 #include <random>
 
@@ -271,7 +272,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	uint32_t graph;
 	marioGraph = TextureManager::GetInstance()->LoadGraph("Resources/mario.jpg");
 	khGraph = TextureManager::GetInstance()->LoadGraph("Resources/KH.jpg");
-	enemyGraph = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
+	//enemyGraph = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
 	keyBladeGraph = TextureManager::GetInstance()->LoadGraph("Resources/keyBlade2.png");
 	colorGraph = TextureManager::GetInstance()->LoadGraph("Resources/coloring2-1.png");
 	gumishipGraph = TextureManager::GetInstance()->LoadGraph("Resources/gumiship.png");
@@ -356,7 +357,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//メルセンヌ・ツイスターの乱数エンジン
 	std::mt19937_64 engine(seed_gen());
 	//3Dオブジェクトの数
-	const size_t kObjectCount = 10;
+	const size_t kObjectCount = 20;
 	//3Dオブジェクトの配列
 	WorldTransform worldTransform[kObjectCount];
 	//配列内の全オブジェクトに対して
@@ -378,11 +379,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//ひとつ前のオブジェクトを親オブジェクトとする
 			worldTransform[i].parent = &worldTransform[i - 1];
 			//親オブジェクトの9割の大きさ
-			worldTransform[i].SetScale(0.9f, 0.9f, 0.9f);
+			worldTransform[i].SetScale(1,1,1);
 			//親オブジェクトに対してZ軸周りに30度回転
-			worldTransform[i].SetRotation(0.0f,0.0f,XMConvertToRadians(30.0f));
+			worldTransform[i].SetRotation(0.0f,0.0f,0);
 			//親オブジェクトに大したZ方向-8.0ずらす
-			worldTransform[i].SetPosition(x,y,z);
+			worldTransform[i].SetPosition(0,0, 8);
+		}
+		else {
+			worldTransform[i].SetPosition(0, -15, 0);
 		}
 	}
 
@@ -399,6 +403,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Player player_;
 	player_.Ini(device.Get());
+	Enemy enemy_;
+	enemy_.Ini(device.Get());
 
 	// ゲームループ
 	while (true) {
@@ -442,6 +448,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//プログラム記入ここから//
 		//////////////////////
 		player_.Update(device.Get(),/*debugCamera.GetViewProjection()*/viewProjection);
+		enemy_.Update(viewProjection);
+
+		for (int i = 0; i < _countof(worldTransform); i++) {
+			worldTransform[i].UpdateObject3d(viewProjection);
+		}
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {
@@ -514,8 +525,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Object3d::PreDraw(commandList.Get());
 
 		player_.Draw(gumishipGraph);
-
-		
+		enemy_.Draw();
+		for (int i = 0; i < _countof(worldTransform); i++) {
+			model_.Draw(&worldTransform[i], marioGraph);
+		}
 		////////////////
 		//2Dオブジェクト//
 		////////////////
@@ -528,6 +541,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///////////////////////
 		// 4.描画コマンドここまで//
 		///////////////////////
+#pragma region リソースバリア
 		// 5.リソースバリアを戻す
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
@@ -557,7 +571,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 再びコマンドリストを貯める準備
 		result = commandList->Reset(cmdAllocator.Get(), nullptr);
 		assert(SUCCEEDED(result));
-
+#pragma endregion
 	}
 
 

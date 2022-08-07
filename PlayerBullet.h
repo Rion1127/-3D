@@ -4,7 +4,7 @@ class PlayerBullet
 public:
 	PlayerBullet();
 
-	void Ini(ID3D12Device* device, WorldTransform worldTransform, Vector3 velocity);
+	void Ini(ID3D12Device* device, WorldTransform worldTransform, Vector3 velocity, Object3d* model);
 
 	void Update(ViewProjection viewProjection);
 
@@ -15,7 +15,7 @@ private:
 	void Move();
 
 	WorldTransform worldTransform_;
-	Object3d model_{};
+	Object3d* model_ = nullptr;
 
 	Vector3 velocity_;
 

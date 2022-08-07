@@ -11,8 +11,9 @@ PlayerBullet::PlayerBullet()
 	
 }
 
-void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,Vector3 velocity)
+void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,Vector3 velocity, Object3d* model)
 {
+	model_ = model;
 
 	worldTransform_.InitializeObject3d(device);
 
@@ -41,7 +42,7 @@ void PlayerBullet::Update(ViewProjection viewProjection)
 
 void PlayerBullet::Draw()
 {
-	model_.Draw(&worldTransform_, texture);
+	model_->Draw(&worldTransform_, texture);
 
 
 }

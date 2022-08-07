@@ -26,7 +26,7 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets;
 
-	//tamakannri
+	//’e‚ğ‘Å‚¿o‚·ŠÔŠu
 	const float maxCoolTime = 10;
 	float cooltime = maxCoolTime;
 

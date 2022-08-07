@@ -11,7 +11,7 @@ Player::Player()
 {
 	worldTransform.SetPosition(0, 0, 0);
 	worldTransform.SetRotation(0, 0, 0);
-	worldTransform.SetScale(1, 1, 1);
+	worldTransform.SetScale(0.8f, 0.8f, 0.8f);
 }
 
 Player::~Player()
@@ -177,7 +177,7 @@ void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 	if (cInput->GetButtons(XINPUT_GAMEPAD_B)) {
 		if (cooltime <= 0) {
 			//弾の速度
-			const float bulletSpeed = 3.5f;
+			const float bulletSpeed = 4.5f;
 			Vector3 velocity(0, 0, bulletSpeed);
 			Vector3 resultVec(0, 0, 0);
 			Vector3 frontVec(0, 0, 1);
@@ -195,16 +195,16 @@ void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 				-sin(worldTransform.rotation.y) * frontVec.x +
 				cos(worldTransform.rotation.y) * frontVec.z
 			};
-
+			//正面ベクトルにスピードを掛ける
 			resultVec.operator*=(bulletSpeed);
 
 			//弾を生成して初期化
 			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-			newBullet->Ini(device, worldTransform, resultVec);
+			newBullet->Ini(device, worldTransform, resultVec,&model_);
 
 			//弾をリストに登録する
 			bullets.push_back(std::move(newBullet));
-
+			//クールタイムリセット
 			cooltime = maxCoolTime;
 		}
 	}

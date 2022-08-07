@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectXInput.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="math.cpp" />
@@ -39,6 +40,7 @@
   <ItemGroup>
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectXInput.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="Object2D.h" />
