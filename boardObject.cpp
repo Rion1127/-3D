@@ -6,7 +6,7 @@
 #include <string>
 #include "WorldTransform.h"
 #include "Material.h"
-#include "Object3d.h"
+#include "boardObject.h"
 
 // ルートシグネチャ
 static ComPtr < ID3D12RootSignature> rootSignature;
@@ -20,13 +20,13 @@ static ComPtr<ID3D12Device> device_ = nullptr;
 //頂点データ
 static Vertices vertices_;
 
-Object3d* Object3d::GetInstance()
+BoardObject* BoardObject::GetInstance()
 {
-	static Object3d instance;
+	static BoardObject instance;
 	return &instance;
 }
 
-void Object3d::Ini(ID3D12Device* device)
+void BoardObject::Ini(ID3D12Device* device)
 {
 	HRESULT result;
 	device_ = device;
@@ -82,7 +82,7 @@ void Object3d::Ini(ID3D12Device* device)
 	}
 
 	// グラフィックスパイプライン設定
-	
+
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
@@ -93,7 +93,7 @@ void Object3d::Ini(ID3D12Device* device)
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // カリングしない
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -227,10 +227,10 @@ void Object3d::Ini(ID3D12Device* device)
 
 	vertices_.Ini(device_.Get());
 
-	
+
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* commandList)
+void BoardObject::PreDraw(ID3D12GraphicsCommandList* commandList)
 {
 	commandList_ = commandList;
 	// パイプラインステートとルートシグネチャの設定コマンド
@@ -241,18 +241,18 @@ void Object3d::PreDraw(ID3D12GraphicsCommandList* commandList)
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
-void Object3d::ChangeColor(float x, float y, float z, float w)
+void BoardObject::ChangeColor(float x, float y, float z, float w)
 {
 	vertices_.ChangeColor(x, y, z, w);
 }
 
-void Object3d::ChangeColor(XMFLOAT4 color_)
+void BoardObject::ChangeColor(XMFLOAT4 color_)
 {
 	vertices_.ChangeColor(color_);
 }
 
-void Object3d::Draw(WorldTransform* worldTransform,
+void BoardObject::Draw(WorldTransform* worldTransform,
 	uint32_t descriptorSize)
 {
-	vertices_.Draw(36,commandList_.Get(), worldTransform, descriptorSize);
+	vertices_.Draw(6, commandList_.Get(), worldTransform, descriptorSize);
 }

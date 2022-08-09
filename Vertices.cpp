@@ -205,7 +205,7 @@ void Vertices::ChangeColor(XMFLOAT4 color_)
 	material.ChangeColor(color_);
 }
 
-void Vertices::Draw(
+void Vertices::Draw(uint32_t indexSize,
 	ID3D12GraphicsCommandList* commandList,
 	WorldTransform* worldTransform,
 	UINT descriptorSize)
@@ -218,5 +218,5 @@ void Vertices::Draw(
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(2, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced(indexSize, 1, 0, 0, 0);
 }

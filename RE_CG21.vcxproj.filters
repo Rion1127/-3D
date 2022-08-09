@@ -102,6 +102,9 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="boardObject.cpp">
+      <Filter>ソース ファイル\3DObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="boardObject.h">
+      <Filter>ヘッダー ファイル\3DObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

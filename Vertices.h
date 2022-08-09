@@ -17,7 +17,7 @@ public:
 	void ChangeColor(float x, float y, float z, float w);
 	void ChangeColor(XMFLOAT4 color_);
 
-	void Draw(
+	void Draw(uint32_t indexSize,
 		ID3D12GraphicsCommandList* commandList,
 		WorldTransform* worldTransform,
 		UINT descriptorSize);

@@ -23,6 +23,7 @@ using namespace Microsoft::WRL;
 #include "PlayerBullet.h"
 #include "Enemy.h"
 #include "Collision.h"
+#include "boardObject.h"
 ///
 #include <random>
 
@@ -334,6 +335,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3d model_;
 	Object3d::Ini(device.Get());
 
+	BoardObject boardObject;
+	BoardObject::Ini(device.Get());
+
 	Object2D Obj2D;
 	Obj2D.Ini(device.Get());
 #pragma endregion
@@ -390,6 +394,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			worldTransform[i].SetPosition(0, -15, 0);
 		}
 	}
+	//ボードオブジェクト
+	WorldTransform boardPos;
+	boardPos.SetPosition(20, 0, 0);
+	boardPos.InitializeObject3d(device.Get());
+
 
 	DebugCamera debugCamera;
 	debugCamera.DebugCameraIni(hwnd);
@@ -451,6 +460,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*/);
 		enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
+
+		boardPos.UpdateObject3d(debugCamera.GetViewProjection());
 
 		for (int i = 0; i < _countof(worldTransform); i++) {
 			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
@@ -527,12 +538,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		////////////////
 		
 		Object3d::PreDraw(commandList.Get());
+		BoardObject::PreDraw(commandList.Get());
 
 		player_.Draw(gumishipGraph);
 		enemy_.Draw();
 		for (int i = 0; i < _countof(worldTransform); i++) {
 			model_.Draw(&worldTransform[i], marioGraph);
 		}
+
+		
+		boardObject.Draw(&boardPos, khGraph);
 		////////////////
 		//2Dオブジェクト//
 		////////////////
