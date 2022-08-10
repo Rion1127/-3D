@@ -24,6 +24,7 @@ using namespace Microsoft::WRL;
 #include "Enemy.h"
 #include "Collision.h"
 #include "boardObject.h"
+#include "RailCamera.h"
 ///
 #include <random>
 
@@ -415,6 +416,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	player_.Ini(device.Get());
 	Enemy enemy_;
 	enemy_.Ini(device.Get());
+	RailCamera railCamera;
+	Vector3 pos = { 0,0,-1 };
+	Vector3 rot = { 0,0,0 };
+
+	
 
 	// ゲームループ
 	while (true) {
@@ -458,13 +464,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//プログラム記入ここから//
 		//////////////////////
 		
-		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*/);
+		
+		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*//*railCamera.viewProjection*/);
 		enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
 
-		boardPos.UpdateObject3d(debugCamera.GetViewProjection());
+		boardPos.UpdateObject3d(debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 
 		for (int i = 0; i < _countof(worldTransform); i++) {
-			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
+			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 		}
 
 		CheckAllCollisions(player_,enemy_);
