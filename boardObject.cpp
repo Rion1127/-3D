@@ -9,16 +9,15 @@
 #include "boardObject.h"
 
 // ルートシグネチャ
-static ComPtr < ID3D12RootSignature> rootSignature;
+static ComPtr < ID3D12RootSignature> bRootSignature;
 // パイプランステートの生成
-static ComPtr<ID3D12PipelineState> pipelineState;
-// グラフィックスパイプライン設定
-static D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+static ComPtr<ID3D12PipelineState> bPipelineState;
+
 //コマンドリストを格納する
-static ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
-static ComPtr<ID3D12Device> device_ = nullptr;
+static ComPtr<ID3D12GraphicsCommandList> bCommandList_ = nullptr;
+static ComPtr<ID3D12Device> bDevice_ = nullptr;
 //頂点データ
-static Vertices vertices_;
+static Vertices bVertices_;
 
 BoardObject* BoardObject::GetInstance()
 {
@@ -29,7 +28,7 @@ BoardObject* BoardObject::GetInstance()
 void BoardObject::Ini(ID3D12Device* device)
 {
 	HRESULT result;
-	device_ = device;
+	bDevice_ = device;
 	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
@@ -82,7 +81,8 @@ void BoardObject::Ini(ID3D12Device* device)
 	}
 
 	// グラフィックスパイプライン設定
-
+	// グラフィックスパイプライン設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
@@ -93,7 +93,7 @@ void BoardObject::Ini(ID3D12Device* device)
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -215,44 +215,44 @@ void BoardObject::Ini(ID3D12Device* device)
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
+	result = bDevice_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&bRootSignature));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature.Get();
+	pipelineDesc.pRootSignature = bRootSignature.Get();
 
 	// パイプランステートの生成
-	result = device_->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = bDevice_->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&bPipelineState));
 	assert(SUCCEEDED(result));
 
-	vertices_.Ini(device_.Get());
+	bVertices_.Ini(bDevice_.Get());
 
 
 }
 
 void BoardObject::PreDraw(ID3D12GraphicsCommandList* commandList)
 {
-	commandList_ = commandList;
+	bCommandList_ = commandList;
 	// パイプラインステートとルートシグネチャの設定コマンド
-	commandList_->SetPipelineState(pipelineState.Get());
-	commandList_->SetGraphicsRootSignature(rootSignature.Get());
+	bCommandList_->SetPipelineState(bPipelineState.Get());
+	bCommandList_->SetGraphicsRootSignature(bRootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	bCommandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
 void BoardObject::ChangeColor(float x, float y, float z, float w)
 {
-	vertices_.ChangeColor(x, y, z, w);
+	bVertices_.ChangeColor(x, y, z, w);
 }
 
 void BoardObject::ChangeColor(XMFLOAT4 color_)
 {
-	vertices_.ChangeColor(color_);
+	bVertices_.ChangeColor(color_);
 }
 
 void BoardObject::Draw(WorldTransform* worldTransform,
 	uint32_t descriptorSize)
 {
-	vertices_.Draw(6, commandList_.Get(), worldTransform, descriptorSize);
+	bVertices_.Draw(6, bCommandList_.Get(), worldTransform, descriptorSize);
 }

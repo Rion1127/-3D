@@ -20,8 +20,7 @@ public:
 	void Draw(WorldTransform* worldTransform, uint32_t descriptorSize);
 
 private:
-	// グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_;
+	
 
 
 };

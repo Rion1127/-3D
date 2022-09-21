@@ -3,6 +3,17 @@ using namespace DirectX;
 #include "Texture.h"
 #include "Material.h"
 
+const std::string kBaseDirectory = "Resources/";
+
+Material* Material::Create(ID3D12Device* device)
+{
+	Material* instance = new Material;
+
+	instance->Ini(device);
+
+	return instance;
+}
+
 void Material::Ini(ID3D12Device* device)
 {
 	HRESULT result;
@@ -39,6 +50,26 @@ void Material::ChangeColor(float x, float y, float z, float w)
 {
 	//値を書き込むと自動的に転送される
 	constMapMaterial->color = XMFLOAT4(x,y,z,w);
+}
+
+void Material::LoadTexture(const std::string& directoryPath)
+{
+	// テクスチャなし
+	if (textureFilename_.size() == 0) {
+		textureFilename_ = "white1x1.png";
+	}
+
+	HRESULT result = S_FALSE;
+
+	// WICテクスチャのロード
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+
+	// ファイルパスを結合
+	std::string filepath = kBaseDirectory + directoryPath + textureFilename_;
+
+	// テクスチャ読み込み
+	textureHandle_ = TextureManager::GetInstance()->LoadGraph(filepath);
 }
 
 void Material::ChangeColor(XMFLOAT4 color_)

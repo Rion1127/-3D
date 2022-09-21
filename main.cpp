@@ -555,7 +555,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			model_.Draw(&worldTransform[i], marioGraph);
 		}
 
-		skyDome->Draw2(&worldTransform[0], khGraph);
+		skyDome->DrawOBJ(&worldTransform[0],760);
 		
 		boardObject.Draw(&boardPos, khGraph);
 		////////////////

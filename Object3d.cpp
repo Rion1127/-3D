@@ -7,6 +7,8 @@
 #include "WorldTransform.h"
 #include "Material.h"
 #include "Object3d.h"
+#include "Texture.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -30,6 +32,10 @@ Object3d::~Object3d()
 		delete m;
 	}
 	vert_.clear();
+	for (auto m : materials_) {
+		delete m.second;
+	}
+	materials_.clear();
 }
 
 Object3d* Object3d::GetInstance()
@@ -95,7 +101,7 @@ void Object3d::Ini(ID3D12Device* device)
 	}
 #pragma endregion
 	// グラフィックスパイプライン設定
-	
+
 	// シェーダーの設定
 	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
@@ -237,7 +243,7 @@ void Object3d::Ini(ID3D12Device* device)
 
 	vertices_.Ini(device_.Get());
 
-	
+
 }
 
 Object3d* Object3d::CreateOBJ(const std::string& modelname, ID3D12Device* device)
@@ -251,15 +257,17 @@ Object3d* Object3d::CreateOBJ(const std::string& modelname, ID3D12Device* device
 void Object3d::LoadOBJ(const std::string& modelname)
 {
 	const std::string filename = modelname + ".obj";
-	const std::string directoryPath = kBaseDirectory + modelname + "/" + filename;
+	const std::string directoryPath = kBaseDirectory + modelname + "/";
 	// ファイルストリーム
 	std::ifstream file;
 	// .objファイルを開く
-	file.open(directoryPath);
+	file.open(directoryPath + filename);
 	// ファイルオープン失敗をチェック
 	if (file.fail()) {
 		assert(0);
 	}
+
+	name_ = modelname;
 
 	std::string line;
 	std::vector<std::string> v;
@@ -271,7 +279,7 @@ void Object3d::LoadOBJ(const std::string& modelname)
 	vert_.emplace_back(new Vertices);
 	Vertices* vert = vert_.back();
 
-	
+
 	int indexCountTex = 0;
 
 	while (getline(file, line)) {
@@ -281,6 +289,15 @@ void Object3d::LoadOBJ(const std::string& modelname)
 		// 半角スペース区切りで行の先頭文字列を取得
 		std::string key;
 		getline(line_stream, key, ' ');
+
+		//マテリアル
+		if (key == "mtllib") {
+			// マテリアルのファイル名読み込み
+			std::string filename;
+			line_stream >> filename;
+			// マテリアル読み込み
+			LoadMaterial(directoryPath, filename);
+		}
 
 		if (key == "v") {
 			// X,Y,Z座標読み込み
@@ -308,7 +325,7 @@ void Object3d::LoadOBJ(const std::string& modelname)
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			// V方向反転
-			//texcoord.y = 1.0f - texcoord.y;
+			texcoord.y = 1.0f - texcoord.y;
 			// テクスチャ座標データに追加
 			texcoords.emplace_back(texcoord);
 		}
@@ -351,6 +368,114 @@ void Object3d::LoadOBJ(const std::string& modelname)
 			}
 		}
 	}
+
+	LoadTexture();
+}
+
+void Object3d::LoadMaterial(const std::string& directoryPath, const std::string& filename)
+{
+	// ファイルストリーム
+	std::ifstream file;
+	// マテリアルファイルを開く
+	file.open(directoryPath + filename);
+	// ファイルオープン失敗をチェック
+	if (file.fail()) {
+		assert(0);
+	}
+
+	Material* material = nullptr;
+
+	// 1行ずつ読み込む
+	std::string line;
+	while (getline(file, line)) {
+		// 先頭のタブ文字は無視する
+		if (line[0] == '\t') {
+			line.erase(line.begin()); // 先頭の文字を削除
+		}
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		// 半角スペース区切りで行の先頭文字列を取得
+		std::string key;
+		getline(line_stream, key, ' ');
+
+		// 先頭のタブ文字は無視する
+		if (key[0] == '\t') {
+			key.erase(key.begin()); // 先頭の文字を削除
+		}
+
+		// 先頭文字列がnewmtlならマテリアル名
+		if (key == "newmtl") {
+
+			// 既にマテリアルがあれば
+			if (material) {
+				// マテリアルをコンテナに登録
+				AddMaterial(material);
+			}
+
+			// 新しいマテリアルを生成
+			material = Material::Create(device_.Get());
+			// マテリアル名読み込み
+			line_stream >> material->name_;
+		}
+
+		// 先頭文字列がmap_Kdならテクスチャファイル名
+		if (key == "map_Kd") {
+			// テクスチャのファイル名読み込み
+			line_stream >> material->textureFilename_;
+
+			// フルパスからファイル名を取り出す
+			size_t pos1;
+			pos1 = material->textureFilename_.rfind('\\');
+			if (pos1 != std::string::npos) {
+				material->textureFilename_ = material->textureFilename_.substr(
+					pos1 + 1, material->textureFilename_.size() - pos1 - 1);
+			}
+
+			pos1 = material->textureFilename_.rfind('/');
+			if (pos1 != std::string::npos) {
+				material->textureFilename_ = material->textureFilename_.substr(
+					pos1 + 1, material->textureFilename_.size() - pos1 - 1);
+			}
+		}
+	}
+	// ファイルを閉じる
+	file.close();
+
+	if (material) {
+		// マテリアルを登録
+		AddMaterial(material);
+	}
+
+}
+
+void Object3d::LoadTexture()
+{
+	int textureIndex = 0;
+	std::string directoryPath = name_ + "/";
+
+	for (auto& m : materials_) {
+		Material* material = m.second;
+
+		// テクスチャあり
+		if (material->textureFilename_.size() > 0) {
+			// マテリアルにテクスチャ読み込み
+			material->LoadTexture(directoryPath);
+			textureIndex++;
+		}
+		// テクスチャなし
+		else {
+			// マテリアルにテクスチャ読み込み
+			material->LoadTexture("white1x1.png");
+			textureIndex++;
+		}
+	}
+}
+
+void Object3d::AddMaterial(Material* material)
+{
+	// コンテナに登録
+	materials_.emplace(material->name_, material);
 }
 
 void Object3d::ModelIni(const std::string& modelname, ID3D12Device* device)
@@ -383,12 +508,12 @@ void Object3d::ChangeColor(XMFLOAT4 color_)
 	vertices_.ChangeColor(color_);
 }
 
-void Object3d::Draw(WorldTransform* worldTransform,uint32_t descriptorSize)
+void Object3d::Draw(WorldTransform* worldTransform, uint32_t descriptorSize)
 {
 	vertices_.Draw(vertices_.GetIndices().size(), commandList_.Get(), worldTransform, descriptorSize);
 }
 
-void Object3d::Draw2(WorldTransform* worldTransform, uint32_t textureHandle)
+void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& v : vert_) {
 		v->Draw(commandList_.Get(), worldTransform, textureHandle);
