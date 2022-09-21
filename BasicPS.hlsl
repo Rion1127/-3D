@@ -33,4 +33,5 @@ float4 main(VSOutput input) : SV_TARGET
 	//テクスチャマッピングによる色をいったん変数に入れる
 	float4 texcolor = float4(tex.Sample(smp, input.uv));
 	return float4(texcolor.rgb * brightness,texcolor.a) * color;//輝度をRGBに代入して出力
+
 }

@@ -19,12 +19,13 @@ using namespace Microsoft::WRL;
 #include "Object3d.h"
 #include "Object2D.h"
 #include "ViewProjection.h"
-#include "Player.h"
+//#include "Player.h"
 #include "PlayerBullet.h"
-#include "Enemy.h"
+//#include "Enemy.h"
 #include "Collision.h"
 #include "boardObject.h"
 #include "RailCamera.h"
+#include "Model.h"
 ///
 #include <random>
 
@@ -389,7 +390,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//親オブジェクトに対してZ軸周りに30度回転
 			worldTransform[i].SetRotation(0.0f,0.0f,0);
 			//親オブジェクトに大したZ方向-8.0ずらす
-			worldTransform[i].SetPosition(0,0, 10);
+			worldTransform[i].SetPosition(0,0, 15);
 		}
 		else {
 			worldTransform[i].SetPosition(0, -15, 0);
@@ -412,15 +413,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Controller* controller = Controller::GetInstance();
 	controller->Ini();
 
-	Player player_;
-	player_.Ini(device.Get());
-	Enemy enemy_;
-	enemy_.Ini(device.Get());
+	//Player player_;
+	//player_.Ini(device.Get());
+	//Enemy enemy_;
+	//enemy_.Ini(device.Get());
 	RailCamera railCamera;
 	Vector3 pos = { 0,0,-1 };
 	Vector3 rot = { 0,0,0 };
 
-	
+	Object3d* skyDome = nullptr;
+	skyDome = Object3d::CreateOBJ("skydome", device.Get());
 
 	// ゲームループ
 	while (true) {
@@ -465,8 +467,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//////////////////////
 		
 		
-		player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*//*railCamera.viewProjection*/);
-		enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
+		//player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*//*railCamera.viewProjection*/);
+		//enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
 
 		boardPos.UpdateObject3d(debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 
@@ -474,7 +476,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 		}
 
-		CheckAllCollisions(player_,enemy_);
+		//CheckAllCollisions(player_,enemy_);
 
 #pragma region 色変化
 		if (DirectXInput::IsKeyTrigger(DIK_0)) {
@@ -547,21 +549,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Object3d::PreDraw(commandList.Get());
 		BoardObject::PreDraw(commandList.Get());
 
-		player_.Draw(gumishipGraph);
-		enemy_.Draw();
+		//player_.Draw(gumishipGraph);
+		//enemy_.Draw();
 		for (int i = 0; i < _countof(worldTransform); i++) {
 			model_.Draw(&worldTransform[i], marioGraph);
 		}
 
+		skyDome->Draw2(&worldTransform[0], khGraph);
 		
 		boardObject.Draw(&boardPos, khGraph);
 		////////////////
 		//2Dオブジェクト//
 		////////////////
-	/*	Vector2 pos = {100,200};
+		Vector2 pos = {100,200};
 
 		Obj2D.PreDraw(commandList.Get());
-		Obj2D.Draw(pos,keyBladeGraph);*/
+		Obj2D.Draw(pos,keyBladeGraph);
 		
 
 		///////////////////////
@@ -601,8 +604,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 
+
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
+
+
+	delete skyDome;
+
+
 
 	return 0;
 }

@@ -7,6 +7,10 @@
 #include "WorldTransform.h"
 #include "Material.h"
 #include "Object3d.h"
+#include <fstream>
+#include <sstream>
+
+const std::string kBaseDirectory = "Resources/";
 
 // ルートシグネチャ
 static ComPtr < ID3D12RootSignature> rootSignature;
@@ -19,6 +23,14 @@ static ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 static ComPtr<ID3D12Device> device_ = nullptr;
 //頂点データ
 static Vertices vertices_;
+
+Object3d::~Object3d()
+{
+	for (auto m : vert_) {
+		delete m;
+	}
+	vert_.clear();
+}
 
 Object3d* Object3d::GetInstance()
 {
@@ -33,6 +45,7 @@ void Object3d::Ini(ID3D12Device* device)
 	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+#pragma region シェーダファイル読み込み
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicVS.hlsl", // シェーダファイル名
@@ -80,7 +93,7 @@ void Object3d::Ini(ID3D12Device* device)
 		OutputDebugStringA(error.c_str());
 		assert(0);
 	}
-
+#pragma endregion
 	// グラフィックスパイプライン設定
 	
 	// シェーダーの設定
@@ -135,18 +148,15 @@ void Object3d::Ini(ID3D12Device* device)
 	{
 	"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 	D3D12_APPEND_ALIGNED_ELEMENT,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-	},
+	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	{
 	"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 	D3D12_APPEND_ALIGNED_ELEMENT,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-	},
+	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	{
 	"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 	D3D12_APPEND_ALIGNED_ELEMENT,
-	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-	}
+	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
 	};
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -230,6 +240,128 @@ void Object3d::Ini(ID3D12Device* device)
 	
 }
 
+Object3d* Object3d::CreateOBJ(const std::string& modelname, ID3D12Device* device)
+{
+	Object3d* instance = new Object3d;
+	instance->ModelIni(modelname, device);
+
+	return instance;
+}
+
+void Object3d::LoadOBJ(const std::string& modelname)
+{
+	const std::string filename = modelname + ".obj";
+	const std::string directoryPath = kBaseDirectory + modelname + "/" + filename;
+	// ファイルストリーム
+	std::ifstream file;
+	// .objファイルを開く
+	file.open(directoryPath);
+	// ファイルオープン失敗をチェック
+	if (file.fail()) {
+		assert(0);
+	}
+
+	std::string line;
+	std::vector<std::string> v;
+
+	std::vector<XMFLOAT3> positions; //頂点座標
+	std::vector<XMFLOAT3> normals;   // 法線ベクトル
+	std::vector<XMFLOAT2> texcoords; // テクスチャUV
+
+	vert_.emplace_back(new Vertices);
+	Vertices* vert = vert_.back();
+
+	
+	int indexCountTex = 0;
+
+	while (getline(file, line)) {
+
+		std::stringstream line_stream(line);
+
+		// 半角スペース区切りで行の先頭文字列を取得
+		std::string key;
+		getline(line_stream, key, ' ');
+
+		if (key == "v") {
+			// X,Y,Z座標読み込み
+			XMFLOAT3 position{};
+			line_stream >> position.x;
+			line_stream >> position.y;
+			line_stream >> position.z;
+			positions.emplace_back(position);
+		}
+
+		if (key == "vn") {
+			// X,Y,Z成分読み込み
+			XMFLOAT3 normal{};
+			line_stream >> normal.x;
+			line_stream >> normal.y;
+			line_stream >> normal.z;
+			// 法線ベクトルデータに追加
+			normals.emplace_back(normal);
+		}
+
+		// 先頭文字列がvtならテクスチャ
+		if (key == "vt") {
+			// U,V成分読み込み
+			XMFLOAT2 texcoord{};
+			line_stream >> texcoord.x;
+			line_stream >> texcoord.y;
+			// V方向反転
+			//texcoord.y = 1.0f - texcoord.y;
+			// テクスチャ座標データに追加
+			texcoords.emplace_back(texcoord);
+		}
+
+		if (key == "f") {
+			int faceIndexCount = 0;
+			// 半角スペース区切りで行の続きを読み込む
+			std::string index_string;
+			while (getline(line_stream, index_string, ' ')) {
+				// 頂点インデックス1個分の文字列をストリームに変換して解析しやすくする
+				std::istringstream index_stream(index_string);
+				unsigned short indexPosition, indexNormal, indexTexcoord;
+				// 頂点番号
+				index_stream >> indexPosition;
+				index_stream.seekg(1, std::ios_base::cur); // スラッシュを飛ばす
+				index_stream >> indexTexcoord;
+				index_stream.seekg(1, std::ios_base::cur); // スラッシュを飛ばす
+				index_stream >> indexNormal;
+				Vertices::VertexPosNormalUv vertex{};
+				vertex.pos = positions[indexPosition - 1];
+				vertex.normal = normals[indexNormal - 1];
+				vertex.uv = texcoords[indexTexcoord - 1];
+
+				vert->AddVertices(vertex);
+
+
+				// インデックスデータの追加
+				if (faceIndexCount >= 3) {
+					// 四角形ポリゴンの4点目なので、
+					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
+					vert->AddIndex(indexCountTex - 1);
+					vert->AddIndex(indexCountTex);
+					vert->AddIndex(indexCountTex - 3);
+				}
+				else {
+					vert->AddIndex(indexCountTex);
+				}
+				faceIndexCount++;
+				indexCountTex++;
+			}
+		}
+	}
+}
+
+void Object3d::ModelIni(const std::string& modelname, ID3D12Device* device)
+{
+	LoadOBJ(modelname);
+	// メッシュのバッファ生成
+	for (auto& m : vert_) {
+		m->CreateBuffer(device);
+	}
+}
+
 void Object3d::PreDraw(ID3D12GraphicsCommandList* commandList)
 {
 	commandList_ = commandList;
@@ -251,8 +383,14 @@ void Object3d::ChangeColor(XMFLOAT4 color_)
 	vertices_.ChangeColor(color_);
 }
 
-void Object3d::Draw(WorldTransform* worldTransform,
-	uint32_t descriptorSize)
+void Object3d::Draw(WorldTransform* worldTransform,uint32_t descriptorSize)
 {
-	vertices_.Draw(36,commandList_.Get(), worldTransform, descriptorSize);
+	vertices_.Draw(vertices_.GetIndices().size(), commandList_.Get(), worldTransform, descriptorSize);
+}
+
+void Object3d::Draw2(WorldTransform* worldTransform, uint32_t textureHandle)
+{
+	for (auto& v : vert_) {
+		v->Draw(commandList_.Get(), worldTransform, textureHandle);
+	}
 }

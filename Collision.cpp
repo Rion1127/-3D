@@ -2,9 +2,7 @@
 #include <list>
 #include <memory>
 #include "WorldTransform.h"
-#include "Player.h"
 #include "PlayerBullet.h"
-#include "Enemy.h"
 #include "Collision.h"
 
 
