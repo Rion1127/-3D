@@ -417,6 +417,7 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 			material = Material::Create(device_.Get());
 			// マテリアル名読み込み
 			line_stream >> material->name_;
+			
 		}
 
 		// 先頭文字列がmap_Kdならテクスチャファイル名
@@ -442,9 +443,11 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 	// ファイルを閉じる
 	file.close();
 
+	
 	if (material) {
 		// マテリアルを登録
 		AddMaterial(material);
+		
 	}
 
 }
@@ -469,6 +472,7 @@ void Object3d::LoadTexture()
 			material->LoadTexture("white1x1.png");
 			textureIndex++;
 		}
+		textureHandle_.push_back(material->textureHandle_);
 	}
 }
 
@@ -513,9 +517,9 @@ void Object3d::Draw(WorldTransform* worldTransform, uint32_t descriptorSize)
 	vertices_.Draw(vertices_.GetIndices().size(), commandList_.Get(), worldTransform, descriptorSize);
 }
 
-void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
+void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
 	for (auto& v : vert_) {
-		v->Draw(commandList_.Get(), worldTransform, textureHandle);
+		v->Draw(commandList_.Get(), worldTransform, textureHandle_.at(0));
 	}
 }

@@ -35,7 +35,7 @@ public:
 
 	void Draw(WorldTransform* worldTransform,uint32_t descriptorSize);
 
-	void DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle);
+	void DrawOBJ(WorldTransform* worldTransform);
 
 private:
 	struct VertexPosNormalUv {
@@ -46,6 +46,7 @@ private:
 	
 	// 名前
 	std::string name_;
+	
 	std::vector<Vertices*> vert_;
 	std::vector<uint32_t> textureHandle_;
 	// マテリアルコンテナ

@@ -423,7 +423,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3d* skyDome = nullptr;
 	skyDome = Object3d::CreateOBJ("skydome", device.Get());
-
+	Object3d* gumiShipObj = nullptr;
+	gumiShipObj = Object3d::CreateOBJ("gumiShip", device.Get());
 	// ゲームループ
 	while (true) {
 #pragma region
@@ -551,12 +552,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//player_.Draw(gumishipGraph);
 		//enemy_.Draw();
-		for (int i = 0; i < _countof(worldTransform); i++) {
+		/*for (int i = 0; i < _countof(worldTransform); i++) {
 			model_.Draw(&worldTransform[i], marioGraph);
-		}
+		}*/
 
-		skyDome->DrawOBJ(&worldTransform[0],760);
-		
+		skyDome->DrawOBJ(&worldTransform[0]);
+		gumiShipObj->DrawOBJ(&worldTransform[0]);
+
 		boardObject.Draw(&boardPos, khGraph);
 		////////////////
 		//2Dオブジェクト//
@@ -610,7 +612,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	delete skyDome;
-
+	delete gumiShipObj;
 
 
 	return 0;
