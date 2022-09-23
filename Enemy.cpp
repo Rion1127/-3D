@@ -36,7 +36,7 @@ void Enemy::OnCollision()
 void Enemy::Draw()
 {
 	if (isAlive == true) {
-		model_.Draw(&worldTransoform, texture);
+		model_.DrawCube(&worldTransoform, texture);
 	}
 }
 

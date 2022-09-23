@@ -33,7 +33,7 @@ public:
 	void ChangeColor(float x,float y,float z,float w);
 	void ChangeColor(XMFLOAT4 color_);
 
-	void Draw(WorldTransform* worldTransform,uint32_t descriptorSize);
+	void DrawCube(WorldTransform* worldTransform,uint32_t descriptorSize);
 
 	void DrawOBJ(WorldTransform* worldTransform);
 

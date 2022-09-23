@@ -42,7 +42,7 @@ void PlayerBullet::OnCollision()
 
 void PlayerBullet::Draw()
 {
-	model_->Draw(&worldTransform_, texture);
+	model_->DrawCube(&worldTransform_, texture);
 
 
 }

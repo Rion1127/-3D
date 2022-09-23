@@ -54,7 +54,7 @@ void Player::OnCollision()
 void Player::Draw(uint32_t graph)
 {
 	//ƒvƒŒƒCƒ„[•`‰æ
-	model_.Draw(&worldTransform, graph);
+	model_.DrawCube(&worldTransform, graph);
 	//’e•`‰æ
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets) {
 		bullet->Draw();

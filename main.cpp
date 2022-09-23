@@ -552,9 +552,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//player_.Draw(gumishipGraph);
 		//enemy_.Draw();
-		/*for (int i = 0; i < _countof(worldTransform); i++) {
-			model_.Draw(&worldTransform[i], marioGraph);
-		}*/
+		for (int i = 0; i < _countof(worldTransform); i++) {
+			model_.DrawCube(&worldTransform[i], marioGraph);
+		}
 
 		skyDome->DrawOBJ(&worldTransform[0]);
 		gumiShipObj->DrawOBJ(&worldTransform[0]);
