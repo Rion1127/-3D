@@ -8,7 +8,7 @@
 class Enemy
 {
 public:
-	void Ini(ID3D12Device* device);
+	void Ini();
 	void Update(ViewProjection viewprojection);
 
 	//“–‚½‚è”»’è‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éŠÖ”

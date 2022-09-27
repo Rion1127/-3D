@@ -10,7 +10,7 @@ class PlayerBullet
 public:
 	PlayerBullet();
 
-	void Ini(ID3D12Device* device, WorldTransform worldTransform, Vector3 velocity, Object3d* model);
+	void Ini(WorldTransform worldTransform, Vector3 velocity, Object3d* model);
 
 	void Update(ViewProjection viewProjection);
 	//“–‚½‚è”»’è‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éŠÖ”

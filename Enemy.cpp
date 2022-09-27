@@ -3,9 +3,9 @@
 #include <cmath>
 #include "Enemy.h"
 
-void Enemy::Ini(ID3D12Device* device)
+void Enemy::Ini()
 {
-	worldTransoform.InitializeObject3d(device);
+	worldTransoform.InitializeObject3d();
 	texture = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
 
 	worldTransoform.SetPosition(0, 0, 20);

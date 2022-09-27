@@ -43,9 +43,11 @@ void WorldTransform::AddPosition(float x, float y, float z)
 	position.z += z;
 }
 
-void WorldTransform::InitializeObject3d(ID3D12Device* device)
+void WorldTransform::InitializeObject3d()
 {
 	HRESULT result;
+
+	directx_ = DirectXCommon::GetInstance();
 
 	//定数バッファのヒープ設定
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -59,7 +61,7 @@ void WorldTransform::InitializeObject3d(ID3D12Device* device)
 	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = directx_->GetDevice()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resdesc,

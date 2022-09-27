@@ -12,7 +12,7 @@ public:
 	Player();
 	~Player();
 
-	void Ini(ID3D12Device* device);
+	void Ini();
 
 	void Update(ID3D12Device* device,ViewProjection viewProjection);
 	//“–‚½‚è”»’è‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éŠÖ”

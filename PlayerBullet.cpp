@@ -6,11 +6,11 @@ PlayerBullet::PlayerBullet()
 	
 }
 
-void PlayerBullet::Ini(ID3D12Device* device,WorldTransform worldTransform,Vector3 velocity, Object3d* model)
+void PlayerBullet::Ini(WorldTransform worldTransform,Vector3 velocity, Object3d* model)
 {
 	model_ = model;
 
-	worldTransform_.InitializeObject3d(device);
+	worldTransform_.InitializeObject3d();
 
 	cInput = Controller::GetInstance();
 	cInput->Ini();

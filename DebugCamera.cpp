@@ -43,10 +43,10 @@ void DebugCamera::CameraMove()
 	frontVec.normalize();
 
 	sideVec = proviUpVec.cross(frontVec);
-	sideVec.normalize();
+	//sideVec.normalize();
 
 	upVec = sideVec.cross(frontVec);
-	upVec.normalize();
+	//upVec.normalize();
 
 	//平行移動
 	if (input.IsMouseDown(MOUSE_WHEEL)) {
@@ -88,13 +88,13 @@ void DebugCamera::CameraMove()
 	if (input.IsMouseDown(MOUSE_LEFT)) {
 		//カメラが上を向いてるとき通常通りに座標を足す
 		if (viewProjection.up.y >= 0) {
-			moveDist += input.GetCursorMove() * 0.05f;
+			moveDist += input.GetCursorMove() * 0.005f;
 		}
 		//カメラが逆さまになった時X.Z座標を反転させる
 		else if (viewProjection.up.y <= 0) {
-			moveDist.x -= input.GetCursorMoveX() * 0.05f;
-			moveDist.y += input.GetCursorMoveY() * 0.05f;
-			moveDist.z -= input.GetCursorMoveZ() * 0.05f;
+			moveDist.x -= input.GetCursorMoveX() * 0.005f;
+			moveDist.y += input.GetCursorMoveY() * 0.005f;
+			moveDist.z -= input.GetCursorMoveZ() * 0.005f;
 		}
 	}
 

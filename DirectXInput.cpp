@@ -112,7 +112,7 @@ void MouseInput::GetCursorPosition(HWND hwnd)
 	//マウスがどの方向に動いたかのベクトルを取得
 	mouseVec = mPos - prevmPos;
 	//ベクトル正規化
-	mouseVec.normalize();
+	//mouseVec.normalize();
 }
 
 void MouseInput::GetMouseState(HWND hwnd)

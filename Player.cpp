@@ -19,9 +19,9 @@ Player::~Player()
 
 }
 
-void Player::Ini(ID3D12Device* device)
+void Player::Ini()
 {
-	worldTransform.InitializeObject3d(device);
+	worldTransform.InitializeObject3d();
 
 	cInput = Controller::GetInstance();
 	cInput->Ini();
@@ -206,7 +206,7 @@ void Player::Shot(ID3D12Device* device, ViewProjection viewProjection)
 
 			//’e‚ğ¶¬‚µ‚Ä‰Šú‰»
 			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-			newBullet->Ini(device, worldTransform, resultVec, &model_);
+			newBullet->Ini( worldTransform, resultVec, &model_);
 
 			//’e‚ğƒŠƒXƒg‚É“o˜^‚·‚é
 			bullets.push_back(std::move(newBullet));

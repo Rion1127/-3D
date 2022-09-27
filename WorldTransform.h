@@ -5,6 +5,7 @@ using namespace DirectX;
 #include <d3d12.h>
 #include <wrl.h>
 #include "ViewProjection.h"
+#include "DirectX.h"
 
 //定数バッファ用データ構造体（３D変換行列）
 struct ConstBufferDataTransform {
@@ -27,7 +28,7 @@ public:
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
 
-	void InitializeObject3d(ID3D12Device* device);
+	void InitializeObject3d();
 	void UpdateObject3d(ViewProjection viewProjection);
 
 	//定数バッファ（行列用）
@@ -50,5 +51,7 @@ private:
 	D3D12_HEAP_PROPERTIES heapProp{};
 	//定数バッファのリソース設定
 	D3D12_RESOURCE_DESC resdesc{};
+
+	DirectXCommon* directx_ = nullptr;
 };
 
