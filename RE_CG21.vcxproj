@@ -22,6 +22,7 @@
     <ClCompile Include="boardObject.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="DirectXInput.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
@@ -39,12 +40,14 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vertices.cpp" />
     <ClCompile Include="ViewProjection.cpp" />
+    <ClCompile Include="WinAPI.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boardObject.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="DirectX.h" />
     <ClInclude Include="DirectXInput.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Material.h" />
@@ -61,6 +64,7 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vertices.h" />
     <ClInclude Include="ViewProjection.h" />
+    <ClInclude Include="WinAPI.h" />
     <ClInclude Include="WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>

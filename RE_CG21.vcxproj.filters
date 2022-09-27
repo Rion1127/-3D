@@ -46,6 +46,12 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{7157d4a8-6382-4346-8926-2c3680373323}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DirectX">
+      <UniqueIdentifier>{2aa1feda-6aab-404e-8c7d-7efd7526c693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DirectX">
+      <UniqueIdentifier>{5d9e2743-2e58-4228-bcdc-386ef9735188}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +117,12 @@
     <ClCompile Include="Model.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="WinAPI.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -172,6 +184,12 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPI.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
