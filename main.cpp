@@ -27,6 +27,7 @@ using namespace Microsoft::WRL;
 #include "RailCamera.h"
 #include "Model.h"
 #include "WinAPI.h"
+#include "DirectX.h"
 ///
 #include <random>
 
@@ -52,6 +53,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//-+-+-+-+-+-+-+-+-+-+-+-//
 	//DirectX初期化処理　ここから//
 	//-+-+-+-+-+-+-+-+-+-+-+-//
+
+	DirectX* directX = DirectX::GetInstance();
+	directX->Ini(winApi);
 #ifdef _DEBUG
 //デバッグレイヤーをオンに
 	ComPtr<ID3D12Debug1> debugController;
@@ -387,7 +391,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームループ
 	while (true) {
 #pragma region
-
 		if (winApi->MsgCheck()) {
 			break;
 		}

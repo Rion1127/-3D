@@ -2,6 +2,32 @@
 #include <vector>
 #include "DirectX.h"
 
+DirectX* DirectX::GetInstance()
+{
+	static DirectX instance;
+	return &instance;
+}
+
+void DirectX::Ini(WinAPI* winApi)
+{
+	winApi_ = winApi;
+
+	//デバッグレイヤー
+	DebugLayer();
+	//DXGI初期化
+	DXGIIni();
+	//コマンド関連初期化
+	CommandIni();
+	//スワップチェイン初期化
+	SwapChainIni();
+	//深度初期化バッファ
+	DepthIni();
+	//フェンス作成
+	CreateFence();
+}
+
+#pragma region Ini内に書く
+
 void DirectX::DebugLayer()
 {
 	ComPtr<ID3D12Debug1> debugController;
@@ -9,15 +35,6 @@ void DirectX::DebugLayer()
 		debugController->EnableDebugLayer();
 		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
-}
-
-void DirectX::Ini(WinAPI* winApi)
-{
-	winApi_ = winApi;
-	//DXGI初期化
-	DXGIIni();
-	//コマンド関連初期化
-	CommandIni();
 }
 
 void DirectX::DXGIIni()
@@ -134,16 +151,13 @@ void DirectX::SwapChainIni()
 
 
 	// デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount; // 裏表の2つ
 	// デスクリプタヒープの生成
 	device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap));
 
 	// バックバッファ
-	std::vector<ComPtr<ID3D12Resource>> backBuffers(2);
 	backBuffers.resize(swapChainDesc.BufferCount);
-
 
 	// スワップチェーンの全てのバッファについて処理する
 	for (size_t i = 0; i < backBuffers.size(); i++) {
@@ -161,11 +175,6 @@ void DirectX::SwapChainIni()
 		// レンダーターゲットビューの生成
 		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
-
-	// フェンスの生成
-	ComPtr<ID3D12Fence> fence = nullptr;
-	UINT64 fenceVal = 0;
-	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
 void DirectX::DepthIni()
@@ -216,4 +225,73 @@ void DirectX::DepthIni()
 		&dsvDesc,
 		dsvHeap->GetCPUDescriptorHandleForHeapStart()
 	);
+}
+
+void DirectX::CreateFence()
+{
+	HRESULT result;
+	// フェンスの生成
+	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
+}
+#pragma endregion
+
+void DirectX::Updata()
+{
+	//毎フレーム処理
+		// バックバッファの番号を取得(2つなので0番か1番)
+	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	// 1.リソースバリアで書き込み可能に変更
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
+	commandList->ResourceBarrier(1, &barrierDesc);
+
+	// 2.描画先の変更
+	// レンダーターゲットビューのハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+
+	// 3.画面クリア R G B A
+	FLOAT clearColor[] = { 0.05f,0.1f, 0.2f,0.0f }; // 青っぽい色 0.1f,0.25f, 0.5f,0.0f
+	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+}
+
+void DirectX::ResourceBarrier()
+{
+	HRESULT result;
+	// 5.リソースバリアを戻す
+	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態から
+	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT; // 表示状態へ
+	commandList->ResourceBarrier(1, &barrierDesc);
+
+	// 命令のクローズ
+	result = commandList->Close();
+	assert(SUCCEEDED(result));
+	// コマンドリストの実行
+	ID3D12CommandList* commandLists[] = { commandList.Get() };
+	commandQueue->ExecuteCommandLists(1, commandLists);
+
+
+	// コマンドの実行完了を待つ
+	commandQueue->Signal(fence.Get(), ++fenceVal);
+	if (fence->GetCompletedValue() != fenceVal) {
+		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+	// キューをクリア
+	result = cmdAllocator->Reset();
+	assert(SUCCEEDED(result));
+	// 再びコマンドリストを貯める準備
+	result = commandList->Reset(cmdAllocator.Get(), nullptr);
+	assert(SUCCEEDED(result));
+#pragma endregion
+
+	// 画面に表示するバッファをフリップ(裏表の入替え)
+	result = swapChain->Present(1, 0);
+	assert(SUCCEEDED(result));
 }
