@@ -1,6 +1,6 @@
 #include <DirectXMath.h>
 using namespace DirectX;
-#include "WorldTransform.h"
+
 
 #include "Vertices.h"
 

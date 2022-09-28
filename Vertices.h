@@ -5,6 +5,7 @@
 #include <cassert>
 #include <vector>
 #include "Material.h"
+#include "WorldTransform.h"
 
 class Vertices
 {
