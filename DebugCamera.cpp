@@ -2,9 +2,9 @@
 #include <DirectXMath.h>
 #include <WinUser.h>
 
-void DebugCamera::DebugCameraIni(HWND hwnd)
+void DebugCamera::DebugCameraIni(HWND* hwnd)
 {
-	input.MouseIni(hwnd);
+	mInput_ = MouseInput::GetInstance();
 
 	viewProjection.SetEyePos(0, 0, -200);
 	viewProjection.SetTarget(0, 0, 0);
@@ -20,7 +20,6 @@ void DebugCamera::DebugCameraIni(HWND hwnd)
 void DebugCamera::Update(HWND hwnd)
 {
 	//マウスの情報の更新
-	input.GetMouseState(hwnd);
 	CameraMove();
 	viewProjection.Update();
 }
@@ -49,29 +48,29 @@ void DebugCamera::CameraMove()
 	//upVec.normalize();
 
 	//平行移動
-	if (input.IsMouseDown(MOUSE_WHEEL)) {
+	if (mInput_->IsMouseDown(MOUSE_WHEEL)) {
 		//上下に動かしたとき
-		if (input.GetCursorMoveY() > 0) {
+		if (mInput_->GetCursorMoveY() > 0) {
 			cameraTrans -= upVec * speed;
 			viewProjection.target.x -= upVec.x * speed;
 			viewProjection.target.y -= upVec.y * speed;
 			viewProjection.target.z -= upVec.z * speed;
 		}
-		else if (input.GetCursorMoveY() < 0) {
+		else if (mInput_->GetCursorMoveY() < 0) {
 			cameraTrans += upVec * speed;
 			viewProjection.target.x += upVec.x * speed;
 			viewProjection.target.y += upVec.y * speed;
 			viewProjection.target.z += upVec.z * speed;
 		}
 		//マウスカーソルを左右に動かしたとき
-		if (input.GetCursorMoveX() > 0) {
+		if (mInput_->GetCursorMoveX() > 0) {
 			cameraTrans.x -= sideVec.x * speed;
 			cameraTrans.z -= sideVec.z * speed;
 
 			viewProjection.target.x -= sideVec.x * speed;
 			viewProjection.target.z -= sideVec.z * speed;
 		}
-		else if (input.GetCursorMoveX() < 0) {
+		else if (mInput_->GetCursorMoveX() < 0) {
 			cameraTrans.x += sideVec.x * speed;
 			cameraTrans.z += sideVec.z * speed;
 
@@ -81,20 +80,20 @@ void DebugCamera::CameraMove()
 
 	}
 	//拡大縮小
-	else if (!input.IsMouseDown(MOUSE_WHEEL)) {
-		frontdist += -input.IsMouseWheel() * (frontdist * 0.001f);
+	else if (!mInput_->IsMouseDown(MOUSE_WHEEL)) {
+		frontdist += -mInput_->IsMouseWheel() * (frontdist * 0.001f);
 	}
 	//球面座標移動
-	if (input.IsMouseDown(MOUSE_LEFT)) {
+	if (mInput_->IsMouseDown(MOUSE_LEFT)) {
 		//カメラが上を向いてるとき通常通りに座標を足す
 		if (viewProjection.up.y >= 0) {
-			moveDist += input.GetCursorMove() * 0.005f;
+			moveDist += mInput_->GetCursorMove() * 0.005f;
 		}
 		//カメラが逆さまになった時X.Z座標を反転させる
 		else if (viewProjection.up.y <= 0) {
-			moveDist.x -= input.GetCursorMoveX() * 0.005f;
-			moveDist.y += input.GetCursorMoveY() * 0.005f;
-			moveDist.z -= input.GetCursorMoveZ() * 0.005f;
+			moveDist.x -= mInput_->GetCursorMoveX() * 0.005f;
+			moveDist.y += mInput_->GetCursorMoveY() * 0.005f;
+			moveDist.z -= mInput_->GetCursorMoveZ() * 0.005f;
 		}
 	}
 

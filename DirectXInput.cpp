@@ -7,15 +7,14 @@
 
 //DirectInputの初期化
 static IDirectInput8* directInput = nullptr;
-static IDirectInputDevice8* keyboard = nullptr;
-
-
 
 #pragma region キーボード
-//全キーの入力状態を取得する
-static BYTE keys[256] = {};
-//全キーの入力状態を取得する
-static BYTE oldkeys[256] = {};
+
+DirectXInput* DirectXInput::GetInstance()
+{
+	static DirectXInput instance;
+	return &instance;
+}
 void DirectXInput::InputIni(WNDCLASSEX w, HWND hwnd)	//初期化
 {
 	HRESULT result;
@@ -74,9 +73,17 @@ bool DirectXInput::GetKeyReleased(UINT8 key)
 #pragma region マウス
 #define MOUSE_INPUT 0x80
 
-void MouseInput::MouseIni(HWND hwnd)
+MouseInput* MouseInput::GetInstance()
+{
+	static MouseInput instance;
+	return &instance;
+}
+
+void MouseInput::MouseIni(HWND* hwnd)
 {
 	HRESULT result;
+	assert(SUCCEEDED(hwnd));
+	hwnd_ = hwnd;
 	//キーボードデバイスの生成
 	//IDirectInputDevice8* keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
@@ -87,7 +94,7 @@ void MouseInput::MouseIni(HWND hwnd)
 
 	//排他制御レベルのセット
 	result = mouse->SetCooperativeLevel(
-		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		*hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
 	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
@@ -98,12 +105,12 @@ void MouseInput::MouseIni(HWND hwnd)
 	mouse->Acquire();
 }
 
-void MouseInput::GetCursorPosition(HWND hwnd)
+void MouseInput::GetCursorPosition()
 {
 	//スクリーンから見たマウスの座標を取得する
 	GetCursorPos(&p);
 	//ウィンドウから見たマウスの座標を取得する
-	ScreenToClient(hwnd, &p);
+	ScreenToClient(*hwnd_, &p);
 	//前フレームの状態を代入する
 	prevmPos = mPos;
 	//現フレームの座標を代入する
@@ -115,7 +122,7 @@ void MouseInput::GetCursorPosition(HWND hwnd)
 	//mouseVec.normalize();
 }
 
-void MouseInput::GetMouseState(HWND hwnd)
+void MouseInput::Updata()
 {
 	//前フレームの状態を代入
 	prevmouseState = mouseState;
@@ -124,7 +131,7 @@ void MouseInput::GetMouseState(HWND hwnd)
 	mouse->Poll();
 	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
 	//座標取得
-	GetCursorPosition(hwnd);
+	GetCursorPosition();
 }
 //左クリックされたら
 bool MouseInput::IsMouseTrigger(BYTE button)

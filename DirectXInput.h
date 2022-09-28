@@ -10,21 +10,29 @@
 class DirectXInput
 {
 public:
-	static void InputIni(WNDCLASSEX w, HWND hwnd);
-	static void InputUpdata();
+	static DirectXInput* GetInstance();
 
-	static bool IsKeyDown(UINT8 key);		//押しっぱなし
-	static bool IsKeyTrigger(UINT8 key);		//押した瞬間
-	static bool GetKeyReleased(UINT8 key);
+	void InputIni(WNDCLASSEX w, HWND hwnd);
+	void InputUpdata();
+
+	bool IsKeyDown(UINT8 key);		//押しっぱなし
+	bool IsKeyTrigger(UINT8 key);		//押した瞬間
+	bool GetKeyReleased(UINT8 key);
 
 private:
-
+	IDirectInputDevice8* keyboard = nullptr;
+	//全キーの入力状態を取得する
+	BYTE keys[256] = {};
+	//全キーの入力状態を取得する
+	BYTE oldkeys[256] = {};
 };
 //マウス
 class MouseInput {
 public:
-	void MouseIni(HWND hwnd);
-	void GetMouseState(HWND hwnd);
+	static MouseInput* GetInstance();
+
+	void MouseIni(HWND* hwnd);
+	void Updata();
 
 	//マウスボタン情報
 	//[0] MOUSE_LEFT= 左ボタン
@@ -57,12 +65,13 @@ public:
 	Vector3 mouseVec;
 private:
 	//マウスの座標を取得する
-	void GetCursorPosition(HWND hwnd);
+	void GetCursorPosition();
 
 	IDirectInputDevice8* mouse = nullptr;
 
 	DIMOUSESTATE mouseState;
 	DIMOUSESTATE prevmouseState;
+	HWND* hwnd_ = nullptr;
 };
 enum {
 	MOUSE_LEFT,

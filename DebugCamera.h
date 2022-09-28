@@ -7,13 +7,15 @@ using namespace DirectX;
 class DebugCamera
 {
 public:
-	void DebugCameraIni(HWND hwnd);
+	void DebugCameraIni(HWND* hwnd);
 	void Update(HWND hwnd);
 
 
 	ViewProjection GetViewProjection();
 
 private:
+	MouseInput* mInput_ = nullptr;
+
 	void CameraMove();
 
 	ViewProjection viewProjection;
@@ -27,7 +29,7 @@ private:
 	Vector3 sideVec{};
 	Vector3 upVec{};
 
-	MouseInput input;
+	
 
 	float frontdist;
 

@@ -13,13 +13,13 @@ void GameScene::Ini()
 {
 	directX = DirectXCommon::GetInstance();
 	winApi_ = WinAPI::GetInstance();
-	
+	input_ = DirectXInput::GetInstance();
 
 	Object3d::Ini(directX->GetDevice());
 	BoardObject::Ini(directX->GetDevice());
 	Obj2D.Ini(directX->GetDevice());
 
-	debugCamera.DebugCameraIni(winApi_->hwnd);
+	debugCamera.DebugCameraIni(&winApi_->hwnd);
 
 	marioGraph = TextureManager::GetInstance()->LoadGraph("Resources/mario.jpg");
 	khGraph = TextureManager::GetInstance()->LoadGraph("Resources/KH.jpg");
@@ -85,7 +85,7 @@ void GameScene::Updata()
 	}
 
 #pragma region F•Ï‰»
-	if (DirectXInput::IsKeyTrigger(DIK_0)) {
+	if (input_->IsKeyTrigger(DIK_0)) {
 		if (isChangeColor == false) isChangeColor = true;
 		else if (isChangeColor == true) isChangeColor = false;
 	}

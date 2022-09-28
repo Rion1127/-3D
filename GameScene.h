@@ -22,6 +22,7 @@ public:
 private:
 	DirectXCommon* directX = nullptr;
 	WinAPI* winApi_ = nullptr;
+	DirectXInput* input_ = nullptr;
 
 	//テクスチャ
 	uint32_t marioGraph, khGraph, enemyGraph, keyBladeGraph, gumishipGraph;

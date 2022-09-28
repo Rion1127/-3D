@@ -21,7 +21,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//テクスチャマネージャー初期化
 	TextureManager::GetInstance()->Ini(directX->GetDevice());
 	//インプット初期化
-	DirectXInput::InputIni(winApi->w, winApi->hwnd);
+	//キーボード
+	DirectXInput* input_ = DirectXInput::GetInstance();
+	input_->InputIni(winApi->w, winApi->hwnd);
+	//コントローラー
+	Controller* controller = Controller::GetInstance();
+	controller->Ini();
+	//マウス
+	MouseInput* mouse = MouseInput::GetInstance();
+	mouse->MouseIni(&winApi->hwnd);
+
 	//ゲームシーン初期化
 	GameScene* gameScene = new GameScene;
 	gameScene->Ini();
@@ -30,9 +39,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//描画初期化処理　ここまで//
 	///////////////////////
 
-	Controller* controller = Controller::GetInstance();
-	controller->Ini();
-
 	// ゲームループ
 	while (true) {
 		if (winApi->MsgCheck()) {
@@ -40,8 +46,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		//インプット関連更新
-		DirectXInput::InputUpdata();
+		input_->InputUpdata();
 		controller->Update();
+		mouse->Updata();
 		//ゲームシーン更新
 		gameScene->Updata();
 		
