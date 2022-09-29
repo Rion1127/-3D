@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	controller->Ini();
 	//マウス
 	MouseInput* mouse = MouseInput::GetInstance();
-	mouse->MouseIni(&winApi->hwnd);
+	mouse->MouseIni(winApi->hwnd);
 
 	//ゲームシーン初期化
 	GameScene* gameScene = new GameScene;

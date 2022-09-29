@@ -6,11 +6,10 @@
 #include <string>
 #include "WorldTransform.h"
 #include "Material.h"
-#include "Object3d.h"
 #include "Texture.h"
-
 #include <fstream>
 #include <sstream>
+#include "Object3d.h"
 
 const std::string kBaseDirectory = "Resources/";
 

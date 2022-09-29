@@ -79,11 +79,11 @@ MouseInput* MouseInput::GetInstance()
 	return &instance;
 }
 
-void MouseInput::MouseIni(HWND* hwnd)
+void MouseInput::MouseIni(HWND hwnd)
 {
 	HRESULT result;
 	assert(SUCCEEDED(hwnd));
-	hwnd_ = hwnd;
+	hwnd_ = &hwnd;
 	//キーボードデバイスの生成
 	//IDirectInputDevice8* keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);

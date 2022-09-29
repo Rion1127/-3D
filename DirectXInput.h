@@ -31,7 +31,7 @@ class MouseInput {
 public:
 	static MouseInput* GetInstance();
 
-	void MouseIni(HWND* hwnd);
+	void MouseIni(HWND hwnd);
 	void Updata();
 
 	//マウスボタン情報

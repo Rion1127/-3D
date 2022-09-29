@@ -51,5 +51,7 @@ private:
 	std::vector<uint32_t> textureHandle_;
 	// マテリアルコンテナ
 	std::map<std::string, Material*> materials_;
+
+	
 };
 
