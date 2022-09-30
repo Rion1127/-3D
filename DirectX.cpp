@@ -46,6 +46,7 @@ void DirectXCommon::InitializeDXGIDevice() {
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 		debugController->EnableDebugLayer();
 	}
+
 	// DREDレポートをオンに
 	ComPtr<ID3D12DeviceRemovedExtendedDataSettings> dredSettings;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&dredSettings)))) {
@@ -110,6 +111,7 @@ void DirectXCommon::InitializeDXGIDevice() {
 			break;
 		}
 	}
+
 
 	assert(!!device);
 	assert(SUCCEEDED(result));

@@ -29,9 +29,9 @@ void BoardObject::Ini(ID3D12Device* device)
 {
 	HRESULT result;
 	bDevice_ = device;
-	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+	ComPtr <ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr <ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr <ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicVS.hlsl", // シェーダファイル名
@@ -93,7 +93,7 @@ void BoardObject::Ini(ID3D12Device* device)
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // カリングしない
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
@@ -201,7 +201,7 @@ void BoardObject::Ini(ID3D12Device* device)
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
 
 	// ルートシグネチャ
-	// // ルートシグネチャの設定
+	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	// ルートシグネチャのシリアライズ
 	ComPtr<ID3DBlob> rootSigBlob;
@@ -234,6 +234,7 @@ void BoardObject::PreDraw(ID3D12GraphicsCommandList* commandList)
 {
 	bCommandList_ = commandList;
 	// パイプラインステートとルートシグネチャの設定コマンド
+	//パイプラインに設定した内容で描画を始める
 	bCommandList_->SetPipelineState(bPipelineState.Get());
 	bCommandList_->SetGraphicsRootSignature(bRootSignature.Get());
 

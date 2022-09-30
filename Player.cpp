@@ -24,7 +24,7 @@ void Player::Ini()
 	worldTransform.InitializeObject3d();
 
 	cInput = Controller::GetInstance();
-	cInput->Ini();
+	//cInput->Ini();
 }
 
 void Player::Update(ID3D12Device* device, ViewProjection viewProjection)
