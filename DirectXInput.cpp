@@ -127,7 +127,6 @@ void MouseInput::Updata()
 	//前フレームの状態を代入
 	prevmouseState = mouseState;
 	//マウス情報の取得開始
-	//mouse->Acquire();
 	mouse->Poll();
 	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
 	//座標取得

@@ -9,12 +9,13 @@
 #include "Texture.h"
 #include <fstream>
 #include <sstream>
+#include "Util.h"
 #include "Object3d.h"
 
 const std::string kBaseDirectory = "Resources/";
 
 // ルートシグネチャ
-static ComPtr < ID3D12RootSignature> rootSignature;
+static ComPtr<ID3D12RootSignature> rootSignature;
 // パイプランステートの生成
 static ComPtr<ID3D12PipelineState> pipelineState;
 // グラフィックスパイプライン設定
@@ -22,7 +23,7 @@ static D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 //コマンドリストを格納する
 static ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
 static ComPtr<ID3D12Device> device_ = nullptr;
-//頂点データ
+//頂点データ(ボックスオブジェ)
 static Vertices vertices_;
 
 Object3d::~Object3d()
@@ -51,53 +52,12 @@ void Object3d::Ini(ID3D12Device* device)
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 #pragma region シェーダファイル読み込み
-	// 頂点シェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"BasicVS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&vsBlob, &errorBlob);
-
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
-
+	//// 頂点シェーダの読み込みとコンパイル
+	ShaderCompileFromFile(L"BasicVS.hlsl", "main", "vs_5_0", &vsBlob);
+	
 	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"BasicPS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&psBlob, &errorBlob);
-
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
+	ShaderCompileFromFile(L"BasicPS.hlsl", "main", "ps_5_0", &psBlob);
+	
 #pragma endregion
 	// グラフィックスパイプライン設定
 

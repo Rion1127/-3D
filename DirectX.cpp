@@ -19,10 +19,10 @@ void DirectXCommon::Ini(WinAPI* winApi)
 	winApi_ = winApi;
 
 	// DXGIデバイス初期化
-	InitializeDXGIDevice();
+	DXGIDeviceIni();
 
 	// コマンド関連初期化
-	InitializeCommand();
+	CommandIni();
 
 	// スワップチェーンの生成
 	CreateSwapChain();
@@ -37,7 +37,7 @@ void DirectXCommon::Ini(WinAPI* winApi)
 	CreateFence();
 }
 
-void DirectXCommon::InitializeDXGIDevice() {
+void DirectXCommon::DXGIDeviceIni() {
 	HRESULT result = S_FALSE;
 
 #ifdef _DEBUG
@@ -116,29 +116,8 @@ void DirectXCommon::InitializeDXGIDevice() {
 	assert(!!device);
 	assert(SUCCEEDED(result));
 
-#ifdef _DEBUG
-	ComPtr<ID3D12InfoQueue> infoQueue;
-	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
-		// 抑制するエラー
-		D3D12_MESSAGE_ID denyIds[] = {
-			/*
-			 * Windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤーの相互作用バグによるエラーメッセージ
-			 * https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
-			 */
-			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE };
-		// 抑制する表示レベル
-		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-		D3D12_INFO_QUEUE_FILTER filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
-		// 指定したエラーの表示を抑制する
-		infoQueue->PushStorageFilter(&filter);
-		// エラー時にブレークを発生させる
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-	}
-#endif
+
+
 }
 
 void DirectXCommon::CreateSwapChain() {
@@ -160,16 +139,14 @@ void DirectXCommon::CreateSwapChain() {
 		commandQueue_.Get(), winApi_->hwnd, &swapChainDesc, nullptr, nullptr, &swapChain1);
 	assert(SUCCEEDED(result));
 
-	// SwapChain4を得る
+	// SwapChainを得る
 	swapChain1->QueryInterface(IID_PPV_ARGS(&swapChain));
 	assert(SUCCEEDED(result));
 
-	// OSが行うAlt+Enterのフルスクリーンは制御不能なので禁止
-	dxgiFactory_->MakeWindowAssociation(
-		winApi_->hwnd, DXGI_MWA_NO_WINDOW_CHANGES | DXGI_MWA_NO_ALT_ENTER);
+	
 }
 
-void DirectXCommon::InitializeCommand() {
+void DirectXCommon::CommandIni() {
 	HRESULT result = S_FALSE;
 
 	// コマンドアロケータを生成
@@ -187,6 +164,32 @@ void DirectXCommon::InitializeCommand() {
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
 	result = device->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&commandQueue_));
 	assert(SUCCEEDED(result));
+
+#ifdef _DEBUG
+	ComPtr<ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+
+		// 抑制するエラー
+		D3D12_MESSAGE_ID denyIds[] = {
+			/*
+			 * Windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤーの相互作用バグによるエラーメッセージ
+			 * https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
+			 */
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE };
+		// 抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER filter{};
+		filter.DenyList.NumIDs = _countof(denyIds);
+		filter.DenyList.pIDList = denyIds;
+		filter.DenyList.NumSeverities = _countof(severities);
+		filter.DenyList.pSeverityList = severities;
+		// 指定したエラーの表示を抑制する
+		infoQueue->PushStorageFilter(&filter);
+		
+	}
+#endif
 }
 
 void DirectXCommon::CreateFinalRenderTargets() {

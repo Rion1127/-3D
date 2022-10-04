@@ -25,11 +25,11 @@ public:
 
 private:
 	// DXGIデバイス初期化
-	void InitializeDXGIDevice();
+	void DXGIDeviceIni();
 	// スワップチェーンの生成
 	void CreateSwapChain();
 	// コマンド関連初期化
-	void InitializeCommand();
+	void CommandIni();
 	// レンダーターゲット生成
 	void CreateFinalRenderTargets();
 	// 深度バッファ生成

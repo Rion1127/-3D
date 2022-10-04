@@ -5,7 +5,7 @@
 
 GameScene::~GameScene()
 {
-	//delete skyDome;
+	delete skyDome;
 	delete gumiShipObj;
 }
 
@@ -146,7 +146,9 @@ void GameScene::Draw()
 
 	skyDome->DrawOBJ(&worldTransform[0]);
 	gumiShipObj->DrawOBJ(&worldTransform[0]);
-
+	///////////////////
+	//板状３Dオブジェクト//
+	///////////////////
 	BoardObject::PreDraw(directX->GetCommandList());
 
 	boardObject.Draw(&boardPos, khGraph);
