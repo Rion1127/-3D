@@ -6,6 +6,7 @@
 #include <string>
 #include "WorldTransform.h"
 #include "Material.h"
+#include "Util.h"
 #include "boardObject.h"
 
 // ルートシグネチャ
@@ -33,52 +34,55 @@ void BoardObject::Ini(ID3D12Device* device)
 	ComPtr <ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr <ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"BasicVS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&vsBlob, &errorBlob);
+	ShaderCompileFromFile(L"Resources/shader/BasicVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
+	//result = D3DCompileFromFile(
+	//	L"BasicVS.hlsl", // シェーダファイル名
+	//	nullptr,
+	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+	//	"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
+	//	D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+	//	0,
+	//	&vsBlob, &errorBlob);
 
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
+	//// エラーなら
+	//if (FAILED(result)) {
+	//	// errorBlobからエラー内容をstring型にコピー
+	//	std::string error;
+	//	error.resize(errorBlob->GetBufferSize());
+	//	std::copy_n((char*)errorBlob->GetBufferPointer(),
+	//		errorBlob->GetBufferSize(),
+	//		error.begin());
+	//	error += "\n";
+	//	// エラー内容を出力ウィンドウに表示
+	//	OutputDebugStringA(error.c_str());
+	//	assert(0);
+	//}
 
 	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"BasicPS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&psBlob, &errorBlob);
+	ShaderCompileFromFile(L"Resources/shader/BasicPS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
 
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
+	//result = D3DCompileFromFile(
+	//	L"BasicPS.hlsl", // シェーダファイル名
+	//	nullptr,
+	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+	//	"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+	//	D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+	//	0,
+	//	&psBlob, &errorBlob);
+
+	//// エラーなら
+	//if (FAILED(result)) {
+	//	// errorBlobからエラー内容をstring型にコピー
+	//	std::string error;
+	//	error.resize(errorBlob->GetBufferSize());
+	//	std::copy_n((char*)errorBlob->GetBufferPointer(),
+	//		errorBlob->GetBufferSize(),
+	//		error.begin());
+	//	error += "\n";
+	//	// エラー内容を出力ウィンドウに表示
+	//	OutputDebugStringA(error.c_str());
+	//	assert(0);
+	//}
 
 	// グラフィックスパイプライン設定
 	// グラフィックスパイプライン設定

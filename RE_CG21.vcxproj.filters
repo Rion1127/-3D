@@ -211,25 +211,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicPS.hlsl">
+    <None Include="Resources\shader\2DObject.hlsli">
       <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicVS.hlsl">
+    </None>
+    <None Include="Resources\shader\Basic.hlsli">
       <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="2DObjectVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="2DObjectPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli">
+    <FxCompile Include="Resources\shader\2DObjectPS.hlsl">
       <Filter>シェーダーファイル</Filter>
-    </None>
-    <None Include="2DObject.hlsli">
+    </FxCompile>
+    <FxCompile Include="Resources\shader\2DObjectVS.hlsl">
       <Filter>シェーダーファイル</Filter>
-    </None>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BasicPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BasicVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

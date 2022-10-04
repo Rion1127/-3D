@@ -1,14 +1,14 @@
 #pragma once
 #include <d3d12.h>
-
+#include <vector>
 class mRootParameter
 {
 public:
 
 	void Ini();
 
-	D3D12_ROOT_PARAMETER* GetEntity() { return entity; }
+	
 
-	 D3D12_ROOT_PARAMETER entity[3];
+	std::vector<D3D12_ROOT_PARAMETER> entity;
 };
 

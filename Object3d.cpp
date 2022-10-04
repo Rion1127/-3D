@@ -53,41 +53,18 @@ void Object3d::Ini(ID3D12Device* device)
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 #pragma region シェーダファイル読み込み
-	//// 頂点シェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"BasicVS.hlsl", "main", "vs_5_0", &vsBlob,errorBlob.Get());
+	// 頂点シェーダの読み込みとコンパイル
+	ShaderCompileFromFile(L"Resources/shader/BasicVS.hlsl", "main", "vs_5_0", &vsBlob,errorBlob.Get());
 	
 	// ピクセルシェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"BasicPS.hlsl", "main", "ps_5_0", &psBlob,errorBlob.Get());
+	ShaderCompileFromFile(L"Resources/shader/BasicPS.hlsl", "main", "ps_5_0", &psBlob,errorBlob.Get());
 	
 #pragma endregion
-	
-	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange{};
-
-	//デスクリプタレンジの設定
-	descriptorRange.NumDescriptors = 1;					//一度の描画に好かうテクスチャが1枚なので1
-	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange.BaseShaderRegister = 0;				//テクスチャレジスタ0番
-	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートのパラメータ設定
 	// //ルートパラメータの設定
-	static D3D12_ROOT_PARAMETER rootParams[3];
-	//定数バッファ0番
-	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
-	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
-	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
-	////テクスチャレジスタ0番
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//デスクリプタレンジ
-	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
-	//定数バッファ1番
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
-	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	mRootParameter rootParams;
+	rootParams.Ini();
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -108,8 +85,8 @@ void Object3d::Ini(ID3D12Device* device)
 	ComPtr<ID3DBlob> rootSigBlob;
 	// ルートシグネチャの設定
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = rootParams;	//ルートパラメータの先頭アドレス
-	rootSignatureDesc.NumParameters = _countof(rootParams);			//ルートパラメータ数
+	rootSignatureDesc.pParameters = &rootParams.entity.front();	//ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = rootParams.entity.size();			//ルートパラメータ数
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ

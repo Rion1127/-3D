@@ -7,7 +7,7 @@ using namespace DirectX;
 #include <string>
 #include "Texture.h"
 #include <DirectXTex.h>
-
+#include "Util.h"
 #include "Object2D.h"
 
 void Object2D::Ini(ID3D12Device* device)
@@ -83,6 +83,7 @@ void Object2D::Ini(ID3D12Device* device)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
+	
 	result = device->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -113,50 +114,52 @@ void Object2D::Ini(ID3D12Device* device)
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"2DObjectVS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&vsBlob, &errorBlob);
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
+	ShaderCompileFromFile(L"Resources/shader/2DObjectVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
+	//result = D3DCompileFromFile(
+	//	L"2DObjectVS.hlsl", // シェーダファイル名
+	//	nullptr,
+	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+	//	"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
+	//	D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+	//	0,
+	//	&vsBlob, &errorBlob);
+	//// エラーなら
+	//if (FAILED(result)) {
+	//	// errorBlobからエラー内容をstring型にコピー
+	//	std::string error;
+	//	error.resize(errorBlob->GetBufferSize());
+	//	std::copy_n((char*)errorBlob->GetBufferPointer(),
+	//		errorBlob->GetBufferSize(),
+	//		error.begin());
+	//	error += "\n";
+	//	// エラー内容を出力ウィンドウに表示
+	//	OutputDebugStringA(error.c_str());
+	//	assert(0);
+	//}
 
 	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
-		L"2DObjectPS.hlsl", // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-		0,
-		&psBlob, &errorBlob);
-	// エラーなら
-	if (FAILED(result)) {
-		// errorBlobからエラー内容をstring型にコピー
-		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
-			error.begin());
-		error += "\n";
-		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(error.c_str());
-		assert(0);
-	}
+	ShaderCompileFromFile(L"Resources/shader/2DObjectPS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
+	//result = D3DCompileFromFile(
+	//	L"2DObjectPS.hlsl", // シェーダファイル名
+	//	nullptr,
+	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+	//	"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
+	//	D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
+	//	0,
+	//	&psBlob, &errorBlob);
+	//// エラーなら
+	//if (FAILED(result)) {
+	//	// errorBlobからエラー内容をstring型にコピー
+	//	std::string error;
+	//	error.resize(errorBlob->GetBufferSize());
+	//	std::copy_n((char*)errorBlob->GetBufferPointer(),
+	//		errorBlob->GetBufferSize(),
+	//		error.begin());
+	//	error += "\n";
+	//	// エラー内容を出力ウィンドウに表示
+	//	OutputDebugStringA(error.c_str());
+	//	assert(0);
+	//}
 #pragma endregion
 	// グラフィックスパイプライン設定
 
