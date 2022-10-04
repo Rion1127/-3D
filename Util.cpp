@@ -16,10 +16,13 @@ void DisplayWarningInfo(ID3D12Device* device)
 	}
 }
 
-void ShaderCompileFromFile(LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target, ID3DBlob** blob)
+//シェーダー読み込み
+void ShaderCompileFromFile(
+	LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target,
+	ID3DBlob** blob, ID3DBlob* errorBlob)
 {
 	HRESULT result;
-	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+	
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		fileName, // シェーダファイル名
@@ -44,3 +47,7 @@ void ShaderCompileFromFile(LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target, I
 		assert(0);
 	}
 }
+
+#pragma region パイプライン設定
+
+#pragma endregion

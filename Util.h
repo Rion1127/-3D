@@ -7,6 +7,8 @@
 void DisplayWarningInfo(ID3D12Device* device);
 
 #pragma region シェーダー読み込み
-void ShaderCompileFromFile(LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target, ID3DBlob** blob);
+void ShaderCompileFromFile(
+	LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target,
+	ID3DBlob** blob, ID3DBlob* errorBlob);
 
 #pragma endregion
