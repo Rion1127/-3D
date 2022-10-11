@@ -48,6 +48,16 @@ void ShaderCompileFromFile(
 	}
 }
 
-#pragma region パイプライン設定
+wchar_t* ConvertStrToWchar(const std::string string)
+{
+	// SJIS → wstring	std::string型のサイズを取得
+	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, (wchar_t*)NULL, 0);
 
-#pragma endregion
+	// バッファの取得		HandleNameのサイズ分のwchara_tを用意する
+	wchar_t* result = new wchar_t[iBufferSize];
+
+	// SJIS → wstring	std::string型からwchara_t型に変換する
+	MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, result, iBufferSize);
+	return result;
+}
+

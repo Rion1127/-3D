@@ -33,8 +33,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MouseInput* mouse = MouseInput::GetInstance();
 	mouse->MouseIni(winApi->hwnd);
 	//サウンド初期化
-	//mSound* sound_ = mSound::GetInstance();
-	//sound_->Ini();
+	mSound* sound_ = mSound::GetInstance();
+	sound_->Ini();
 
 	//ゲームシーン初期化
 	GameScene* gameScene = new GameScene;
@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	delete gameScene;
 
-	
+	sound_->CleanUp();
 
 	return 0;
 }

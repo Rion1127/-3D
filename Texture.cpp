@@ -1,3 +1,4 @@
+#include "Util.h"
 #include "Texture.h"
 
 #pragma region TextureManager
@@ -42,27 +43,16 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	std::unique_ptr<Texture> texture_ = std::make_unique<Texture>();
 
 #pragma region 画像読み込み
+	//stringをwchar_tに変換
+	wchar_t* fileName = ConvertStrToWchar(HandleName);
 
-#pragma region 文字列変換
-	// SJIS → wstring	std::string型のサイズを取得
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, HandleName.c_str(), -1, (wchar_t*)NULL, 0);
-
-	// バッファの取得		HandleNameのサイズ分のwchara_tを用意する
-	wchar_t* cpUCS2 = new wchar_t[iBufferSize];
-
-	// SJIS → wstring	std::string型からwchara_t型に変換する
-	MultiByteToWideChar(CP_ACP, 0, HandleName.c_str(), -1, cpUCS2, iBufferSize);	
-
-	//// 変換結果を返す
-	//return(oRet);
-#pragma endregion
 	//WICテクスチャダウンロード
 	result = LoadFromWICFile(
-		cpUCS2,
+		fileName,
 		WIC_FLAGS_NONE,
 		&texture_->metadata, texture_->scratchImg);
 	// バッファの破棄
-	delete[] cpUCS2;
+	delete[] fileName;
 
 	if (result != S_OK) {
 		result = LoadFromWICFile(

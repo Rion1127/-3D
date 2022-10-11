@@ -2,6 +2,7 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3d12.h>
+#include <string>
 
 //WARNING‚ÌÚ×•\¦
 void DisplayWarningInfo(ID3D12Device* device);
@@ -12,3 +13,6 @@ void ShaderCompileFromFile(
 	ID3DBlob** blob, ID3DBlob* errorBlob);
 
 #pragma endregion
+
+//std::stringŒ^‚©‚çwchara_tŒ^‚É•ÏŠ·‚·‚é
+wchar_t* ConvertStrToWchar(const std::string string);

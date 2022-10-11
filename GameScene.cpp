@@ -37,8 +37,9 @@ void GameScene::Ini()
 	gumiShipPos.SetRotation(0, 0, 0);
 	gumiShipPos.SetScale(1, 1, 1);
 
-	sound_->Ini();
-	sound_->Load("Resources/selectSE.wav");
+	
+	testSound = sound_->Load("Resources/gumishipBGM.wav");
+	
 
 	boardPos.SetPosition(20, 0, 0);
 	boardPos.InitializeObject3d();
@@ -82,10 +83,9 @@ void GameScene::Ini()
 void GameScene::Updata()
 {
 #ifdef _DEBUG
-	//‰¹‚ðo‚·
-	//if (input_->IsKeyTrigger(DIK_2)) {
-		
-	//}
+	if (sound_->isPlaying(testSound) == false) {
+		sound_->Play(testSound, true, 0.5f);
+	}
 
 #endif // _DEBUG
 
