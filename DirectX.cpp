@@ -112,11 +112,8 @@ void DirectXCommon::DXGIDeviceIni() {
 		}
 	}
 
-
 	assert(!!device);
 	assert(SUCCEEDED(result));
-
-
 
 }
 

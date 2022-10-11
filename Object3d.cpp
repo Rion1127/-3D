@@ -63,8 +63,32 @@ void Object3d::Ini(ID3D12Device* device)
 
 	//ルートのパラメータ設定
 	// //ルートパラメータの設定
-	mRootParameter rootParams;
-	rootParams.Ini();
+	//デスクリプタレンジの設定
+	D3D12_DESCRIPTOR_RANGE descriptorRange{};
+
+	//デスクリプタレンジの設定
+	descriptorRange.NumDescriptors = 1;					//一度の描画に好かうテクスチャが1枚なので1
+	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange.BaseShaderRegister = 0;				//テクスチャレジスタ0番
+	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	//ルートのパラメータ設定
+	D3D12_ROOT_PARAMETER rootParams[3];
+	//定数バッファ0番
+	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+	rootParams[0].Descriptor.ShaderRegister = 0;					//定数バッファ番号
+	rootParams[0].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	////テクスチャレジスタ0番
+	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;					//デスクリプタレンジ
+	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+	//定数バッファ1番
+	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
+	rootParams[2].Descriptor.ShaderRegister = 1;					//定数バッファ番号
+	rootParams[2].Descriptor.RegisterSpace = 0;						//デフォルト値
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -85,8 +109,8 @@ void Object3d::Ini(ID3D12Device* device)
 	ComPtr<ID3DBlob> rootSigBlob;
 	// ルートシグネチャの設定
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = &rootParams.entity.front();	//ルートパラメータの先頭アドレス
-	rootSignatureDesc.NumParameters = rootParams.entity.size();			//ルートパラメータ数
+	rootSignatureDesc.pParameters = rootParams;	//ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = _countof(rootParams);			//ルートパラメータ数
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
@@ -205,16 +229,14 @@ void Object3d::LoadOBJ(const std::string& modelname)
 
 	name_ = modelname;
 
-	std::string line;
-	std::vector<std::string> v;
+	std::string line;	//ファイルの1行を入れる変数
 
 	std::vector<XMFLOAT3> positions; //頂点座標
 	std::vector<XMFLOAT3> normals;   // 法線ベクトル
 	std::vector<XMFLOAT2> texcoords; // テクスチャUV
 
-	vert_.emplace_back(new Vertices);
-	Vertices* vert = vert_.back();
-
+	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
+	Vertices* vert = vert_.back();		//空のvert_のアドレスをvertに入れる
 
 	int indexCountTex = 0;
 
@@ -286,7 +308,6 @@ void Object3d::LoadOBJ(const std::string& modelname)
 				vertex.uv = texcoords[indexTexcoord - 1];
 
 				vert->AddVertices(vertex);
-
 
 				// インデックスデータの追加
 				if (faceIndexCount >= 3) {
@@ -388,7 +409,6 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 
 void Object3d::LoadTexture()
 {
-	int textureIndex = 0;
 	std::string directoryPath = name_ + "/";
 
 	for (auto& m : materials_) {
@@ -398,13 +418,11 @@ void Object3d::LoadTexture()
 		if (material->textureFilename_.size() > 0) {
 			// マテリアルにテクスチャ読み込み
 			material->LoadTexture(directoryPath);
-			textureIndex++;
 		}
 		// テクスチャなし
 		else {
 			// マテリアルにテクスチャ読み込み
 			material->LoadTexture("white1x1.png");
-			textureIndex++;
 		}
 		textureHandle_.push_back(material->textureHandle_);
 	}
@@ -455,5 +473,12 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
 	for (auto& v : vert_) {
 		v->Draw(commandList_.Get(), worldTransform, textureHandle_.at(0));
+	}
+}
+
+void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
+{
+	for (auto& v : vert_) {
+		v->Draw(commandList_.Get(), worldTransform, textureHandle);
 	}
 }

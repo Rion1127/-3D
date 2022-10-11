@@ -64,6 +64,12 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{38eb0ded-4f3a-42d8-a441-c0e674bbc165}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{4e580278-9f68-4060-9313-e1f000467824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sound">
+      <UniqueIdentifier>{ee1a62f8-0b2c-4b9b-a1df-5887e31468bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,6 +144,9 @@
     <ClCompile Include="mRootParameter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="mSound.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -208,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="mRootParameter.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="mSound.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

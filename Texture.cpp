@@ -64,6 +64,13 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	// バッファの破棄
 	delete[] cpUCS2;
 
+	if (result != S_OK) {
+		result = LoadFromWICFile(
+			L"Resources/white1×1.png",
+			WIC_FLAGS_NONE,
+			&texture_->metadata, texture_->scratchImg);
+	}
+
 	//ミップマップ生成
 	result = GenerateMipMaps(
 		texture_->scratchImg.GetImages(), texture_->scratchImg.GetImageCount(), texture_->scratchImg.GetMetadata(),

@@ -6,6 +6,7 @@
 #include "WinAPI.h"
 #include "DirectX.h"
 #include "GameScene.h"
+#include "mSound.h"
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -31,6 +32,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//マウス
 	MouseInput* mouse = MouseInput::GetInstance();
 	mouse->MouseIni(winApi->hwnd);
+	//サウンド初期化
+	//mSound* sound_ = mSound::GetInstance();
+	//sound_->Ini();
 
 	//ゲームシーン初期化
 	GameScene* gameScene = new GameScene;
@@ -47,7 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApi->MsgCheck()) {
 			break;
 		}
-
+		
 		//インプット関連更新
 		input_->InputUpdata();
 		controller->Update();

@@ -30,6 +30,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="mRootParameter.cpp" />
+    <ClCompile Include="mSound.cpp" />
     <ClCompile Include="Object2D.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="mRootParameter.h" />
+    <ClInclude Include="mSound.h" />
     <ClInclude Include="Object2D.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="Player.h" />

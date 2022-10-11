@@ -54,10 +54,6 @@ void Material::ChangeColor(float x, float y, float z, float w)
 
 void Material::LoadTexture(const std::string& directoryPath)
 {
-	// テクスチャなし
-	if (textureFilename_.size() == 0) {
-		textureFilename_ = "white1x1.png";
-	}
 
 	HRESULT result = S_FALSE;
 

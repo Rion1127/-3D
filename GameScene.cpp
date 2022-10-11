@@ -14,6 +14,8 @@ void GameScene::Ini()
 	directX = DirectXCommon::GetInstance();
 	winApi_ = WinAPI::GetInstance();
 	input_ = DirectXInput::GetInstance();
+	textureM = TextureManager::GetInstance();
+	sound_ = mSound::GetInstance();
 
 	Object3d::Ini(directX->GetDevice());
 	BoardObject::Ini(directX->GetDevice());
@@ -21,17 +23,23 @@ void GameScene::Ini()
 
 	debugCamera.DebugCameraIni(&winApi_->hwnd);
 
-	marioGraph = TextureManager::GetInstance()->LoadGraph("Resources/mario.jpg");
-	khGraph = TextureManager::GetInstance()->LoadGraph("Resources/KH.jpg");
-	enemyGraph = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
-	keyBladeGraph = TextureManager::GetInstance()->LoadGraph("Resources/keyBlade2.png");
-	gumishipGraph = TextureManager::GetInstance()->LoadGraph("Resources/gumiship.png");
+	marioGraph = textureM->LoadGraph("Resources/mario.jpg");
+	khGraph = textureM->LoadGraph("Resources/KH.jpg");
+	enemyGraph = textureM->LoadGraph("Resources/enemy.jpg");
+	keyBladeGraph = textureM->LoadGraph("Resources/keyBlade2.png");
+	gumishipGraph = textureM->LoadGraph("Resources/gumiship.png");
 	graph = marioGraph;
 
 	skyDome = Object3d::CreateOBJ("skydome", directX->GetDevice());
 	gumiShipObj = Object3d::CreateOBJ("gumiShip", directX->GetDevice());
+	gumiShipPos.InitializeObject3d();
+	gumiShipPos.SetPosition(0, 5, 0);
+	gumiShipPos.SetRotation(0, 0, 0);
+	gumiShipPos.SetScale(1, 1, 1);
 
-	
+	sound_->Ini();
+	sound_->Load("Resources/selectSE.wav");
+
 	boardPos.SetPosition(20, 0, 0);
 	boardPos.InitializeObject3d();
 
@@ -73,16 +81,23 @@ void GameScene::Ini()
 
 void GameScene::Updata()
 {
-	debugCamera.Update(winApi_->hwnd);
+#ifdef _DEBUG
+	//音を出す
+	//if (input_->IsKeyTrigger(DIK_2)) {
+		
+	//}
 
-	//player_.Update(device.Get(),debugCamera.GetViewProjection()/*viewProjection*//*railCamera.viewProjection*/);
-		//enemy_.Update(/*viewProjection*/debugCamera.GetViewProjection());
+#endif // _DEBUG
+
+	debugCamera.Update(winApi_->hwnd);
 
 	boardPos.UpdateObject3d(debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 
 	for (int i = 0; i < _countof(worldTransform); i++) {
 		worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 	}
+
+	gumiShipPos.UpdateObject3d(debugCamera.GetViewProjection());
 
 #pragma region 色変化
 	if (input_->IsKeyTrigger(DIK_0)) {
@@ -135,7 +150,7 @@ void GameScene::Draw()
 	////////////////
 
 	Object3d::PreDraw(directX->GetCommandList());
-	
+
 
 
 	//player_.Draw(gumishipGraph);
@@ -145,7 +160,7 @@ void GameScene::Draw()
 	}
 
 	skyDome->DrawOBJ(&worldTransform[0]);
-	gumiShipObj->DrawOBJ(&worldTransform[0]);
+	gumiShipObj->DrawOBJ(&gumiShipPos);
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////

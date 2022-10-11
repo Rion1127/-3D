@@ -7,6 +7,7 @@
 #include "DirectX.h"
 #include "DebugCamera.h"
 #include "DirectXInput.h"
+#include "mSound.h"
 
 
 class GameScene
@@ -23,6 +24,8 @@ private:
 	DirectXCommon* directX = nullptr;
 	WinAPI* winApi_ = nullptr;
 	DirectXInput* input_ = nullptr;
+	TextureManager* textureM = nullptr;
+	mSound* sound_= nullptr;
 
 	//テクスチャ
 	uint32_t marioGraph, khGraph, enemyGraph, keyBladeGraph, gumishipGraph;
@@ -35,6 +38,7 @@ private:
 
 	Object3d* skyDome = nullptr;
 	Object3d* gumiShipObj = nullptr;
+	WorldTransform gumiShipPos;
 
 	//ボードオブジェクト
 	WorldTransform boardPos;

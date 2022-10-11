@@ -36,6 +36,7 @@ public:
 	void DrawCube(WorldTransform* worldTransform,uint32_t descriptorSize);
 
 	void DrawOBJ(WorldTransform* worldTransform);
+	void DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle);
 
 private:
 	struct VertexPosNormalUv {
