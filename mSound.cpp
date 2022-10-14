@@ -34,7 +34,7 @@ void mSound::Ini()
 uint32_t mSound::Load(const std::string& fileName)
 {
 	uint32_t handle = indexSoundData_;
-	
+
 	//Resource/を自動的に代入する
 	std::string fullpath = directoryPath_ + fileName;
 
@@ -121,16 +121,16 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 	assert(SUCCEEDED(result));
 
 	// 再生中データ
-	Voice* voice = new Voice();
-	voice->handle = handle;
-	voice->sourceVoice = pSourceVoice;
+	Voice voice;
+	voice.handle = handle;
+	voice.sourceVoice = pSourceVoice;
 	// 再生中データコンテナに登録
-	voices_.insert(voice);
+	voices_.insert(std::make_pair(indexVoice_, voice));
 
 	// 再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
 	buf.pAudioData = soundData.pBuffer;
-	buf.pContext = voice;
+	buf.pContext = &voice;
 	buf.AudioBytes = soundData.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	if (loopFlag) {
@@ -143,7 +143,7 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 	pSourceVoice->SetVolume(volume);
 	result = pSourceVoice->Start();
 
-	
+
 
 	indexVoice_++;
 
@@ -152,32 +152,29 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 
 void mSound::Stop(uint32_t voiceHandle)
 {
-	// 再生中リストから検索
-	auto it = std::find_if(
-		voices_.begin(), voices_.end(), [&](Voice* voice) { return voice->handle == voiceHandle; });
-	// 発見
-	if (it != voices_.end()) {
-		(*it)->sourceVoice->DestroyVoice();
-
-		voices_.erase(it);
+	if (voices_.size() > 0) {
+		//再生終わってるのかどうかを判断
+		XAUDIO2_VOICE_STATE state{};
+		voices_.at(voiceHandle).sourceVoice->Stop();
+		
 	}
 }
 
 bool mSound::isPlaying(uint32_t voiceHandle)
 {
-	// 再生中リストから検索
-	auto it = std::find_if(
-		voices_.begin(), voices_.end(), [&](Voice* voice) { return voice->handle == voiceHandle; });
-	// 発見。再生終わってるのかどうかを判断
-	if (it != voices_.end()) {
+	// voices_が空だとfalseを返す
+	if (voices_.size() > 0) {
+		//再生終わってるのかどうかを判断
 		XAUDIO2_VOICE_STATE state{};
-		(*it)->sourceVoice->GetState(&state);
-		return state.SamplesPlayed != 0;
+		voices_.at(voiceHandle).sourceVoice->GetState(&state);
+		return state.BuffersQueued != 0;
+		
 	}
+
 	return false;
 }
 
 void mSound::CleanUp()
 {
-	
+
 }
