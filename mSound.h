@@ -20,7 +20,7 @@ public:
 	static mSound* GetInstance();
 
 	void Ini();
-	
+	//音ファイルの読み込み(Resources/はいらない)
 	uint32_t Load(const std::string& fileName);
 
 	uint32_t Play(uint32_t soundDataHandle, bool loopFlag, float volume);
@@ -61,7 +61,7 @@ private:
 	// 再生データ
 	struct Voice {
 		uint32_t handle = 0;
-		IXAudio2SourceVoice* sourceVoice = nullptr;
+		IXAudio2SourceVoice* sourceVoice = nullptr;	//音一つずつに必要な変数
 	};
 
 	// XAudio2のインスタンス
@@ -74,9 +74,9 @@ private:
 	// サウンド格納ディレクトリ
 	std::string directoryPath_;
 	// 次に使うサウンドデータの番号
-	uint32_t indexSoundData_ = 0u;
+	uint32_t indexSoundData_ = 0;
 	// 次に使う再生中データの番号
-	uint32_t indexVoice_ = 0u;
+	uint32_t indexVoice_ = 0;
 	
 };
 

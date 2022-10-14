@@ -15,6 +15,7 @@ mSound* mSound::GetInstance()
 
 void mSound::Ini()
 {
+	directoryPath_ = "Resources/";
 	HRESULT result;
 	IXAudio2MasteringVoice* masterVoice;
 
@@ -26,25 +27,22 @@ void mSound::Ini()
 	result = xAudio2_->CreateMasteringVoice(&masterVoice);
 	assert(SUCCEEDED(result));
 
-	indexSoundData_ = 0u;
-	indexVoice_ = 0u;
+	indexSoundData_ = 0;
+	indexVoice_ = 0;
 }
 
 uint32_t mSound::Load(const std::string& fileName)
 {
 	uint32_t handle = indexSoundData_;
-	// ディレクトリパスとファイル名を連結してフルパスを得る
-	bool currentRelative = false;
-	if (2 < fileName.size()) {
-		currentRelative = (fileName[0] == '.') && (fileName[1] == '/');
-	}
-	std::string fullpath = currentRelative ? fileName : directoryPath_ + fileName;
+	
+	//Resource/を自動的に代入する
+	std::string fullpath = directoryPath_ + fileName;
 
 	// ファイル入力ストリームのインスタンス
 	std::ifstream file;
 	// .wavファイルをバイナリモードで開く
 	file.open(fullpath, std::ios_base::binary);
-	// ファイルオープン失敗を検出する
+	// 失敗した場合
 	assert(file.is_open());
 
 	// RIFFヘッダーの読み込み

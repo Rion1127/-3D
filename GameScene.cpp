@@ -38,7 +38,7 @@ void GameScene::Ini()
 	gumiShipPos.SetScale(1, 1, 1);
 
 	
-	testSound = sound_->Load("Resources/gumishipBGM.wav");
+	testSound = sound_->Load("gumishipBGM.wav");
 	
 
 	boardPos.SetPosition(20, 0, 0);

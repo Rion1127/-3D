@@ -229,6 +229,9 @@
     <None Include="Resources\shader\Basic.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="Resources\shader\3DObject.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shader\2DObjectPS.hlsl">
@@ -241,6 +244,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\BasicVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\3DObjectPS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\3DObjectVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
