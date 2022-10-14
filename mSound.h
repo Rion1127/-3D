@@ -23,7 +23,10 @@ public:
 	//‰¹ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ(Resources/‚Í‚¢‚ç‚È‚¢)
 	uint32_t Load(const std::string& fileName);
 
+	
+
 	uint32_t Play(uint32_t soundDataHandle, bool loopFlag, float volume);
+	void Stop(uint32_t voiceHandle);
 	bool isPlaying(uint32_t voiceHandle);
 
 	void CleanUp();

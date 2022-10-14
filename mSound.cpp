@@ -143,9 +143,24 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 	pSourceVoice->SetVolume(volume);
 	result = pSourceVoice->Start();
 
+	
+
 	indexVoice_++;
 
 	return handle;
+}
+
+void mSound::Stop(uint32_t voiceHandle)
+{
+	// Ä¶’†ƒŠƒXƒg‚©‚çŒŸõ
+	auto it = std::find_if(
+		voices_.begin(), voices_.end(), [&](Voice* voice) { return voice->handle == voiceHandle; });
+	// ”­Œ©
+	if (it != voices_.end()) {
+		(*it)->sourceVoice->DestroyVoice();
+
+		voices_.erase(it);
+	}
 }
 
 bool mSound::isPlaying(uint32_t voiceHandle)

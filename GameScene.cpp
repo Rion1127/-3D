@@ -83,8 +83,14 @@ void GameScene::Ini()
 void GameScene::Updata()
 {
 #ifdef _DEBUG
-	if (sound_->isPlaying(testSound) == false) {
-		sound_->Play(testSound, true, 0.5f);
+	if (!input_->IsKeyDown(DIK_1)) {
+		if (sound_->isPlaying(testSound) == false) {
+			sound_->Play(testSound, true, 0.5f);
+		}
+	}
+
+	if (input_->IsKeyTrigger(DIK_1)) {
+		sound_->Stop(testSound);
 	}
 
 #endif // _DEBUG
