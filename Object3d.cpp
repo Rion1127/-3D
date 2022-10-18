@@ -206,10 +206,10 @@ void Object3d::Ini(ID3D12Device* device)
 	vertices_.Ini(device_.Get());
 }
 
-Object3d* Object3d::CreateOBJ(const std::string& modelname, ID3D12Device* device)
+Object3d* Object3d::CreateOBJ(const std::string& modelname)
 {
 	Object3d* instance = new Object3d;
-	instance->ModelIni(modelname, device);
+	instance->ModelIni(modelname);
 
 	return instance;
 }
@@ -434,12 +434,12 @@ void Object3d::AddMaterial(Material* material)
 	materials_.emplace(material->name_, material);
 }
 
-void Object3d::ModelIni(const std::string& modelname, ID3D12Device* device)
+void Object3d::ModelIni(const std::string& modelname)
 {
 	LoadOBJ(modelname);
 	// メッシュのバッファ生成
 	for (auto& m : vert_) {
-		m->CreateBuffer(device);
+		m->CreateBuffer(device_.Get());
 	}
 }
 

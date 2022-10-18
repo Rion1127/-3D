@@ -25,13 +25,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//インプット初期化
 	//キーボード
 	DirectXInput* input_ = DirectXInput::GetInstance();
-	input_->InputIni(winApi->w, winApi->hwnd);
+	input_->InputIni();
 	//コントローラー
 	Controller* controller = Controller::GetInstance();
 	controller->Ini();
 	//マウス
 	MouseInput* mouse = MouseInput::GetInstance();
-	mouse->MouseIni(&winApi->hwnd);
+	mouse->MouseIni(winApi->hwnd);
 	//サウンド初期化
 	mSound* sound_ = mSound::GetInstance();
 	sound_->Ini();

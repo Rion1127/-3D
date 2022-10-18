@@ -15,12 +15,15 @@ DirectXInput* DirectXInput::GetInstance()
 	static DirectXInput instance;
 	return &instance;
 }
-void DirectXInput::InputIni(WNDCLASSEX w, HWND hwnd)	//初期化
+void DirectXInput::InputIni()	//初期化
 {
 	HRESULT result;
+
+	winapi_ = WinAPI::GetInstance();
+
 	//DirectInputの初期化
 	result = DirectInput8Create(
-		w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
+		winapi_->w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -34,7 +37,7 @@ void DirectXInput::InputIni(WNDCLASSEX w, HWND hwnd)	//初期化
 
 	//排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		winapi_->hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
 	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
@@ -80,11 +83,11 @@ MouseInput* MouseInput::GetInstance()
 	return &instance;
 }
 
-void MouseInput::MouseIni(HWND* hwnd)
+void MouseInput::MouseIni(HWND hwnd)
 {
 	HRESULT result;
 	assert(SUCCEEDED(hwnd));
-	hwnd_ = hwnd;
+	hwnd_ = &hwnd;
 	//キーボードデバイスの生成
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
 	assert(SUCCEEDED(result));

@@ -29,8 +29,8 @@ void GameScene::Ini()
 	gumishipGraph = textureM->LoadGraph("Resources/gumiship.png");
 	graph = marioGraph;
 
-	skyDome = Object3d::CreateOBJ("skydome", directX->GetDevice());
-	gumiShipObj = Object3d::CreateOBJ("gumiShip", directX->GetDevice());
+	skyDome = Object3d::CreateOBJ("skydome");
+	gumiShipObj = Object3d::CreateOBJ("gumiShip");
 	gumiShipPos.InitializeObject3d();
 	gumiShipPos.SetPosition(0, 5, 0);
 	gumiShipPos.SetRotation(0, 0, 0);

@@ -16,7 +16,7 @@ public:
 
 	static void Ini(ID3D12Device* device);
 
-	static Object3d* CreateOBJ(const std::string& modelname, ID3D12Device* device);
+	static Object3d* CreateOBJ(const std::string& modelname);
 	//.OBJから情報を読み込む
 	void LoadOBJ(const std::string& modelname);
 	//.mtlからテクスチャを読み込む
@@ -26,7 +26,7 @@ public:
 
 	void AddMaterial(Material* material);
 
-	void ModelIni(const std::string& modelname, ID3D12Device* device);
+	void ModelIni(const std::string& modelname);
 
 	static void PreDraw(ID3D12GraphicsCommandList* commandList);
 

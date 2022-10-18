@@ -2,6 +2,7 @@
 #include <dinput.h>
 #include "Vector3.h"
 #include <WinUser.h>
+#include "WinAPI.h"
 //コントローラ
 #include <Xinput.h>
 #pragma comment(lib, "Xinput.lib")
@@ -12,7 +13,7 @@ class DirectXInput
 public:
 	static DirectXInput* GetInstance();
 
-	void InputIni(WNDCLASSEX w, HWND hwnd);
+	void InputIni();
 	void InputUpdata();
 
 	bool PushKey(UINT8 key);		//押しっぱなし
@@ -25,13 +26,15 @@ private:
 	BYTE keys[256] = {};
 	//全キーの入力状態を取得する
 	BYTE oldkeys[256] = {};
+
+	WinAPI* winapi_ = nullptr;
 };
 //マウス
 class MouseInput {
 public:
 	static MouseInput* GetInstance();
 
-	void MouseIni(HWND* hwnd);
+	void MouseIni(HWND hwnd);
 	void Updata();
 
 	//マウスボタン情報
