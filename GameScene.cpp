@@ -83,6 +83,8 @@ void GameScene::Updata()
 {
 #ifdef _DEBUG
 
+
+#endif // _DEBUG
 	if (sound_->isPlaying(testSound) == false) {
 		sound_->Play(testSound, true, 0.5f);
 	}
@@ -91,8 +93,6 @@ void GameScene::Updata()
 	if (input_->TriggerKey(DIK_1)) {
 		sound_->Stop(testSound);
 	}
-
-#endif // _DEBUG
 
 	debugCamera.Update(winApi_->hwnd);
 

@@ -124,6 +124,7 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 	Voice voice;
 	voice.handle = handle;
 	voice.sourceVoice = pSourceVoice;
+	
 	// 再生中データコンテナに登録
 	voices_.insert(std::make_pair(indexVoice_, voice));
 
@@ -143,8 +144,6 @@ uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
 	pSourceVoice->SetVolume(volume);
 	result = pSourceVoice->Start();
 
-
-
 	indexVoice_++;
 
 	return handle;
@@ -156,7 +155,6 @@ void mSound::Stop(uint32_t voiceHandle)
 		//再生終わってるのかどうかを判断
 		XAUDIO2_VOICE_STATE state{};
 		voices_.at(voiceHandle).sourceVoice->Stop();
-		
 	}
 }
 
