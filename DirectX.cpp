@@ -120,18 +120,17 @@ void DirectXCommon::DXGIDeviceIni() {
 void DirectXCommon::CreateSwapChain() {
 	HRESULT result = S_FALSE;
 
-	// 各種設定をしてスワップチェーンを生成
+	//スワップチェーンを生成
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChainDesc.Width = 1280;
-	swapChainDesc.Height = 720;
-	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色情報の書式を一般的なものに
-	swapChainDesc.SampleDesc.Count = 1;                // マルチサンプルしない
-	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; // バックバッファとして使えるように
-	swapChainDesc.BufferCount = 2;                      // バッファ数を２つに設定
+	swapChainDesc.Width = winApi_->window_width;
+	swapChainDesc.Height = winApi_->window_height;
+	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 色情報の書式を一般的なものに
+	swapChainDesc.SampleDesc.Count = 1;					// マルチサンプルしない
+	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;	// バックバッファとして使えるように
+	swapChainDesc.BufferCount = 2;						// バッファ数を２つに設定
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は速やかに破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING; // ティアリングサポート
 	ComPtr<IDXGISwapChain1> swapChain1;
-	HWND hwnd = winApi_->hwnd;
 	result = dxgiFactory_->CreateSwapChainForHwnd(
 		commandQueue_.Get(), winApi_->hwnd, &swapChainDesc, nullptr, nullptr, &swapChain1);
 	assert(SUCCEEDED(result));
@@ -157,7 +156,7 @@ void DirectXCommon::CommandIni() {
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 
-	// 標準設定でコマンドキューを生成
+	// コマンドキューを生成
 	D3D12_COMMAND_QUEUE_DESC cmdQueueDesc{};
 	result = device->CreateCommandQueue(&cmdQueueDesc, IID_PPV_ARGS(&commandQueue_));
 	assert(SUCCEEDED(result));
@@ -196,7 +195,7 @@ void DirectXCommon::CreateFinalRenderTargets() {
 	result = swapChain->GetDesc(&swcDesc);
 	assert(SUCCEEDED(result));
 
-	// 各種設定をしてディスクリプタヒープを生成
+	// ディスクリプタヒープを生成
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; // レンダーターゲットビュー
 	heapDesc.NumDescriptors = swcDesc.BufferCount;

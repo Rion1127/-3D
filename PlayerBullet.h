@@ -3,7 +3,7 @@
 #include "ViewProjection.h"
 #include "Object3d.h"
 #include "Texture.h"
-#include "DirectXInput.h"
+#include "mInput.h"
 #include "math.h"
 class PlayerBullet
 {

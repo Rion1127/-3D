@@ -8,7 +8,7 @@ using namespace DirectX;
 #include "Texture.h"
 #include <DirectXTex.h>
 #include "Util.h"
-#include "Object2D.h"
+#include "Sprite.h"
 
 void Object2D::Ini(ID3D12Device* device)
 {

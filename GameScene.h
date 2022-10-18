@@ -1,12 +1,12 @@
 #pragma once
 #include "Object3d.h"
-#include "Object2D.h"
+#include "Sprite.h"
 #include "boardObject.h"
 #include "WorldTransform.h"
 #include "WinAPI.h"
 #include "DirectX.h"
 #include "DebugCamera.h"
-#include "DirectXInput.h"
+#include "mInput.h"
 #include "mSound.h"
 
 

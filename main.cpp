@@ -1,6 +1,6 @@
 ﻿#include <Windows.h>
 ///
-#include "DirectXInput.h"
+#include "mInput.h"
 #include "Texture.h"
 #include "Util.h"
 #include "WinAPI.h"
@@ -31,7 +31,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	controller->Ini();
 	//マウス
 	MouseInput* mouse = MouseInput::GetInstance();
-	mouse->MouseIni(winApi->hwnd);
+	mouse->MouseIni(&winApi->hwnd);
 	//サウンド初期化
 	mSound* sound_ = mSound::GetInstance();
 	sound_->Ini();

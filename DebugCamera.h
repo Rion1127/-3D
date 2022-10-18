@@ -1,6 +1,6 @@
 #pragma once
 #include "Vector3.h"
-#include "DirectXInput.h"
+#include "mInput.h"
 #include "ViewProjection.h"
 #include <DirectXMath.h>
 using namespace DirectX;

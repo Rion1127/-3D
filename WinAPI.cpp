@@ -29,6 +29,7 @@ void WinAPI::Ini()
 	w.hCursor = LoadCursor(NULL, IDC_ARROW);	// カーソル指定
 	// ウィンドウクラスをOSに登録する
 	RegisterClassEx(&w);
+	
 	// 自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 

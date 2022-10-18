@@ -3,7 +3,7 @@
 #include <dinput.h>
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
-#include "DirectXInput.h"
+#include "mInput.h"
 
 //DirectInputの初期化
 static IDirectInput8* directInput = nullptr;
@@ -19,14 +19,12 @@ void DirectXInput::InputIni(WNDCLASSEX w, HWND hwnd)	//初期化
 {
 	HRESULT result;
 	//DirectInputの初期化
-	//static IDirectInput8* directInput = nullptr;
 	result = DirectInput8Create(
 		w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
 	//キーボードデバイスの生成
-	//IDirectInputDevice8* keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
@@ -36,10 +34,13 @@ void DirectXInput::InputIni(WNDCLASSEX w, HWND hwnd)	//初期化
 
 	//排他制御レベルのセット
 	result = keyboard->SetCooperativeLevel(
-		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);		//使っているフラグについて
-	assert(SUCCEEDED(result));												//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
-																			//DISCL_NONEXCLUSIVE	デバイスをこのアプリだけで占有しない
-																			//DISCL_NOWINKEY		Windowsキーを無効化する 
+		hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	assert(SUCCEEDED(result));
+	//使っているフラグについて
+	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
+	//DISCL_NONEXCLUSIVE	デバイスをこのアプリだけで占有しない
+	//DISCL_NOWINKEY		Windowsキーを無効化する 
+	
 	//キーボード情報の取得開始
 	keyboard->Acquire();
 }
@@ -54,12 +55,12 @@ void DirectXInput::InputUpdata()	//アップデート
 	keyboard->GetDeviceState(sizeof(keys), keys);
 }
 //押しっぱなし
-bool DirectXInput::IsKeyDown(UINT8 key)
+bool DirectXInput::PushKey(UINT8 key)
 {
 	return keys[key];
 }
 //押した瞬間
-bool DirectXInput::IsKeyTrigger(UINT8 key)
+bool DirectXInput::TriggerKey(UINT8 key)
 {
 	return keys[key] && !oldkeys[key];
 }
@@ -79,13 +80,12 @@ MouseInput* MouseInput::GetInstance()
 	return &instance;
 }
 
-void MouseInput::MouseIni(HWND hwnd)
+void MouseInput::MouseIni(HWND* hwnd)
 {
 	HRESULT result;
 	assert(SUCCEEDED(hwnd));
-	hwnd_ = &hwnd;
+	hwnd_ = hwnd;
 	//キーボードデバイスの生成
-	//IDirectInputDevice8* keyboard = nullptr;
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
 	assert(SUCCEEDED(result));
 	//入力データ形式のセット

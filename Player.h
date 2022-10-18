@@ -4,7 +4,7 @@
 #include <memory>
 #include <d3d12.h>
 #include "ViewProjection.h"
-#include "DirectXInput.h"
+#include "mInput.h"
 #include "Object3d.h"
 class Player
 {

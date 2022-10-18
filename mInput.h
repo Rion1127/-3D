@@ -15,8 +15,8 @@ public:
 	void InputIni(WNDCLASSEX w, HWND hwnd);
 	void InputUpdata();
 
-	bool IsKeyDown(UINT8 key);		//押しっぱなし
-	bool IsKeyTrigger(UINT8 key);		//押した瞬間
+	bool PushKey(UINT8 key);		//押しっぱなし
+	bool TriggerKey(UINT8 key);		//押した瞬間
 	bool GetKeyReleased(UINT8 key);
 
 private:
@@ -31,7 +31,7 @@ class MouseInput {
 public:
 	static MouseInput* GetInstance();
 
-	void MouseIni(HWND hwnd);
+	void MouseIni(HWND* hwnd);
 	void Updata();
 
 	//マウスボタン情報

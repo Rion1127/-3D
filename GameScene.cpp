@@ -1,6 +1,5 @@
 #include "Texture.h"
 #include <random>
-#include "DirectXInput.h"
 #include "GameScene.h"
 
 GameScene::~GameScene()
@@ -89,7 +88,7 @@ void GameScene::Updata()
 	}
 
 
-	if (input_->IsKeyTrigger(DIK_1)) {
+	if (input_->TriggerKey(DIK_1)) {
 		sound_->Stop(testSound);
 	}
 
@@ -103,10 +102,24 @@ void GameScene::Updata()
 		worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 	}
 
+	float speed = 0.5f;
+	if (input_->PushKey(DIK_W)) {
+		gumiShipPos.position += { 0,speed,0 };
+	}
+	if (input_->PushKey(DIK_S)) {
+		gumiShipPos.position += { 0,-speed,0 };
+	}
+	if (input_->PushKey(DIK_A)) {
+		gumiShipPos.position += { -speed,0,0 };
+	}
+	if (input_->PushKey(DIK_D)) {
+		gumiShipPos.position += { speed,0,0 };
+	}
+
 	gumiShipPos.UpdateObject3d(debugCamera.GetViewProjection());
 
 #pragma region F•Ï‰»
-	if (input_->IsKeyTrigger(DIK_0)) {
+	if (input_->TriggerKey(DIK_0)) {
 		if (isChangeColor == false) isChangeColor = true;
 		else if (isChangeColor == true) isChangeColor = false;
 	}

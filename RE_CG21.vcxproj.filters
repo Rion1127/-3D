@@ -22,17 +22,11 @@
     <Filter Include="シェーダーファイル">
       <UniqueIdentifier>{abb3684b-816f-41d4-92aa-959ba35e435c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\2DObject">
-      <UniqueIdentifier>{99e569d9-2be0-4172-8577-89adf68c1849}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\3DObject">
       <UniqueIdentifier>{322a5090-7e88-4347-878d-331d4d3dbf2a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\3DObject">
       <UniqueIdentifier>{9d2b5bdb-3d1d-40e7-a404-ed77265d1ef0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\2DObject">
-      <UniqueIdentifier>{e7d732c4-5ee7-4330-9b58-c6d831571208}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Player">
       <UniqueIdentifier>{30bfe76c-8414-4730-9b11-252622a59042}</UniqueIdentifier>
@@ -70,6 +64,12 @@
     <Filter Include="ヘッダー ファイル\Sound">
       <UniqueIdentifier>{ee1a62f8-0b2c-4b9b-a1df-5887e31468bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Sprite">
+      <UniqueIdentifier>{99e569d9-2be0-4172-8577-89adf68c1849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sprite">
+      <UniqueIdentifier>{e7d732c4-5ee7-4330-9b58-c6d831571208}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,8 +96,8 @@
     <ClCompile Include="WorldTransform.cpp">
       <Filter>ソース ファイル\3DObject</Filter>
     </ClCompile>
-    <ClCompile Include="Object2D.cpp">
-      <Filter>ソース ファイル\2DObject</Filter>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>ソース ファイル\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="ViewProjection.cpp">
       <Filter>ソース ファイル\3DObject</Filter>
@@ -123,7 +123,7 @@
     <ClCompile Include="DirectX.cpp">
       <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXInput.cpp">
+    <ClCompile Include="mInput.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
@@ -170,8 +170,8 @@
     <ClInclude Include="WorldTransform.h">
       <Filter>ヘッダー ファイル\3DObject</Filter>
     </ClInclude>
-    <ClInclude Include="Object2D.h">
-      <Filter>ヘッダー ファイル\2DObject</Filter>
+    <ClInclude Include="Sprite.h">
+      <Filter>ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="ViewProjection.h">
       <Filter>ヘッダー ファイル\3DObject</Filter>
@@ -197,7 +197,7 @@
     <ClInclude Include="DirectX.h">
       <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXInput.h">
+    <ClInclude Include="mInput.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
