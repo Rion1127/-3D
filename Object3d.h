@@ -15,9 +15,11 @@ public:
 	static Object3d* GetInstance();
 
 	static void Ini(ID3D12Device* device);
-
+	//モデルを読み込む
 	static Object3d* CreateOBJ(const std::string& modelname);
-	//.OBJから情報を読み込む
+	//モデル初期化(CreateOBJ()に入っている)
+	void ModelIni(const std::string& modelname);
+	//.OBJから情報を読み込む(ModelIni()に入っている)
 	void LoadOBJ(const std::string& modelname);
 	//.mtlからテクスチャを読み込む
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
@@ -26,11 +28,12 @@ public:
 
 	void AddMaterial(Material* material);
 
-	void ModelIni(const std::string& modelname);
+	
 
 	static void PreDraw(ID3D12GraphicsCommandList* commandList);
-
+	//オブジェクトの色を変える
 	void ChangeColor(float x,float y,float z,float w);
+	//オブジェクトの色を変える
 	void ChangeColor(XMFLOAT4 color_);
 
 	void DrawCube(WorldTransform* worldTransform,uint32_t descriptorSize);
