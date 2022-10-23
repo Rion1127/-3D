@@ -2,7 +2,7 @@
 #include <wrl.h>
 #include <vector>
 #include "math.h"
-class Object2D
+class Sprite
 {
 public:
 

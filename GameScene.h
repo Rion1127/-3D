@@ -34,7 +34,7 @@ private:
 	//オブジェクト
 	Object3d model_;
 	BoardObject boardObject;
-	Object2D Obj2D;
+	Sprite Obj2D;
 
 	Object3d* skyDome = nullptr;
 	Object3d* gumiShipObj = nullptr;

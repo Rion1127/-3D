@@ -10,7 +10,7 @@ using namespace DirectX;
 #include "Util.h"
 #include "Sprite.h"
 
-void Object2D::Ini(ID3D12Device* device)
+void Sprite::Ini(ID3D12Device* device)
 {
 	HRESULT result;
 #pragma region 頂点データ
@@ -372,7 +372,7 @@ void Object2D::Ini(ID3D12Device* device)
 #pragma endregion
 }
 
-void Object2D::PreDraw(ID3D12GraphicsCommandList* commandList)
+void Sprite::PreDraw(ID3D12GraphicsCommandList* commandList)
 {
 	commandList_ = commandList;
 	// パイプラインステートとルートシグネチャの設定コマンド
@@ -382,7 +382,7 @@ void Object2D::PreDraw(ID3D12GraphicsCommandList* commandList)
 	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
-void Object2D::Draw(Vector2 pos,UINT descriptorSize)
+void Sprite::Draw(Vector2 pos,UINT descriptorSize)
 {
 	HRESULT result;
 #pragma region 画像のサイズを取得
@@ -420,7 +420,7 @@ void Object2D::Draw(Vector2 pos,UINT descriptorSize)
 	commandList_->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
 }
 
-void Object2D::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
+void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
 {
 	HRESULT result;
 
