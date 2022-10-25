@@ -83,11 +83,11 @@ MouseInput* MouseInput::GetInstance()
 	return &instance;
 }
 
-void MouseInput::MouseIni(HWND hwnd)
+void MouseInput::MouseIni()
 {
 	HRESULT result;
-	assert(SUCCEEDED(hwnd));
-	hwnd_ = &hwnd;
+	winapi_ = WinAPI::GetInstance();
+	
 	//キーボードデバイスの生成
 	result = directInput->CreateDevice(GUID_SysMouse, &mouse, NULL);
 	assert(SUCCEEDED(result));
@@ -97,7 +97,7 @@ void MouseInput::MouseIni(HWND hwnd)
 
 	//排他制御レベルのセット
 	result = mouse->SetCooperativeLevel(
-		*hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		winapi_->hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
 	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
@@ -113,7 +113,7 @@ void MouseInput::GetCursorPosition()
 	//スクリーンから見たマウスの座標を取得する
 	GetCursorPos(&p);
 	//ウィンドウから見たマウスの座標を取得する
-	ScreenToClient(*hwnd_, &p);
+	ScreenToClient(winapi_->hwnd, &p);
 	//前フレームの状態を代入する
 	prevmPos = mPos;
 	//現フレームの座標を代入する
@@ -124,14 +124,29 @@ void MouseInput::GetCursorPosition()
 	//ベクトル正規化
 	//mouseVec.normalize();
 }
-
+#include <string>
 void MouseInput::Updata()
 {
+	HRESULT result;
+	std::string str = "OK\n";
 	//前フレームの状態を代入
 	prevmouseState = mouseState;
 	//マウス情報の取得開始
-	mouse->Poll();
-	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+	result = mouse->Poll();
+	if (result == DIERR_INPUTLOST) {
+		str = "NG\n";
+		mouse->Unacquire();
+		MouseIni();
+	}
+	result = mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+	if (FAILED(result)) {
+		str = "NG\n";
+		//排他制御レベルのセット
+		result = mouse->SetCooperativeLevel(
+			winapi_->hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		assert(SUCCEEDED(result));
+	}
+	OutputDebugStringA(str.c_str());
 	//座標取得
 	GetCursorPosition();
 }

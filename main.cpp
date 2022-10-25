@@ -31,7 +31,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	controller->Ini();
 	//マウス
 	MouseInput* mouse = MouseInput::GetInstance();
-	mouse->MouseIni(winApi->hwnd);
+	mouse->MouseIni();
 	//サウンド初期化
 	mSound* sound_ = mSound::GetInstance();
 	sound_->Ini();

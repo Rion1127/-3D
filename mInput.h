@@ -34,7 +34,7 @@ class MouseInput {
 public:
 	static MouseInput* GetInstance();
 
-	void MouseIni(HWND hwnd);
+	void MouseIni();
 	void Updata();
 
 	//マウスボタン情報
@@ -74,7 +74,8 @@ private:
 
 	DIMOUSESTATE mouseState;
 	DIMOUSESTATE prevmouseState;
-	HWND* hwnd_ = nullptr;
+	//HWND* hwnd_ = nullptr;
+	WinAPI* winapi_ = nullptr;
 };
 enum {
 	MOUSE_LEFT,

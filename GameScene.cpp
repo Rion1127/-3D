@@ -77,6 +77,13 @@ void GameScene::Ini()
 			worldTransform[i].SetPosition(0, -15, 0);
 		}
 	}
+
+	viewProjection.SetEyePos(0, 0, -200);
+	viewProjection.SetTarget(0, 0, 0);
+	viewProjection.SetUpVec(0, 1, 0);
+	viewProjection.Ini();
+
+	
 }
 
 void GameScene::Updata()
@@ -96,7 +103,7 @@ void GameScene::Updata()
 
 	debugCamera.Update(winApi_->hwnd);
 
-	boardPos.UpdateObject3d(debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
+	boardPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 
 	for (int i = 0; i < _countof(worldTransform); i++) {
 		worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
@@ -131,7 +138,7 @@ void GameScene::Updata()
 		spritePos.x -= spriteSpd;
 	}
 
-	gumiShipPos.UpdateObject3d(debugCamera.GetViewProjection());
+	gumiShipPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
 
 #pragma region F•Ï‰»
 	if (input_->TriggerKey(DIK_0)) {
