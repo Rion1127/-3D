@@ -1,3 +1,4 @@
+#pragma comment(lib,"winmm.lib")
 #include "WinAPI.h"
 
 // ウィンドウプロシージャ
@@ -46,6 +47,9 @@ void WinAPI::Ini()
 		nullptr);							// オプション
 		// ウィンドウを表示状態にする
 	ShowWindow(hwnd, SW_SHOW);
+
+	//システムタイマーの分解能を上げる
+	timeBeginPeriod(1);
 }
 
 bool WinAPI::MsgCheck()
