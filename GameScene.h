@@ -54,5 +54,7 @@ private:
 	DebugCamera debugCamera;
 
 	uint32_t testSound;
+	//スプライトの座標
+	Vector2 spritePos = { 100,200 };
 };
 

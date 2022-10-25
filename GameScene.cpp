@@ -116,6 +116,21 @@ void GameScene::Updata()
 		gumiShipPos.position += { speed,0,0 };
 	}
 
+	//スプライトの移動
+	int spriteSpd = 5;
+	if (input_->PushKey(DIK_UP)) {
+		spritePos.y -= spriteSpd;
+	}
+	if (input_->PushKey(DIK_DOWN)) {
+		spritePos.y += spriteSpd;
+	}
+	if (input_->PushKey(DIK_RIGHT)) {
+		spritePos.x += spriteSpd;
+	}
+	if (input_->PushKey(DIK_LEFT)) {
+		spritePos.x -= spriteSpd;
+	}
+
 	gumiShipPos.UpdateObject3d(debugCamera.GetViewProjection());
 
 #pragma region 色変化
@@ -189,8 +204,8 @@ void GameScene::Draw()
 	////////////////
 	//2Dオブジェクト//
 	////////////////
-	Vector2 pos = { 100,200 };
+	
 
 	Obj2D.PreDraw(directX->GetCommandList());
-	Obj2D.Draw(pos, keyBladeGraph);
+	Obj2D.Draw(spritePos, keyBladeGraph);
 }
