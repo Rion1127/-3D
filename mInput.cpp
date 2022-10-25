@@ -54,7 +54,8 @@ void DirectXInput::InputUpdata()	//アップデート
 	{
 		oldkeys[i] = keys[i];
 	}
-
+	//キーボード情報の取得開始
+	keyboard->Acquire();
 	keyboard->GetDeviceState(sizeof(keys), keys);
 }
 //押しっぱなし
@@ -128,6 +129,10 @@ void MouseInput::GetCursorPosition()
 void MouseInput::Updata()
 {
 	HRESULT result;
+	
+	//マウス情報の取得開始
+	mouse->Acquire();	//ここに置いたことで解決
+
 	std::string str = "OK\n";
 	//前フレームの状態を代入
 	prevmouseState = mouseState;
@@ -135,16 +140,11 @@ void MouseInput::Updata()
 	result = mouse->Poll();
 	if (result == DIERR_INPUTLOST) {
 		str = "NG\n";
-		mouse->Unacquire();
-		MouseIni();
 	}
+	
 	result = mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
 	if (FAILED(result)) {
 		str = "NG\n";
-		//排他制御レベルのセット
-		result = mouse->SetCooperativeLevel(
-			winapi_->hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-		assert(SUCCEEDED(result));
 	}
 	OutputDebugStringA(str.c_str());
 	//座標取得
