@@ -14,7 +14,7 @@ void GameScene::Ini()
 	winApi_ = WinAPI::GetInstance();
 	input_ = DirectXInput::GetInstance();
 	textureM = TextureManager::GetInstance();
-	sound_ = mSound::GetInstance();
+	sound_ = SoundManager::GetInstance();
 
 	Object3d::Ini(directX->GetDevice());
 	BoardObject::Ini(directX->GetDevice());
@@ -37,8 +37,7 @@ void GameScene::Ini()
 	gumiShipPos.SetScale(1, 1, 1);
 
 
-	testSound = sound_->Load("gumishipBGM.wav");
-
+	sound_->LoadWave("result.wav", "ResultBGM");
 
 	boardPos.SetPosition(20, 0, 0);
 	boardPos.InitializeObject3d();
@@ -92,15 +91,9 @@ void GameScene::Updata()
 
 
 #endif // _DEBUG
-	if (sound_->isPlaying(testSound) == false) {
-		sound_->Play(testSound, true, 0.5f);
-	}
-
-
 	if (input_->TriggerKey(DIK_1)) {
-		sound_->Stop(testSound);
+		sound_->Play("ResultBGM",0.01f);
 	}
-
 	debugCamera.Update(winApi_->hwnd);
 
 	boardPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);

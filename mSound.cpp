@@ -1,178 +1,157 @@
-#include <vector>
 #include <cassert>
-#include <fstream>
-#include <sstream>
-#include "Util.h"
-#pragma comment ( lib, "winmm.lib" )
-#include <mmsystem.h>
 #include "mSound.h"
 
-mSound* mSound::GetInstance()
+Microsoft::WRL::ComPtr<IXAudio2> SoundManager::xAudio2;
+IXAudio2MasteringVoice* SoundManager::masterVoice;
+std::map<SoundKey, SoundData> SoundManager::sndMap;
+
+std::string directoryPath_ = "Resources/BGM_SE/";
+
+SoundManager* SoundManager::GetInstance()
 {
-	static mSound instaice;
-	return &instaice;
+	SoundManager obj;
+	return &obj;
 }
 
-void mSound::Ini()
+void SoundManager::Init()
 {
-	directoryPath_ = "Resources/";
-	HRESULT result;
-	IXAudio2MasteringVoice* masterVoice;
-
-	// XAudioエンジンのインスタンスを生成
-	result = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
-	assert(SUCCEEDED(result));
-
-	// マスターボイスを生成
-	result = xAudio2_->CreateMasteringVoice(&masterVoice);
-	assert(SUCCEEDED(result));
-
-	indexSoundData_ = 0;
-	indexVoice_ = 0;
+	XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	xAudio2->CreateMasteringVoice(&masterVoice);
+	sndMap.clear();
 }
 
-uint32_t mSound::Load(const std::string& fileName)
+SoundKey SoundManager::LoadWave(std::string path, SoundKey key)
 {
-	uint32_t handle = indexSoundData_;
-
-	//Resource/を自動的に代入する
-	std::string fullpath = directoryPath_ + fileName;
-
-	// ファイル入力ストリームのインスタンス
 	std::ifstream file;
-	// .wavファイルをバイナリモードで開く
-	file.open(fullpath, std::ios_base::binary);
-	// 失敗した場合
+	
+	std::string fullPath = directoryPath_ + path;
+
+	file.open(fullPath, std::ios_base::binary);
+
 	assert(file.is_open());
 
-	// RIFFヘッダーの読み込み
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
-	// ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
-		assert(0);
-	}
-	// タイプがWAVEかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0) {
+
+	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
+	{
 		assert(0);
 	}
 
-	// Formatチャンクの読み込み
-	FormatChunk format = {};
-	// チャンクヘッダーの確認
-	file.read((char*)&format, sizeof(Chunk));
-	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
+	if (strncmp(riff.type, "WAVE", 4) != 0)
+	{
 		assert(0);
 	}
-	// チャンク本体の読み込み
+
+	FormatChunk format = {};
+
+	file.read((char*)&format, sizeof(ChunkHeader));
+	if (strncmp(format.chunk.id, "fmt ", 4) != 0)
+	{
+		assert(0);
+	}
+
 	assert(format.chunk.size <= sizeof(format.fmt));
 	file.read((char*)&format.fmt, format.chunk.size);
 
-	// Dataチャンクの読み込み
-	Chunk data;
+	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
-	// JUNKチャンクか Broadcast Wave Formatを検出した場合。
-	while (_strnicmp(data.id, "junk", 4) == 0 || _strnicmp(data.id, "bext", 4) == 0) {
-		// 読み取り位置をJUNKチャンクの終わりまで進める
+
+	if (strncmp(data.id, "JUNK", 4) == 0)
+	{
 		file.seekg(data.size, std::ios_base::cur);
-		// 再読み込み
+
 		file.read((char*)&data, sizeof(data));
 	}
-	if (_strnicmp(data.id, "data", 4) != 0) {
+
+	if (strncmp(data.id, "data", 4) != 0) {
 		assert(0);
 	}
 
-	// Dataチャンクのデータ部（波形データ）の読み込み
 	char* pBuffer = new char[data.size];
 	file.read(pBuffer, data.size);
 
-	// Waveファイルを閉じる
 	file.close();
 
-	// 書き込むサウンドデータの参照
-	SoundData& soundData = soundDatas_.at(handle);
+	SoundData soundData = {};
 
 	soundData.wfex = format.fmt;
 	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
 	soundData.bufferSize = data.size;
-	soundData.name_ = fileName;
 
-	indexSoundData_++;
+	sndMap.emplace(key, soundData);
 
-	return handle;
+	return key;
 }
 
-uint32_t mSound::Play(uint32_t soundDataHandle, bool loopFlag, float volume)
-{
-	HRESULT result;
+bool SoundManager::IsPlaying(SoundKey key) {
+	IXAudio2SourceVoice* pSourceVoice = nullptr;//これ保存しとくと止められる
+	SoundData* pSnd = &sndMap[key];
 
-	assert(soundDataHandle <= soundDatas_.size());
-
-	// サウンドデータの参照を取得
-	SoundData& soundData = soundDatas_.at(soundDataHandle);
-	// 未読み込みの検出
-	assert(soundData.bufferSize != 0);
-
-	uint32_t handle = indexVoice_;
-
-	// 波形フォーマットを元にSourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex, 0, 2.0f);
-	assert(SUCCEEDED(result));
-
-	// 再生中データ
-	Voice voice;
-	voice.handle = handle;
-	voice.sourceVoice = pSourceVoice;
-	
-	// 再生中データコンテナに登録
-	voices_.insert(std::make_pair(indexVoice_, voice));
-
-	// 再生する波形データの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.pContext = &voice;
-	buf.AudioBytes = soundData.bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-	if (loopFlag) {
-		// 無限ループ
-		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
-	}
-
-	// 波形データの再生
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	pSourceVoice->SetVolume(volume);
-	result = pSourceVoice->Start();
-
-	indexVoice_++;
-
-	return handle;
-}
-
-void mSound::Stop(uint32_t voiceHandle)
-{
-	if (voices_.size() > 0) {
-		//再生終わってるのかどうかを判断
-		XAUDIO2_VOICE_STATE state{};
-		voices_.at(voiceHandle).sourceVoice->Stop();
-	}
-}
-
-bool mSound::isPlaying(uint32_t voiceHandle)
-{
-	// voices_が空だとfalseを返す
-	if (voices_.size() > 0) {
-		//再生終わってるのかどうかを判断
-		XAUDIO2_VOICE_STATE state{};
-		voices_.at(voiceHandle).sourceVoice->GetState(&state);
-		return state.BuffersQueued != 0;
-		
-	}
-
+	xAudio2->CreateSourceVoice(&pSourceVoice, &pSnd->wfex);
+	XAUDIO2_VOICE_STATE state{};
+	pSourceVoice->GetState(&state);
 	return false;
 }
 
-void mSound::CleanUp()
+void SoundManager::Play(SoundKey key, float volum)
 {
+	IXAudio2SourceVoice* pSourceVoice = nullptr;//これ保存しとくと止められる
+	SoundData* pSnd = &sndMap[key];
 
+	xAudio2->CreateSourceVoice(&pSourceVoice, &pSnd->wfex);
+
+	XAUDIO2_BUFFER buf{};
+
+	buf.pAudioData = pSnd->pBuffer;
+	buf.AudioBytes = pSnd->bufferSize;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+
+	pSourceVoice->SetVolume(volum);
+	pSourceVoice->SubmitSourceBuffer(&buf);
+	pSourceVoice->Start();
 }
+SoundData* SoundManager::PlayBGM(SoundKey key, bool loopFlag)
+{
+	IXAudio2SourceVoice* pSourceVoice = nullptr;//これ保存しとくと止められる
+	SoundData* pSnd = &sndMap[key];
+
+	if (pSnd->sound != nullptr)
+	{
+		pSnd->sound->Stop();
+	}
+
+	xAudio2->CreateSourceVoice(&pSourceVoice, &pSnd->wfex);
+
+	XAUDIO2_BUFFER buf{};
+
+	buf.pAudioData = pSnd->pBuffer;
+	buf.AudioBytes = pSnd->bufferSize;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+	if (loopFlag) buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+
+	pSourceVoice->SubmitSourceBuffer(&buf);
+	pSourceVoice->Start();
+
+	pSnd->sound = pSourceVoice;
+
+	return pSnd;
+}
+
+void SoundManager::StopBGM(SoundKey key)
+{
+	SoundData* pSnd = &sndMap[key];
+	if (pSnd->sound != nullptr) {
+		pSnd->sound->Stop();
+	}
+}
+
+void SoundManager::ReleaseAllSounds()
+{
+	for (auto itr = sndMap.begin(); itr != sndMap.end(); itr++)
+	{
+		itr->second.Release();
+	}
+	sndMap.clear();
+}
+

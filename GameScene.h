@@ -25,7 +25,7 @@ private:
 	WinAPI* winApi_ = nullptr;
 	DirectXInput* input_ = nullptr;
 	TextureManager* textureM = nullptr;
-	mSound* sound_ = nullptr;
+	SoundManager* sound_ = nullptr;
 
 	//テクスチャ
 	uint32_t marioGraph, khGraph, enemyGraph, keyBladeGraph, gumishipGraph;
@@ -53,7 +53,7 @@ private:
 
 	DebugCamera debugCamera;
 
-	uint32_t testSound;
+	uint32_t testSound,test2Sound;
 	//スプライトの座標
 	Vector2 spritePos = { 100,200 };
 
