@@ -133,20 +133,20 @@ void MouseInput::Updata()
 	//マウス情報の取得開始
 	mouse->Acquire();	//ここに置いたことで解決
 
-	std::string str = "OK\n";
+	//std::string str = "OK\n";
 	//前フレームの状態を代入
 	prevmouseState = mouseState;
 	//マウス情報の取得開始
 	result = mouse->Poll();
 	if (result == DIERR_INPUTLOST) {
-		str = "NG\n";
+		//str = "NG\n";
 	}
 	
 	result = mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
 	if (FAILED(result)) {
-		str = "NG\n";
+		//str = "NG\n";
 	}
-	OutputDebugStringA(str.c_str());
+	//OutputDebugStringA(str.c_str());
 	//座標取得
 	GetCursorPosition();
 }

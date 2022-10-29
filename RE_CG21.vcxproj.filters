@@ -165,6 +165,9 @@
     <ClCompile Include="mInput.cpp">
       <Filter>engine\ソース ファイル\Input</Filter>
     </ClCompile>
+    <ClCompile Include="TestClass.cpp">
+      <Filter>application\ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="mInput.h">
       <Filter>engine\ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="TestClass.h">
+      <Filter>application\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
