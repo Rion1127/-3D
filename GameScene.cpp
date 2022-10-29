@@ -92,8 +92,12 @@ void GameScene::Updata()
 
 #endif // _DEBUG
 	if (input_->TriggerKey(DIK_1)) {
-		sound_->Play("ResultBGM",0.01f);
+		sound_->Play("ResultBGM",0.05f);
 	}
+	if (input_->TriggerKey(DIK_2)) {
+		sound_->Stop("ResultBGM");
+	}
+
 	debugCamera.Update(winApi_->hwnd);
 
 	boardPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);

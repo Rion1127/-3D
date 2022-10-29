@@ -62,15 +62,31 @@ public:
 	/// WAVファイル読み込み
 	/// </summary>
 	/// <param name="path">ファイル名</param>
+	/// <param name="key">キーワード
+	/// </param>
 	static SoundKey LoadWave(std::string path, SoundKey key);
-
+	/// <summary>
+	/// 音声再生中かどうか
+	/// </summary>
+	/// <param name="key">設定したキーワード</param>
+	/// <returns>音声再生中かどうか</returns>
 	static bool IsPlaying(SoundKey key);
-	static void Play(SoundKey key, float volum = 1.0f);
-	static SoundData* PlayBGM(SoundKey key, bool loopFlag);
-
+	/// <summary>
+	/// 再生
+	/// </summary>
+	/// <param name="key">キーワード</param>
+	/// <param name="loopFlag">ループ</param>
+	/// <param name="volum">音量
+	/// </param>
+	static SoundData* Play(SoundKey key, bool loopFlag = false, float volum = 1.0f);
+	/// <summary>
+	/// すでに読み込んだ音源を返す
+	/// </summary>
+	/// <param name="key">キーワード</param>
 	static SoundData* GetSoundData(SoundKey key);
-	static void StopBGM(SoundKey key);
 
+	static void Stop(SoundKey key);
+	
 	static void ReleaseAllSounds();
 
 private:

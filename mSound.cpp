@@ -94,24 +94,7 @@ bool SoundManager::IsPlaying(SoundKey key) {
 	return false;
 }
 
-void SoundManager::Play(SoundKey key, float volum)
-{
-	IXAudio2SourceVoice* pSourceVoice = nullptr;//これ保存しとくと止められる
-	SoundData* pSnd = &sndMap[key];
-
-	xAudio2->CreateSourceVoice(&pSourceVoice, &pSnd->wfex);
-
-	XAUDIO2_BUFFER buf{};
-
-	buf.pAudioData = pSnd->pBuffer;
-	buf.AudioBytes = pSnd->bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-
-	pSourceVoice->SetVolume(volum);
-	pSourceVoice->SubmitSourceBuffer(&buf);
-	pSourceVoice->Start();
-}
-SoundData* SoundManager::PlayBGM(SoundKey key, bool loopFlag)
+SoundData* SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 {
 	IXAudio2SourceVoice* pSourceVoice = nullptr;//これ保存しとくと止められる
 	SoundData* pSnd = &sndMap[key];
@@ -129,7 +112,8 @@ SoundData* SoundManager::PlayBGM(SoundKey key, bool loopFlag)
 	buf.AudioBytes = pSnd->bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	if (loopFlag) buf.LoopCount = XAUDIO2_LOOP_INFINITE;
-
+	//ボリュームセット
+	pSourceVoice->SetVolume(volum);
 	pSourceVoice->SubmitSourceBuffer(&buf);
 	pSourceVoice->Start();
 
@@ -138,7 +122,13 @@ SoundData* SoundManager::PlayBGM(SoundKey key, bool loopFlag)
 	return pSnd;
 }
 
-void SoundManager::StopBGM(SoundKey key)
+SoundData* SoundManager::GetSoundData(SoundKey key)
+{
+	
+	return &sndMap.at(key);
+}
+
+void SoundManager::Stop(SoundKey key)
 {
 	SoundData* pSnd = &sndMap[key];
 	if (pSnd->sound != nullptr) {
