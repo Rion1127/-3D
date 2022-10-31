@@ -114,10 +114,10 @@ void Sprite::Ini(ID3D12Device* device)
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/2DObjectVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
+	ShaderCompileFromFile(L"Resources/shader/SpriteVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
 
 	// ピクセルシェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/2DObjectPS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
+	ShaderCompileFromFile(L"Resources/shader/SpritePS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
 	
 #pragma endregion
 	// グラフィックスパイプライン設定

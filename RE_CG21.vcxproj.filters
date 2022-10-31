@@ -247,7 +247,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shader\2DObject.hlsli">
+    <None Include="Resources\shader\Sprite.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shader\Basic.hlsli">
@@ -258,10 +258,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\shader\2DObjectPS.hlsl">
+    <FxCompile Include="Resources\shader\SpritePS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\2DObjectVS.hlsl">
+    <FxCompile Include="Resources\shader\SpriteVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\BasicPS.hlsl">
