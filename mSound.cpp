@@ -124,7 +124,6 @@ SoundData* SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 
 SoundData* SoundManager::GetSoundData(SoundKey key)
 {
-	
 	return &sndMap.at(key);
 }
 
