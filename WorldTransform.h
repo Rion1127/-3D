@@ -28,7 +28,7 @@ public:
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
 
-	void InitializeObject3d();
+	void Initialize();
 	void UpdateObject3d(ViewProjection viewProjection);
 
 	//定数バッファ（行列用）

@@ -43,7 +43,7 @@ void WorldTransform::AddPosition(float x, float y, float z)
 	position.z += z;
 }
 
-void WorldTransform::InitializeObject3d()
+void WorldTransform::Initialize()
 {
 	HRESULT result;
 

@@ -5,7 +5,7 @@
 
 void Enemy::Ini()
 {
-	worldTransoform.InitializeObject3d();
+	worldTransoform.Initialize();
 	texture = TextureManager::GetInstance()->LoadGraph("Resources/enemy.jpg");
 
 	worldTransoform.SetPosition(0, 0, 20);

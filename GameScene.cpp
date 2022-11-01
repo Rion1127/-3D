@@ -31,7 +31,7 @@ void GameScene::Ini()
 
 	skyDome = Object3d::CreateOBJ("skydome");
 	gumiShipObj = Object3d::CreateOBJ("gumiShip");
-	gumiShipPos.InitializeObject3d();
+	gumiShipPos.Initialize();
 	gumiShipPos.SetPosition(0, 5, 0);
 	gumiShipPos.SetRotation(0, 0, 0);
 	gumiShipPos.SetScale(1, 1, 1);
@@ -40,7 +40,7 @@ void GameScene::Ini()
 	sound_->LoadWave("result.wav", "ResultBGM");
 
 	boardPos.SetPosition(20, 0, 0);
-	boardPos.InitializeObject3d();
+	boardPos.Initialize();
 
 	//乱数シード生成器
 	std::random_device seed_gen;
@@ -61,7 +61,7 @@ void GameScene::Ini()
 
 		//ここから↓は親子構造のサンプル
 		//戦闘以外なら
-		worldTransform[i].InitializeObject3d();
+		worldTransform[i].Initialize();
 		if (i > 0) {
 			//ひとつ前のオブジェクトを親オブジェクトとする
 			worldTransform[i].parent = &worldTransform[i - 1];
@@ -208,8 +208,7 @@ void GameScene::Draw()
 	////////////////
 	//2Dオブジェクト//
 	////////////////
-	
-
 	Obj2D.PreDraw(directX->GetCommandList());
-	Obj2D.Draw(spritePos, keyBladeGraph);
+
+	Obj2D.Draw(spritePos, marioGraph);
 }

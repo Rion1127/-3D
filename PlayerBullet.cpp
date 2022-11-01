@@ -10,7 +10,7 @@ void PlayerBullet::Ini(WorldTransform worldTransform,Vector3 velocity, Object3d*
 {
 	model_ = model;
 
-	worldTransform_.InitializeObject3d();
+	worldTransform_.Initialize();
 
 	cInput = Controller::GetInstance();
 	cInput->Ini();

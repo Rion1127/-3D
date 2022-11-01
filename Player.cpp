@@ -21,7 +21,7 @@ Player::~Player()
 
 void Player::Ini()
 {
-	worldTransform.InitializeObject3d();
+	worldTransform.Initialize();
 
 	cInput = Controller::GetInstance();
 	//cInput->Ini();
