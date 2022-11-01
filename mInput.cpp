@@ -146,6 +146,15 @@ void MouseInput::Updata()
 	if (FAILED(result)) {
 		//str = "NG\n";
 	}
+	//画面外をクリックしたら入力を無効にする
+	if (FAILED(result)) {
+		mouseState.lX = 0;
+		mouseState.lY = 0;
+		mouseState.lZ = 0;
+		for (int i = 0; i < 4; i++) {
+			mouseState.rgbButtons[i] = 0;
+		}
+	}
 	//OutputDebugStringA(str.c_str());
 	//座標取得
 	GetCursorPosition();
