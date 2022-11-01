@@ -165,7 +165,7 @@
     <ClCompile Include="mInput.cpp">
       <Filter>engine\ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="TestClass.cpp">
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>application\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -242,7 +242,7 @@
     <ClInclude Include="mInput.h">
       <Filter>engine\ヘッダー ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="TestClass.h">
+    <ClInclude Include="ResourceManager.h">
       <Filter>application\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>

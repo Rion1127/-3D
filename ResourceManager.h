@@ -1,8 +1,7 @@
 #pragma once
 #include <string>
-#include <DirectXMath.h>
-
-class TestClass
+#include "Object3d.h"
+class ResourceManager
 {
 public:
 	static void LoadAllModels();
