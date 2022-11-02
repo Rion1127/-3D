@@ -14,7 +14,7 @@ void RailCamera::Update()
 {
 	worldTransform.AddPosition(0, 0, 0);
 	worldTransform.AddRotation(0, 0, 0);
-	worldTransform.UpdateObject3d(viewProjection);
+	worldTransform.Update(viewProjection);
 
 	viewProjection.eye.x = worldTransform.position.x;
 	viewProjection.eye.y = worldTransform.position.y;

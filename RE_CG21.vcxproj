@@ -24,7 +24,6 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="mInput.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -33,8 +32,6 @@
     <ClCompile Include="mSound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Util.cpp" />
@@ -51,7 +48,6 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="mInput.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="math.h" />
@@ -59,8 +55,6 @@
     <ClInclude Include="mSound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Object3d.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="RailCamera.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Util.h" />

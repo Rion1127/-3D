@@ -7,8 +7,8 @@ using namespace DirectX;
 class DebugCamera
 {
 public:
-	void DebugCameraIni(HWND* hwnd);
-	void Update(HWND hwnd);
+	void DebugCameraIni();
+	void Update();
 
 
 	ViewProjection GetViewProjection();

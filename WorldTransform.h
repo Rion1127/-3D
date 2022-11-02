@@ -28,8 +28,8 @@ public:
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
 
-	void InitializeObject3d();
-	void UpdateObject3d(ViewProjection viewProjection);
+	void Ini();
+	void Update(ViewProjection viewProjection);
 
 	//定数バッファ（行列用）
 	ComPtr<ID3D12Resource> constBuffTransform;

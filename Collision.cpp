@@ -2,43 +2,9 @@
 #include <list>
 #include <memory>
 #include "WorldTransform.h"
-#include "PlayerBullet.h"
 #include "Collision.h"
 
 
-
-void CheckAllCollisions(Player& player, Enemy& enemy_)
-{
-    //判定対象AとBの座標
-    Vector3 posA, posB;
-
-    //プレイヤー弾取得
-    const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player.GetBullets();
-
-    posA.x = enemy_.GetPosition().x;
-    posA.y = enemy_.GetPosition().y;
-    posA.z = enemy_.GetPosition().z;
-
-    //敵とプレイヤー弾との当たり判定
-    for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-        //弾の座標
-        posB.x = bullet.get()->GetPosition().x;
-        posB.y = bullet.get()->GetPosition().y;
-        posB.z = bullet.get()->GetPosition().z;
-        //AとBの距離
-        Vector3 ABDistance = posB - posA;
-        //弾と弾の交差判定
-        //
-        if (enemy_.GetAlive()) {
-            if (RayCollision(bullet.get()->GetWorldTransform(), enemy_.GetWorldTransform())) {
-                //当たった時の処理を呼び出す
-                bullet.get()->OnCollision();
-                enemy_.OnCollision();
-            }
-        }
-
-    }
-}
 
 bool RayCollision(WorldTransform ray, WorldTransform obj)
 {

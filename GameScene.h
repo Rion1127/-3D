@@ -26,6 +26,10 @@ private:
 	DirectXInput* input_ = nullptr;
 	TextureManager* textureM = nullptr;
 	SoundManager* sound_ = nullptr;
+	DebugCamera debugCamera;
 
+
+	Object3d* gumiShip = nullptr;
+	WorldTransform worldTransform_;
 };
 

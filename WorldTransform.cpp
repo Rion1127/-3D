@@ -43,7 +43,7 @@ void WorldTransform::AddPosition(float x, float y, float z)
 	position.z += z;
 }
 
-void WorldTransform::InitializeObject3d()
+void WorldTransform::Ini()
 {
 	HRESULT result;
 
@@ -77,7 +77,7 @@ void WorldTransform::InitializeObject3d()
 	assert(SUCCEEDED(result));
 }
 
-void WorldTransform::UpdateObject3d(ViewProjection viewProjection)
+void WorldTransform::Update(ViewProjection viewProjection)
 {
 	XMMATRIX matScale, matRot, matTrans;
 

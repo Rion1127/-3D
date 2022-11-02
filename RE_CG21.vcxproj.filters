@@ -17,20 +17,8 @@
     <Filter Include="application\ヘッダーファイル">
       <UniqueIdentifier>{afc1780d-b963-4b01-8b60-a425cddc6f56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="application\ソースファイル\Enemy">
-      <UniqueIdentifier>{9e5863f5-7d03-4686-900b-83c5871d6e0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\ソースファイル\Player">
-      <UniqueIdentifier>{30bfe76c-8414-4730-9b11-252622a59042}</UniqueIdentifier>
-    </Filter>
     <Filter Include="application\ソースファイル\Scene">
       <UniqueIdentifier>{e7535f74-7e4c-44bd-918d-80c76a92f580}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\ヘッダーファイル\Enemy">
-      <UniqueIdentifier>{7157d4a8-6382-4346-8926-2c3680373323}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\ヘッダーファイル\Player">
-      <UniqueIdentifier>{66c7f5a3-41bf-4a35-b636-afe46f887fb2}</UniqueIdentifier>
     </Filter>
     <Filter Include="application\ヘッダーファイル\Scene">
       <UniqueIdentifier>{38eb0ded-4f3a-42d8-a441-c0e674bbc165}</UniqueIdentifier>
@@ -120,15 +108,6 @@
     <ClCompile Include="DebugCamera.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>application\ソースファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>application\ソースファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>application\ソースファイル\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="boardObject.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
@@ -196,15 +175,6 @@
     </ClInclude>
     <ClInclude Include="DebugCamera.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>application\ヘッダーファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>application\ヘッダーファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>application\ヘッダーファイル\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="boardObject.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>

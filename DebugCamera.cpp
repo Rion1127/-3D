@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 #include <WinUser.h>
 
-void DebugCamera::DebugCameraIni(HWND* hwnd)
+void DebugCamera::DebugCameraIni()
 {
 	mInput_ = MouseInput::GetInstance();
 
@@ -17,7 +17,7 @@ void DebugCamera::DebugCameraIni(HWND* hwnd)
 	frontdist = 50;
 }
 
-void DebugCamera::Update(HWND hwnd)
+void DebugCamera::Update()
 {
 	//マウスの情報の更新
 	CameraMove();

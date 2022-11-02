@@ -4,7 +4,7 @@
 
 GameScene::~GameScene()
 {
-	
+	delete gumiShip;
 }
 
 void GameScene::Ini()
@@ -18,6 +18,11 @@ void GameScene::Ini()
 	Object3d::Ini(directX->GetDevice());
 	BoardObject::Ini(directX->GetDevice());
 	
+	debugCamera.DebugCameraIni();
+
+	gumiShip = Object3d::CreateOBJ("gumiShip");
+	worldTransform_.Ini();
+
 }
 
 void GameScene::Updata()
@@ -26,7 +31,11 @@ void GameScene::Updata()
 
 
 #endif // _DEBUG
-	
+
+	debugCamera.Update();
+
+	worldTransform_.Update(debugCamera.GetViewProjection());
+
 }
 
 void GameScene::Draw()
@@ -36,14 +45,14 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw(directX->GetCommandList());
 
-
+	gumiShip->DrawOBJ(&worldTransform_);
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////
 	BoardObject::PreDraw(directX->GetCommandList());
 
-	////////////////
-	//2Dオブジェクト//
-	////////////////
+	////////////
+	//スプライト//
+	////////////
 	
 }
