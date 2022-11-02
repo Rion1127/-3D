@@ -27,38 +27,5 @@ private:
 	TextureManager* textureM = nullptr;
 	SoundManager* sound_ = nullptr;
 
-	//テクスチャ
-	uint32_t marioGraph, khGraph, enemyGraph, keyBladeGraph, gumishipGraph;
-	uint32_t graph;
-
-	//オブジェクト
-	Object3d model_;
-	BoardObject boardObject;
-	Sprite Obj2D;
-
-	Object3d* skyDome = nullptr;
-	Object3d* gumiShipObj = nullptr;
-	WorldTransform gumiShipPos;
-
-	//ボードオブジェクト
-	WorldTransform boardPos;
-
-	//3Dオブジェクトの数
-	static const size_t kObjectCount = 20;
-	//3Dオブジェクトの配列
-	WorldTransform worldTransform[kObjectCount];
-	//オブジェクト色変更
-	bool isChangeColor = false;
-	XMFLOAT4 objectColor{ 1,1,1,1 };
-
-	DebugCamera debugCamera;
-
-	uint32_t testSound,test2Sound;
-	//スプライトの座標
-	Vector2 spritePos = { 100,200 };
-
-	ViewProjection viewProjection;
-
-	ViewProjection useVP;
 };
 
