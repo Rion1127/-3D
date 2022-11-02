@@ -36,7 +36,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="RailCamera.cpp" />
-    <ClCompile Include="TestClass.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -63,7 +62,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="RailCamera.h" />
-    <ClInclude Include="TestClass.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector2.h" />
