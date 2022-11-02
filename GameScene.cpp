@@ -23,6 +23,10 @@ void GameScene::Ini()
 	gumiShip = Object3d::CreateOBJ("gumiShip");
 	worldTransform_.Ini();
 
+	skyDome = Object3d::CreateOBJ("skydome");
+	skyDomepos.Ini();
+	skyDomepos.scale = { 1,1,1 };
+
 }
 
 void GameScene::Updata()
@@ -33,6 +37,10 @@ void GameScene::Updata()
 #endif // _DEBUG
 
 	debugCamera.Update();
+	
+	gumiShip->ChangeColor(0, 0, 0, 0);
+
+	skyDomepos.Update(debugCamera.GetViewProjection());
 
 	worldTransform_.Update(debugCamera.GetViewProjection());
 
@@ -46,6 +54,8 @@ void GameScene::Draw()
 	Object3d::PreDraw(directX->GetCommandList());
 
 	gumiShip->DrawOBJ(&worldTransform_);
+
+	skyDome->DrawOBJ(&skyDomepos);
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////

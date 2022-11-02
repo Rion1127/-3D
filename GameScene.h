@@ -31,5 +31,9 @@ private:
 
 	Object3d* gumiShip = nullptr;
 	WorldTransform worldTransform_;
+
+	Object3d* skyDome = nullptr;
+	WorldTransform skyDomepos;
+
 };
 
