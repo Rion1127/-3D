@@ -9,10 +9,10 @@ void Vertices::Ini(ID3D12Device* device)
 	HRESULT result;
 #pragma region 頂点データ
 	//前
-	vertices.push_back({ {-5.0f,-5.0f, -5.0f },{}, { 0.0f,1.0f } });//左下
-	vertices.push_back({ {-5.0f, 5.0f, -5.0f },{}, { 0.0f,0.0f } });//左上
-	vertices.push_back({ { 5.0f,-5.0f, -5.0f },{}, { 1.0f,1.0f } });//右下
-	vertices.push_back({ { 5.0f, 5.0f, -5.0f },{}, { 1.0f,0.0f } });//右上
+	vertices.push_back({ {-5.0f,-5.0f, -0.0f },{}, { 0.0f,1.0f } });//左下
+	vertices.push_back({ {-5.0f, 5.0f, -0.0f },{}, { 0.0f,0.0f } });//左上
+	vertices.push_back({ { 5.0f,-5.0f, -0.0f },{}, { 1.0f,1.0f } });//右下
+	vertices.push_back({ { 5.0f, 5.0f, -0.0f },{}, { 1.0f,0.0f } });//右上
 	//後ろ
 	vertices.push_back({ {-5.0f,  5.0f, 5.0f},{}, { 0.0f,0.0f} });//左上
 	vertices.push_back({ {-5.0f, -5.0f, 5.0f},{}, { 0.0f,1.0f} });//左下

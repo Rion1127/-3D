@@ -18,7 +18,6 @@ void GameScene::Ini()
 
 	Object3d::Ini(directX->GetDevice());
 	BoardObject::Ini(directX->GetDevice());
-	Obj2D.Ini(directX->GetDevice());
 
 	debugCamera.DebugCameraIni(&winApi_->hwnd);
 
@@ -30,53 +29,24 @@ void GameScene::Ini()
 	graph = marioGraph;
 
 	skyDome = Object3d::CreateOBJ("skydome");
-	gumiShipObj = Object3d::CreateOBJ("gumiShip");
+	skyDomePos.Initialize();
+	skyDomePos.SetPosition(0, 0, 0);
+	skyDomePos.SetRotation(0, 0, 0);
+	skyDomePos.SetScale(5, 5, 5);
+
+	gumiShipObj = Object3d::CreateOBJ("sphere");
 	gumiShipPos.Initialize();
-	gumiShipPos.SetPosition(0, 5, 0);
+	gumiShipPos.SetPosition(0, 0, 0);
 	gumiShipPos.SetRotation(0, 0, 0);
 	gumiShipPos.SetScale(1, 1, 1);
 
 
 	sound_->LoadWave("result.wav", "ResultBGM");
 
-	boardPos.SetPosition(20, 0, 0);
 	boardPos.Initialize();
-
-	//乱数シード生成器
-	std::random_device seed_gen;
-	//メルセンヌ・ツイスターの乱数エンジン
-	std::mt19937_64 engine(seed_gen());
-
-	//配列内の全オブジェクトに対して
-	for (int i = 0; i < _countof(worldTransform); i++) {
-		//乱数範囲の指定
-		std::uniform_real_distribution<float> transDistX(-50, 50);
-		std::uniform_real_distribution<float> transDistY(-50, 50);
-		std::uniform_real_distribution<float> transDistZ(-50, 50);
-
-		//乱数エンジンを渡し、指定範囲からランダムな数値を得る
-		float x = transDistX(engine);
-		float y = transDistY(engine);
-		float z = transDistZ(engine);
-
-		//ここから↓は親子構造のサンプル
-		//戦闘以外なら
-		worldTransform[i].Initialize();
-		if (i > 0) {
-			//ひとつ前のオブジェクトを親オブジェクトとする
-			worldTransform[i].parent = &worldTransform[i - 1];
-			//親オブジェクトの9割の大きさ
-			worldTransform[i].SetScale(1, 1, 1);
-			//親オブジェクトに対してZ軸周りに30度回転
-			worldTransform[i].SetRotation(0.0f, 0.0f, 0);
-			//親オブジェクトに大したZ方向-8.0ずらす
-			worldTransform[i].SetPosition(0, 0, 15);
-		}
-		else {
-			worldTransform[i].SetPosition(0, -15, 0);
-		}
-	}
-
+	boardPos.SetPosition(0, 0, 0);
+	boardPos.SetRotation(ConvertAngleToRadian(90),0,0);
+	
 	viewProjection.SetEyePos(0, 0, -200);
 	viewProjection.SetTarget(0, 0, 0);
 	viewProjection.SetUpVec(0, 1, 0);
@@ -102,9 +72,6 @@ void GameScene::Updata()
 
 	boardPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
 
-	for (int i = 0; i < _countof(worldTransform); i++) {
-		worldTransform[i].UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection()/*railCamera.viewProjection*/);
-	}
 
 	float speed = 0.5f;
 	if (input_->PushKey(DIK_W)) {
@@ -120,64 +87,8 @@ void GameScene::Updata()
 		gumiShipPos.position += { speed,0,0 };
 	}
 
-	//スプライトの移動
-	int spriteSpd = 5;
-	if (input_->PushKey(DIK_UP)) {
-		spritePos.y -= spriteSpd;
-	}
-	if (input_->PushKey(DIK_DOWN)) {
-		spritePos.y += spriteSpd;
-	}
-	if (input_->PushKey(DIK_RIGHT)) {
-		spritePos.x += spriteSpd;
-	}
-	if (input_->PushKey(DIK_LEFT)) {
-		spritePos.x -= spriteSpd;
-	}
-
 	gumiShipPos.UpdateObject3d(/*viewProjection*/debugCamera.GetViewProjection());
-
-#pragma region 色変化
-	if (input_->TriggerKey(DIK_0)) {
-		if (isChangeColor == false) isChangeColor = true;
-		else if (isChangeColor == true) isChangeColor = false;
-	}
-
-	if (isChangeColor == true) {
-		if (objectColor.y >= 0) {
-			objectColor.x += 0.05f;
-		}
-		else if (objectColor.y <= 0) {
-			objectColor.x -= 0.05f;
-		}
-
-		if (objectColor.z <= 0) {
-			objectColor.y -= 0.05f;
-		}
-		else if (objectColor.z >= 0) {
-			objectColor.y += 0.05f;
-		}
-
-		if (objectColor.x >= 0) {
-			objectColor.z -= 0.05f;
-		}
-		else if (objectColor.x <= 0) {
-			objectColor.z += 0.05f;
-		}
-
-		if (objectColor.x > 1) {
-			objectColor.x = 1;
-		}
-		if (objectColor.y > 1) {
-			objectColor.y = 1;
-		}
-		if (objectColor.z > 1) {
-			objectColor.z = 1;
-		}
-
-		model_.ChangeColor(objectColor);
-	}
-#pragma endregion
+	skyDomePos.UpdateObject3d(debugCamera.GetViewProjection());
 
 }
 
@@ -193,11 +104,8 @@ void GameScene::Draw()
 
 	//player_.Draw(gumishipGraph);
 	//enemy_.Draw();
-	for (int i = 0; i < _countof(worldTransform); i++) {
-		model_.DrawCube(&worldTransform[i], marioGraph);
-	}
 
-	skyDome->DrawOBJ(&worldTransform[0]);
+	skyDome->DrawOBJ(&skyDomePos);
 	gumiShipObj->DrawOBJ(&gumiShipPos);
 	///////////////////
 	//板状３Dオブジェクト//
@@ -208,7 +116,5 @@ void GameScene::Draw()
 	////////////////
 	//2Dオブジェクト//
 	////////////////
-	Obj2D.PreDraw(directX->GetCommandList());
 
-	Obj2D.Draw(spritePos, marioGraph);
 }

@@ -71,5 +71,5 @@ struct Matrix4 {
 };
 //ラジアンから角度
 float ConvertRadianToAngle(float radian);
-//角度からラジアン
+//角度からラジアン(こっちをよく使う)
 float ConvertAngleToRadian(float angle);
