@@ -8,7 +8,7 @@
 #include "DebugCamera.h"
 #include "mInput.h"
 #include "mSound.h"
-
+#include "Collision.h"
 
 class GameScene
 {
@@ -53,5 +53,12 @@ private:
 	ViewProjection viewProjection;
 
 	ViewProjection useVP;
+
+	Sphere sphere_;
+	Plane plane_;
+
+	Triangle triangle;
+	
+	WorldTransform trianglePos[3];
 };
 

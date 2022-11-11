@@ -464,6 +464,13 @@ void Object3d::ChangeColor(XMFLOAT4 color_)
 	vertices_.ChangeColor(color_);
 }
 
+void Object3d::ChangeColorObj(XMFLOAT4 color_)
+{
+	for (auto& v : vert_) {
+		v->ChangeColor(color_);
+	}
+}
+
 void Object3d::DrawCube(WorldTransform* worldTransform, uint32_t descriptorSize)
 {
 	vertices_.Draw(vertices_.GetIndices().size(), commandList_.Get(), worldTransform, descriptorSize);

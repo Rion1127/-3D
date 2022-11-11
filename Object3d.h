@@ -35,6 +35,7 @@ public:
 	void ChangeColor(float x,float y,float z,float w);
 	//オブジェクトの色を変える
 	void ChangeColor(XMFLOAT4 color_);
+	void ChangeColorObj(XMFLOAT4 color_);
 
 	void DrawCube(WorldTransform* worldTransform,uint32_t descriptorSize);
 
