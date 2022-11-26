@@ -2,21 +2,43 @@
 #include <wrl.h>
 #include <vector>
 #include "math.h"
+#include "DirectX.h"
 class Sprite
 {
 public:
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
 
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	void Ini(ID3D12Device* device);
+	void Ini();
+	//座標を代入する
+	void SetPos(Vector2 pos);
+	//回転させる
+	void SetRot(float rot);
+	//スケール設定
+	void SetScale(Vector2 scale);
 
-	void PreDraw(ID3D12GraphicsCommandList* commandList);
-	//画像サイズ自動取得
-	void Draw(Vector2 pos,UINT descriptorSize);
+	void ChangeColor(float x, float y, float z, float w) {
+		color_ = {x, y, z, w};
+	};
+	void ChangeColor(DirectX::XMFLOAT4 color) {
+		color_ = color;
+	};
+
+	Vector2 GetScale() { return Scale_; }
+	Vector2 GetPos() { return pos_; }
+
+	void PreDraw();
+	//画像サイズ自動取得(描画座標は中心)
+	void Draw(UINT descriptorSize);
 	//画像の頂点データを自分で指定
 	void Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize);
 private:
+	DirectXCommon* directX_;
 	struct Vertex {
 		XMFLOAT3 pos;
 		XMFLOAT2 uv;
@@ -38,12 +60,13 @@ private:
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 #pragma endregion
-
-
+	//////////////////////////後でクラス化
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプランステートの生成
 	ComPtr<ID3D12PipelineState> pipelineState;
+	////////////////////////////
+
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
@@ -53,11 +76,24 @@ private:
 		XMFLOAT4 color;
 	};
 	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
 
 	struct ConstBufferDataTransform {
 		XMMATRIX mat;
 	};
 	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
+	XMMATRIX matProjection;
+
+	// ワールド行列
+	DirectX::XMMATRIX matWorld_{};
+	//色
+	DirectX::XMFLOAT4 color_;
+	//回転
+	float rot_;
+	//座標
+	Vector2 pos_;
+	//スケール
+	Vector2 Scale_;
 };
 

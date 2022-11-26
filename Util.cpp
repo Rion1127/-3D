@@ -22,7 +22,7 @@ void ShaderCompileFromFile(
 	ID3DBlob** blob, ID3DBlob* errorBlob)
 {
 	HRESULT result;
-	
+
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		fileName, // シェーダファイル名
@@ -60,4 +60,74 @@ wchar_t* ConvertStrToWchar(const std::string string)
 	MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, result, iBufferSize);
 	return result;
 }
+
+using namespace std::chrono;
+
+int GetNowCount(void) {
+	return static_cast<int>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
+}
+
+float GetNowTime(int startCount)
+{
+	// 経過時間
+	float nowTime = 0.0f;
+
+	// 現在の時間
+	int nowCount = GetNowCount();
+
+	// 経過時間
+	return nowTime = (nowCount - startCount) / 1000.0f;
+}
+
+float Clamp(float value, float max, float min)
+{
+	// 値が最大値を上回っていたら最大値を返す
+	if (value >= max) return max;
+
+	// 値が最小値を下回っていたら最小値を返す
+	if (value <= min) return min;
+
+	// どちらにも当てはまらなかったら値をそのまま返す
+	return value;
+}
+
+void MoveTo(Vector3 goal, float speed, WorldTransform& WT)
+{
+	Vector3 dir = goal - WT.position;
+	float dirLength = dir.length2();
+	if (dirLength < speed * speed)
+	{
+		WT.position = goal;
+		return;
+	}
+	WT.position =
+		WT.position + dir.SetLength(speed);
+}
+
+Vector3 MoveTo(Vector3 goal, float speed, DirectX::XMFLOAT3& WT)
+{
+	Vector3 resultVec;
+	Vector3 dir = goal - WT;
+	float dirLength = dir.length2();
+	if (dirLength < speed * speed)
+	{
+		WT.x = goal.x;
+		WT.y = goal.y;
+		WT.z = goal.z;
+		resultVec.x = WT.x;
+		resultVec.y = WT.y;
+		resultVec.z = WT.z;
+		return resultVec;
+	}
+	WT.x += (goal.x - WT.x) * speed;
+	WT.y += (goal.y - WT.y) * speed;
+	WT.z += (goal.z - WT.z) * speed;
+
+	resultVec.x = WT.x;
+	resultVec.y = WT.y;
+	resultVec.z = WT.z;
+	return resultVec;
+
+}
+
 

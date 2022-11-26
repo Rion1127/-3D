@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include "Vertices.h"
+#include "DirectX.h"
 using namespace Microsoft::WRL;
 class Object3d
 {
@@ -14,9 +15,13 @@ public:
 
 	static Object3d* GetInstance();
 
-	static void Ini(ID3D12Device* device);
+	static void Ini();
 	//モデルを読み込む
 	static Object3d* CreateOBJ(const std::string& modelname);
+	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
+
+	void SetModel(const Object3d* model);
+private:
 	//モデル初期化(CreateOBJ()に入っている)
 	void ModelIni(const std::string& modelname);
 	//.OBJから情報を読み込む(ModelIni()に入っている)
@@ -28,16 +33,13 @@ public:
 
 	void AddMaterial(Material* material);
 
-	
+public:
+	static void PreDraw();
 
-	static void PreDraw(ID3D12GraphicsCommandList* commandList);
 	//オブジェクトの色を変える
-	void ChangeColor(float x,float y,float z,float w);
+	void ObjChangeColor(float x, float y, float z, float w);
 	//オブジェクトの色を変える
-	void ChangeColor(XMFLOAT4 color_);
-	void ChangeColorObj(XMFLOAT4 color_);
-
-	void DrawCube(WorldTransform* worldTransform,uint32_t descriptorSize);
+	void ObjChangeColor(XMFLOAT4 color_);
 
 	void DrawOBJ(WorldTransform* worldTransform);
 	void DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle);
@@ -51,12 +53,12 @@ private:
 	
 	// 名前
 	std::string name_;
-	
+
+public:
 	std::vector<Vertices*> vert_;
 	std::vector<uint32_t> textureHandle_;
 	// マテリアルコンテナ
 	std::map<std::string, Material*> materials_;
 
-	
 };
 

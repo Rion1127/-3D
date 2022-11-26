@@ -16,6 +16,7 @@ struct VSOutput {
 //3D•ÏŠ·s—ñ
 cbuffer ConstBufferDataTransform : register(b1) {
 	matrix mat;
+    matrix viewProj;
 }
 
 cbuffer ViewProjection : register(b2)

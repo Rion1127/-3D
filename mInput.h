@@ -92,6 +92,8 @@ public:
 
 	void Update();
 
+	bool GetActive() { return isConnect; }
+
 	WORD GetButtons(WORD button);
 	WORD GetTriggerButtons(WORD button);
 	WORD GetReleasButtons(WORD button);
@@ -103,9 +105,24 @@ public:
 	BYTE GetRTrigger();
 	BYTE GetLTrigger();
 private:
+#define PAD_UP				0x0001
+#define PAD_DOWN			0x0002
+#define PAD_LEFT			0x0004
+#define PAD_RIGHT			0x0008
+#define PAD_START			0x0010
+#define PAD_BACK			0x0020
+#define PAD_LEFT_THUMB		0x0040
+#define PAD_RIGHT_THUMB		0x0080
+#define PAD_LEFT_SHOULDER	0x0100
+#define PAD_RIGHT_SHOULDER	0x0200
+#define PAD_A				0x1000
+#define PAD_B				0x2000
+#define PAD_X				0x4000
+#define PAD_Y				0x8000
 
 	XINPUT_STATE state;
 	XINPUT_STATE preState;
+	bool isConnect;
 
 	//バイブレーション
 	XINPUT_VIBRATION vibration;

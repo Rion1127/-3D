@@ -5,7 +5,12 @@ Microsoft::WRL::ComPtr<IXAudio2> SoundManager::xAudio2;
 IXAudio2MasteringVoice* SoundManager::masterVoice;
 std::map<SoundKey, SoundData> SoundManager::sndMap;
 
-std::string directoryPath_ = "Resources/BGM_SE/";
+std::string directoryPath_ = "Resources/Sound/";
+
+SoundManager::~SoundManager()
+{
+	
+}
 
 SoundManager* SoundManager::GetInstance()
 {
@@ -124,6 +129,7 @@ SoundData* SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 
 SoundData* SoundManager::GetSoundData(SoundKey key)
 {
+	
 	return &sndMap.at(key);
 }
 

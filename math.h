@@ -1,4 +1,6 @@
 #pragma once
+#include <DirectXMath.h>
+#include <vector>
 #include "Vector2.h"
 #include "Vector3.h"
 
@@ -71,5 +73,16 @@ struct Matrix4 {
 };
 //ラジアンから角度
 float ConvertRadianToAngle(float radian);
-//角度からラジアン(こっちをよく使う)
+//角度からラジアン
 float ConvertAngleToRadian(float angle);
+
+const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startIndex, const float t);
+// 始点/終点の座標と ベクトルから、曲線の軌道上の座標を返す
+Vector3 GetPoint(Vector3 p0, Vector3 p1, Vector3 v0, Vector3 v1, float t);
+
+float UpAndDown(float oneRoundTime, float range);
+
+const Vector3 operator-(const DirectX::XMFLOAT3 v1, const Vector3 v2);
+const Vector3 operator-(const Vector3 v1, const DirectX::XMFLOAT3 v2);
+const Vector3 operator+(const Vector3 v1, const DirectX::XMFLOAT3 v2);
+const Vector3 operator+(const DirectX::XMFLOAT3 v1, const Vector3 v2);

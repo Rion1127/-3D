@@ -54,7 +54,7 @@ class SoundManager {
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-
+	~SoundManager();
 	static SoundManager* GetInstance();
 	static void Init();
 

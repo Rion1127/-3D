@@ -49,12 +49,14 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	//インデックスバッファビューの作成
 	D3D12_INDEX_BUFFER_VIEW ibView{};
+
+	Material material;
+
+public:
 	//頂点データ
 	std::vector<VertexPosNormalUv> vertices;
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	//頂点インデックス
 	std::vector<uint16_t> indices;
-
-	Material material;
 };
 

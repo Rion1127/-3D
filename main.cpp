@@ -7,6 +7,7 @@
 #include "DirectX.h"
 #include "GameScene.h"
 #include "mSound.h"
+#include "SceneManager.h"
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -19,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//DirectX初期化
 	DirectXCommon* directX = DirectXCommon::GetInstance();
 	directX->Ini(winApi);
-	
+
 	//テクスチャマネージャー初期化
 	TextureManager::GetInstance()->Ini(directX->GetDevice());
 	//インプット初期化
@@ -37,10 +38,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sound_->Init();
 
 	//ゲームシーン初期化
-	GameScene* gameScene = new GameScene;
-	gameScene->Ini();
-
-	
+	SceneManager::Ini();
 
 	///////////////////////
 	//描画初期化処理　ここまで//
@@ -57,20 +55,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		controller->Update();
 		mouse->Updata();
 		//ゲームシーン更新
-		gameScene->Updata();
-		
+		SceneManager::Update();
 		//描画コマンド
 		directX->PreDraw();
 		//ゲームシーン描画
-		gameScene->Draw();
+		//gameScene->Draw();
+		SceneManager::Draw();
 		//描画終了
 		directX->PostDraw();
 	}
 
 	// ウィンドウクラスを登録解除
 	winApi->ReleaseClass();
-
-	delete gameScene;
 
 	sound_->ReleaseAllSounds();;
 

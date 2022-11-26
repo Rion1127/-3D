@@ -43,7 +43,7 @@ void WorldTransform::AddPosition(float x, float y, float z)
 	position.z += z;
 }
 
-void WorldTransform::Initialize()
+void WorldTransform::Ini()
 {
 	HRESULT result;
 
@@ -77,7 +77,7 @@ void WorldTransform::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-void WorldTransform::UpdateObject3d(ViewProjection viewProjection)
+void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -92,6 +92,14 @@ void WorldTransform::UpdateObject3d(ViewProjection viewProjection)
 
 	//ワールド行列の合成
 	matWorld = XMMatrixIdentity();	//変形をリセット
+	//ビルボード
+	if (isBillboard == 1) {
+		matWorld *= viewProjection.matBillboard;
+	}
+	else if (isBillboard == 2) {
+		matWorld *= viewProjection.matBillboardY;
+	}
+
 	matWorld *= matScale;			//ワールド行列にスケーリングを反映
 	matWorld *= matRot;				//ワールド行列に開店を反映
 	matWorld *= matTrans;			//ワールド行列に平行移動を反映
@@ -103,6 +111,7 @@ void WorldTransform::UpdateObject3d(ViewProjection viewProjection)
 	}
 
 	//定数バッファへデータ転送
-	constMapTransform->mat = matWorld * viewProjection.GetMatView() * viewProjection.GetMatProjection();
+	constMapTransform->mat = matWorld ;
+	constMapTransform->viewProj = viewProjection.GetMatView() * viewProjection.GetMatProjection();
 }
 

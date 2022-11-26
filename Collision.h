@@ -1,12 +1,20 @@
 #pragma once
-#include "Player.h"
-#include "Enemy.h"
+
 //球
 struct Sphere {
 	//中心座標
 	DirectX::XMVECTOR center = { 0,0,0,1 };
 	//半径
 	float radius = 1.0f;
+
+	void SetPos(Vector3 pos) {
+		center.m128_f32[0] = pos.x;
+		center.m128_f32[1] = pos.y;
+		center.m128_f32[2] = pos.z;
+	};
+
+	// フラグ
+	bool isActive = false;
 };
 //平面
 struct Plane {
@@ -26,6 +34,13 @@ struct Triangle {
 };
 
 bool RayCollision(WorldTransform ray, WorldTransform obj);
+
+bool BallCollision(const WorldTransform& a, const WorldTransform& b);
+
+bool BallCollision(const Vector3& a, const float& aSize, const Vector3& b, const float& bSize);
+
+//球と球
+bool BallCollision(const Sphere& a, const Sphere& b);
 //平面と球
 bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane,
 	DirectX::XMVECTOR* inter = nullptr);

@@ -3,6 +3,7 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3d12.h>
+#include <d3dx12.h>
 #include <cassert>
 #include <string>
 #include "Texture.h"
@@ -10,8 +11,9 @@ using namespace DirectX;
 #include "Util.h"
 #include "Sprite.h"
 
-void Sprite::Ini(ID3D12Device* device)
+void Sprite::Ini()
 {
+	directX_ = DirectXCommon::GetInstance();
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
@@ -35,7 +37,7 @@ void Sprite::Ini(ID3D12Device* device)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	
-	result = device->CreateCommittedResource(
+	result = directX_->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -84,7 +86,7 @@ void Sprite::Ini(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	
-	result = device->CreateCommittedResource(
+	result = directX_->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -137,7 +139,7 @@ void Sprite::Ini(ID3D12Device* device)
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 
@@ -249,14 +251,14 @@ void Sprite::Ini(ID3D12Device* device)
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = directX_->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature.Get();
 
 	// パイプランステートの生成
-	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
 #pragma region シェーダーに色を渡す
@@ -275,7 +277,7 @@ void Sprite::Ini(ID3D12Device* device)
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = directX_->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,
@@ -285,7 +287,6 @@ void Sprite::Ini(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 
 	//定数バッファのマッピング
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);
 	assert(SUCCEEDED(result));
 	//値を書き込むと自動的に転送される
@@ -293,55 +294,61 @@ void Sprite::Ini(ID3D12Device* device)
 #pragma endregion
 
 #pragma region トランスフォーム
-	//ヒープ設定
-	D3D12_HEAP_PROPERTIES transHeapProp{};
-	transHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	///GPUへの転送用
-	//リソース設定
-	D3D12_RESOURCE_DESC transResourceDesc{};
-	//リソース設定
-	transResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	transResourceDesc.Width = (sizeof(ConstBufferDataTransform) + 0xff) & ~0xff;	//256バイトアラインメント
-	transResourceDesc.Height = 1;
-	transResourceDesc.DepthOrArraySize = 1;
-	transResourceDesc.MipLevels = 1;
-	transResourceDesc.SampleDesc.Count = 1;
-	transResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	{
+		// ヒーププロパティ
+		CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+		// リソース設定
+		CD3DX12_RESOURCE_DESC resourceDesc =
+			CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransform) + 0xff) & ~0xff);
 
-	//定数バッファの生成
-	result = device->CreateCommittedResource(
-		&transHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&transResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffTransform));
-	assert(SUCCEEDED(result));
+		// 定数バッファの生成
+		result = directX_->GetDevice()->CreateCommittedResource(
+			&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr, IID_PPV_ARGS(&constBuffTransform));
+		assert(SUCCEEDED(result));
+	}
 
-	//定数バッファのマッピング
+	// 定数バッファマッピング
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
 	assert(SUCCEEDED(result));
 	//単位行列を代入
 	constMapTransform->mat = XMMatrixIdentity();
 
-	//平行投影行列の計算
-		constMapTransform->mat = XMMatrixOrthographicOffCenterLH(
-			0.0f, 1280,
-			720, 0.0f,
-			0.0f, 1.0f);
+	// 射影行列計算
+	matProjection = XMMatrixOrthographicOffCenterLH(
+		0.0f, (float)1280, (float)720, 0.0f, 0.0f, 1.0f);
+
+	//スケール
+	Scale_ = { 1.f,1.f };
+	color_ = { 1,1,1,1 };
 #pragma endregion
 }
 
-void Sprite::PreDraw(ID3D12GraphicsCommandList* commandList)
+void Sprite::SetPos(Vector2 pos)
 {
-	commandList_ = commandList;
-	// パイプラインステートとルートシグネチャの設定コマンド
-	commandList_->SetPipelineState(pipelineState.Get());
-	commandList_->SetGraphicsRootSignature(rootSignature.Get());
-	// プリミティブ形状の設定コマンド
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	pos_ = pos;
 }
 
-void Sprite::Draw(Vector2 pos,UINT descriptorSize)
+void Sprite::SetRot(float rot)
+{
+	rot_ = rot;
+}
+
+void Sprite::SetScale(Vector2 scale)
+{
+	Scale_ = scale;
+}
+
+void Sprite::PreDraw()
+{
+	// パイプラインステートとルートシグネチャの設定コマンド
+	directX_->GetCommandList()->SetPipelineState(pipelineState.Get());
+	directX_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+	// プリミティブ形状の設定コマンド
+	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+}
+
+void Sprite::Draw(UINT descriptorSize)
 {
 	HRESULT result;
 #pragma region 画像のサイズを取得
@@ -350,10 +357,10 @@ void Sprite::Draw(Vector2 pos,UINT descriptorSize)
 	float height = meta.height;
 #pragma endregion
 #pragma region 画像の頂点データを更新
-	vertices.at(0).pos = {     0 + pos.x, height + pos.y,0 };//左下
-	vertices.at(1).pos = {     0 + pos.x,      0 + pos.y,0 };//左上
-	vertices.at(2).pos = { width + pos.x, height + pos.y,0 };//右下
-	vertices.at(3).pos = { width + pos.x,      0 + pos.y,0 };//右上
+	vertices.at(0).pos = { -(width / 2)	, (height / 2) ,0 };//左下
+	vertices.at(1).pos = { -(width / 2)	,-(height / 2) ,0 };//左上
+	vertices.at(2).pos = {  (width / 2)	, (height / 2) ,0 };//右下
+	vertices.at(3).pos = {  (width / 2)	,-(height / 2) ,0 };//右上
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
@@ -364,19 +371,31 @@ void Sprite::Draw(Vector2 pos,UINT descriptorSize)
 	}
 	// 繋がりを解除
 	vertBuff->Unmap(0, nullptr);
+
+	// ワールド行列の更新
+	matWorld_ = XMMatrixIdentity();
+	matWorld_ *= XMMatrixScaling(Scale_.x, Scale_.y, 0);
+	matWorld_ *= XMMatrixRotationZ(rot_);
+	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
+
+	// 定数バッファにデータ転送
+	constMapMaterial->color = color_;
+	constMapTransform->mat = matWorld_ * matProjection; // 行列の合成
+
 #pragma endregion
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(commandList_.Get(), descriptorSize);
+
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	commandList_->IASetVertexBuffers(0, 1, &vbView);
+	directX_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	commandList_->IASetIndexBuffer(&ibView);
+	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList_->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 	
 	//描画コマンド
-	commandList_->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	directX_->GetCommandList()->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
 }
 
 void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
@@ -398,17 +417,28 @@ void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY,
 	}
 	// 繋がりを解除
 	vertBuff->Unmap(0, nullptr);
+
+	// ワールド行列の更新
+	matWorld_ = XMMatrixIdentity();
+	matWorld_ *= XMMatrixScaling(Scale_.x, Scale_.y, 0);
+	matWorld_ *= XMMatrixRotationZ(rot_);
+	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
+
+	// 定数バッファにデータ転送
+	constMapMaterial->color = color_;
+	constMapTransform->mat = matProjection; // 行列の合成
+
 #pragma endregion
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(commandList_.Get(), descriptorSize);
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList_->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	commandList_->IASetVertexBuffers(0, 1, &vbView);
+	directX_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	commandList_->IASetIndexBuffer(&ibView);
+	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList_->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2,constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
-	commandList_->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	directX_->GetCommandList()->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
 }

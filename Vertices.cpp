@@ -9,35 +9,35 @@ void Vertices::Ini(ID3D12Device* device)
 	HRESULT result;
 #pragma region 頂点データ
 	//前
-	vertices.push_back({ {-5.0f,-5.0f, -0.0f },{}, { 0.0f,1.0f } });//左下
-	vertices.push_back({ {-5.0f, 5.0f, -0.0f },{}, { 0.0f,0.0f } });//左上
-	vertices.push_back({ { 5.0f,-5.0f, -0.0f },{}, { 1.0f,1.0f } });//右下
-	vertices.push_back({ { 5.0f, 5.0f, -0.0f },{}, { 1.0f,0.0f } });//右上
+	vertices.push_back({ {-5.0f,-5.0f, 0.0f },{}, { 0.0f,1.0f } });//左下
+	vertices.push_back({ {-5.0f, 5.0f, 0.0f },{}, { 0.0f,0.0f } });//左上
+	vertices.push_back({ { 5.0f,-5.0f, 0.0f },{}, { 1.0f,1.0f } });//右下
+	vertices.push_back({ { 5.0f, 5.0f, 0.0f },{}, { 1.0f,0.0f } });//右上
 	//後ろ
-	vertices.push_back({ {-5.0f,  5.0f, 5.0f},{}, { 0.0f,0.0f} });//左上
-	vertices.push_back({ {-5.0f, -5.0f, 5.0f},{}, { 0.0f,1.0f} });//左下
-	vertices.push_back({ { 5.0f,  5.0f, 5.0f},{}, { 1.0f,0.0f} });//右上
-	vertices.push_back({ { 5.0f, -5.0f, 5.0f},{}, { 1.0f,1.0f} });//右下
-	//左
-	vertices.push_back({ {-5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
-	vertices.push_back({ {-5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
-	vertices.push_back({ {-5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
-	vertices.push_back({ {-5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
-	//右				 
-	vertices.push_back({ {5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
-	vertices.push_back({ {5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
-	vertices.push_back({ {5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
-	vertices.push_back({ {5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
-	//下				 
-	vertices.push_back({ { 5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
-	vertices.push_back({ { 5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
-	vertices.push_back({ {-5.0f,-5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
-	vertices.push_back({ {-5.0f,-5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
-	//上				 
-	vertices.push_back({ { 5.0f, 5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
-	vertices.push_back({ { 5.0f, 5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
-	vertices.push_back({ {-5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
-	vertices.push_back({ {-5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
+	//vertices.push_back({ {-5.0f,  5.0f, 5.0f},{}, { 0.0f,0.0f} });//左上
+	//vertices.push_back({ {-5.0f, -5.0f, 5.0f},{}, { 0.0f,1.0f} });//左下
+	//vertices.push_back({ { 5.0f,  5.0f, 5.0f},{}, { 1.0f,0.0f} });//右上
+	//vertices.push_back({ { 5.0f, -5.0f, 5.0f},{}, { 1.0f,1.0f} });//右下
+	////左
+	//vertices.push_back({ {-5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
+	//vertices.push_back({ {-5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
+	//vertices.push_back({ {-5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
+	//vertices.push_back({ {-5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
+	////右				 
+	//vertices.push_back({ {5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
+	//vertices.push_back({ {5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
+	//vertices.push_back({ {5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
+	//vertices.push_back({ {5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
+	////下				 
+	//vertices.push_back({ { 5.0f,-5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
+	//vertices.push_back({ { 5.0f,-5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
+	//vertices.push_back({ {-5.0f,-5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
+	//vertices.push_back({ {-5.0f,-5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
+	////上				 
+	//vertices.push_back({ { 5.0f, 5.0f, 5.0f} ,{},{0.0f,0.0f} });//左上
+	//vertices.push_back({ { 5.0f, 5.0f,-5.0f} ,{},{0.0f,1.0f} });//左下
+	//vertices.push_back({ {-5.0f, 5.0f, 5.0f} ,{},{1.0f,0.0f} });//右上
+	//vertices.push_back({ {-5.0f, 5.0f,-5.0f} ,{},{1.0f,1.0f} });//右下
 #pragma endregion
 #pragma region 頂点インデックス
 	//前
@@ -48,40 +48,40 @@ void Vertices::Ini(ID3D12Device* device)
 	indices.push_back(1);
 	indices.push_back(3);
 	//後ろ
-	indices.push_back(4);
-	indices.push_back(5);
-	indices.push_back(6);
-	indices.push_back(6);
-	indices.push_back(5);
-	indices.push_back(7);
-	//左
-	indices.push_back(8);
-	indices.push_back(9);
-	indices.push_back(10);
-	indices.push_back(10);
-	indices.push_back(9);
-	indices.push_back(11);
-	//右
-	indices.push_back(12);
-	indices.push_back(13);
-	indices.push_back(14);
-	indices.push_back(14);
-	indices.push_back(13);
-	indices.push_back(15);
-	//下
-	indices.push_back(16);
-	indices.push_back(17);
-	indices.push_back(18);
-	indices.push_back(18);
-	indices.push_back(17);
-	indices.push_back(19);
-	//上
-	indices.push_back(20);
-	indices.push_back(21);
-	indices.push_back(22);
-	indices.push_back(22);
-	indices.push_back(21);
-	indices.push_back(23);
+	//indices.push_back(4);
+	//indices.push_back(5);
+	//indices.push_back(6);
+	//indices.push_back(6);
+	//indices.push_back(5);
+	//indices.push_back(7);
+	////左
+	//indices.push_back(8);
+	//indices.push_back(9);
+	//indices.push_back(10);
+	//indices.push_back(10);
+	//indices.push_back(9);
+	//indices.push_back(11);
+	////右
+	//indices.push_back(12);
+	//indices.push_back(13);
+	//indices.push_back(14);
+	//indices.push_back(14);
+	//indices.push_back(13);
+	//indices.push_back(15);
+	////下
+	//indices.push_back(16);
+	//indices.push_back(17);
+	//indices.push_back(18);
+	//indices.push_back(18);
+	//indices.push_back(17);
+	//indices.push_back(19);
+	////上
+	//indices.push_back(20);
+	//indices.push_back(21);
+	//indices.push_back(22);
+	//indices.push_back(22);
+	//indices.push_back(21);
+	//indices.push_back(23);
 #pragma endregion
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -328,7 +328,7 @@ void Vertices::Draw(uint32_t indexSize,
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(2, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced((UINT)indexSize, 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced(indexSize, 1, 0, 0, 0);
 }
 
 void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
@@ -341,7 +341,7 @@ void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worl
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(2, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
 }
 
 

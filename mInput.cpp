@@ -141,17 +141,15 @@ void MouseInput::Updata()
 	}
 	
 	result = mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
-	if (FAILED(result)) {
-		//str = "NG\n";
-	}
-	//画面外をクリックしたら入力を無効にする
+	//ウィンドウの外をクリックしたら入力情報を無効にする
 	if (FAILED(result)) {
 		mouseState.lX = 0;
 		mouseState.lY = 0;
 		mouseState.lZ = 0;
-		for (int i = 0; i < 4; i++) {
-			mouseState.rgbButtons[i] = 0;
-		}
+		mouseState.rgbButtons[0] = 0;
+		mouseState.rgbButtons[1] = 0;
+		mouseState.rgbButtons[2] = 0;
+		mouseState.rgbButtons[3] = 0;
 	}
 	//OutputDebugStringA(str.c_str());
 	//座標取得
@@ -219,18 +217,23 @@ Controller* Controller::GetInstance()
 
 void Controller::Ini()
 {
-	preState = state;
-	XInputGetState(
-		0,       // DWORD         dwUserIndex
-		&state);
+	Update();
 }
 
 void Controller::Update()
 {
+	DWORD result = S_OK;
 	preState = state;
-	XInputGetState(
+	result = XInputGetState(
 		0,       // DWORD         dwUserIndex
 		&state);
+
+	if (result == ERROR_SUCCESS) {
+		isConnect = true;
+	}
+	else {
+		isConnect = false;
+	}
 }
 
 WORD Controller::GetButtons(WORD button)
@@ -272,14 +275,14 @@ Vector2 Controller::GetLStick()
 	stickPos.x = state.Gamepad.sThumbLX;
 	stickPos.y = state.Gamepad.sThumbLY;
 	//デッドゾーンを設定
-	if ((state.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f &&
-		state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f))
+	if ((state.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/ &&
+		state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/))
 	{
 		stickPos.x = 0;
 	}
 
-	if ((state.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f &&
-		state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE * 2.0f))
+	if ((state.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/ &&
+		state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/))
 	{
 		stickPos.y = 0;
 	}

@@ -9,6 +9,10 @@ float Vector3::length() const
 {
 	return sqrt(x * x + y * y + z * z);
 }
+float Vector3::length2() const
+{
+	return x * x + y * y + z * z;
+}
 // ベクトルを正規化
 Vector3& Vector3::normalize()
 {
@@ -32,6 +36,16 @@ Vector3 Vector3::cross(const Vector3& v) const
 		z * v.x - x * v.z,
 		x * v.y - y * v.x
 	);
+}
+Vector3 Vector3::SetLength(float l)
+{
+	float len2 = this->length();
+	float mul = l / len2;
+	x *= mul;
+	y *= mul;
+	z *= mul;
+
+	return *this;
 }
 // 単項演算子オーバーロード
 //単項演算子+を使えるようにする

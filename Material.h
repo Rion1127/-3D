@@ -12,7 +12,6 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
-
 	static Material* Create(ID3D12Device* device);
 	void Ini(ID3D12Device* device);
 

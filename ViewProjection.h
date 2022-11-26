@@ -28,6 +28,7 @@ public:
 	//アップベクトル
 	void SetUpVec(float x, float y, float z);
 	void SetUpVec(Vector3 upVec);
+	void MoveTo(Vector3 goal, float speed);
 	//初期化
 	void Ini();
 	void Update();
@@ -41,6 +42,21 @@ public:
 	XMMATRIX matView{};
 	//透視投影行列の計算
 	XMMATRIX matProjection{};
+
+	//ビルボード行列
+	XMMATRIX matBillboard;
+	//Y軸周りのビルボード
+	XMMATRIX matBillboardY;
+
+	/// <summary>
+	/// カメラシェイク
+	/// </summary>
+	/// <param name="time">揺れる時間</param>
+	/// <param name="power">揺れる大きさ</param>
+	void ShakeSet(int time, float power);
+	void ShakeUpdate();
+	void SetOriginalPos();
+	bool GetIsShake() { return isShake; }
 private:
 	void CreateConstBuffer();
 	void Map();
@@ -53,5 +69,14 @@ private:
 	const float aspectRatio = (float)16 / 9;
 
 	DirectXCommon* directX_ = nullptr;
+
+
+	//シェイクする前の場所
+	XMFLOAT3 originalPos;
+	bool isShake = false;
+	int maxShakeTime;
+	int shakeTime = 0;
+	float power_;
 };
 
+const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2);

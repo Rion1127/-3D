@@ -22,10 +22,7 @@ static ComPtr<ID3D12PipelineState> pipelineState;
 // グラフィックスパイプライン設定
 static D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 //コマンドリストを格納する
-static ComPtr<ID3D12GraphicsCommandList> commandList_ = nullptr;
-static ComPtr<ID3D12Device> device_ = nullptr;
-//頂点データ(ボックスオブジェ)
-static Vertices vertices_;
+static DirectXCommon* directX_ = nullptr;
 
 Object3d::~Object3d()
 {
@@ -33,7 +30,7 @@ Object3d::~Object3d()
 		delete m;
 	}
 	vert_.clear();
-	for (auto &m : materials_) {
+	for (auto m : materials_) {
 		delete m.second;
 	}
 	materials_.clear();
@@ -45,10 +42,10 @@ Object3d* Object3d::GetInstance()
 	return &instance;
 }
 
-void Object3d::Ini(ID3D12Device* device)
+void Object3d::Ini()
 {
+	directX_ = DirectXCommon::GetInstance();
 	HRESULT result;
-	device_ = device;
 	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
@@ -117,7 +114,7 @@ void Object3d::Ini(ID3D12Device* device)
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = directX_->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
@@ -200,10 +197,9 @@ void Object3d::Ini(ID3D12Device* device)
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプランステートの生成
-	result = device_->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
-	vertices_.Ini(device_.Get());
 }
 
 Object3d* Object3d::CreateOBJ(const std::string& modelname)
@@ -212,6 +208,51 @@ Object3d* Object3d::CreateOBJ(const std::string& modelname)
 	instance->ModelIni(modelname);
 
 	return instance;
+}
+
+std::unique_ptr<Object3d> Object3d::CreateOBJ_uniptr(const std::string& modelname)
+{
+	std::unique_ptr<Object3d> instance = std::make_unique<Object3d>();
+	instance->ModelIni(modelname);
+
+	return /*std::move(*/instance/*)*/;
+}
+
+void Object3d::SetModel(const Object3d* model)
+{
+	
+	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
+	Vertices* vert = vert_.back();		//空のvert_のアドレスをvertに入れる
+
+	for (size_t i = 0; i < model->vert_[0]->vertices.size(); i++) {
+		vert->AddVertices(model->vert_[0]->vertices[i]);
+	}
+
+	for (size_t i = 0; i < model->vert_[0]->indices.size(); i++) {
+		vert->AddIndex(model->vert_[0]->indices[i]);
+	}
+
+
+	//vert_.resize(model->vert_.size());
+	//std::copy(model->vert_.begin(), model->vert_.end(), vert_.begin());
+
+	//textureHandle_.resize(model->textureHandle_.size());
+	//std::copy(model->textureHandle_.begin(), model->textureHandle_.end(), textureHandle_.begin());
+
+	//for (size_t i = 0; i < model->materials_.size(); i++) {
+	//	materials_.insert(model->materials_.at());
+	//}
+
+	//materials_.insert(model->materials_.begin(), model->materials_.end());
+
+	for (size_t i = 0; i < model->textureHandle_.size();i++) {
+		textureHandle_.push_back(model->textureHandle_[i]);
+	}
+
+	// メッシュのバッファ生成
+	for (auto& m : vert_) {
+		m->CreateBuffer(directX_->GetDevice());
+	}
 }
 
 void Object3d::LoadOBJ(const std::string& modelname)
@@ -371,7 +412,7 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 			}
 
 			// 新しいマテリアルを生成
-			material = Material::Create(device_.Get());
+			material = Material::Create(directX_->GetDevice());
 			// マテリアル名読み込み
 			line_stream >> material->name_;
 			
@@ -439,53 +480,45 @@ void Object3d::ModelIni(const std::string& modelname)
 	LoadOBJ(modelname);
 	// メッシュのバッファ生成
 	for (auto& m : vert_) {
-		m->CreateBuffer(device_.Get());
+		m->CreateBuffer(directX_->GetDevice());
 	}
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList* commandList)
+void Object3d::PreDraw()
 {
-	commandList_ = commandList;
 	// パイプラインステートとルートシグネチャの設定コマンド
-	commandList_->SetPipelineState(pipelineState.Get());
-	commandList_->SetGraphicsRootSignature(rootSignature.Get());
+	directX_->GetCommandList()->SetPipelineState(pipelineState.Get());
+	directX_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
-void Object3d::ChangeColor(float x, float y, float z, float w)
+void Object3d::ObjChangeColor(float x, float y, float z, float w)
 {
-	vertices_.ChangeColor(x, y, z, w);
+	for (auto& v : vert_) {
+		v->ChangeColor(x, y, z, w);
+	}
 }
 
-void Object3d::ChangeColor(XMFLOAT4 color_)
-{
-	vertices_.ChangeColor(color_);
-}
-
-void Object3d::ChangeColorObj(XMFLOAT4 color_)
+void Object3d::ObjChangeColor(XMFLOAT4 color_)
 {
 	for (auto& v : vert_) {
 		v->ChangeColor(color_);
 	}
 }
 
-void Object3d::DrawCube(WorldTransform* worldTransform, uint32_t descriptorSize)
-{
-	vertices_.Draw(vertices_.GetIndices().size(), commandList_.Get(), worldTransform, descriptorSize);
-}
-
 void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
 	for (auto& v : vert_) {
-		v->Draw(commandList_.Get(), worldTransform, textureHandle_.at(0));
+		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle_.at(0));
 	}
 }
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& v : vert_) {
-		v->Draw(commandList_.Get(), worldTransform, textureHandle);
+		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle);
 	}
 }
+

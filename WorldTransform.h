@@ -10,6 +10,7 @@ using namespace DirectX;
 //定数バッファ用データ構造体（３D変換行列）
 struct ConstBufferDataTransform {
 	XMMATRIX mat; //3D変換行列
+	XMMATRIX viewProj;	//ビューとプロジェクション合成行列
 };
 
 class WorldTransform
@@ -28,8 +29,13 @@ public:
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
 
-	void Initialize();
-	void UpdateObject3d(ViewProjection viewProjection);
+	void Ini();
+	/// <summary>
+	/// ワールドトランスフォーム更新
+	/// </summary>
+	/// <param name="viewProjection">カメラ</param>
+	/// <param name="isBillboard">0 = 無し; 1 = ビルボードあり; 2 = Y軸ビルボード</param>
+	void Update(ViewProjection viewProjection,int isBillboard = 0);
 
 	//定数バッファ（行列用）
 	ComPtr<ID3D12Resource> constBuffTransform;
