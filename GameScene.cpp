@@ -85,7 +85,9 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 
+	Object3d::SetBlend(BLEND_ALPHA);
 	skyDome->DrawOBJ(&skyDomepos);
+
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////

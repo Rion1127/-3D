@@ -135,9 +135,6 @@
     <ClCompile Include="mSound.cpp">
       <Filter>engine\ソース ファイル\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="mRootParameter.cpp">
-      <Filter>engine\ソース ファイル\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="RailCamera.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
@@ -149,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="Easing.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline.cpp">
+      <Filter>engine\ソース ファイル\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +206,6 @@
     <ClInclude Include="mSound.h">
       <Filter>engine\ヘッダー ファイル\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="mRootParameter.h">
-      <Filter>engine\ヘッダー ファイル\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="RailCamera.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="Easing.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
+      <Filter>engine\ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

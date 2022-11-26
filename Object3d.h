@@ -4,6 +4,7 @@
 #include <string>
 #include "Vertices.h"
 #include "DirectX.h"
+#include "Pipeline.h"
 using namespace Microsoft::WRL;
 class Object3d
 {
@@ -19,6 +20,8 @@ public:
 	//ƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	static Object3d* CreateOBJ(const std::string& modelname);
 	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
+
+	static void SetBlend(int blend);
 
 	void SetModel(const Object3d* model);
 private:
@@ -53,6 +56,8 @@ private:
 	
 	// –¼‘O
 	std::string name_;
+
+	static Pipeline pipeline_;
 
 public:
 	std::vector<Vertices*> vert_;
