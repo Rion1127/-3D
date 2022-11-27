@@ -77,6 +77,11 @@ void Object3d::SetBlend(int blend)
 	pipeline_.SetBlend(blend);
 }
 
+void Object3d::SetNormal()
+{
+	pipeline_.SetNormalBlend();
+}
+
 void Object3d::SetModel(const Object3d* model)
 {
 	

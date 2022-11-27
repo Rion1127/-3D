@@ -26,6 +26,8 @@ public:
 	/// <param name="BLEND_NORMAL">îºìßñæçáê¨</param>
 	void SetBlend(int blend);
 
+	void SetNormalBlend();
+
 	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 
 	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }

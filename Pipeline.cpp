@@ -76,6 +76,23 @@ void Pipeline::SetBlend(int blend)
 	
 }
 
+void Pipeline::SetNormalBlend()
+{
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;// RBGA全てのチャンネルを描画
+	//共通設定（アルファ値）
+	blenddesc.BlendEnable = true;					//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を  0%使う
+	//半透明合成
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+
+	directX_->GetCommandList()->SetPipelineState(pipelineState.Get());
+}
+
 void Pipeline::SetInputLayout()
 {
 	// 頂点レイアウト

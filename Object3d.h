@@ -22,6 +22,7 @@ public:
 	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
 
 	static void SetBlend(int blend);
+	static void SetNormal();
 
 	void SetModel(const Object3d* model);
 private:
