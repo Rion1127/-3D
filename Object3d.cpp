@@ -53,7 +53,7 @@ void Object3d::Ini()
 	
 #pragma endregion
 
-	pipeline_.Ini(vsBlob.Get(), psBlob.Get(), errorBlob.Get());
+	pipeline_.Ini();
 }
 
 Object3d* Object3d::CreateOBJ(const std::string& modelname)

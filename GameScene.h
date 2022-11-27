@@ -43,6 +43,11 @@ private:
 	WorldTransform skyDomepos;
 	float skyDomeRotate;
 
+	//天球
+	std::unique_ptr<Object3d> gumiship;
+	WorldTransform gumishippos;
+
+
 	ViewProjection gameCamera;
 	void cameraUpdate();
 	//使うカメラ座標

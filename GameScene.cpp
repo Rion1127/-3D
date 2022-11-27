@@ -27,7 +27,11 @@ void GameScene::Ini()
 	skyDomepos.Ini();
 	skyDomepos.SetPosition(0, 0, 0);
 	skyDomepos.scale = { 1,1,1 };
-	
+
+	gumiship = Object3d::CreateOBJ_uniptr("gumiShip");
+	gumishippos.Ini();
+	gumishippos.SetPosition(0, 0, 0);
+	gumishippos.scale = { 1,1,1 };
 
 	gameCamera.Ini();
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
@@ -65,8 +69,6 @@ void GameScene::Update()
 		gameCamera.eye.x += 0.2f;
 	}
 
-	
-
 #endif // _DEBUG
 	//カメラ更新
 	debugCamera.Update();
@@ -75,7 +77,7 @@ void GameScene::Update()
 
 	skyDomepos.Update(*useVP);
 
-	
+	gumishippos.Update(*useVP);
 }
 
 void GameScene::Draw()
@@ -85,8 +87,10 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 
-	Object3d::SetBlend(BLEND_ALPHA);
+	Object3d::SetBlend(BLEND_NORMAL);
 	skyDome->DrawOBJ(&skyDomepos);
+	Object3d::SetBlend(BLEND_NORMAL);
+	gumiship->DrawOBJ(&gumishippos);
 
 	///////////////////
 	//板状３Dオブジェクト//

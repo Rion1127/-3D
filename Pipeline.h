@@ -16,7 +16,7 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	void Ini(ID3DBlob* vsBlob, ID3DBlob* psBlob, ID3DBlob* errorBlob);
+	void Ini();
 	/// <summary>
 	/// ブレンド設定
 	/// </summary>
@@ -33,7 +33,11 @@ public:
 private:
 	void SetInputLayout();
 
-	void SetRootSignature(ID3DBlob* errorBlob);
+	void SetRasterizer();
+
+	void SetShader();
+
+	void SetRootSignature();
 
 	void SetOther();
 
@@ -53,5 +57,9 @@ private:
 	static DirectXCommon* directX_;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout;
+
+	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 };
 

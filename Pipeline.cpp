@@ -1,70 +1,33 @@
 #include <cassert>
+#include "Util.h"
 #include "Pipeline.h"
 
 DirectXCommon* Pipeline::directX_ = DirectXCommon::GetInstance();
 
-void Pipeline::Ini(ID3DBlob* vsBlob, ID3DBlob* psBlob, ID3DBlob* errorBlob)
+void Pipeline::Ini()
 {
 	HRESULT result;
 
+	// 頂点シェーダの読み込みとコンパイル
+	ShaderCompileFromFile(L"Resources/shader/BasicVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
+	// ピクセルシェーダの読み込みとコンパイル
+	ShaderCompileFromFile(L"Resources/shader/BasicPS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
 	// ルートシグネチャの設定
-	SetRootSignature(errorBlob);
-
-	// グラフィックスパイプライン設定
-
+	SetRootSignature();
 	// シェーダーの設定
-	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
-	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
-	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
-	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
-
+	SetShader();
 	// サンプルマスクの設定
-	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
-
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // カリングしない
-	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
-	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
-
-	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
-	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
-	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
-
-
-
-	// 頂点レイアウト
-	inputLayout.push_back(
-		{
-		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-		D3D12_APPEND_ALIGNED_ELEMENT,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
-
-	inputLayout.push_back(
-		{
-		"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-		D3D12_APPEND_ALIGNED_ELEMENT,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
-
-	inputLayout.push_back(
-		{
-		"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
-		D3D12_APPEND_ALIGNED_ELEMENT,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
-
-	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
-	pipelineDesc.InputLayout.NumElements = inputLayout.size();
+	SetRasterizer();
+	//インプットレイアウト設定
+	SetInputLayout();
 	//その他の設定
 	SetOther();
-
 	// ブレンドステート
 	BlendIni();
-
 	// パイプランステートの生成
 	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
-
 }
 
 void Pipeline::SetBlend(int blend)
@@ -108,15 +71,63 @@ void Pipeline::SetBlend(int blend)
 	assert(SUCCEEDED(result));
 
 	// パイプラインステートの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(pipelineState.Get());
+	directX_->GetCommandList()->SetPipelineState(pipelineState2.Get());
+	directX_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+	
 }
 
 void Pipeline::SetInputLayout()
 {
+	// 頂点レイアウト
+	inputLayout.push_back(
+		{
+		"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
 
+	inputLayout.push_back(
+		{
+		"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
+
+	inputLayout.push_back(
+		{
+		"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
+
+	// 頂点レイアウトの設定
+	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
+	pipelineDesc.InputLayout.NumElements = inputLayout.size();
 }
 
-void Pipeline::SetRootSignature(ID3DBlob* errorBlob)
+void Pipeline::SetRasterizer()
+{
+	// サンプルマスクの設定
+	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+
+	// ラスタライザの設定
+	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK; // カリングしない
+	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
+	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+}
+
+void Pipeline::SetShader()
+{
+	// シェーダーの設定
+	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
+	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+}
+
+void Pipeline::SetRootSignature()
 {
 	HRESULT result;
 
