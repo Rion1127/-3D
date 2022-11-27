@@ -88,9 +88,15 @@ void GameScene::Draw()
 	Object3d::PreDraw();
 
 	Object3d::SetBlend(BLEND_ALPHA);
+	//天球
 	skyDome->DrawOBJ(&skyDomepos);
+
 	Object3d::SetNormal();
+
+	
+	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
+	Object3d::SetNormal();
 
 	///////////////////
 	//板状３Dオブジェクト//

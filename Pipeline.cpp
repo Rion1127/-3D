@@ -72,7 +72,7 @@ void Pipeline::SetBlend(int blend)
 
 	// パイプラインステートの設定コマンド
 	directX_->GetCommandList()->SetPipelineState(pipelineState2.Get());
-	directX_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+	//directX_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
 	
 }
 
