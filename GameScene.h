@@ -47,6 +47,8 @@ private:
 	std::unique_ptr<Object3d> gumiship;
 	WorldTransform gumishippos;
 
+	Sprite sprite_;
+	uint32_t texture_;
 
 	ViewProjection gameCamera;
 	void cameraUpdate();

@@ -3,8 +3,6 @@ using namespace DirectX;
 #include "Texture.h"
 #include "Material.h"
 
-const std::string kBaseDirectory = "Resources/";
-
 Material* Material::Create(ID3D12Device* device)
 {
 	Material* instance = new Material;
@@ -62,7 +60,7 @@ void Material::LoadTexture(const std::string& directoryPath)
 	ScratchImage scratchImg{};
 
 	// ファイルパスを結合
-	std::string filepath = kBaseDirectory + directoryPath + textureFilename_;
+	std::string filepath = directoryPath + textureFilename_;
 
 	// テクスチャ読み込み
 	textureHandle_ = TextureManager::GetInstance()->LoadGraph(filepath);

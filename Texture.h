@@ -24,6 +24,8 @@ public:
 
 	TexMetadata GetTexMetaData(UINT descriptorSize);
 
+	D3D12_RESOURCE_DESC GetResDesc(UINT descriptorSize);
+
 	//設定をもとにSRV用でスクリプタヒープを生成
 	ComPtr<ID3D12DescriptorHeap> srvHeap{};
 private:

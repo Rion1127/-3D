@@ -11,12 +11,12 @@ void SceneManager::Ini()
 	Transition<GameScene>();
 	sceneChangeSprite.Ini();
 	sceneChangePos = {
-		(float)-(WinAPI::GetInstance()->window_width / 2) ,
-		(float)(WinAPI::GetInstance()->window_height / 2) ,
+		(float)-(WinAPI::GetInstance()->win_width / 2) ,
+		(float)(WinAPI::GetInstance()->win_height / 2) ,
 	};
 	sceneChangeSprite.SetPos(sceneChangePos);
 
-	sceneChangeGraph = TextureManager::GetInstance()->LoadGraph("Resources/white1Å~1.png");
+	sceneChangeGraph = TextureManager::GetInstance()->LoadGraph("white1Å~1.png");
 }
 
 void SceneManager::Update()

@@ -119,8 +119,8 @@ void DirectXCommon::CreateSwapChain() {
 
 	//スワップチェーンを生成
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-	swapChainDesc.Width = winApi_->window_width;
-	swapChainDesc.Height = winApi_->window_height;
+	swapChainDesc.Width = winApi_->win_width;
+	swapChainDesc.Height = winApi_->win_height;
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// 色情報の書式を一般的なものに
 	swapChainDesc.SampleDesc.Count = 1;					// マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;	// バックバッファとして使えるように

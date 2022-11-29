@@ -41,6 +41,12 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
+	sprite_.Ini();
+	texture_ = textureM->LoadGraph("uv.png");
+	sprite_.SetAnchor(0.5, 0.5);
+	sprite_.SetPos(
+		winApi_->win_width / 2,
+		winApi_->win_height /2);
 
 	isNext_ = 2;
 	SceneManager::SetChangeStart(SceneNum::STAGE1_);
@@ -68,6 +74,22 @@ void GameScene::Update()
 	if (input_->PushKey(DIK_K)) {
 		gameCamera.eye.x += 0.2f;
 	}
+
+	if (input_->PushKey(DIK_UP)) {
+		Vector2 pos = sprite_.GetPos();
+		pos += {0, -2};
+		sprite_.SetPos(pos);
+	}
+
+	if (input_->PushKey(DIK_DOWN)) {
+		Vector2 pos = sprite_.GetPos();
+		pos += {0, 2};
+		sprite_.SetPos(pos);
+	}
+
+	sprite_.SetFlipX(input_->PushKey(DIK_N));
+	sprite_.SetFlipY(input_->PushKey(DIK_M));
+	sprite_.SetInvisivle(input_->PushKey(DIK_B));
 
 #endif // _DEBUG
 	//カメラ更新
@@ -107,7 +129,8 @@ void GameScene::Draw()
 	////////////
 	//スプライト//
 	////////////
-	
+	sprite_.PreDraw();
+	sprite_.Draw(texture_);
 }
 
 

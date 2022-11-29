@@ -17,14 +17,14 @@ public:
 	
 	static LRESULT WindowProcA(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	// ウィンドウサイズ
-	const int window_width = 1280; // 横幅
-	const int window_height = 720; // 縦幅
+	const int win_width = 1280; // 横幅
+	const int win_height = 720; // 縦幅
 
 	// ウィンドウクラスの設定
 	WNDCLASSEX w{};
 
 	// ウィンドウサイズ{ X座標 Y座標 横幅 縦幅 }
-	RECT wrc = { 0, 0, window_width, window_height };
+	RECT wrc = { 0, 0, win_width, win_height };
 
 	HWND hwnd;
 private:

@@ -16,18 +16,44 @@ public:
 
 	void Ini();
 	//座標を代入する
+	void SetPos(float x, float y) {
+		pos_.x = x;
+		pos_.y = y;
+	};
 	void SetPos(Vector2 pos);
 	//回転させる
 	void SetRot(float rot);
 	//スケール設定
+	void SetScale(float x, float y) {
+		Scale_.x = x;
+		Scale_.y = y;
+	};
 	void SetScale(Vector2 scale);
-
+	//画像の中心を決める
+	void SetAnchor(float x, float y) {
+		anchorPoint_.x = x;
+		anchorPoint_.y = y;
+	};
+	void SetAnchor(Vector2 pos) {
+		anchorPoint_ = pos;
+	};
+	//色変更
 	void ChangeColor(float x, float y, float z, float w) {
 		color_ = {x, y, z, w};
 	};
 	void ChangeColor(DirectX::XMFLOAT4 color) {
 		color_ = color;
 	};
+	//左右反転
+	void SetFlipX(bool flip) { isFlipX_ = flip; }
+	//上下反転
+	void SetFlipY(bool flip) { isFlipY_ = flip; }
+	//表示フラグ
+	void SetInvisivle(bool invisivle) { isInvisible_ = invisivle; }
+	//画像左上変更
+	void SetTex_LeftTop(Vector2 pos) { textureLeftTop_ = pos; }
+	//画像UV座標変更
+	void SetTex_Size(Vector2 pos) { textureSize = pos; }
 
 	Vector2 GetScale() { return Scale_; }
 	Vector2 GetPos() { return pos_; }
@@ -44,6 +70,13 @@ private:
 		XMFLOAT2 uv;
 	};
 
+	enum VertNum {
+		LB,	//左下
+		LT,	//左上
+		RB,	//右下
+		RT	//右上
+	};
+
 #pragma region 頂点データ
 	//頂点データ
 	std::vector<Vertex> vertices;
@@ -51,6 +84,8 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	// 頂点バッファの生成
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
+
+	Vertex* vertMap = nullptr;
 #pragma endregion
 #pragma region インデックスデータ
 	//インデックスデータ
@@ -95,5 +130,17 @@ private:
 	Vector2 pos_;
 	//スケール
 	Vector2 Scale_;
+	//アンカーポイント
+	Vector2 anchorPoint_;
+	//左右フリップ
+	bool isFlipX_ = false;
+	//上下フリップ
+	bool isFlipY_ = false;
+	//非表示フラグ
+	bool isInvisible_ = false;
+	//テクスチャ左上座標
+	Vector2 textureLeftTop_ = { 0.0f,0.0f };
+	//テクスチャ切り出しサイズ
+	Vector2 textureSize = { 0.f,0.f };
 };
 

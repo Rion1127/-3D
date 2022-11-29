@@ -42,9 +42,10 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	//ユニークポインタで宣言
 	std::unique_ptr<Texture> texture_ = std::make_unique<Texture>();
 
+	std::string allFileName = "Resources/" + HandleName;
 #pragma region 画像読み込み
 	//stringをwchar_tに変換
-	wchar_t* fileName = ConvertStrToWchar(HandleName);
+	wchar_t* fileName = ConvertStrToWchar(allFileName);
 
 	//WICテクスチャダウンロード
 	result = LoadFromWICFile(
@@ -140,6 +141,11 @@ void TextureManager::SetGraphicsDescriptorTable(ID3D12GraphicsCommandList* comma
 TexMetadata TextureManager::GetTexMetaData(UINT descriptorSize)
 {
 	return texBuff.at(descriptorSize).get()->metadata;
+}
+
+D3D12_RESOURCE_DESC TextureManager::GetResDesc(UINT descriptorSize)
+{
+	return texBuff.at(descriptorSize).get()->textureResourceDesc;
 }
 
 

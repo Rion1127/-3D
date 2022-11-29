@@ -17,10 +17,10 @@ void Sprite::Ini()
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
-	vertices.push_back({{   -0.0f,100.0f,0.0f },{0.0f,1.0f}});//左下
-	vertices.push_back({{   -0.0f, +0.0f,0.0f },{0.0f,0.0f}});//左上
-	vertices.push_back({{ +100.0f,100.0f,0.0f },{1.0f,1.0f}});//右下
-	vertices.push_back({{ +100.0f, +0.0f,0.0f },{1.0f,0.0f}});//右上
+	vertices.push_back({ {   -0.0f,100.0f,0.0f },{0.0f,1.0f} });//左下
+	vertices.push_back({ {   -0.0f, +0.0f,0.0f },{0.0f,0.0f} });//左上
+	vertices.push_back({ { +100.0f,100.0f,0.0f },{1.0f,1.0f} });//右下
+	vertices.push_back({ { +100.0f, +0.0f,0.0f },{1.0f,0.0f} });//右上
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * vertices.size());
@@ -36,7 +36,7 @@ void Sprite::Ini()
 	resDesc.MipLevels = 1;
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	
+
 	result = directX_->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -47,7 +47,6 @@ void Sprite::Ini()
 	assert(SUCCEEDED(result));
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
@@ -85,7 +84,7 @@ void Sprite::Ini()
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	
+
 	result = directX_->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -120,7 +119,7 @@ void Sprite::Ini()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	ShaderCompileFromFile(L"Resources/shader/SpritePS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
-	
+
 #pragma endregion
 	// グラフィックスパイプライン設定
 
@@ -321,6 +320,7 @@ void Sprite::Ini()
 	//スケール
 	Scale_ = { 1.f,1.f };
 	color_ = { 1,1,1,1 };
+	anchorPoint_ = { 0.5f,0.5f };
 #pragma endregion
 }
 
@@ -350,27 +350,36 @@ void Sprite::PreDraw()
 
 void Sprite::Draw(UINT descriptorSize)
 {
-	HRESULT result;
-#pragma region 画像のサイズを取得
-	TexMetadata meta = TextureManager::GetInstance()->GetTexMetaData(descriptorSize);
-	float width = meta.width;
-	float height = meta.height;
-#pragma endregion
-#pragma region 画像の頂点データを更新
-	vertices.at(0).pos = { -(width / 2)	, (height / 2) ,0 };//左下
-	vertices.at(1).pos = { -(width / 2)	,-(height / 2) ,0 };//左上
-	vertices.at(2).pos = {  (width / 2)	, (height / 2) ,0 };//右下
-	vertices.at(3).pos = {  (width / 2)	,-(height / 2) ,0 };//右上
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < vertices.size(); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
+	if (isInvisible_) {
+		return;
 	}
-	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	HRESULT result = S_OK;
+#pragma region 画像のサイズを取得
+	D3D12_RESOURCE_DESC resDesc = TextureManager::GetInstance()->GetResDesc(descriptorSize);
+	
+#pragma endregion
+	float left = (0.0f - anchorPoint_.x) * resDesc.Width;
+	float right = (1.0f - anchorPoint_.x) * resDesc.Width;
+	float top = (0.0f - anchorPoint_.y) * resDesc.Height;
+	float bottom = (1.0f - anchorPoint_.y) * resDesc.Height;
+	//左右反転
+	if (isFlipX_) {
+		left = -left;
+		right = -right;
+	}
+	//上下反転
+	if (isFlipY_) {
+		top = -top;
+		bottom = -bottom;
+	}
+
+#pragma region 画像の頂点データを更新
+	vertices.at(LB).pos = { left	, bottom	,0 };//左下
+	vertices.at(LT).pos = { left	, top		,0 };//左上
+	vertices.at(RB).pos = { right	, bottom	,0 };//右下
+	vertices.at(RT).pos = { right	, top		,0 };//右上
+	
+	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 
 	// ワールド行列の更新
 	matWorld_ = XMMatrixIdentity();
@@ -384,6 +393,21 @@ void Sprite::Draw(UINT descriptorSize)
 
 #pragma endregion
 
+#pragma region 画像範囲指定
+	//切り取り範囲がどちらも0の場合UV座標は変えない
+	if (textureSize.x != 0 && textureSize.y != 0) {
+		float tex_left = textureLeftTop_.x / resDesc.Width;
+		float tex_right = (textureLeftTop_.x + textureSize.x) / resDesc.Width;
+		float tex_top = textureLeftTop_.y / resDesc.Height;
+		float tex_bottom = (textureLeftTop_.y + textureSize.y) / resDesc.Height;
+		//頂点のUVに反映する
+		vertices.at(LB).uv = { tex_left	, tex_bottom };//左下
+		vertices.at(LT).uv = { tex_left	, tex_top };//左上
+		vertices.at(RB).uv = { tex_right, tex_bottom };//右下
+		vertices.at(RT).uv = { tex_right, tex_top };//右上
+	}
+#pragma endregion
+
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
@@ -393,14 +417,14 @@ void Sprite::Draw(UINT descriptorSize)
 	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
 	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
-	
+
 	//描画コマンド
-	directX_->GetCommandList()->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	directX_->GetCommandList()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
-void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
+void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
 {
-	HRESULT result;
+	HRESULT result = S_OK;
 
 #pragma region 画像の頂点データを更新
 	vertices.at(0).pos = { LdX,LdY,0 };//左下
@@ -408,15 +432,7 @@ void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY,
 	vertices.at(2).pos = { RdX,RdY,0 };//右下
 	vertices.at(3).pos = { RuX,RuY,0 };//右上
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (int i = 0; i < vertices.size(); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 
 	// ワールド行列の更新
 	matWorld_ = XMMatrixIdentity();
@@ -437,8 +453,8 @@ void Sprite::Draw(float LuX,float LuY,float RuX,float RuY, float LdX, float LdY,
 	//インデックスバッファビューの設定コマンド
 	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2,constBuffTransform->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
-	directX_->GetCommandList()->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	directX_->GetCommandList()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
