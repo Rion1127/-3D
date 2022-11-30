@@ -4,7 +4,8 @@
 #include <string>
 #include "Vertices.h"
 #include "DirectX.h"
-#include "Pipeline.h"
+#include "PipelineManager.h"
+
 using namespace Microsoft::WRL;
 class Object3d
 {
@@ -22,7 +23,6 @@ public:
 	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
 
 	static void SetBlend(int blend);
-	static void SetNormal();
 
 	void SetModel(const Object3d* model);
 private:
@@ -58,8 +58,7 @@ private:
 	// –¼‘O
 	std::string name_;
 
-	static Pipeline pipeline_;
-
+	int blendType = 0;
 public:
 	std::vector<Vertices*> vert_;
 	std::vector<uint32_t> textureHandle_;

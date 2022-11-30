@@ -17,8 +17,6 @@ const std::string kBaseDirectory = "Resources/";
 //コマンドリストを格納する
 static DirectXCommon* directX_ = nullptr;
 
-Pipeline Object3d::pipeline_;
-
 Object3d::~Object3d()
 {
 	for (auto m : vert_) {
@@ -53,7 +51,6 @@ void Object3d::Ini()
 	
 #pragma endregion
 
-	pipeline_.Ini();
 }
 
 Object3d* Object3d::CreateOBJ(const std::string& modelname)
@@ -74,12 +71,14 @@ std::unique_ptr<Object3d> Object3d::CreateOBJ_uniptr(const std::string& modelnam
 
 void Object3d::SetBlend(int blend)
 {
-	pipeline_.SetBlend(blend);
-}
+	if (blend > 3) blend = 3;
+	else if (blend < 0) blend = 0;
+	// パイプラインステートとルートシグネチャの設定コマンド
+	directX_->GetCommandList()->SetPipelineState(
+		PipelineManager::GetObj3dPipeline(blend)->gerPipelineState());
 
-void Object3d::SetNormal()
-{
-	pipeline_.SetNormalBlend();
+	directX_->GetCommandList()->SetGraphicsRootSignature(
+		PipelineManager::GetObj3dPipeline(blend)->GetRootSignature());
 }
 
 void Object3d::SetModel(const Object3d* model)
@@ -351,8 +350,11 @@ void Object3d::ModelIni(const std::string& modelname)
 void Object3d::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(pipeline_.gerPipelineState());
-	directX_->GetCommandList()->SetGraphicsRootSignature(pipeline_.GetRootSignature());
+	directX_->GetCommandList()->SetPipelineState(
+		PipelineManager::GetObj3dPipeline(3)->gerPipelineState());
+
+	directX_->GetCommandList()->SetGraphicsRootSignature(
+		PipelineManager::GetObj3dPipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト

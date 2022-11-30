@@ -4,7 +4,7 @@
 
 DirectXCommon* Pipeline::directX_ = DirectXCommon::GetInstance();
 
-void Pipeline::Ini()
+void Pipeline::Ini(int blend)
 {
 	HRESULT result;
 
@@ -24,7 +24,7 @@ void Pipeline::Ini()
 	//その他の設定
 	SetOther();
 	// ブレンドステート
-	BlendIni();
+	SetBlend(blend);
 	// パイプランステートの生成
 	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
@@ -210,34 +210,6 @@ void Pipeline::SetOther()
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
-}
-
-void Pipeline::BlendIni()
-{
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
-	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;// RBGA全てのチャンネルを描画
-	//共通設定（アルファ値）
-	blenddesc.BlendEnable = true;					//ブレンドを有効にする
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;	//加算
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を  0%使う
-	////加算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;			//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;			//デストの値を100%使う
-	////減算合成
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;			//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;			//デストの値を100%使う
-	////色反転
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;			//使わない
-	//半透明合成
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
-
 }
 
 D3D12_STATIC_SAMPLER_DESC Pipeline::SetSAMPLER_DESC()

@@ -16,7 +16,7 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	void Ini();
+	void Ini(int blend);
 	/// <summary>
 	/// ブレンド設定
 	/// </summary>
@@ -42,8 +42,6 @@ private:
 	void SetRootSignature();
 
 	void SetOther();
-
-	void BlendIni();
 	
 	D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
 

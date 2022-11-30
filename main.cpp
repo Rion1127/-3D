@@ -8,6 +8,7 @@
 #include "GameScene.h"
 #include "mSound.h"
 #include "SceneManager.h"
+#include "PipelineManager.h"
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -36,6 +37,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//サウンド初期化
 	SoundManager* sound_ = SoundManager::GetInstance();
 	sound_->Init();
+
+	PipelineManager::Ini();
 
 	//ゲームシーン初期化
 	SceneManager::Ini();
