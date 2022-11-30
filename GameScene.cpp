@@ -114,8 +114,7 @@ void GameScene::Draw()
 	skyDome->DrawOBJ(&skyDomepos);
 
 	Object3d::SetNormal();
-
-	
+	Object3d::SetBlend(BLEND_NEGA);
 	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
 	Object3d::SetNormal();
@@ -130,7 +129,7 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	sprite_.PreDraw();
-	sprite_.Draw(texture_);
+	//sprite_.Draw(texture_);
 }
 
 

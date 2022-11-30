@@ -76,6 +76,12 @@
     <Filter Include="engine\ヘッダー ファイル\Input">
       <UniqueIdentifier>{7d402313-1c5a-4de3-9e9e-0f0e54dca849}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ヘッダー ファイル\Pipeline">
+      <UniqueIdentifier>{42b07f5f-89f6-4b4f-9e6a-99e169c59d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ソース ファイル\Pipeline">
+      <UniqueIdentifier>{e0ec0fa2-b9dc-45ec-a1fe-e7976cba1154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -147,8 +153,11 @@
     <ClCompile Include="Easing.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
     </ClCompile>
+    <ClCompile Include="PipelineManager.cpp">
+      <Filter>engine\ソース ファイル\Pipeline</Filter>
+    </ClCompile>
     <ClCompile Include="Pipeline.cpp">
-      <Filter>engine\ソース ファイル\DirectX</Filter>
+      <Filter>engine\ソース ファイル\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,8 +227,11 @@
     <ClInclude Include="Easing.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
+    <ClInclude Include="PipelineManager.h">
+      <Filter>engine\ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
     <ClInclude Include="Pipeline.h">
-      <Filter>engine\ヘッダー ファイル\DirectX</Filter>
+      <Filter>engine\ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
