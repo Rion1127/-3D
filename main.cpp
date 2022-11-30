@@ -9,6 +9,7 @@
 #include "mSound.h"
 #include "SceneManager.h"
 #include "PipelineManager.h"
+#include "Sprite.h"
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)

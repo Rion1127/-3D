@@ -16,7 +16,9 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	void Ini(int blend);
+	void Object3dIni(int blend);
+
+	void SpriteIni(int blend);
 	/// <summary>
 	/// ブレンド設定
 	/// </summary>
@@ -26,31 +28,43 @@ public:
 	/// <param name="BLEND_NORMAL">半透明合成</param>
 	void SetBlend(int blend);
 
-	void SetNormalBlend();
-
 	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 
 	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
 
 private:
-	void SetInputLayout();
+#pragma region object3D
+	void object3DSetInputLayout();
 
-	void SetRasterizer();
+	void object3DSetRasterizer();
 
-	void SetShader();
+	void object3DSetShader();
 
-	void SetRootSignature();
+	void object3DSetRootSignature();
 
-	void SetOther();
+	void object3DSetOther();
 	
 	D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
+#pragma endregion
+#pragma region Sprite
+	void SpriteSetInputLayout();
+
+	void SpriteSetRasterizer();
+
+	void SpriteSetShader();
+
+	void SpriteSetRootSignature();
+
+	void SpriteSetOther();
+
+#pragma endregion
 
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプランステートの生成
 	ComPtr<ID3D12PipelineState> pipelineState;
-	// パイプランステートの生成
-	ComPtr<ID3D12PipelineState> pipelineState2;
+	//// パイプランステートの生成
+	//ComPtr<ID3D12PipelineState> pipelineState2;
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	//コマンドリストを格納する

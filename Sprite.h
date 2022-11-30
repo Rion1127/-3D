@@ -3,6 +3,7 @@
 #include <vector>
 #include "math.h"
 #include "DirectX.h"
+#include "PipelineManager.h"
 class Sprite
 {
 public:
@@ -14,6 +15,7 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+	static void StaticIni();
 	void Ini();
 	//座標を代入する
 	void SetPos(float x, float y) {
@@ -58,13 +60,21 @@ public:
 	Vector2 GetScale() { return Scale_; }
 	Vector2 GetPos() { return pos_; }
 
-	void PreDraw();
+	static void PreDraw();
 	//画像サイズ自動取得(描画座標は中心)
 	void Draw(UINT descriptorSize);
 	//画像の頂点データを自分で指定
 	void Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize);
+	/// <summary>
+	/// ブレンド設定
+	/// </summary>
+	/// <param name="BLEND_ALPHA">アルファブレンド</param>
+	/// <param name="BLEND_SUB">減算合成</param>
+	/// <param name="BLEND_NEGA">色反転合成</param>
+	/// <param name="BLEND_NORMAL">半透明合成</param>
+	static void SetBlend(int blend);
 private:
-	DirectXCommon* directX_;
+	static DirectXCommon* directX_;
 	struct Vertex {
 		XMFLOAT3 pos;
 		XMFLOAT2 uv;
@@ -95,15 +105,6 @@ private:
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 #pragma endregion
-	//////////////////////////後でクラス化
-	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
-	// パイプランステートの生成
-	ComPtr<ID3D12PipelineState> pipelineState;
-	////////////////////////////
-
-	// グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
 	ComPtr<ID3D12GraphicsCommandList> commandList_;
 	//定数バッファ用データ構造体

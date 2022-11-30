@@ -18,6 +18,7 @@ void GameScene::Ini()
 
 	Object3d::Ini();
 	BoardObject::Ini();
+	Sprite::StaticIni();
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 
@@ -43,10 +44,14 @@ void GameScene::Ini()
 
 	sprite_.Ini();
 	texture_ = textureM->LoadGraph("uv.png");
-	sprite_.SetAnchor(0.5, 0.5);
-	sprite_.SetPos(
-		winApi_->win_width / 2,
-		winApi_->win_height /2);
+	sprite_.SetAnchor(0, 0);
+	sprite_.SetPos(0,0);
+	sprite_.SetScale(0.5f, 0.5f);
+
+	sprite2_.Ini();
+	sprite2_.SetAnchor(0, 0);
+	sprite2_.SetPos(150,150);
+	sprite2_.SetScale(0.5f, 0.5f);
 
 	isNext_ = 2;
 	SceneManager::SetChangeStart(SceneNum::STAGE1_);
@@ -108,12 +113,9 @@ void GameScene::Draw()
 	//3Dオブジェクト//
 	////////////////
 	Object3d::PreDraw();
-
-	Object3d::SetBlend(BLEND_SUB);
+	Object3d::SetBlend(BLEND_NORMAL);
 	//天球
 	skyDome->DrawOBJ(&skyDomepos);
-
-	Object3d::SetBlend(BLEND_NORMAL);
 	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
 	
@@ -127,8 +129,11 @@ void GameScene::Draw()
 	////////////
 	//スプライト//
 	////////////
-	sprite_.PreDraw();
-	//sprite_.Draw(texture_);
+	Sprite::PreDraw();
+
+	Sprite::SetBlend(BLEND_NORMAL);
+	sprite_.Draw(texture_);
+	sprite2_.Draw(texture_);
 }
 
 

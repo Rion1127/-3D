@@ -21,7 +21,13 @@ public:
 	//モデルを読み込む
 	static Object3d* CreateOBJ(const std::string& modelname);
 	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
-
+	/// <summary>
+	/// ブレンド設定
+	/// </summary>
+	/// <param name="BLEND_ALPHA">アルファブレンド</param>
+	/// <param name="BLEND_SUB">減算合成</param>
+	/// <param name="BLEND_NEGA">色反転合成</param>
+	/// <param name="BLEND_NORMAL">半透明合成</param>
 	static void SetBlend(int blend);
 
 	void SetModel(const Object3d* model);

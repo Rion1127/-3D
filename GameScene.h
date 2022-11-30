@@ -50,6 +50,8 @@ private:
 	Sprite sprite_;
 	uint32_t texture_;
 
+	Sprite sprite2_;
+
 	ViewProjection gameCamera;
 	void cameraUpdate();
 	//g‚¤ƒJƒƒ‰À•W

@@ -38,19 +38,6 @@ Object3d* Object3d::GetInstance()
 void Object3d::Ini()
 {
 	directX_ = DirectXCommon::GetInstance();
-
-	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
-#pragma region シェーダファイル読み込み
-	// 頂点シェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/BasicVS.hlsl", "main", "vs_5_0", &vsBlob,errorBlob.Get());
-	
-	// ピクセルシェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/BasicPS.hlsl", "main", "ps_5_0", &psBlob,errorBlob.Get());
-	
-#pragma endregion
-
 }
 
 Object3d* Object3d::CreateOBJ(const std::string& modelname)
