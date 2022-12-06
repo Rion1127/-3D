@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "PipelineManager.h"
 #include "Sprite.h"
+#include "ImGuiManager.h"
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -40,6 +41,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sound_->Init();
 
 	PipelineManager::Ini();
+
+	//imgui初期化
+	ImGuiManager* imguiManeger_ = ImGuiManager::Getinstance();
+	imguiManeger_->Init();
 
 	//ゲームシーン初期化
 	SceneManager::Ini();
@@ -72,7 +77,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ウィンドウクラスを登録解除
 	winApi->ReleaseClass();
 
-	sound_->ReleaseAllSounds();;
+	sound_->ReleaseAllSounds();
+
+	imguiManeger_->Finalize();
 
 	return 0;
 }

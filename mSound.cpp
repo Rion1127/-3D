@@ -14,7 +14,7 @@ SoundManager::~SoundManager()
 
 SoundManager* SoundManager::GetInstance()
 {
-	SoundManager obj;
+	static SoundManager obj;
 	return &obj;
 }
 

@@ -82,6 +82,12 @@
     <Filter Include="engine\ソース ファイル\Pipeline">
       <UniqueIdentifier>{e0ec0fa2-b9dc-45ec-a1fe-e7976cba1154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ソース ファイル\imgui">
+      <UniqueIdentifier>{142b7738-3d7b-4a5d-9c71-76a5e6f344cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ヘッダー ファイル\imgui">
+      <UniqueIdentifier>{5cf3a0da-d1b0-44ba-985e-29374ec52ae1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -159,6 +165,9 @@
     <ClCompile Include="Pipeline.cpp">
       <Filter>engine\ソース ファイル\Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>engine\ソース ファイル\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -232,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Pipeline.h">
       <Filter>engine\ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>engine\ヘッダー ファイル\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

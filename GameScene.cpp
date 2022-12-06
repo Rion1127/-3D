@@ -44,7 +44,7 @@ void GameScene::Ini()
 
 	sprite_.Ini();
 	texture_ = textureM->LoadGraph("uv.png");
-	sprite_.SetAnchor(0, 0);
+	sprite_.SetAnchor(0.5f, 0.5f);
 	sprite_.SetPos(0,0);
 	sprite_.SetScale(0.5f, 0.5f);
 
@@ -55,6 +55,8 @@ void GameScene::Ini()
 
 	isNext_ = 2;
 	SceneManager::SetChangeStart(SceneNum::STAGE1_);
+
+	OutputDebugStringA("テスト文字出力");
 }
 
 void GameScene::Update()
@@ -69,7 +71,6 @@ void GameScene::Update()
 	if (input_->TriggerKey(DIK_1)) {
 		if (useVP == debugCamera.GetViewProjection())useVP = &gameCamera;
 		else if (useVP == &gameCamera)useVP = debugCamera.GetViewProjection();
-
 	}
 
 	if (input_->PushKey(DIK_J)) {
@@ -80,6 +81,8 @@ void GameScene::Update()
 		gameCamera.eye.x += 0.2f;
 	}
 
+	//スプライト移動
+#pragma region
 	if (input_->PushKey(DIK_UP)) {
 		Vector2 pos = sprite_.GetPos();
 		pos += {0, -2};
@@ -92,6 +95,19 @@ void GameScene::Update()
 		sprite_.SetPos(pos);
 	}
 
+	if (input_->PushKey(DIK_RIGHT)) {
+		Vector2 pos = sprite_.GetPos();
+		pos += {2, 0};
+		sprite_.SetPos(pos);
+	}
+
+	if (input_->PushKey(DIK_LEFT)) {
+		Vector2 pos = sprite_.GetPos();
+		pos += {-2, 0};
+		sprite_.SetPos(pos);
+	}
+#pragma endregion
+
 	sprite_.SetFlipX(input_->PushKey(DIK_N));
 	sprite_.SetFlipY(input_->PushKey(DIK_M));
 	sprite_.SetInvisivle(input_->PushKey(DIK_B));
@@ -101,6 +117,13 @@ void GameScene::Update()
 	debugCamera.Update();
 	gameCamera.Update();
 	cameraUpdate();
+
+
+
+
+
+
+
 
 	skyDomepos.Update(*useVP);
 
@@ -116,6 +139,8 @@ void GameScene::Draw()
 	Object3d::SetBlend(BLEND_NORMAL);
 	//天球
 	skyDome->DrawOBJ(&skyDomepos);
+
+	Object3d::SetBlend(BLEND_ALPHA);
 	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
 	

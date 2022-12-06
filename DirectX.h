@@ -21,6 +21,9 @@ public:
 	ID3D12Device* GetDevice() { return device.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList.Get(); }
 
+	//バックバッファの数を取得
+	size_t GetBackBufferCount() { return backBuffers.size(); }
+
 	void Ini(WinAPI* winApi);
 
 private:
