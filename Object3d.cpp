@@ -268,6 +268,32 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 			
 		}
 
+		if (key == "Ka") {
+			XMFLOAT3 ambient{};
+			line_stream >> ambient.x;
+			line_stream >> ambient.y;
+			line_stream >> ambient.z;
+			
+		}
+
+		if (key == "Kd") {
+			/*line_stream >> material->textureFilename_;*/
+			
+
+			XMFLOAT3 diffuse{};
+			line_stream >> diffuse.x;
+			line_stream >> diffuse.y;
+			line_stream >> diffuse.z;
+		}
+
+		if (key == "Ks") {
+			/*line_stream >> material->textureFilename_;*/
+			XMFLOAT3 specular{};
+			line_stream >> specular.x;
+			line_stream >> specular.y;
+			line_stream >> specular.z;
+		}
+
 		// 先頭文字列がmap_Kdならテクスチャファイル名
 		if (key == "map_Kd") {
 			// テクスチャのファイル名読み込み

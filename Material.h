@@ -12,17 +12,20 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
 	static Material* Create(ID3D12Device* device);
 	void Ini(ID3D12Device* device);
 
 	void LoadTexture(const std::string& directoryPath);
 
+	void SetAmbient(XMFLOAT3 Ambient) { ambient = Ambient;}
+	void SetDiffuse(XMFLOAT3 Diffuse) { diffuse = Diffuse;}
+	void SetSpecular(XMFLOAT3 Specular) {specular = Specular;}
+
 	void ChangeColor(float x, float y, float z, float w);
 	void ChangeColor(XMFLOAT4 color_);
 
-	void Draw(ID3D12GraphicsCommandList* commandList,UINT descriptorSize);
-
-	void DrawOBJ(ID3D12GraphicsCommandList* commandList);
+	void Draw(ID3D12GraphicsCommandList* commandList, UINT descriptorSize);
 
 	std::string name_;            // マテリアル名
 	std::string textureFilename_; // テクスチャファイル名
@@ -38,6 +41,10 @@ private:
 	//定数バッファのマッピング
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 
+	XMFLOAT3 ambient = { 0.3f,0.3f,0.3f };
+	XMFLOAT3 diffuse = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 specular = {0.0f, 0.0f, 0.0f};
+	float alpha = 1.0f;
 	
 };
 

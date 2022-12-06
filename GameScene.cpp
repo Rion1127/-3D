@@ -133,6 +133,7 @@ void GameScene::Draw()
 
 	Sprite::SetBlend(BLEND_NORMAL);
 	sprite_.Draw(texture_);
+	Sprite::SetBlend(BLEND_ALPHA);
 	sprite2_.Draw(texture_);
 }
 

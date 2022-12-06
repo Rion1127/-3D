@@ -48,7 +48,6 @@ public:
 
 	//オブジェクトの色を変える
 	void ObjChangeColor(float x, float y, float z, float w);
-	//オブジェクトの色を変える
 	void ObjChangeColor(XMFLOAT4 color_);
 
 	void DrawOBJ(WorldTransform* worldTransform);
