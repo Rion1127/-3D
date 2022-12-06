@@ -10,6 +10,7 @@ using namespace DirectX;
 #include <DirectXTex.h>
 #include "Util.h"
 #include "Sprite.h"
+#include <sstream>
 
 DirectXCommon* Sprite::directX_ = nullptr;
 
@@ -20,7 +21,6 @@ void Sprite::StaticIni()
 
 void Sprite::Ini()
 {
-	
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
@@ -197,6 +197,40 @@ void Sprite::SetScale(Vector2 scale)
 	Scale_ = scale;
 }
 
+void Sprite::DrawImGui()
+{
+	
+	std::string guiname = "Sprite";
+
+	const char* gui = guiname.c_str();
+
+	ImGui::Begin(gui);
+	/* ここに追加したいGUIを書く */
+	// Menu Bar
+	if (ImGui::CollapsingHeader("posision"))
+	{
+		static int clicked = 0;
+		if (ImGui::Button("Button"))
+			clicked++;
+		if (clicked & 1)
+		{
+			ImGui::SameLine();
+			ImGui::Text("Thanks for clicking me!");
+			
+		}
+
+		float x = pos_.x;
+		float y = pos_.y;
+		ImGui::SliderFloat("pos.x", &x, 0.0f, 2000.0f, "x = %.3f");
+		ImGui::SliderFloat("pos.y", &y, 0.0f, 2000.0f, "y = %.3f");
+		pos_.x = x;
+		pos_.y = y;
+	}
+
+	
+	ImGui::End();
+}
+
 void Sprite::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
@@ -212,6 +246,10 @@ void Sprite::PreDraw()
 
 void Sprite::Draw(UINT descriptorSize)
 {
+	if (isImguiDisplay) {
+		DrawImGui();
+	}
+
 	if (isInvisible_) {
 		return;
 	}

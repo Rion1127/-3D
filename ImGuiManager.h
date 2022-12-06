@@ -12,6 +12,10 @@ public:
 	void Init();
 	
 	void Finalize();
+
+	void Begin();
+	void End();
+	void Draw();
 private:
 	WinAPI* winApi_ = nullptr;
 	DirectXCommon* directX_ = nullptr;

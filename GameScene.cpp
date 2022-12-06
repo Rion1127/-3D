@@ -111,10 +111,15 @@ void GameScene::Update()
 	sprite_.SetFlipX(input_->PushKey(DIK_N));
 	sprite_.SetFlipY(input_->PushKey(DIK_M));
 	sprite_.SetInvisivle(input_->PushKey(DIK_B));
+	sprite_.SetImGui(!input_->PushKey(DIK_B));
 
+	sprite2_.SetInvisivle(input_->PushKey(DIK_V));
+	sprite2_.SetImGui(!input_->PushKey(DIK_V));
 #endif // _DEBUG
 	//ƒJƒƒ‰XV
-	debugCamera.Update();
+	if (input_->PushKey(DIK_LCONTROL)) {
+		debugCamera.Update();
+	}
 	gameCamera.Update();
 	cameraUpdate();
 

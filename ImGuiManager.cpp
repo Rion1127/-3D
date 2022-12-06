@@ -56,3 +56,27 @@ void ImGuiManager::Finalize()
 	//デスクリプタヒープを開放
 	srvHeap_.Reset();
 }
+
+void ImGuiManager::Begin()
+{
+	//ImGuiフレーム開始
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void ImGuiManager::End()
+{
+	ImGui::Render();
+}
+
+void ImGuiManager::Draw()
+{
+	ID3D12GraphicsCommandList* commandList = directX_->GetCommandList();
+
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap_.Get() };
+	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//描画コマンドを発行
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
+}

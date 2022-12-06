@@ -11,6 +11,7 @@
 #include "PipelineManager.h"
 #include "Sprite.h"
 #include "ImGuiManager.h"
+#include <imgui.h>
 ///
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -58,27 +59,33 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApi->MsgCheck()) {
 			break;
 		}
-		
+		//imgui開始
+		imguiManeger_->Begin();
 		//インプット関連更新
 		input_->InputUpdata();
 		controller->Update();
 		mouse->Updata();
+		//デモウィンドウの表示オン
+		ImGui::ShowDemoWindow();
 		//ゲームシーン更新
 		SceneManager::Update();
 		//描画コマンド
 		directX->PreDraw();
 		//ゲームシーン描画
-		//gameScene->Draw();
 		SceneManager::Draw();
+		//imgui終了
+		imguiManeger_->End();
+		//imgui描画
+		imguiManeger_->Draw();
 		//描画終了
 		directX->PostDraw();
 	}
 
 	// ウィンドウクラスを登録解除
 	winApi->ReleaseClass();
-
+	//サウンド関連解放
 	sound_->ReleaseAllSounds();
-
+	//imgui解放
 	imguiManeger_->Finalize();
 
 	return 0;

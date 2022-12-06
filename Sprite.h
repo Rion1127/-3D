@@ -4,6 +4,7 @@
 #include "math.h"
 #include "DirectX.h"
 #include "PipelineManager.h"
+#include <imgui.h>
 class Sprite
 {
 public:
@@ -60,6 +61,9 @@ public:
 	Vector2 GetScale() { return Scale_; }
 	Vector2 GetPos() { return pos_; }
 
+	void SetImGui(bool flag) { isImguiDisplay = flag; }
+	void DrawImGui();
+
 	static void PreDraw();
 	//画像サイズ自動取得(描画座標は中心)
 	void Draw(UINT descriptorSize);
@@ -74,6 +78,7 @@ public:
 	/// <param name="BLEND_NORMAL">半透明合成</param>
 	static void SetBlend(int blend);
 private:
+
 	static DirectXCommon* directX_;
 	struct Vertex {
 		XMFLOAT3 pos;
@@ -143,5 +148,7 @@ private:
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };
 	//テクスチャ切り出しサイズ
 	Vector2 textureSize = { 0.f,0.f };
+	//imgui表示
+	bool isImguiDisplay = false;
 };
 
