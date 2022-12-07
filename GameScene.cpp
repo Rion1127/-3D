@@ -145,7 +145,7 @@ void GameScene::Draw()
 	//天球
 	skyDome->DrawOBJ(&skyDomepos);
 
-	Object3d::SetBlend(BLEND_ALPHA);
+	//Object3d::SetBlend(BLEND_ALPHA);
 	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
 	

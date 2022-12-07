@@ -1,4 +1,4 @@
-
+#include "Quaternion.h"
 #include "Util.h"
 #include "WorldTransform.h"
 
@@ -89,6 +89,35 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 	matRot *= XMMatrixRotationY(rotation.y);
 	matTrans = XMMatrixTranslation(
 		position.x, position.y, position.z);
+
+	Quaternion q = {0,1,0,0};
+
+	XMVECTOR vectorX = {
+		pow(q.w,2) + pow(q.x,2) - pow(q.y,2) - pow(q.z,2),
+		2 * (q.x * q.y + q.w * q.z),
+		2 * (q.x * q.z - q.w * q.y),
+		0
+	};
+	XMVECTOR vectorY = {
+		2 * (q.x * q.y - q.w * q.z),
+		pow(q.w,2) - pow(q.x,2) + pow(q.y,2) - pow(q.z,2),
+		2 * (q.y * q.z + q.w * q.x),
+		0
+	};
+	XMVECTOR vectorZ = {
+		2 * (q.x * q.z + q.w * q.y),
+		2 * (q.y * q.z - q.w * q.x),
+		pow(q.w,2) - pow(q.x,2) - pow(q.y,2) + pow(q.z,2),
+		0
+	};
+	XMVECTOR vectorW = {
+		0,0,0,1
+	};
+
+	matRot.r[0] = vectorX;
+	matRot.r[1] = vectorY;
+	matRot.r[2] = vectorZ;
+	matRot.r[3] = vectorW;
 
 	//ワールド行列の合成
 	matWorld = XMMatrixIdentity();	//変形をリセット

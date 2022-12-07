@@ -1,5 +1,9 @@
 #pragma once
-class Quaternion
+struct Quaternion
 {
+	float x;
+	float y;
+	float z;
+	float w;
 };
 
