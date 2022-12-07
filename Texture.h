@@ -22,8 +22,6 @@ public:
 
 	void SetGraphicsDescriptorTable(ID3D12GraphicsCommandList* commandList, UINT descriptorSize);
 
-	TexMetadata GetTexMetaData(UINT descriptorSize);
-
 	D3D12_RESOURCE_DESC GetResDesc(UINT descriptorSize);
 
 	//設定をもとにSRV用でスクリプタヒープを生成
@@ -31,9 +29,7 @@ public:
 private:
 	struct Texture {
 		//テクスチャ
-		TexMetadata metadata{};
-		ScratchImage scratchImg{};
-		ScratchImage mipChain{};
+		std::string handleName_;
 		//リソース設定
 		D3D12_RESOURCE_DESC textureResourceDesc{};
 		//シェーダリソースビュー設定
@@ -44,7 +40,7 @@ private:
 	};
 	ComPtr<ID3D12Device> device_{};	//デバイスを格納
 	//テクスチャの情報を格納
-	std::map < uint32_t , std::unique_ptr<Texture>> texBuff{};
+	std::map < uint32_t , std::unique_ptr<Texture>> texData{};
 	////テクスチャバッファを格納
 	//std::map <char, int> test;
 	//画像を保存するアドレスを格納する

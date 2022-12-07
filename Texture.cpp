@@ -47,11 +47,27 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	//stringをwchar_tに変換
 	wchar_t* fileName = ConvertStrToWchar(allFileName);
 
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+	ScratchImage mipChain{};
+
+	UINT descriptorSize = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	//画像の名前を保存する
+	texture_->handleName_ = HandleName;
+	//同じ画像があった場合その画像と同じ数値を返す
+	for (int i = 0; i < texData.size(); i++) {
+		if (texData.size() > 0) {
+			if (texData.at(i * descriptorSize)->handleName_ == HandleName) {
+				return i * descriptorSize;
+			}
+		}
+	}
+
 	//WICテクスチャダウンロード
 	result = LoadFromWICFile(
 		fileName,
 		WIC_FLAGS_NONE,
-		&texture_->metadata, texture_->scratchImg);
+		&metadata, scratchImg);
 	// バッファの破棄
 	delete[] fileName;
 
@@ -59,28 +75,28 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 		result = LoadFromWICFile(
 			L"Resources/white.png",
 			WIC_FLAGS_NONE,
-			&texture_->metadata, texture_->scratchImg);
+			&metadata, scratchImg);
 	}
 
 	//ミップマップ生成
 	result = GenerateMipMaps(
-		texture_->scratchImg.GetImages(), texture_->scratchImg.GetImageCount(), texture_->scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, texture_->mipChain);
+		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT, 0, mipChain);
 	if (SUCCEEDED(result)) {
-		texture_->scratchImg = std::move(texture_->mipChain);
-		texture_->metadata = texture_->scratchImg.GetMetadata();
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
 	}
 	//読み込んだディフューズテクスチャをSRGBとして扱う
-	texture_->metadata.format = MakeSRGB(texture_->metadata.format);
+	metadata.format = MakeSRGB(metadata.format);
 #pragma endregion
 
 	//リソース設定
 	texture_->textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	texture_->textureResourceDesc.Format = texture_->metadata.format;
-	texture_->textureResourceDesc.Width = texture_->metadata.width;
-	texture_->textureResourceDesc.Height = (UINT)texture_->metadata.height;
-	texture_->textureResourceDesc.DepthOrArraySize = (UINT16)texture_->metadata.arraySize;
-	texture_->textureResourceDesc.MipLevels = (UINT)texture_->metadata.mipLevels;
+	texture_->textureResourceDesc.Format = metadata.format;
+	texture_->textureResourceDesc.Width = metadata.width;
+	texture_->textureResourceDesc.Height = (UINT)metadata.height;
+	texture_->textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	texture_->textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
 	texture_->textureResourceDesc.SampleDesc.Count = 1;
 	//テクスチャバッファの生成
 	result = device_->CreateCommittedResource(
@@ -91,9 +107,9 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 		nullptr,
 		IID_PPV_ARGS(&texture_->texBuff));
 	//全ミップマップについて
-	for (size_t i = 0; i < texture_->metadata.mipLevels; i++) {
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
 		//ミップマップレベルを指定してイメージを取得
-		const Image* img = texture_->scratchImg.GetImage(i, 0, 0);
+		const Image* img = scratchImg.GetImage(i, 0, 0);
 		//テクスチャバッファにデータ転送
 		result = texture_->texBuff->WriteToSubresource(
 			(UINT)i,
@@ -103,8 +119,6 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 			(UINT)img->slicePitch);	//1枚サイズ
 		assert(SUCCEEDED(result));
 	}
-
-	UINT descriptorSize = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	//シェーダリソースビュー設定
 	texture_->srvDesc.Format = texture_->textureResourceDesc.Format;	//RGBA float
@@ -119,7 +133,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	srvHandle.ptr += descriptorSize;
 
 	//std::mapにHandleNameをキーワードにしたTexture型の配列を作る
-	texBuff.insert(std::make_pair(graphHandle, std::move(texture_)));
+	texData.insert(std::make_pair(graphHandle, std::move(texture_)));
 
 	//画像を格納したアドレスを返す
 	return graphHandle;
@@ -138,14 +152,9 @@ void TextureManager::SetGraphicsDescriptorTable(ID3D12GraphicsCommandList* comma
 	commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
-TexMetadata TextureManager::GetTexMetaData(UINT descriptorSize)
-{
-	return texBuff.at(descriptorSize).get()->metadata;
-}
-
 D3D12_RESOURCE_DESC TextureManager::GetResDesc(UINT descriptorSize)
 {
-	return texBuff.at(descriptorSize).get()->textureResourceDesc;
+	return texData.at(descriptorSize).get()->textureResourceDesc;
 }
 
 
