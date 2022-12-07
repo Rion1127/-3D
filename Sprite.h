@@ -77,7 +77,11 @@ public:
 	/// <param name="BLEND_NEGA">êFîΩì]çáê¨</param>
 	/// <param name="BLEND_NORMAL">îºìßñæçáê¨</param>
 	static void SetBlend(int blend);
+
+	static void AddAllNum() { allNum++; }
 private:
+	static int allNum;
+	int spriteNum = 0;
 
 	static DirectXCommon* directX_;
 	struct Vertex {
@@ -150,5 +154,9 @@ private:
 	Vector2 textureSize = { 0.f,0.f };
 	//imguiï\é¶
 	bool isImguiDisplay = false;
+
+#pragma region
+	int clicked = 0;
+#pragma endregion
 };
 

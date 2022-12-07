@@ -13,6 +13,7 @@ using namespace DirectX;
 #include <sstream>
 
 DirectXCommon* Sprite::directX_ = nullptr;
+int Sprite::allNum = 0;
 
 void Sprite::StaticIni()
 {
@@ -21,6 +22,8 @@ void Sprite::StaticIni()
 
 void Sprite::Ini()
 {
+	spriteNum = allNum;
+	Sprite::AddAllNum();
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
@@ -199,8 +202,11 @@ void Sprite::SetScale(Vector2 scale)
 
 void Sprite::DrawImGui()
 {
-	
-	std::string guiname = "Sprite";
+	std::ostringstream oss;
+
+	oss << spriteNum;
+
+	std::string guiname = "Sprite" + oss.str();
 
 	const char* gui = guiname.c_str();
 
@@ -209,16 +215,20 @@ void Sprite::DrawImGui()
 	// Menu Bar
 	if (ImGui::CollapsingHeader("posision"))
 	{
-		static int clicked = 0;
-		if (ImGui::Button("Button"))
+		//static int clicked = 0;
+		if (ImGui::Button("isInvisible_"))
 			clicked++;
 		if (clicked & 1)
 		{
 			ImGui::SameLine();
-			ImGui::Text("Thanks for clicking me!");
-			
+			ImGui::Text("TRUE");
+			isInvisible_ = true;
 		}
-
+		else {
+			ImGui::SameLine();
+			ImGui::Text("FALSE");
+		}
+			
 		float x = pos_.x;
 		float y = pos_.y;
 		ImGui::SliderFloat("pos.x", &x, 0.0f, 2000.0f, "x = %.3f");
