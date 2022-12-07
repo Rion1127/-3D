@@ -171,6 +171,9 @@
     <ClCompile Include="imguiTemplate.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>engine\ソース ファイル\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="imguiTemplate.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>engine\ヘッダー ファイル\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
