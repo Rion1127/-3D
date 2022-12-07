@@ -11,6 +11,7 @@ using namespace DirectX;
 #include "Util.h"
 #include "Sprite.h"
 #include <sstream>
+#include "math.h"
 
 DirectXCommon* Sprite::directX_ = nullptr;
 int Sprite::allNum = 0;
@@ -20,10 +21,30 @@ void Sprite::StaticIni()
 	directX_ = DirectXCommon::GetInstance();
 }
 
-void Sprite::Ini()
+void Sprite::Ini(std::string guiname)
 {
 	spriteNum = allNum;
 	Sprite::AddAllNum();
+
+
+
+
+	std::string noneString = "";
+	//何も入っていない場合
+	if (guiname == noneString) {
+
+		std::ostringstream oss;
+
+		oss << spriteNum;
+		name = "Sprite" + oss.str();
+		gui = name.c_str();
+	}
+	else {
+		guiName_ = guiname;
+
+		gui = guiName_.c_str();
+	}
+
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
@@ -202,33 +223,26 @@ void Sprite::SetScale(Vector2 scale)
 
 void Sprite::DrawImGui()
 {
-	std::ostringstream oss;
-
-	oss << spriteNum;
-
-	std::string guiname = "Sprite" + oss.str();
-
-	const char* gui = guiname.c_str();
-
 	ImGui::Begin(gui);
 	/* ここに追加したいGUIを書く */
-	// Menu Bar
-	if (ImGui::CollapsingHeader("posision"))
+
+	//static int clicked = 0;
+	if (ImGui::Button("isInvisible_"))clicked++;
+	//クリックされた場合表示しない
+	if (clicked & 1)
 	{
-		//static int clicked = 0;
-		if (ImGui::Button("isInvisible_"))
-			clicked++;
-		if (clicked & 1)
-		{
-			ImGui::SameLine();
-			ImGui::Text("TRUE");
-			isInvisible_ = true;
-		}
-		else {
-			ImGui::SameLine();
-			ImGui::Text("FALSE");
-		}
-			
+		ImGui::SameLine();
+		ImGui::Text("TRUE");
+		isInvisible_ = true;
+	}
+	else {
+		ImGui::SameLine();
+		ImGui::Text("FALSE");
+	}
+
+	// Menu Bar
+	if (ImGui::CollapsingHeader("Posision"))
+	{
 		float x = pos_.x;
 		float y = pos_.y;
 		ImGui::SliderFloat("pos.x", &x, 0.0f, 2000.0f, "x = %.3f");
@@ -236,8 +250,24 @@ void Sprite::DrawImGui()
 		pos_.x = x;
 		pos_.y = y;
 	}
+	// スケール変更
+	if (ImGui::CollapsingHeader("Scale"))
+	{
+		float scalex = Scale_.x;
+		float scaley = Scale_.y;
+		ImGui::SliderFloat("scale.x", &scalex, 0.0f, 1.0f, "x = %.3f");
+		ImGui::SliderFloat("scale.y", &scaley, 0.0f, 1.0f, "y = %.3f");
+		Scale_.x = scalex;
+		Scale_.y = scaley;
+	}
+	//回転
+	if (ImGui::CollapsingHeader("Rotation"))
+	{
+		float rot = rot_;
+		ImGui::SliderFloat("Rot", &rot, 0.0f, ConvertAngleToRadian(360), "x = %.3f");
+		rot_ = rot;
+	}
 
-	
 	ImGui::End();
 }
 
@@ -266,7 +296,7 @@ void Sprite::Draw(UINT descriptorSize)
 	HRESULT result = S_OK;
 #pragma region 画像のサイズを取得
 	D3D12_RESOURCE_DESC resDesc = TextureManager::GetInstance()->GetResDesc(descriptorSize);
-	
+
 #pragma endregion
 	float left = (0.0f - anchorPoint_.x) * resDesc.Width;
 	float right = (1.0f - anchorPoint_.x) * resDesc.Width;
@@ -288,7 +318,7 @@ void Sprite::Draw(UINT descriptorSize)
 	vertices.at(LT).pos = { left	, top		,0 };//左上
 	vertices.at(RB).pos = { right	, bottom	,0 };//右下
 	vertices.at(RT).pos = { right	, top		,0 };//右上
-	
+
 	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 
 	// ワールド行列の更新

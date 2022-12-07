@@ -48,7 +48,7 @@ void GameScene::Ini()
 	sprite_.SetPos(0,0);
 	sprite_.SetScale(0.5f, 0.5f);
 
-	sprite2_.Ini();
+	sprite2_.Ini("alphaBlend");
 	sprite2_.SetAnchor(0, 0);
 	sprite2_.SetPos(150,150);
 	sprite2_.SetScale(0.5f, 0.5f);

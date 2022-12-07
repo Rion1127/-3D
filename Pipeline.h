@@ -15,10 +15,38 @@ class Pipeline
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-
+	//object3d初期化
 	void Object3dIni(int blend);
+private:
+#pragma region object3D
+	void object3DSetInputLayout();
 
+	void object3DSetRasterizer();
+
+	void object3DSetShader();
+
+	void object3DSetRootSignature();
+
+	void object3DSetOther();
+
+#pragma endregion
+public:
+	//Sprite初期化
 	void SpriteIni(int blend);
+private:
+#pragma region Sprite
+	void SpriteSetInputLayout();
+
+	void SpriteSetRasterizer();
+
+	void SpriteSetShader();
+
+	void SpriteSetRootSignature();
+
+	void SpriteSetOther();
+
+#pragma endregion
+public:
 	/// <summary>
 	/// ブレンド設定
 	/// </summary>
@@ -33,31 +61,7 @@ public:
 	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
 
 private:
-#pragma region object3D
-	void object3DSetInputLayout();
-
-	void object3DSetRasterizer();
-
-	void object3DSetShader();
-
-	void object3DSetRootSignature();
-
-	void object3DSetOther();
-	
 	D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
-#pragma endregion
-#pragma region Sprite
-	void SpriteSetInputLayout();
-
-	void SpriteSetRasterizer();
-
-	void SpriteSetShader();
-
-	void SpriteSetRootSignature();
-
-	void SpriteSetOther();
-
-#pragma endregion
 
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;

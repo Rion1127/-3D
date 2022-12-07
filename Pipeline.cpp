@@ -81,7 +81,6 @@ void Pipeline::SpriteIni(int blend)
 
 void Pipeline::SetBlend(int blend)
 {
-	HRESULT result;
 
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;// RBGA全てのチャンネルを描画
@@ -147,7 +146,7 @@ void Pipeline::object3DSetInputLayout()
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
-	pipelineDesc.InputLayout.NumElements = inputLayout.size();
+	pipelineDesc.InputLayout.NumElements = (UINT)inputLayout.size();
 }
 
 void Pipeline::object3DSetRasterizer()
@@ -278,7 +277,7 @@ void Pipeline::SpriteSetInputLayout()
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 });
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
-	pipelineDesc.InputLayout.NumElements = inputLayout.size();
+	pipelineDesc.InputLayout.NumElements = (UINT)inputLayout.size();
 }
 
 void Pipeline::SpriteSetRasterizer()

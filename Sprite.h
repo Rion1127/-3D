@@ -17,7 +17,7 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	static void StaticIni();
-	void Ini();
+	void Ini(std::string guiname = "");
 	//À•W‚ğ‘ã“ü‚·‚é
 	void SetPos(float x, float y) {
 		pos_.x = x;
@@ -156,7 +156,11 @@ private:
 	bool isImguiDisplay = false;
 
 #pragma region
+	std::string guiName_;
 	int clicked = 0;
+	const char* gui;
+
+	std::string name;
 #pragma endregion
 };
 
