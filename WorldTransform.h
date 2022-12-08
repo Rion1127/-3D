@@ -61,6 +61,6 @@ private:
 
 	DirectXCommon* directx_ = nullptr;
 
-	Quaternion q = { 0,1,0,0 };
+	Quaternion q = { 0,1,0.1f,0 };
 };
 

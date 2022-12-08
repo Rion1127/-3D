@@ -90,6 +90,7 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 	matTrans = XMMatrixTranslation(
 		position.x, position.y, position.z);
 
+	
 
 	q.w += 0.01f;
 
