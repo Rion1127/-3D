@@ -24,6 +24,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="Easing.cpp" />
+    <ClCompile Include="EmptyScene.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="imguiTemplate.cpp" />
     <ClCompile Include="mInput.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="Easing.h" />
+    <ClInclude Include="EmptyScene.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="imguiTemplate.h" />
     <ClInclude Include="mInput.h" />

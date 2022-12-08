@@ -129,7 +129,6 @@ void GameScene::Update()
 
 
 
-
 	skyDomepos.Update(*useVP);
 
 	gumishippos.Update(*useVP);
