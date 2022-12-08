@@ -6,6 +6,7 @@ using namespace DirectX;
 #include <wrl.h>
 #include "ViewProjection.h"
 #include "DirectX.h"
+#include "Quaternion.h"
 
 //定数バッファ用データ構造体（３D変換行列）
 struct ConstBufferDataTransform {
@@ -59,5 +60,7 @@ private:
 	D3D12_RESOURCE_DESC resdesc{};
 
 	DirectXCommon* directx_ = nullptr;
+
+	Quaternion q = { 0,1,0,0 };
 };
 

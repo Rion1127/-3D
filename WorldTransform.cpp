@@ -1,4 +1,4 @@
-#include "Quaternion.h"
+
 #include "Util.h"
 #include "WorldTransform.h"
 
@@ -90,24 +90,32 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 	matTrans = XMMatrixTranslation(
 		position.x, position.y, position.z);
 
-	Quaternion q = {0,1,0,0};
+
+	q.w += 0.01f;
+
+	Quaternion q1 = {
+		q.x * sin(q.w / 2),
+		q.y * sin(q.w / 2),
+		q.z * sin(q.w / 2),
+		cos(q.w / 2) 
+	};
 
 	XMVECTOR vectorX = {
-		pow(q.w,2) + pow(q.x,2) - pow(q.y,2) - pow(q.z,2),
-		2 * (q.x * q.y + q.w * q.z),
-		2 * (q.x * q.z - q.w * q.y),
+		pow(q1.w,2) + pow(q1.x,2) - pow(q1.y,2) - pow(q1.z,2),
+		2 * (q1.x * q1.y + q1.w * q1.z),
+		2 * (q1.x * q1.z - q1.w * q1.y),
 		0
 	};
 	XMVECTOR vectorY = {
-		2 * (q.x * q.y - q.w * q.z),
-		pow(q.w,2) - pow(q.x,2) + pow(q.y,2) - pow(q.z,2),
-		2 * (q.y * q.z + q.w * q.x),
+		2 * (q1.x * q1.y - q1.w * q1.z),
+		pow(q1.w,2) - pow(q1.x,2) + pow(q1.y,2) - pow(q1.z,2),
+		2 * (q1.y * q1.z + q1.w * q1.x),
 		0
 	};
 	XMVECTOR vectorZ = {
-		2 * (q.x * q.z + q.w * q.y),
-		2 * (q.y * q.z - q.w * q.x),
-		pow(q.w,2) - pow(q.x,2) - pow(q.y,2) + pow(q.z,2),
+		2 * (q1.x * q1.z + q1.w * q1.y),
+		2 * (q1.y * q1.z - q1.w * q1.x),
+		pow(q1.w,2) - pow(q1.x,2) - pow(q1.y,2) + pow(q1.z,2),
 		0
 	};
 	XMVECTOR vectorW = {
