@@ -344,7 +344,7 @@ void Object3d::LoadTexture()
 		// テクスチャなし
 		else {
 			// マテリアルにテクスチャ読み込み
-			material->LoadTexture("white1x1.png");
+			material->LoadTexture("white1×1.png");
 		}
 		textureHandle_.push_back(material->textureHandle_);
 	}

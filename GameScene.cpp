@@ -29,10 +29,10 @@ void GameScene::Ini()
 	skyDomepos.SetPosition(0, 0, 0);
 	skyDomepos.scale = { 1,1,1 };
 
-	gumiship = Object3d::CreateOBJ_uniptr("gumiShip");
+	gumiship = Object3d::CreateOBJ_uniptr("cube");
 	gumishippos.Ini();
 	gumishippos.SetPosition(0, 0, 0);
-	gumishippos.scale = { 1,1,1 };
+	gumishippos.scale = { 1,2,1 };
 
 	gameCamera.Ini();
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
