@@ -22,7 +22,7 @@ void GameScene::Ini()
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 
-	
+
 	//天球
 	skyDome = Object3d::CreateOBJ_uniptr("skydome");
 	skyDomepos.Ini();
@@ -45,18 +45,21 @@ void GameScene::Ini()
 	sprite_.Ini();
 	texture_ = textureM->LoadGraph("uv.png");
 	sprite_.SetAnchor(0.5f, 0.5f);
-	sprite_.SetPos(0,0);
+	sprite_.SetPos(0, 0);
 	sprite_.SetScale(0.5f, 0.5f);
 
 	sprite2_.Ini("alphaBlend");
 	sprite2_.SetAnchor(0, 0);
-	sprite2_.SetPos(150,150);
+	sprite2_.SetPos(150, 150);
 	sprite2_.SetScale(0.5f, 0.5f);
 
 	isNext_ = 2;
 	SceneManager::SetChangeStart(SceneNum::STAGE1_);
 
-	OutputDebugStringA("テスト文字出力");
+	//OutputDebugStringA("テスト文字出力");
+
+	testSound_ = sound_->LoadWave("gumishipBGM.wav", "bgm");
+	
 }
 
 void GameScene::Update()
@@ -123,7 +126,14 @@ void GameScene::Update()
 	gameCamera.Update();
 	cameraUpdate();
 
+	//サウンド
+	if (input_->TriggerKey(DIK_P)) {
+		SoundManager::Play(testSound_, true, 1.0f);
+	}
 
+	if (input_->TriggerKey(DIK_L)) {
+		SoundManager::Stop(testSound_);
+	}
 
 
 
@@ -147,13 +157,13 @@ void GameScene::Draw()
 	//Object3d::SetBlend(BLEND_ALPHA);
 	//グミシップ
 	gumiship->DrawOBJ(&gumishippos);
-	
+
 
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////
 	BoardObject::PreDraw();
-	
+
 
 	////////////
 	//スプライト//
@@ -175,6 +185,6 @@ void GameScene::CheckAllCollision()
 
 void GameScene::cameraUpdate()
 {
-	
+
 }
 

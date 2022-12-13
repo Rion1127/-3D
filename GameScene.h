@@ -13,7 +13,6 @@
 #include "EmptyScene.h"
 #include <sstream>
 #include <fstream>
-#include "Timer.h"
 
 class GameScene :
 	public EmptyScene
@@ -56,5 +55,7 @@ private:
 	void cameraUpdate();
 	//g‚¤ƒJƒƒ‰À•W
 	ViewProjection* useVP = nullptr;
+
+	SoundKey testSound_;
 };
 

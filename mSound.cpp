@@ -5,11 +5,11 @@ Microsoft::WRL::ComPtr<IXAudio2> SoundManager::xAudio2;
 IXAudio2MasteringVoice* SoundManager::masterVoice;
 std::map<SoundKey, SoundData> SoundManager::sndMap;
 
-std::string directoryPath_ = "Resources/Sound/";
+std::string directoryPath_ = "Resources/BGM_SE/";
 
 SoundManager::~SoundManager()
 {
-	
+	sndMap.clear();
 }
 
 SoundManager* SoundManager::GetInstance()
@@ -99,9 +99,9 @@ bool SoundManager::IsPlaying(SoundKey key) {
 	return false;
 }
 
-SoundData* SoundManager::Play(SoundKey key, bool loopFlag, float volum)
+void SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 {
-	IXAudio2SourceVoice* pSourceVoice = nullptr;//‚±‚ê•Û‘¶‚µ‚Æ‚­‚ÆŽ~‚ß‚ç‚ê‚é
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	SoundData* pSnd = &sndMap[key];
 
 	if (pSnd->sound != nullptr)
@@ -123,8 +123,6 @@ SoundData* SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 	pSourceVoice->Start();
 
 	pSnd->sound = pSourceVoice;
-
-	return pSnd;
 }
 
 SoundData* SoundManager::GetSoundData(SoundKey key)
@@ -145,6 +143,7 @@ void SoundManager::ReleaseAllSounds()
 {
 	for (auto itr = sndMap.begin(); itr != sndMap.end(); itr++)
 	{
+		itr->second.sound->Stop();
 		itr->second.Release();
 	}
 	sndMap.clear();

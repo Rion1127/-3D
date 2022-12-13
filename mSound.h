@@ -78,7 +78,7 @@ public:
 	/// <param name="loopFlag">ƒ‹[ƒv</param>
 	/// <param name="volum">‰¹—Ê
 	/// </param>
-	static SoundData* Play(SoundKey key, bool loopFlag = false, float volum = 1.0f);
+	static void Play(SoundKey key, bool loopFlag = false, float volum = 1.0f);
 	/// <summary>
 	/// ‚·‚Å‚É“Ç‚İ‚ñ‚¾‰¹Œ¹‚ğ•Ô‚·
 	/// </summary>
