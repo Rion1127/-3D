@@ -186,6 +186,9 @@
     <ClCompile Include="EmptyScene.cpp">
       <Filter>engine\ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Framework.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="EmptyScene.h">
       <Filter>engine\ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

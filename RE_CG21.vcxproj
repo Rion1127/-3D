@@ -25,6 +25,7 @@
     <ClCompile Include="DirectX.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="EmptyScene.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="imguiTemplate.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="DirectX.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="EmptyScene.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="imguiTemplate.h" />

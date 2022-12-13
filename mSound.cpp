@@ -9,7 +9,6 @@ std::string directoryPath_ = "Resources/BGM_SE/";
 
 SoundManager::~SoundManager()
 {
-	sndMap.clear();
 }
 
 SoundManager* SoundManager::GetInstance()
@@ -143,7 +142,10 @@ void SoundManager::ReleaseAllSounds()
 {
 	for (auto itr = sndMap.begin(); itr != sndMap.end(); itr++)
 	{
-		itr->second.sound->Stop();
+		//’†g‚ª“ü‚Á‚Ä‚¢‚½‚ç‚·‚×‚ÄŽ~‚ß‚é
+		if (itr->second.sound != nullptr) {
+			itr->second.sound->Stop();
+		}
 		itr->second.Release();
 	}
 	sndMap.clear();
