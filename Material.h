@@ -18,9 +18,9 @@ public:
 
 	void LoadTexture(const std::string& directoryPath);
 
-	void SetAmbient(XMFLOAT3 Ambient) { ambient = Ambient;}
-	void SetDiffuse(XMFLOAT3 Diffuse) { diffuse = Diffuse;}
-	void SetSpecular(XMFLOAT3 Specular) {specular = Specular;}
+	void SetAmbient(XMFLOAT3 Ambient) { ambient_ = Ambient;}
+	void SetDiffuse(XMFLOAT3 Diffuse) { diffuse_ = Diffuse;}
+	void SetSpecular(XMFLOAT3 Specular) { specular_ = Specular;}
 
 	void ChangeColor(float x, float y, float z, float w);
 	void ChangeColor(XMFLOAT4 color_);
@@ -41,9 +41,23 @@ private:
 	//定数バッファのマッピング
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 
-	XMFLOAT3 ambient = { 0.3f,0.3f,0.3f };
-	XMFLOAT3 diffuse = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 specular = {0.0f, 0.0f, 0.0f};
+	//定数バッファ用データ構造体
+	struct ConstBufferDataB3 {
+		XMFLOAT3 ambient = { 0.3f,0.3f,0.3f };
+		float pad1;
+		XMFLOAT3 diffuse = { 0.0f,0.0f,0.0f };
+		float pad2;
+		XMFLOAT3 specular = { 0.0f, 0.0f, 0.0f };
+		float alpha;
+	};
+	//定数バッファの生成
+	ComPtr < ID3D12Resource> constBufferB3 = nullptr;
+	//定数バッファのマッピング
+	ConstBufferDataB3* constMapB3 = nullptr;
+
+	XMFLOAT3 ambient_ ;
+	XMFLOAT3 diffuse_ ;
+	XMFLOAT3 specular_ ;
 	float alpha = 1.0f;
 	
 };

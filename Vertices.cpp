@@ -192,7 +192,6 @@ void Vertices::Ini(ID3D12Device* device)
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	material.Ini(device);
 }
 
 void Vertices::CreateBuffer(ID3D12Device* device)
@@ -302,17 +301,6 @@ void Vertices::CreateBuffer(ID3D12Device* device)
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	material.Ini(device);
-}
-
-void Vertices::ChangeColor(float x, float y, float z, float w)
-{
-	material.ChangeColor(x, y, z, w);
-}
-
-void Vertices::ChangeColor(XMFLOAT4 color_)
-{
-	material.ChangeColor(color_);
 }
 
 void Vertices::Draw(uint32_t indexSize,
@@ -320,7 +308,6 @@ void Vertices::Draw(uint32_t indexSize,
 	WorldTransform* worldTransform,
 	UINT descriptorSize)
 {
-	material.Draw(commandList, descriptorSize);
 	// 頂点バッファビューの設定コマンド
 	commandList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
@@ -333,7 +320,6 @@ void Vertices::Draw(uint32_t indexSize,
 
 void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
 {
-	material.Draw(commandList, descriptorSize);
 	// 頂点バッファビューの設定コマンド
 	commandList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド

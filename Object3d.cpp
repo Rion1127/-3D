@@ -262,7 +262,7 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 			}
 
 			// 新しいマテリアルを生成
-			material = Material::Create(directX_->GetDevice());
+			material = new Material;
 			// マテリアル名読み込み
 			line_stream >> material->name_;
 			
@@ -324,6 +324,7 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 
 	
 	if (material) {
+		material->Ini(DirectXCommon::GetInstance()->GetDevice());
 		// マテリアルを登録
 		AddMaterial(material);
 	}
@@ -380,27 +381,34 @@ void Object3d::PreDraw()
 
 void Object3d::ObjChangeColor(float x, float y, float z, float w)
 {
-	for (auto& v : vert_) {
-		v->ChangeColor(x, y, z, w);
+	for (auto& m : materials_) {
+		m.second->ChangeColor(x, y, z, w);
 	}
 }
 
 void Object3d::ObjChangeColor(XMFLOAT4 color_)
 {
-	for (auto& v : vert_) {
-		v->ChangeColor(color_);
+	for (auto& m : materials_) {
+		m.second->ChangeColor(color_);
 	}
 }
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
+	for (auto& m : materials_) {
+		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
+	}
 	for (auto& v : vert_) {
+		
 		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle_.at(0));
 	}
 }
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
+	for (auto& m : materials_) {
+		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
+	}
 	for (auto& v : vert_) {
 		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle);
 	}

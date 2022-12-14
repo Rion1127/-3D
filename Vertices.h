@@ -25,8 +25,8 @@ public:
 	void AddVertices(const VertexPosNormalUv& vertex) { vertices.push_back(vertex); }
 	void AddIndex(const uint16_t& vertex) { indices.push_back(vertex); }
 
-	void ChangeColor(float x, float y, float z, float w);
-	void ChangeColor(XMFLOAT4 color_);
+	//void ChangeColor(float x, float y, float z, float w);
+	//void ChangeColor(XMFLOAT4 color_);
 
 	inline const std::vector<uint16_t>& GetIndices() { return indices; }
 
@@ -49,8 +49,6 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	//インデックスバッファビューの作成
 	D3D12_INDEX_BUFFER_VIEW ibView{};
-
-	Material material;
 
 public:
 	//頂点データ

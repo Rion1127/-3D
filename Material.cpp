@@ -42,6 +42,39 @@ void Material::Ini(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 	//値を書き込むと自動的に転送される
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1);
+
+	{
+		//ヒープ設定
+		D3D12_HEAP_PROPERTIES cbHeapProp{};
+		cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
+		//リソース設定
+		D3D12_RESOURCE_DESC cbResourceDesc{};
+		cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		cbResourceDesc.Width = (sizeof(ConstBufferDataB3) + 0xff) & ~0xff;
+		cbResourceDesc.Height = 1;
+		cbResourceDesc.DepthOrArraySize = 1;
+		cbResourceDesc.MipLevels = 1;
+		cbResourceDesc.SampleDesc.Count = 1;
+		cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+		//定数バッファの生成
+		result = device->CreateCommittedResource(
+			&cbHeapProp,		//ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&cbResourceDesc,	//リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBufferB3));
+		assert(SUCCEEDED(result));
+		//定数バッファのマッピング
+		result = constBufferB3->Map(0, nullptr, (void**)&constMapB3);	//マッピング
+		assert(SUCCEEDED(result));
+		constMapB3->ambient = ambient_;
+		constMapB3->diffuse = diffuse_;
+		constMapB3->specular = specular_;
+		constMapB3->alpha = alpha;
+		//constBufferB3->Unmap(0,nullptr);
+	}
 }
 
 void Material::ChangeColor(float x, float y, float z, float w)
@@ -77,4 +110,5 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList, UINT descriptorSize)
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(commandList, descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(0, constBufferMaterial->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(3, constBufferB3->GetGPUVirtualAddress());
 }
