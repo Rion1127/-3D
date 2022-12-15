@@ -37,8 +37,7 @@ public:
 
 	void Draw(
 		ID3D12GraphicsCommandList* commandList,
-		WorldTransform* worldTransform,
-		UINT descriptorSize);
+		WorldTransform* worldTransform);
 private:
 	
 	// 頂点バッファの生成

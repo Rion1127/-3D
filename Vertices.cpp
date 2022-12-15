@@ -318,7 +318,7 @@ void Vertices::Draw(uint32_t indexSize,
 	commandList->DrawIndexedInstanced(indexSize, 1, 0, 0, 0);
 }
 
-void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
+void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform)
 {
 	// 頂点バッファビューの設定コマンド
 	commandList->IASetVertexBuffers(0, 1, &vbView);

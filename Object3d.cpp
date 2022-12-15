@@ -400,17 +400,17 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform)
 	}
 	for (auto& v : vert_) {
 		
-		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle_.at(0));
+		v->Draw(directX_->GetCommandList(), worldTransform);
 	}
 }
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& m : materials_) {
-		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
+		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle);
 	}
 	for (auto& v : vert_) {
-		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle);
+		v->Draw(directX_->GetCommandList(), worldTransform);
 	}
 }
 
