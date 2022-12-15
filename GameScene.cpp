@@ -29,17 +29,17 @@ void GameScene::Ini()
 	skyDomepos.SetPosition(0, 0, 0);
 	skyDomepos.scale = { 1,1,1 };
 
-	gumiship = Object3d::CreateOBJ_uniptr("cube");
-	gumishippos.Ini();
-	gumishippos.SetPosition(0, 0, 0);
-	gumishippos.scale = { 1,2,1 };
+	cubeObj = Object3d::CreateOBJ_uniptr("cube");
+	cubePos.Ini();
+	cubePos.SetPosition(0, 0, 0);
+	cubePos.scale = { 1,2,1 };
 
 	gameCamera.Ini();
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
 	gameCamera.Update();
-	//useVP = &gameCamera;
-	useVP = debugCamera.GetViewProjection();
+	useVP = &gameCamera;
+	//useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
 	sprite_.Ini();
@@ -84,32 +84,37 @@ void GameScene::Update()
 		gameCamera.eye.x += 0.2f;
 	}
 
+	//カメラ
+	if (input_->PushKey(DIK_A)) {
+		gameCamera.eye.x -= 0.3f;
+		gameCamera.target.x -= 0.3f;
+	}
+	if (input_->PushKey(DIK_D)) {
+		gameCamera.eye.x += 0.3f;
+		gameCamera.target.x += 0.3f;
+	}
+	if (input_->PushKey(DIK_S)) {
+		gameCamera.eye.y -= 0.3f;
+		gameCamera.target.y -= 0.3f;
+	}
+	if (input_->PushKey(DIK_W)) {
+		gameCamera.eye.y += 0.3f;
+		gameCamera.target.y += 0.3f;
+	}
+
 	//スプライト移動
-#pragma region
-	if (input_->PushKey(DIK_UP)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {0, -2};
-		sprite_.SetPos(pos);
-	}
-
-	if (input_->PushKey(DIK_DOWN)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {0, 2};
-		sprite_.SetPos(pos);
-	}
-
-	if (input_->PushKey(DIK_RIGHT)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {2, 0};
-		sprite_.SetPos(pos);
-	}
-
 	if (input_->PushKey(DIK_LEFT)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {-2, 0};
-		sprite_.SetPos(pos);
+		cubePos.position.x -= 0.3f;
 	}
-#pragma endregion
+	if (input_->PushKey(DIK_RIGHT)) {
+		cubePos.position.x += 0.3f;
+	}
+	if (input_->PushKey(DIK_UP)) {
+		cubePos.position.y += 0.3f;
+	}
+	if (input_->PushKey(DIK_DOWN)) {
+		cubePos.position.y -= 0.3f;
+	}
 
 	sprite_.SetFlipX(input_->PushKey(DIK_N));
 	sprite_.SetFlipY(input_->PushKey(DIK_M));
@@ -141,7 +146,7 @@ void GameScene::Update()
 
 	skyDomepos.Update(*useVP);
 
-	gumishippos.Update(*useVP);
+	cubePos.Update(*useVP);
 }
 
 void GameScene::Draw()
@@ -156,7 +161,7 @@ void GameScene::Draw()
 
 	//Object3d::SetBlend(BLEND_ALPHA);
 	//グミシップ
-	gumiship->DrawOBJ(&gumishippos);
+	cubeObj->DrawOBJ(&cubePos);
 
 
 	///////////////////

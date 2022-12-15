@@ -43,8 +43,8 @@ private:
 	float skyDomeRotate;
 
 	//“V‹…
-	std::unique_ptr<Object3d> gumiship;
-	WorldTransform gumishippos;
+	std::unique_ptr<Object3d> cubeObj;
+	WorldTransform cubePos;
 
 	Sprite sprite_;
 	uint32_t texture_;
