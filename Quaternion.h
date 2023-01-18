@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 struct Quaternion
 {
+	
 	float x;
 	float y;
 	float z;
@@ -46,5 +47,17 @@ struct Quaternion
 
 		return matRot;
 	};
+	//’PˆÊQuaternion‚ğ•Ô‚·
+	Quaternion IdentityQuaternion();
+	//‹¤–ğQuaternion‚ğ•Ô‚·
+	Quaternion Conjugate();
+	//Quaternion‚Ìnorm‚ğ•Ô‚·
+	float Norm();
+	//³‹K‰»‚µ‚½Quaternion‚ğ•Ô‚·
+	Quaternion Normalize();
+	//‹tQuaternion‚ğ•Ô‚·
+	Quaternion Inverse(const Quaternion& quaternion);
+	//Quaternion‚ÌÏ 
+	Quaternion Multiply(const Quaternion& rhs);
 };
 
