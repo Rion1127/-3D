@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include "Vector3.h"
 struct Quaternion
 {
 	
@@ -56,8 +57,16 @@ struct Quaternion
 	//正規化したQuaternionを返す
 	Quaternion Normalize();
 	//逆Quaternionを返す
-	Quaternion Inverse(const Quaternion& quaternion);
+	Quaternion Inverse();
 	//Quaternionの積 
 	Quaternion Multiply(const Quaternion& rhs);
+	
+	
 };
+	
 
+//任意軸回転を表すQuaternionの生成
+Quaternion MakeAxisAngle(const Vector3& axis, float angle);
+//ベクトルをQuaternionで回転させた結果のベクトルを求める
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+Vector3 TransformAffine(const Vector3& vector, DirectX::XMMATRIX matrix);

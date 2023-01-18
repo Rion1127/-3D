@@ -22,18 +22,6 @@ void GameScene::Ini()
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 
-
-	//天球
-	skyDome = Object3d::CreateOBJ_uniptr("skydome");
-	skyDomepos.Ini();
-	skyDomepos.SetPosition(0, 0, 0);
-	skyDomepos.scale = { 1,1,1 };
-
-	gumiship = Object3d::CreateOBJ_uniptr("Player");
-	gumishippos.Ini();
-	gumishippos.SetPosition(0, 0, 0);
-	gumishippos.scale = { 1,1,1 };
-
 	gameCamera.Ini();
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
@@ -42,83 +30,11 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	sprite_.Ini();
-	texture_ = textureM->LoadGraph("uv.png");
-	sprite_.SetAnchor(0.5f, 0.5f);
-	sprite_.SetPos(0, 0);
-	sprite_.SetScale(0.5f, 0.5f);
-
-	sprite2_.Ini("alphaBlend");
-	sprite2_.SetAnchor(0, 0);
-	sprite2_.SetPos(150, 150);
-	sprite2_.SetScale(0.5f, 0.5f);
-
-	isNext_ = 2;
-	SceneManager::SetChangeStart(SceneNum::STAGE1_);
-
-	//OutputDebugStringA("テスト文字出力");
-
-	testSound_ = sound_->LoadWave("gumishipBGM.wav", "bgm");
-	
 }
 
 void GameScene::Update()
 {
-#ifdef _DEBUG
-	//タイトルシーンへ移動
-	if (input_->TriggerKey(DIK_0)) {
-		isNext_ = true;
-		SceneManager::SetChangeStart(SceneNum::TITLE_);
-	}
 
-	if (input_->TriggerKey(DIK_1)) {
-		if (useVP == debugCamera.GetViewProjection())useVP = &gameCamera;
-		else if (useVP == &gameCamera)useVP = debugCamera.GetViewProjection();
-	}
-
-	if (input_->PushKey(DIK_J)) {
-		gameCamera.eye.x -= 0.2f;
-	}
-
-	if (input_->PushKey(DIK_K)) {
-		gameCamera.eye.x += 0.2f;
-	}
-
-	//スプライト移動
-#pragma region
-	if (input_->PushKey(DIK_UP)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {0, -2};
-		sprite_.SetPos(pos);
-	}
-
-	if (input_->PushKey(DIK_DOWN)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {0, 2};
-		sprite_.SetPos(pos);
-	}
-
-	if (input_->PushKey(DIK_RIGHT)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {2, 0};
-		sprite_.SetPos(pos);
-	}
-
-	if (input_->PushKey(DIK_LEFT)) {
-		Vector2 pos = sprite_.GetPos();
-		pos += {-2, 0};
-		sprite_.SetPos(pos);
-	}
-#pragma endregion
-
-	sprite_.SetFlipX(input_->PushKey(DIK_N));
-	sprite_.SetFlipY(input_->PushKey(DIK_M));
-	sprite_.SetInvisivle(input_->PushKey(DIK_B));
-	sprite_.SetImGui(!input_->PushKey(DIK_B));
-
-	sprite2_.SetInvisivle(input_->PushKey(DIK_V));
-	sprite2_.SetImGui(!input_->PushKey(DIK_V));
-#endif // _DEBUG
 	//カメラ更新
 	if (input_->PushKey(DIK_LCONTROL)) {
 		debugCamera.Update();
@@ -126,22 +42,63 @@ void GameScene::Update()
 	gameCamera.Update();
 	cameraUpdate();
 
-	//サウンド
-	if (input_->TriggerKey(DIK_P)) {
-		SoundManager::Play(testSound_, true, 1.0f);
-	}
 
-	if (input_->TriggerKey(DIK_L)) {
-		SoundManager::Stop(testSound_);
-	}
+	ImGui::Begin("quaternion");
+	/* ここに追加したいGUIを書く */
+
+	//// Menu Bar
+	//Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
+	//Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
+
+	//Quaternion identity = identity.IdentityQuaternion();
+	//Quaternion conj = q1.Conjugate();
+	//Quaternion inv = q1.Inverse();
+	//Quaternion normal = q1.Normalize();
+	//Quaternion mul1 = q1.Multiply(q2);
+	//Quaternion mul2 = q2.Multiply(q1);
+	//float norm = q1.Norm();
+
+	//ImGui::LabelText("label", "Value");
+
+	//static float Identity[4] = { identity.x, identity.y, identity.z, identity.w };
+	//ImGui::InputFloat4("Identity", Identity);
+
+	//static float Conj[4] = { conj.x, conj.y, conj.z, conj.w };
+	//ImGui::InputFloat4("Conjugate", Conj);
+
+	//static float Inv[4] = { inv.x, inv.y, inv.z, inv.w };
+	//ImGui::InputFloat4("Inverse", Inv);
+
+	//static float Normal[4] = { normal.x, normal.y, normal.z, normal.w };
+	//ImGui::InputFloat4("Normalize", Normal);
+
+	//static float Mul1[4] = { mul1.x, mul1.y, mul1.z, mul1.w };
+	//ImGui::InputFloat4("Multiply(q1,q2)", Mul1);
+
+	//static float Mul2[4] = { mul2.x, mul2.y, mul2.z, mul2.w };
+	//ImGui::InputFloat4("Multiply(q2,q1)", Mul2);
+	//
+	//static float Norm = norm;
+	//ImGui::InputFloat("Norm", &Norm);
 
 
+	Quaternion rotation = MakeAxisAngle({0.0f,0.0f,1.0f},3.141592 / 2.0f);
+	Vector3 pointY = { 0.0f,1.0f,0.0f };
+	DirectX::XMMATRIX rotateMatrix = rotation.UpdateMatrix();
+	Vector3 rotateByQuaternion = RotateVector(pointY, rotation);
+	Vector3 rotateByMatrix = TransformAffine(pointY, rotateMatrix);
+
+	static float RotateByQuaternion[3] = { rotateByQuaternion.x, rotateByQuaternion.y, rotateByQuaternion.z };
+	ImGui::InputFloat4("RotateByQuaternion", RotateByQuaternion);
+
+	static float RotateByMatrix[3] = { rotateByMatrix.x, rotateByMatrix.y, rotateByMatrix.z};
+	ImGui::InputFloat4("RotateByMatrix", RotateByMatrix);
+	
+	//ImGui::SliderFloat("Rot", &rot, 0.0f, ConvertAngleToRadian(360), "x = %.3f");
 
 
+	ImGui::End();
 
-	skyDomepos.Update(*useVP);
-
-	gumishippos.Update(*useVP);
 }
 
 void GameScene::Draw()
@@ -151,12 +108,6 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 	Object3d::SetBlend(BLEND_NORMAL);
-	//天球
-	skyDome->DrawOBJ(&skyDomepos);
-
-	Object3d::SetBlend(BLEND_ALPHA);
-	//グミシップ
-	gumiship->DrawOBJ(&gumishippos);
 
 
 	///////////////////
@@ -170,10 +121,6 @@ void GameScene::Draw()
 	////////////
 	Sprite::PreDraw();
 
-	Sprite::SetBlend(BLEND_NORMAL);
-	sprite_.Draw(texture_);
-	Sprite::SetBlend(BLEND_ALPHA);
-	sprite2_.Draw(texture_);
 }
 
 
