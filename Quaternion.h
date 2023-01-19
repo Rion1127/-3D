@@ -51,7 +51,7 @@ struct Quaternion
 	//単位Quaternionを返す
 	Quaternion IdentityQuaternion();
 	//共役Quaternionを返す
-	Quaternion Conjugate();
+	Quaternion Conjugate() const;
 	//Quaternionのnormを返す
 	float Norm();
 	//正規化したQuaternionを返す
@@ -59,7 +59,7 @@ struct Quaternion
 	//逆Quaternionを返す
 	Quaternion Inverse();
 	//Quaternionの積 
-	Quaternion Multiply(const Quaternion& rhs);
+	Quaternion Multiply(const Quaternion& rhs)const ;
 	
 	
 };
@@ -69,4 +69,4 @@ struct Quaternion
 Quaternion MakeAxisAngle(const Vector3& axis, float angle);
 //ベクトルをQuaternionで回転させた結果のベクトルを求める
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
-Vector3 TransformAffine(const Vector3& vector, DirectX::XMMATRIX matrix);
+

@@ -86,13 +86,10 @@ void GameScene::Update()
 	Vector3 pointY = { 0.0f,1.0f,0.0f };
 	DirectX::XMMATRIX rotateMatrix = rotation.UpdateMatrix();
 	Vector3 rotateByQuaternion = RotateVector(pointY, rotation);
-	Vector3 rotateByMatrix = TransformAffine(pointY, rotateMatrix);
+	
 
 	static float RotateByQuaternion[3] = { rotateByQuaternion.x, rotateByQuaternion.y, rotateByQuaternion.z };
 	ImGui::InputFloat4("RotateByQuaternion", RotateByQuaternion);
-
-	static float RotateByMatrix[3] = { rotateByMatrix.x, rotateByMatrix.y, rotateByMatrix.z};
-	ImGui::InputFloat4("RotateByMatrix", RotateByMatrix);
 	
 	//ImGui::SliderFloat("Rot", &rot, 0.0f, ConvertAngleToRadian(360), "x = %.3f");
 
