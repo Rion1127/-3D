@@ -74,7 +74,7 @@ bool RayCollision(WorldTransform ray, WorldTransform obj)
 
 #pragma endregion
 }
-
+//球と球
 bool BallCollision(const WorldTransform& a, const WorldTransform& b) {
 	float x, y, z;
 	float r;
@@ -91,7 +91,7 @@ bool BallCollision(const WorldTransform& a, const WorldTransform& b) {
 	}
 	return false;
 }
-
+//球と球
 bool BallCollision(const Vector3& a, const float& aSize, const Vector3& b, const float& bSize) {
 	float x, y, z;
 	float r;
@@ -108,7 +108,7 @@ bool BallCollision(const Vector3& a, const float& aSize, const Vector3& b, const
 	}
 	return false;
 }
-
+//球と球
 bool BallCollision(const Sphere& a, const Sphere& b)
 {
 	float x, y, z;
@@ -126,7 +126,7 @@ bool BallCollision(const Sphere& a, const Sphere& b)
 	}
 	return false;
 }
-
+//平面と球
 bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR* inter)
 {
 	//座標系の原点から球の中心座標への距離
@@ -144,7 +144,7 @@ bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR
 
 	return true;
 }
-
+//点と三角形
 void ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
 {
 	// pointがp0の外側の頂点領域の中にあるかどうかチェック
@@ -218,7 +218,7 @@ void ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& tri
 	float w = vc * denom;
 	*closest = triangle.p0 + p0_p1 * v + p0_p2 * w;
 }
-
+//弾と法線付き三角形の当たり判定チェック
 bool Sphere2TriangleCol(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter)
 {
 	XMVECTOR p;
