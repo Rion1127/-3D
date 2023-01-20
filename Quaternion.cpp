@@ -4,7 +4,7 @@
 Quaternion Quaternion::IdentityQuaternion()
 {
 	Quaternion identity = { 0,0,0,1 };
-	
+
 
 	return identity;
 }
@@ -49,7 +49,7 @@ Quaternion Quaternion::Inverse()
 	return result;
 }
 //Quaternion‚ÌÏ
-Quaternion Quaternion::Multiply(const Quaternion& rhs)const 
+Quaternion Quaternion::Multiply(const Quaternion& rhs)const
 {
 	Quaternion result = {
 		this->x * rhs.w + this->w * rhs.x - this->z * rhs.y + this->y * rhs.z,
@@ -58,6 +58,49 @@ Quaternion Quaternion::Multiply(const Quaternion& rhs)const
 		this->w * rhs.w - this->x * rhs.x - this->y * rhs.y - this->z * rhs.z
 	};
 
+	return result;
+}
+Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
+{
+	Quaternion result{};
+	//this‚Æq1‚Ì“àÏ
+	float dot = this->w * q1.w + this->x * q1.x + this->y * q1.y + this->z * q1.z;
+	if (dot < 0) {
+		result = { -this->x,-this->y,-this->z,-this->w };	//‚à‚¤•Ğ•û‚Ì‰ñ“]‚ğ—˜—p‚·‚é
+		dot = -dot;		//“àÏ‚à”½“]
+	}
+	else {
+		//‚È‚·Šp‚ğ‹‚ß‚é
+		float theta = acos(dot);
+		float sinPh = sin(theta);
+
+		float sinTheta1subT = sin(theta * (1.0 - t));
+		float sinThetaMulT = sin(theta * t);
+
+		if (dot < 0.0 && theta > 3.1415f / 2.0) {
+			//theta‚Æsin‚ğg‚Á‚Ä•âŠÔŒW”‚ğ‹‚ß‚é
+			dot = -this->w * q1.w - this->x * q1.x - this->y * q1.y - this->z * q1.z;
+			
+			float s1 = sinTheta1subT / sinPh;
+			float s2 = sinThetaMulT / sinPh;
+			//‚»‚ê‚¼‚ê‚Ì•âŠÔŒW”‚ğ—˜—p‚µ‚Ä•ÛŠÇŒã‚Ì
+			result.x = this->x * s1 - q1.x * s2;
+			result.y = this->y * s1 - q1.y * s2;
+			result.z = this->z * s1 - q1.z * s2;
+			result.w = this->w * s1 - q1.w * s2;
+		}
+		else {
+			float s1, s2;
+			s1 = sinTheta1subT / sinPh;
+			s2 = sinThetaMulT / sinPh;
+
+			result.x = this->x * s1 + q1.x * s2;
+			result.y = this->y * s1 + q1.y * s2;
+			result.z = this->z * s1 + q1.z * s2;
+			result.w = this->w * s1 + q1.w * s2;
+		}
+	}
+	
 	return result;
 }
 //”CˆÓ²‰ñ“]‚ğ•\‚·Quaternion‚Ì¶¬

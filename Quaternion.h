@@ -61,6 +61,7 @@ struct Quaternion
 	//Quaternion‚ÌÏ 
 	Quaternion Multiply(const Quaternion& rhs)const ;
 	
+	Quaternion Slerp(const Quaternion& q1, float t);
 	
 };
 	

@@ -41,5 +41,7 @@ private:
 	//g‚¤ƒJƒƒ‰À•W
 	ViewProjection* useVP = nullptr;
 
+	float t = 0;
+
 };
 
