@@ -31,9 +31,9 @@ VSOutput main(float4 pos : POSITION,float3 normal : NORMAL, float2 uv : TEXCOORD
 	//拡散反射光
     float3 diffuse = dot(-lightdir, normal) * m_ambient;
 	//視点座標
-    const float3 eye = float3(0, 0, -20);
+    const float3 eye = float3(0, 0, -0);
 	//光沢度
-    const float shininess = 4.0f;
+    const float shininess = 1.0f;
 	//頂点から視点へのベクトル
     float3 eyedir = normalize(eye - pos.xyz);
 	//反射光ベクトル

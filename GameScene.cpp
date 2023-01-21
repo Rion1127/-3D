@@ -30,12 +30,13 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("skydome");
+	skyDome_ = Object3d::CreateOBJ_uniptr("sphere",true);
 	worldTransform_.Ini();
+	worldTransform_.position = { -1,0,0 };
 
-	sphere_ = Object3d::CreateOBJ_uniptr("sphere");
+	sphere_ = Object3d::CreateOBJ_uniptr("sphere",false);
 	sphereWT_.Ini();
-
+	sphereWT_.position = { 1,0,0 };
 }
 
 void GameScene::Update()

@@ -40,18 +40,18 @@ void Object3d::Ini()
 	directX_ = DirectXCommon::GetInstance();
 }
 
-Object3d* Object3d::CreateOBJ(const std::string& modelname)
+Object3d* Object3d::CreateOBJ(const std::string& modelname, bool smoothing)
 {
 	Object3d* instance = new Object3d;
-	instance->ModelIni(modelname);
+	instance->ModelIni(modelname, smoothing);
 
 	return instance;
 }
 
-std::unique_ptr<Object3d> Object3d::CreateOBJ_uniptr(const std::string& modelname)
+std::unique_ptr<Object3d> Object3d::CreateOBJ_uniptr(const std::string& modelname, bool smoothing)
 {
 	std::unique_ptr<Object3d> instance = std::make_unique<Object3d>();
-	instance->ModelIni(modelname);
+	instance->ModelIni(modelname,smoothing);
 
 	return /*std::move(*/instance/*)*/;
 }
@@ -199,6 +199,10 @@ void Object3d::LoadOBJ(const std::string& modelname)
 				vertex.uv = texcoords[indexTexcoord - 1];
 
 				vert->AddVertices(vertex);
+				//エッジ平滑化用のデータを追加
+				if (smoothing) {
+					AddSmoothData(indexPosition, (unsigned short)vert->GetVertexCount() - 1);
+				}
 
 				// インデックスデータの追加
 				if (faceIndexCount >= 3) {
@@ -217,7 +221,11 @@ void Object3d::LoadOBJ(const std::string& modelname)
 		}
 	}
 
+	
+
 	LoadTexture();
+
+	file.close();
 }
 
 void Object3d::LoadMaterial(const std::string& directoryPath, const std::string& filename)
@@ -357,12 +365,17 @@ void Object3d::AddMaterial(Material* material)
 	materials_.emplace(material->name_, material);
 }
 
-void Object3d::ModelIni(const std::string& modelname)
+void Object3d::ModelIni(const std::string& modelname, bool smoothing)
 {
+	this->smoothing = smoothing;
 	LoadOBJ(modelname);
 	// メッシュのバッファ生成
 	for (auto& m : vert_) {
 		m->CreateBuffer(directX_->GetDevice());
+	}
+
+	if (smoothing) {
+		CalculateSmoothedVertexNormals();
 	}
 }
 
@@ -412,5 +425,39 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 	for (auto& v : vert_) {
 		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle);
 	}
+}
+
+void Object3d::AddSmoothData(unsigned short indexPositon, unsigned short indexVertex)
+{
+	smoothData[indexPositon].emplace_back(indexVertex);
+}
+
+void Object3d::CalculateSmoothedVertexNormals()
+{
+	auto itr = smoothData.begin();
+	for (; itr != smoothData.end(); ++itr) {
+		//各面用の共通頂点コレクション
+		std::vector<unsigned short>& v = itr->second;
+		//前兆店の法線を平均する
+		DirectX::XMVECTOR normal = {};
+		for (unsigned short index : v) {
+			float x = vert_[0]->vertices[index].normal.x;
+			float y = vert_[0]->vertices[index].normal.y;
+			float z = vert_[0]->vertices[index].normal.z;
+
+			normal += XMVectorSet(x, y, z, 0);
+		}
+		normal = XMVector3Normalize(normal / (float)v.size());
+		//共通法線を使用するすべての頂点データに書き込む
+		for (unsigned short index : v) {
+			float x = normal.m128_f32[0];
+			float y = normal.m128_f32[1];
+			float z = normal.m128_f32[2];
+
+			vert_[0]->vertices[index].normal = { x,y,z };
+			int a = 0;
+		}
+	}
+	vert_[0]->Map();
 }
 

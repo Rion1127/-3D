@@ -303,6 +303,22 @@ void Vertices::CreateBuffer(ID3D12Device* device)
 
 }
 
+void Vertices::Map()
+{
+	HRESULT result;
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	VertexPosNormalUv* vertMap = nullptr;
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (int i = 0; i < vertices.size(); i++) {
+		vertMap[i] = vertices[i]; // 座標をコピー
+	}
+	// 繋がりを解除
+	vertBuff->Unmap(0, nullptr);
+}
+
 void Vertices::Draw(uint32_t indexSize,
 	ID3D12GraphicsCommandList* commandList,
 	WorldTransform* worldTransform,

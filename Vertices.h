@@ -25,10 +25,14 @@ public:
 	void AddVertices(const VertexPosNormalUv& vertex) { vertices.push_back(vertex); }
 	void AddIndex(const uint16_t& vertex) { indices.push_back(vertex); }
 
+	size_t GetVertexCount() { return vertices.size(); }
+
 	//void ChangeColor(float x, float y, float z, float w);
 	//void ChangeColor(XMFLOAT4 color_);
 
 	inline const std::vector<uint16_t>& GetIndices() { return indices; }
+
+	void Map();
 
 	void Draw(uint32_t indexSize,
 		ID3D12GraphicsCommandList* commandList,

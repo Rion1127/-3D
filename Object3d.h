@@ -5,6 +5,7 @@
 #include "Vertices.h"
 #include "DirectX.h"
 #include "PipelineManager.h"
+#include <unordered_map>
 
 using namespace Microsoft::WRL;
 class Object3d
@@ -19,8 +20,8 @@ public:
 
 	static void Ini();
 	//モデルを読み込む
-	static Object3d* CreateOBJ(const std::string& modelname);
-	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname);
+	static Object3d* CreateOBJ(const std::string& modelname,bool smoothing = false);
+	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false);
 	/// <summary>
 	/// ブレンド設定
 	/// </summary>
@@ -33,7 +34,7 @@ public:
 	void SetModel(const Object3d* model);
 private:
 	//モデル初期化(CreateOBJ()に入っている)
-	void ModelIni(const std::string& modelname);
+	void ModelIni(const std::string& modelname, bool smoothing);
 	//.OBJから情報を読み込む(ModelIni()に入っている)
 	void LoadOBJ(const std::string& modelname);
 	//.mtlからテクスチャを読み込む
@@ -63,12 +64,19 @@ private:
 	// 名前
 	std::string name_;
 
-	int blendType = 0;
+	//頂点法線スムージング用データ
+	bool smoothing = false;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
+	//平滑化された頂点法線の計算
+	void CalculateSmoothedVertexNormals();
 public:
 	std::vector<Vertices*> vert_;
 	std::vector<uint32_t> textureHandle_;
 	// マテリアルコンテナ
 	std::map<std::string, Material*> materials_;
+
+	
 
 };
 
