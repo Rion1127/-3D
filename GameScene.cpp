@@ -49,6 +49,9 @@ void GameScene::Update()
 	gameCamera.Update();
 	cameraUpdate();
 
+	worldTransform_.rotation.y += 0.01f;
+	sphereWT_.rotation.y += 0.01f;
+
 	worldTransform_.Update(*useVP);
 	sphereWT_.Update(*useVP);
 
