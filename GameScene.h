@@ -43,9 +43,10 @@ private:
 
 	float t = 0;
 
-	std::unique_ptr<Object3d> objct3d_;
+	std::unique_ptr<Object3d> skyDome_;
 	WorldTransform worldTransform_;
 
-
+	std::unique_ptr<Object3d> sphere_;
+	WorldTransform sphereWT_;
 };
 

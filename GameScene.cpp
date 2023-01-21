@@ -30,9 +30,11 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	objct3d_ = Object3d::CreateOBJ_uniptr("sphere");
+	skyDome_ = Object3d::CreateOBJ_uniptr("skydome");
 	worldTransform_.Ini();
-	
+
+	sphere_ = Object3d::CreateOBJ_uniptr("sphere");
+	sphereWT_.Ini();
 
 }
 
@@ -47,6 +49,7 @@ void GameScene::Update()
 	cameraUpdate();
 
 	worldTransform_.Update(*useVP);
+	sphereWT_.Update(*useVP);
 
 
 	ImGui::Begin("quaternion");
@@ -144,7 +147,8 @@ void GameScene::Draw()
 	Object3d::PreDraw();
 	Object3d::SetBlend(BLEND_NORMAL);
 
-	objct3d_->DrawOBJ(&worldTransform_);
+	skyDome_->DrawOBJ(&worldTransform_);
+	sphere_->DrawOBJ(&sphereWT_);
 
 
 	///////////////////
