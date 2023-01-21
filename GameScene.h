@@ -43,5 +43,9 @@ private:
 
 	float t = 0;
 
+	std::unique_ptr<Object3d> objct3d_;
+	WorldTransform worldTransform_;
+
+
 };
 

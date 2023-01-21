@@ -119,5 +119,10 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 	//定数バッファへデータ転送
 	constMapTransform->mat = matWorld ;
 	constMapTransform->viewProj = viewProjection.GetMatView() * viewProjection.GetMatProjection();
+	constMapTransform->cameraPos = {
+		viewProjection.eye.x,
+		viewProjection.eye.y,
+		viewProjection.eye.z
+	};
 }
 

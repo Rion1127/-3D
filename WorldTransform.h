@@ -12,6 +12,7 @@ using namespace DirectX;
 struct ConstBufferDataTransform {
 	XMMATRIX mat; //3D変換行列
 	XMMATRIX viewProj;	//ビューとプロジェクション合成行列
+	Vector3 cameraPos;
 };
 
 class WorldTransform

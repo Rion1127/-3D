@@ -32,14 +32,14 @@ public:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 private:
-	//定数バッファ用データ構造体
-	struct ConstBufferDataMaterial {
-		XMFLOAT4 color;
-	};
-	//定数バッファの生成
-	ComPtr < ID3D12Resource> constBufferMaterial = nullptr;
-	//定数バッファのマッピング
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	////定数バッファ用データ構造体
+	//struct ConstBufferDataMaterial {
+	//	XMFLOAT4 color;
+	//};
+	////定数バッファの生成
+	//ComPtr < ID3D12Resource> constBufferMaterial = nullptr;
+	////定数バッファのマッピング
+	//ConstBufferDataMaterial* constMapMaterial = nullptr;
 
 	//定数バッファ用データ構造体
 	struct ConstBufferDataB3 {

@@ -2,6 +2,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dcompiler.h>
+#include <d3dx12.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include "DirectX.h"
 
@@ -67,8 +68,6 @@ private:
 	ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプランステートの生成
 	ComPtr<ID3D12PipelineState> pipelineState;
-	//// パイプランステートの生成
-	//ComPtr<ID3D12PipelineState> pipelineState2;
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	//コマンドリストを格納する
