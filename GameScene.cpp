@@ -105,38 +105,45 @@ void GameScene::Update()
 	ImGui::InputFloat4("RotateByQuaternion", RotateByQuaternion);*/
 
 
-	Quaternion rotation0 = MakeAxisAngle({ 0.71,0.71f,0.0f }, 0.3f);
-	Quaternion rotation1 = MakeAxisAngle({ 0.71,0.0f, 0.71f }, 3.141592f);
-	//Quaternion rotation1 = { -rotation0.x,-rotation0.y,-rotation0.z,-rotation0.w };
+	//Quaternion rotation0 = MakeAxisAngle({ 0.71,0.71f,0.0f }, 0.3f);
+	//Quaternion rotation1 = MakeAxisAngle({ 0.71,0.0f, 0.71f }, 3.141592f);
+	////Quaternion rotation1 = { -rotation0.x,-rotation0.y,-rotation0.z,-rotation0.w };
 
-	Quaternion intertpolate0 = rotation0.Slerp(rotation1, 0.0f);
-	Quaternion intertpolate1 = rotation0.Slerp(rotation1, 0.3f);
-	Quaternion intertpolate2 = rotation0.Slerp(rotation1, 0.5f);
-	Quaternion intertpolate3 = rotation0.Slerp(rotation1, 0.7f);
-	Quaternion intertpolate4 = rotation0.Slerp(rotation1, 1.0f);
+	//Quaternion intertpolate0 = rotation0.Slerp(rotation1, 0.0f);
+	//Quaternion intertpolate1 = rotation0.Slerp(rotation1, 0.3f);
+	//Quaternion intertpolate2 = rotation0.Slerp(rotation1, 0.5f);
+	//Quaternion intertpolate3 = rotation0.Slerp(rotation1, 0.7f);
+	//Quaternion intertpolate4 = rotation0.Slerp(rotation1, 1.0f);
 
-	Quaternion intertpolate5 = rotation0.Slerp(rotation1, t);
+	//Quaternion intertpolate5 = rotation0.Slerp(rotation1, t);
 
-	float Intertpolate0[4] = { intertpolate0.x, intertpolate0.y, intertpolate0.z, intertpolate0.w };
-	ImGui::InputFloat4("Slerp(rotation1, 0.0f)", Intertpolate0);
+	//float Intertpolate0[4] = { intertpolate0.x, intertpolate0.y, intertpolate0.z, intertpolate0.w };
+	//ImGui::InputFloat4("Slerp(rotation1, 0.0f)", Intertpolate0);
 
-	float Intertpolate1[4] = { intertpolate1.x, intertpolate1.y, intertpolate1.z, intertpolate1.w };
-	ImGui::InputFloat4("Slerp(rotation1, 0.3f)", Intertpolate1);
+	//float Intertpolate1[4] = { intertpolate1.x, intertpolate1.y, intertpolate1.z, intertpolate1.w };
+	//ImGui::InputFloat4("Slerp(rotation1, 0.3f)", Intertpolate1);
 
-	float Intertpolate2[4] = { intertpolate2.x, intertpolate2.y, intertpolate2.z, intertpolate2.w };
-	ImGui::InputFloat4("Slerp(rotation1, 0.5f)", Intertpolate2);
+	//float Intertpolate2[4] = { intertpolate2.x, intertpolate2.y, intertpolate2.z, intertpolate2.w };
+	//ImGui::InputFloat4("Slerp(rotation1, 0.5f)", Intertpolate2);
 
-	float Intertpolate3[4] = { intertpolate3.x, intertpolate3.y, intertpolate3.z, intertpolate3.w };
-	ImGui::InputFloat4("Slerp(rotation1, 0.7f)", Intertpolate3);
+	//float Intertpolate3[4] = { intertpolate3.x, intertpolate3.y, intertpolate3.z, intertpolate3.w };
+	//ImGui::InputFloat4("Slerp(rotation1, 0.7f)", Intertpolate3);
 
-	float Intertpolate4[4] = { intertpolate4.x, intertpolate4.y, intertpolate4.z, intertpolate4.w };
-	ImGui::InputFloat4("Slerp(rotation1, 1.0f)", Intertpolate4);
+	//float Intertpolate4[4] = { intertpolate4.x, intertpolate4.y, intertpolate4.z, intertpolate4.w };
+	//ImGui::InputFloat4("Slerp(rotation1, 1.0f)", Intertpolate4);
 
-	float Intertpolate5[4] = { intertpolate5.x, intertpolate5.y, intertpolate5.z, intertpolate5.w };
-	ImGui::InputFloat4("Slerp(rotation1, t)", Intertpolate5);
+	//float Intertpolate5[4] = { intertpolate5.x, intertpolate5.y, intertpolate5.z, intertpolate5.w };
+	//ImGui::InputFloat4("Slerp(rotation1, t)", Intertpolate5);
 
-	ImGui::SliderFloat("t", &t, 0.0f, 1.0f);
+	//ImGui::SliderFloat("t", &t, 0.0f, 1.0f);
 
+	Vector3 direction1 = { 1.0f,1.0f,1.0f };
+	Vector3 direction2 = { 1.0f,0.0f,1.0f };
+	Quaternion dirToDir = DirectionToDirection(direction1, direction2);
+
+
+	float DirToDir[4] = { dirToDir.x, dirToDir.y, dirToDir.z, dirToDir.w };
+	ImGui::InputFloat4("Dir1 To Dir2", DirToDir);
 
 
 	ImGui::End();

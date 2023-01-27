@@ -62,6 +62,8 @@ struct Quaternion
 	Quaternion Multiply(const Quaternion& rhs)const ;
 	
 	Quaternion Slerp(const Quaternion& q1, float t);
+
+	
 	
 };
 	
@@ -70,4 +72,6 @@ struct Quaternion
 Quaternion MakeAxisAngle(const Vector3& axis, float angle);
 //ベクトルをQuaternionで回転させた結果のベクトルを求める
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+//uからvへの回転を生成
+Quaternion DirectionToDirection(const Vector3& u, const Vector3& v);
 

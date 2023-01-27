@@ -55,8 +55,10 @@ void Framework::Update()
 	input_->InputUpdata();
 	controller->Update();
 	mouse->Updata();
+#ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
+#endif // DEBUG
 }
 
 void Framework::Run()

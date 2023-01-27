@@ -1,4 +1,5 @@
 #include "Quaternion.h"
+#include <cmath>
 
 //単位Quaternionを返す
 Quaternion Quaternion::IdentityQuaternion()
@@ -138,6 +139,27 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 
 	//クォータニオン×ベクトル×共役クォータニオン
 	return Vector3(result.x, result.y, result.z);
+}
+
+Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
+{
+	//uとvを正規化
+	Vector3 uNorm = u;
+	uNorm.normalize();
+	Vector3 vNorm = v;
+	vNorm.normalize();
+
+	//uとvの内積
+	float dot = uNorm.dot(vNorm);
+
+	//外積をとる
+	Vector3 cross = uNorm.cross(vNorm);
+
+	Vector3 axis = cross.normalize();
+	//単位ベクトルで内積をとっているのでacosで角度を求める
+	float theta = std::acos(dot);
+	//axisとthetaで任意軸回転を作って返す
+	return MakeAxisAngle(axis, theta);
 }
 
 
