@@ -50,6 +50,11 @@ void WorldTransform::Ini()
 	directx_ = DirectXCommon::GetInstance();
 
 	//定数バッファのヒープ設定
+	D3D12_HEAP_PROPERTIES heapProp{};
+	//定数バッファのリソース設定
+	D3D12_RESOURCE_DESC resdesc{};
+
+	//定数バッファのヒープ設定
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
 	//定数バッファのリソース設定
 	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;

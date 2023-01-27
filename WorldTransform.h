@@ -55,10 +55,7 @@ private:
 	XMMATRIX matWorld;
 
 
-	//定数バッファのヒープ設定
-	D3D12_HEAP_PROPERTIES heapProp{};
-	//定数バッファのリソース設定
-	D3D12_RESOURCE_DESC resdesc{};
+	
 
 	DirectXCommon* directx_ = nullptr;
 
