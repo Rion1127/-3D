@@ -13,6 +13,12 @@ cbuffer Material : register(b1)
     float m_alpha : packoffset(c2.w); // アルファ
 }
 
+cbuffer Light : register(b2)
+{
+    float3 lightv;      //ライトへの方向の単位ベクトル
+    float3 lightcolor;  //ライトの色
+}
+
 //頂点シェーダの出力構造体
 //（頂点シェーダーからピクセルシェーダーへのやり取りに使用する）
 struct VSOutput

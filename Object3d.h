@@ -6,6 +6,7 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 #include <unordered_map>
+#include "Light.h"
 
 using namespace Microsoft::WRL;
 class Object3d
@@ -32,6 +33,8 @@ public:
 	static void SetBlend(int blend);
 
 	void SetModel(const Object3d* model);
+
+	static void SetLight(Light* light) { Object3d::light = light; }
 private:
 	//モデル初期化(CreateOBJ()に入っている)
 	void ModelIni(const std::string& modelname, bool smoothing);
@@ -76,7 +79,7 @@ public:
 	// マテリアルコンテナ
 	std::map<std::string, Material*> materials_;
 
-	
+	static Light* light;
 
 };
 

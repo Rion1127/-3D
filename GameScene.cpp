@@ -5,6 +5,7 @@
 #include "Collision.h"
 GameScene::~GameScene()
 {
+	delete light;
 }
 
 void GameScene::Ini()
@@ -29,6 +30,11 @@ void GameScene::Ini()
 	//useVP = &gameCamera;
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
+
+	light = Light::Create();
+	light->Init();
+
+	Object3d::SetLight(light);
 
 	skyDome_ = Object3d::CreateOBJ_uniptr("sphere",true);
 	worldTransform_.Ini();
@@ -55,6 +61,7 @@ void GameScene::Update()
 	worldTransform_.Update(*useVP);
 	sphereWT_.Update(*useVP);
 
+	light->Update();
 
 	ImGui::Begin("quaternion");
 	/* ‚±‚±‚É’Ç‰Á‚µ‚½‚¢GUI‚ğ‘‚­ */

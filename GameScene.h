@@ -13,6 +13,7 @@
 #include "EmptyScene.h"
 #include <sstream>
 #include <fstream>
+#include "Light.h"
 
 class GameScene :
 	public EmptyScene
@@ -40,6 +41,8 @@ private:
 	void cameraUpdate();
 	//g‚¤ƒJƒƒ‰À•W
 	ViewProjection* useVP = nullptr;
+
+	Light* light = nullptr;
 
 	float t = 0;
 

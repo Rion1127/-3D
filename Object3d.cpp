@@ -17,6 +17,8 @@ const std::string kBaseDirectory = "Resources/";
 //コマンドリストを格納する
 static DirectXCommon* directX_ = nullptr;
 
+Light* Object3d::light = nullptr;
+
 Object3d::~Object3d()
 {
 	for (auto m : vert_) {
@@ -408,6 +410,7 @@ void Object3d::ObjChangeColor(XMFLOAT4 color_)
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
+	light->Draw(3);
 	for (auto& m : materials_) {
 		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
 	}
