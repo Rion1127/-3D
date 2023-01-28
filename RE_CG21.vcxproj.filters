@@ -94,6 +94,12 @@
     <Filter Include="engine\ヘッダー ファイル\Scene">
       <UniqueIdentifier>{86ab3914-89a5-410d-9197-1aaacac91abe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ヘッダー ファイル\Light">
+      <UniqueIdentifier>{b0445aa9-909a-48fa-85f9-090efbaa3614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ソース ファイル\Light">
+      <UniqueIdentifier>{5e4a3e05-4f44-49bf-a7b9-bd2b9cdaa5c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -189,6 +195,9 @@
     <ClCompile Include="Framework.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>engine\ソース ファイル\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -280,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="Framework.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
