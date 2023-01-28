@@ -10,6 +10,8 @@ public:
 
 	static Light* Create();
 
+	static void StaticInit();
+
 	void Init();
 
 	void Update();
@@ -26,6 +28,7 @@ public:
 private:
 	struct ConstBufferData {
 		Vector3 lightv;		//ライトの方向を表すベクトル
+		float pad1;
 		Vector3 lightColor;	//ライトの色
 	};
 

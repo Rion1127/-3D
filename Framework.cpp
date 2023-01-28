@@ -1,4 +1,5 @@
 #include "Framework.h"
+#include "Light.h"
 
 void Framework::Init()
 {
@@ -31,6 +32,8 @@ void Framework::Init()
 	//imgui‰Šú‰»
 	imguiManeger_ = ImGuiManager::Getinstance();
 	imguiManeger_->Init();
+
+	Light::StaticInit();
 }
 
 void Framework::Finalize()

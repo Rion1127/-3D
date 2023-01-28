@@ -18,7 +18,7 @@ void GameScene::Ini()
 	sound_ = SoundManager::GetInstance();
 
 	Object3d::Ini();
-	BoardObject::Ini();
+	//BoardObject::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
@@ -33,6 +33,8 @@ void GameScene::Ini()
 
 	light = Light::Create();
 	light->Init();
+	light->SetLightColor({ 1,1,1 });
+	//light->SetLightDir()
 
 	Object3d::SetLight(light);
 
@@ -61,6 +63,14 @@ void GameScene::Update()
 	worldTransform_.Update(*useVP);
 	sphereWT_.Update(*useVP);
 
+	static Vector3 lightDir = { 0,1,5 };
+
+	if (input_->PushKey(DIK_W)) lightDir.y += 1.f;
+	if (input_->PushKey(DIK_S)) lightDir.y -= 1.f;
+	if (input_->PushKey(DIK_A)) lightDir.x += 1.f;
+	if (input_->PushKey(DIK_D)) lightDir.x -= 1.f;
+
+	light->SetLightDir(lightDir);
 	light->Update();
 
 	ImGui::Begin("quaternion");
@@ -172,7 +182,7 @@ void GameScene::Draw()
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////
-	BoardObject::PreDraw();
+	//BoardObject::PreDraw();
 
 
 	////////////

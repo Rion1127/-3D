@@ -1,7 +1,7 @@
 #include "Light.h"
 #include <cassert>
 
-DirectXCommon* Light::directX = DirectXCommon::GetInstance();
+DirectXCommon* Light::directX = nullptr;
 
 Light* Light::Create()
 {
@@ -10,6 +10,11 @@ Light* Light::Create()
 	instance->Init();
 
 	return instance;
+}
+
+void Light::StaticInit()
+{
+	Light::directX = DirectXCommon::GetInstance();
 }
 
 void Light::Init()
@@ -27,6 +32,8 @@ void Light::Init()
 		IID_PPV_ARGS(&constBuff));
 	assert(SUCCEEDED(result));
 
+	
+
 	TransferConstBuffer();
 }
 
@@ -41,8 +48,7 @@ void Light::Update()
 
 void Light::Draw(UINT rootParameterIndex)
 {
-	directX->GetCommandList()->SetGraphicsRootConstantBufferView(
-		rootParameterIndex, constBuff->GetGPUVirtualAddress());
+	directX->GetCommandList()->SetGraphicsRootConstantBufferView(3, constBuff->GetGPUVirtualAddress());
 }
 
 void Light::TransferConstBuffer()
