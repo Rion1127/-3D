@@ -49,7 +49,7 @@ void LightGroup::TransferConstBuffer()
 	if (SUCCEEDED(result)) {
 
 		constMap->ambientColor = ambientColor;
-
+		//平行根源
 		for (int i = 0; i < DirLightNum; i++) {
 			//ライトが有効なら設定を転送
 			if (dirLights[i].IsAvtive()) {
@@ -60,6 +60,20 @@ void LightGroup::TransferConstBuffer()
 			//ライトが無効なら転送しない
 			else {
 				constMap->dirLights[i].active = false;
+			}
+		}
+		//点光源
+		for (int i = 0; i < PointLightNum; i++) {
+			//ライトが有効なら設定を転送
+			if (pointLights[i].GetActive()) {
+				constMap->pointLights[i].active = true;
+				constMap->pointLights[i].lightPos = pointLights[i].GetLightPos();
+				constMap->pointLights[i].lightColor = pointLights[i].GetLightColor();
+				constMap->pointLights[i].lightatten = pointLights[i].GetLightAtten();
+			}
+			//ライトが無効ならライト色を0に
+			else {
+				constMap->pointLights[i].active = false;
 			}
 		}
 
@@ -73,7 +87,7 @@ void LightGroup::SetAmbientColor(const Vector3& color)
 	ambientColor = color;
 	dirty = true;
 }
-
+#pragma region 平行光源
 void LightGroup::SetDirLightActive(int index, bool active)
 {
 	assert(0 <= index && index < DirLightNum);
@@ -93,7 +107,35 @@ void LightGroup::SetDirLightColor(int index, const Vector3& lightColor)
 	dirLights[index].SetLightColor(lightColor);
 	dirty = true;
 }
+#pragma endregion
+#pragma region 点光源
+void LightGroup::SetPointLightActive(int index, bool active)
+{
+	assert(0 <= index && index < DirLightNum);
+	pointLights[index].SetActive(active);
+}
 
+void LightGroup::SetPointLightPos(int index, const Vector3& lightPos)
+{
+	assert(0 <= index && index < DirLightNum);
+	pointLights[index].SetLightPos(lightPos);
+	dirty = true;
+}
+
+void LightGroup::SetPointLightColor(int index, const Vector3& lightColor)
+{
+	assert(0 <= index && index < DirLightNum);
+	pointLights[index].SetLightColor(lightColor);
+	dirty = true;
+}
+
+void LightGroup::SetPointLightAtten(int index, const Vector3& lightAtten)
+{
+	assert(0 <= index && index < DirLightNum);
+	pointLights[index].SetLightAtten(lightAtten);
+	dirty = true;
+}
+#pragma endregion
 void LightGroup::DefaultLightSetting()
 {
 	dirLights[0].SetActive(true);

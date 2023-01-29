@@ -39,6 +39,7 @@
     <ClCompile Include="mSound.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="PipelineManager.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="mSound.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="PipelineManager.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Sprite.h" />

@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector3.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
 #include "DirectX.h"
 #include <d3d12.h>
 class LightGroup
@@ -10,6 +11,7 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	static const int DirLightNum = 3;
+	static const int PointLightNum = 3;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -21,6 +23,7 @@ public:
 	void TransferConstBuffer();
 
 	void SetAmbientColor(const Vector3& color);
+#pragma region 平行光源
 	/// <summary>
 	/// 平行光源の有効フラグをセット
 	/// </summary>
@@ -39,6 +42,33 @@ public:
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト色</param>
 	void SetDirLightColor(int index, const Vector3& lightColor);
+#pragma endregion
+#pragma region 点光源
+	/// <summary>
+	/// 点光源の有効フラグをセット
+	/// </summary>
+	/// <param name="index">ライト番号</param>
+	/// <param name="acrive">有効フラグ</param>
+	void SetPointLightActive(int index, bool active);
+	/// <summary>
+	/// 点光源の座標をセット
+	/// </summary>
+	/// <param name="index">ライト番号</param>
+	/// <param name="lightdir">ライト方向</param>
+	void SetPointLightPos(int index, const Vector3& lightPos);
+	/// <summary>
+	/// 点光源のカラーをセット
+	/// </summary>
+	/// <param name="index">ライト番号</param>
+	/// <param name="lightdir">ライト色</param>
+	void SetPointLightColor(int index, const Vector3& lightColor);
+	/// <summary>
+	/// 点光源の距離減衰をセット
+	/// </summary>
+	/// <param name="index">ライト番号</param>
+	/// <param name="lightdir">ライト色</param>
+	void SetPointLightAtten(int index, const Vector3& lightAtten);
+#pragma endregion
 	/// <summary>
 	/// 標準のライト設定
 	/// </summary>
@@ -58,6 +88,8 @@ private:
 		float pad1;
 		//平行光源用
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		//点光源用
+		PointLight::ConstBufferData pointLights[PointLightNum];
 	};
 	static DirectXCommon* directX;
 
@@ -67,6 +99,9 @@ private:
 	Vector3 ambientColor = { 1,1,1 };
 	//平行光源の配列
 	DirectionalLight dirLights[DirLightNum];
+	//点光源の配列
+	PointLight pointLights[PointLightNum];
+
 	//ダーティフラグ
 	bool dirty = false;
 };
