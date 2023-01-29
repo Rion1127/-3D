@@ -13,7 +13,7 @@
 #include "EmptyScene.h"
 #include <sstream>
 #include <fstream>
-#include "Light.h"
+#include "LightGroup.h"
 
 class GameScene :
 	public EmptyScene
@@ -42,7 +42,7 @@ private:
 	//égÇ§ÉJÉÅÉâç¿ïW
 	ViewProjection* useVP = nullptr;
 
-	Light* light = nullptr;
+	LightGroup* lightGroup = nullptr;
 
 	float t = 0;
 

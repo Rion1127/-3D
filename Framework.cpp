@@ -1,5 +1,6 @@
 #include "Framework.h"
-#include "Light.h"
+#include "DirectionalLight.h"
+#include "LightGroup.h"
 
 void Framework::Init()
 {
@@ -33,7 +34,8 @@ void Framework::Init()
 	imguiManeger_ = ImGuiManager::Getinstance();
 	imguiManeger_->Init();
 
-	Light::StaticInit();
+	DirectionalLight::StaticInit();
+	LightGroup::StaticInit();
 }
 
 void Framework::Finalize()

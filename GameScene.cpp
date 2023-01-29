@@ -5,7 +5,7 @@
 #include "Collision.h"
 GameScene::~GameScene()
 {
-	delete light;
+	delete lightGroup;
 }
 
 void GameScene::Ini()
@@ -31,12 +31,10 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	light = Light::Create();
-	light->Init();
-	light->SetLightColor({ 1,1,1 });
+	lightGroup = LightGroup::Create();
 	//light->SetLightDir()
 
-	Object3d::SetLight(light);
+	Object3d::SetLight(lightGroup);
 
 	skyDome_ = Object3d::CreateOBJ_uniptr("sphere",true);
 	worldTransform_.Ini();
@@ -65,13 +63,13 @@ void GameScene::Update()
 
 	static Vector3 lightDir = { 0,1,5 };
 
-	if (input_->PushKey(DIK_W)) lightDir.y += 1.f;
-	if (input_->PushKey(DIK_S)) lightDir.y -= 1.f;
+	if (input_->PushKey(DIK_W)) lightDir.y -= 1.f;
+	if (input_->PushKey(DIK_S)) lightDir.y += 1.f;
 	if (input_->PushKey(DIK_A)) lightDir.x += 1.f;
 	if (input_->PushKey(DIK_D)) lightDir.x -= 1.f;
 
-	light->SetLightDir(lightDir);
-	light->Update();
+	
+	lightGroup->Update();
 
 	ImGui::Begin("quaternion");
 	/* ‚±‚±‚É’Ç‰Á‚µ‚½‚¢GUI‚ğ‘‚­ */

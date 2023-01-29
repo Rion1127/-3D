@@ -1,23 +1,23 @@
-#include "Light.h"
+#include "DirectionalLight.h"
 #include <cassert>
 
-DirectXCommon* Light::directX = nullptr;
+DirectXCommon* DirectionalLight::directX = nullptr;
 
-Light* Light::Create()
+DirectionalLight* DirectionalLight::Create()
 {
-	Light* instance = new Light();
+	DirectionalLight* instance = new DirectionalLight();
 
 	instance->Init();
 
 	return instance;
 }
 
-void Light::StaticInit()
+void DirectionalLight::StaticInit()
 {
-	Light::directX = DirectXCommon::GetInstance();
+	DirectionalLight::directX = DirectXCommon::GetInstance();
 }
 
-void Light::Init()
+void DirectionalLight::Init()
 {
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -37,7 +37,7 @@ void Light::Init()
 	TransferConstBuffer();
 }
 
-void Light::Update()
+void DirectionalLight::Update()
 {
 	//値の変更があった時だけ定数ばっがに転送する
 	if (dirty) {
@@ -46,12 +46,12 @@ void Light::Update()
 	}
 }
 
-void Light::Draw(UINT rootParameterIndex)
+void DirectionalLight::Draw(UINT rootParameterIndex)
 {
 	directX->GetCommandList()->SetGraphicsRootConstantBufferView(3, constBuff->GetGPUVirtualAddress());
 }
 
-void Light::TransferConstBuffer()
+void DirectionalLight::TransferConstBuffer()
 {
 	HRESULT result;
 	// 定数バッファのマッピング
@@ -63,7 +63,7 @@ void Light::TransferConstBuffer()
 	}
 }
 
-void Light::SetLightDir(const Vector3& lightdir)
+void DirectionalLight::SetLightDir(const Vector3& lightdir)
 {
 	//正規化する
 	this->lightdir = lightdir;
@@ -71,7 +71,7 @@ void Light::SetLightDir(const Vector3& lightdir)
 	dirty = true;
 }
 
-void Light::SetLightColor(const Vector3& color)
+void DirectionalLight::SetLightColor(const Vector3& color)
 {
 	this->lightcolor = color;
 	dirty = true;

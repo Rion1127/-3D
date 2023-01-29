@@ -2,13 +2,13 @@
 #include "Vector3.h"
 #include "DirectX.h"
 #include <d3d12.h>
-class Light
+class DirectionalLight
 {
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static Light* Create();
+	static DirectionalLight* Create();
 
 	static void StaticInit();
 
@@ -23,14 +23,23 @@ public:
 	void SetLightDir(const Vector3& lightdir);
 
 	void SetLightColor(const Vector3& color);
+	//有効フラグ
+	void SetActive(bool active) { this->active = active; }
+	//有効フラグチェック
+	bool IsAvtive() { return active; }
 
+	Vector3 GetLightDir() { return lightdir; }
 
-private:
+	Vector3 GetLightColor() { return lightcolor; }
+
 	struct ConstBufferData {
 		Vector3 lightv;		//ライトの方向を表すベクトル
 		float pad1;
 		Vector3 lightColor;	//ライトの色
+		float pad2;
+		bool active;
 	};
+private:
 
 	static DirectXCommon* directX;
 
@@ -42,5 +51,8 @@ private:
 	Vector3 lightcolor = { 1,1,1 };
 	//ダーティフラグ
 	bool dirty;
+
+	//有効フラグ
+	bool active = false;
 };
 
