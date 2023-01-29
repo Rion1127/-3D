@@ -36,7 +36,7 @@ public:
 		Vector3 lightv;		//ライトの方向を表すベクトル
 		float pad1;
 		Vector3 lightColor;	//ライトの色
-		float pad2;
+		//float pad2;
 		bool active;
 	};
 private:

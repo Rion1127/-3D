@@ -51,5 +51,17 @@ private:
 
 	std::unique_ptr<Object3d> sphere_;
 	WorldTransform sphereWT_;
+
+	float ambientColor0[3] = { 0,0,0 };
+
+	//Œõü•ûŒü‰Šú‰»’l
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
 };
 
