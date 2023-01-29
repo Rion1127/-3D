@@ -41,9 +41,21 @@ struct SpotLight
     uint active;
 };
 
+//丸影
+struct CircleShadow
+{
+    float3 dir;                 //東映方向の逆ベクトル
+    float3 casterPos;           //キャスター座標
+    float distanceCasterLight;  //キャスターとライトの距離
+    float3 atten;               //距離減衰係数
+    float2 factorAngleCos;      //減衰角度のコサイン
+    uint active;                //
+};
+
 static const int DIRLIGHT_NUM = 3;
 static const int POINTLIGHT_NUM = 3;
 static const int SPOTLIGHT_NUM = 3;
+static const int CIRCLESHADOW_NUM = 1;
 
 cbuffer Light : register(b2)
 {
@@ -51,6 +63,7 @@ cbuffer Light : register(b2)
     DirLight dirLights[DIRLIGHT_NUM];       //平行光源
     PointLight pointLights[POINTLIGHT_NUM]; //点光源
     SpotLight spotLights[SPOTLIGHT_NUM];    //スポットライト
+    CircleShadow circleShadows[CIRCLESHADOW_NUM];   //丸影
 }
 
 

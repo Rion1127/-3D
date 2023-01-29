@@ -3,6 +3,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "CircleShadow.h"
 #include "DirectX.h"
 #include <d3d12.h>
 class LightGroup
@@ -14,6 +15,7 @@ public:
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
 	static const int SpotLightNum = 3;
+	static const int CircleShadowNum = 1;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -79,6 +81,14 @@ public:
 	void SetSpotLightAtten(int index, const Vector3& lightAtten);
 	void SetSpotLightFactorAngle(int index, const Vector2& lightFactorAngle);
 #pragma endregion
+#pragma region 丸影
+	void SetCircleShadowActive(int index, bool active);
+	void SetCircleShadowCasterPos(int index, const Vector3& casterPos);
+	void SetCircleShadowDir(int index, const Vector3& lightdir);
+	void SetCircleShadowDistanceCasterLight(int index, float ditanceCasterLight);
+	void SetCircleShadowAtten(int index, const Vector3& lightAtten);
+	void SetCircleShadowFactorAngle(int index, const Vector2& lightFactorAngle);
+#pragma endregion
 	/// <summary>
 	/// 標準のライト設定
 	/// </summary>
@@ -102,6 +112,8 @@ private:
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		//点光源用
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		//丸影
+		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 	};
 	static DirectXCommon* directX;
 
@@ -115,6 +127,8 @@ private:
 	PointLight pointLights[PointLightNum];
 	//スポットライト
 	SpotLight spotLights[SpotLightNum];
+	//丸影
+	CircleShadow circleShadows[CircleShadowNum];
 
 	//ダーティフラグ
 	bool dirty = false;

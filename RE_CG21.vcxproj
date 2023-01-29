@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="boardObject.cpp" />
+    <ClCompile Include="CircleShadow.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DirectX.cpp" />
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boardObject.h" />
+    <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DirectX.h" />

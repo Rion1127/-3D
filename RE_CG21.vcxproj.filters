@@ -202,10 +202,13 @@
       <Filter>engine\ソース ファイル\Light</Filter>
     </ClCompile>
     <ClCompile Include="PointLight.cpp">
-      <Filter>engine\ソース ファイル</Filter>
+      <Filter>engine\ソース ファイル\Light</Filter>
     </ClCompile>
     <ClCompile Include="SpotLight.cpp">
-      <Filter>engine\ソース ファイル</Filter>
+      <Filter>engine\ソース ファイル\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleShadow.cpp">
+      <Filter>engine\ソース ファイル\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,10 +309,13 @@
       <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
+      <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="SpotLight.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
+      <Filter>engine\ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleShadow.h">
+      <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
