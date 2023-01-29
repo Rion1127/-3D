@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector3.h"
+#include "Util.h"
 class CircleShadow
 {
 public:
@@ -22,7 +23,10 @@ public:
 	void SetCasterPos(const Vector3& casterPos) { this->casterPos = casterPos; }
 	void SetDistanceCasterLight(const float& distance) { ditanveCasterLight = distance; }
 	void SetAtten(const Vector3& atten) { this->atten = atten; }
-	void SetFactorAngle(const Vector2& angle) { this->factorAngleCos = angle; }
+	void SetFactorAngle(const Vector2& angle) {
+		this->factorAngleCos.x = cosf(ConvertAngleToRadian(angle.x));
+		this->factorAngleCos.y = cosf(ConvertAngleToRadian(angle.y));
+	}
 	void SetActive(bool active) {this->active = active;}
 
 	Vector3 GetDir() { return dir; }

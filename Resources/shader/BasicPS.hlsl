@@ -137,7 +137,8 @@ float4 main(VSOutput input) : SV_TARGET
 			//距離減衰係数
             float atten =
 			saturate(1.0f / (circleShadows[i].atten.x +
-			circleShadows[i].atten.y * d + circleShadows[i].atten.z * d * d));
+			circleShadows[i].atten.y * d +
+			circleShadows[i].atten.z * d * d));
 			//距離がマイナスなら0にする
             atten *= step(0, d);
 			//仮想ライトの座標
@@ -154,7 +155,7 @@ float4 main(VSOutput input) : SV_TARGET
 			//角度減衰を乗算
             atten *= angleatten;
 			//すべて減算する
-            shadecolor -= atten;
+            shadecolor.rgb -= atten;
         }
     }
 		

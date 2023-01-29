@@ -98,7 +98,7 @@ void LightGroup::TransferConstBuffer()
 			//—LŒø‚È‚çÝ’è‚ð“]‘—
 			if (circleShadows[i].GetActive()) {
 				constMap->circleShadows[i].active = true;
-				constMap->circleShadows[i].dir = -circleShadows[i].GetDir();
+				constMap->circleShadows[i].dir = -circleShadows[i].GetDir().normalize();
 				constMap->circleShadows[i].casterPos = circleShadows[i].GetCasterPos();
 				constMap->circleShadows[i].distanceCasterLight = 
 					circleShadows[i].GetDistanceCasterLight();

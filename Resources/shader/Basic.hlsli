@@ -49,7 +49,7 @@ struct CircleShadow
     float distanceCasterLight;  //キャスターとライトの距離
     float3 atten;               //距離減衰係数
     float2 factorAngleCos;      //減衰角度のコサイン
-    uint active;                //
+    uint active;
 };
 
 static const int DIRLIGHT_NUM = 3;
