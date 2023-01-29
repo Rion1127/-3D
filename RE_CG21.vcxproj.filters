@@ -204,6 +204,9 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -303,6 +306,9 @@
       <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

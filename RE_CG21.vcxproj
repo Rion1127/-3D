@@ -42,6 +42,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="RailCamera.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="RailCamera.h" />

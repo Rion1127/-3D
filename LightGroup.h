@@ -2,6 +2,7 @@
 #include "Vector3.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 #include "DirectX.h"
 #include <d3d12.h>
 class LightGroup
@@ -12,6 +13,7 @@ public:
 
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
+	static const int SpotLightNum = 3;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -69,6 +71,14 @@ public:
 	/// <param name="lightdir">ライト色</param>
 	void SetPointLightAtten(int index, const Vector3& lightAtten);
 #pragma endregion
+#pragma region スポットライト
+	void SetSpotLightActive(int index, bool active);
+	void SetSpotLightDir(int index, const Vector3& lightdir);
+	void SetSpotLightPos(int index, const Vector3& lightPos);
+	void SetSpotLightColor(int index, const Vector3& lightColor);
+	void SetSpotLightAtten(int index, const Vector3& lightAtten);
+	void SetSpotLightFactorAngle(int index, const Vector2& lightFactorAngle);
+#pragma endregion
 	/// <summary>
 	/// 標準のライト設定
 	/// </summary>
@@ -90,6 +100,8 @@ private:
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
 		//点光源用
 		PointLight::ConstBufferData pointLights[PointLightNum];
+		//点光源用
+		SpotLight::ConstBufferData spotLights[SpotLightNum];
 	};
 	static DirectXCommon* directX;
 
@@ -101,6 +113,8 @@ private:
 	DirectionalLight dirLights[DirLightNum];
 	//点光源の配列
 	PointLight pointLights[PointLightNum];
+	//スポットライト
+	SpotLight spotLights[SpotLightNum];
 
 	//ダーティフラグ
 	bool dirty = false;

@@ -30,14 +30,27 @@ struct PointLight
     uint active;
 };
 
+//スポットライト
+struct SpotLight
+{
+    float3 lightv;      //ライトの光線方向の逆ベクトル
+    float3 lightpos;    //ライトの座標
+    float3 lightcolor;  //ライトの色
+    float3 lightatten;  //ライト距離減衰係数
+    float2 lightActorAngleCos;  //ライト減衰角度のコサイン
+    uint active;
+};
+
 static const int DIRLIGHT_NUM = 3;
 static const int POINTLIGHT_NUM = 3;
+static const int SPOTLIGHT_NUM = 3;
 
 cbuffer Light : register(b2)
 {
     float3 ambientColor; //ライトへの方向の単位ベクトル
     DirLight dirLights[DIRLIGHT_NUM];       //平行光源
     PointLight pointLights[POINTLIGHT_NUM]; //点光源
+    SpotLight spotLights[SPOTLIGHT_NUM];    //スポットライト
 }
 
 

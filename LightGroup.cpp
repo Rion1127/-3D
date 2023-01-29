@@ -76,7 +76,23 @@ void LightGroup::TransferConstBuffer()
 				constMap->pointLights[i].active = false;
 			}
 		}
-
+		//スポットライト
+		for (int i = 0; i < SpotLightNum; i++) {
+			//有効なら設定を転送
+			if (spotLights[i].GetActive()) {
+				constMap->spotLights[i].active = true;
+				constMap->spotLights[i].lightv = -spotLights[i].GetLightDir().normalize();
+				constMap->spotLights[i].lightPos = spotLights[i].GetLightPos();
+				constMap->spotLights[i].lightColor = spotLights[i].GetLightColor();
+				constMap->spotLights[i].lightatten = spotLights[i].GetLightAtten();
+				constMap->spotLights[i].lightfactorranglecos =
+					spotLights[i].GetLightFaactorAngleCos();
+			}
+			//ライトが無効ならライト色を０に
+			else {
+				constMap->spotLights[i].active = false;
+			}
+		}
 
 		constBuff->Unmap(0, nullptr);
 	}
@@ -133,6 +149,49 @@ void LightGroup::SetPointLightAtten(int index, const Vector3& lightAtten)
 {
 	assert(0 <= index && index < DirLightNum);
 	pointLights[index].SetLightAtten(lightAtten);
+	dirty = true;
+}
+#pragma endregion
+#pragma region スポットライト
+void LightGroup::SetSpotLightActive(int index, bool active)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetActive(active);
+}
+void LightGroup::SetSpotLightDir(int index, const Vector3& lightdir)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightDir(lightdir);
+	dirty = true;
+}
+void LightGroup::SetSpotLightPos(int index, const Vector3& lightPos)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightPos(lightPos);
+	dirty = true;
+}
+void LightGroup::SetSpotLightColor(int index, const Vector3& lightColor)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightColor(lightColor);
+	dirty = true;
+}
+void LightGroup::SetSpotLightAtten(int index, const Vector3& lightAtten)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightAtten(lightAtten);
+	dirty = true;
+}
+void LightGroup::SetSpotLightFactorAngle(int index, const Vector2& lightFactorAngle)
+{
+	assert(0 <= index && index < SpotLightNum);
+
+	spotLights[index].SetLightFactorAngle(lightFactorAngle);
 	dirty = true;
 }
 #pragma endregion

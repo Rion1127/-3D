@@ -52,10 +52,15 @@ void GameScene::Ini()
 	lightGroup->SetDirLightActive(0, false);
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
-	lightGroup->SetPointLightActive(0, true);
+	/*lightGroup->SetPointLightActive(0, true);
 	pointLightPos[0] = 0.5f;
 	pointLightPos[0] = 1.0f;
-	pointLightPos[0] = 0.0f;
+	pointLightPos[0] = 0.0f;*/
+
+	lightGroup->SetPointLightActive(0, false);
+	lightGroup->SetPointLightActive(1, false);
+	lightGroup->SetPointLightActive(2, false);
+	lightGroup->SetSpotLightActive(0, true);
 }
 
 void GameScene::Update()
@@ -97,9 +102,15 @@ void GameScene::Update()
 	lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1], lightDir2[2] });
 	lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });*/
 
-	lightGroup->SetPointLightPos(0, { pointLightPos[0],pointLightPos[1], pointLightPos[2] });
+	/*lightGroup->SetPointLightPos(0, { pointLightPos[0],pointLightPos[1], pointLightPos[2] });
 	lightGroup->SetPointLightColor(0, { pointLightColor[0],pointLightColor[1], pointLightColor[2] });
-	lightGroup->SetPointLightAtten(0, { pointLightAtten[0],pointLightAtten[1], pointLightAtten[2] });
+	lightGroup->SetPointLightAtten(0, { pointLightAtten[0],pointLightAtten[1], pointLightAtten[2] });*/
+
+	lightGroup->SetSpotLightDir(0, { spotlightDir[0],spotlightDir[1], spotlightDir[2] });
+	lightGroup->SetSpotLightPos(0, { spotlightPos[0],spotlightPos[1], spotlightPos[2] });
+	lightGroup->SetSpotLightColor(0, { spotLightColor[0],spotLightColor[1], spotLightColor[2] });
+	lightGroup->SetSpotLightAtten(0, { spotLightAtten[0],spotLightAtten[1], spotLightAtten[2] });
+	lightGroup->SetSpotLightFactorAngle(0, { spotLightFactorAngle[0],spotLightFactorAngle[1] });
 
 	ImGui::Begin("Light");
 	/* Ç±Ç±Ç…í«â¡ÇµÇΩÇ¢GUIÇèëÇ≠ */
@@ -118,9 +129,15 @@ void GameScene::Update()
 	ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
 	ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);*/
 
-	ImGui::ColorEdit3("pointLightColor", pointLightColor, ImGuiColorEditFlags_Float);
+	/*ImGui::ColorEdit3("pointLightColor", pointLightColor, ImGuiColorEditFlags_Float);
 	ImGui::SliderFloat3("pointLightPos", pointLightPos, -1.f, 1.0f);
-	ImGui::SliderFloat3("point LightAtten", pointLightAtten, -5.f, 5.0f);
+	ImGui::SliderFloat3("point LightAtten", pointLightAtten, -5.f, 5.0f);*/
+
+	ImGui::SliderFloat3("SpotLightDir", spotlightDir, -5.f, 5.0f);
+	ImGui::ColorEdit3("spotLightColor", spotLightColor, ImGuiColorEditFlags_Float);
+	ImGui::SliderFloat3("SpotLightPos", spotlightPos, -5.f, 10.0f);
+	ImGui::SliderFloat3("SpotLightAtten", spotLightAtten, -5.f, 5.0f);
+	ImGui::SliderFloat3("SpotLightFactorAngle", spotLightFactorAngle, -100.f, 100.0f);
 
 	ImGui::End();
 
