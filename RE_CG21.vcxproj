@@ -28,6 +28,7 @@
     <ClCompile Include="EmptyScene.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameScene2.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="imguiTemplate.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="EmptyScene.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameScene2.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="imguiTemplate.h" />
     <ClInclude Include="DirectionalLight.h" />

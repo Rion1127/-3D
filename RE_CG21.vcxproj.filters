@@ -210,6 +210,9 @@
     <ClCompile Include="CircleShadow.cpp">
       <Filter>engine\ソース ファイル\Light</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene2.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="CircleShadow.h">
       <Filter>engine\ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene2.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

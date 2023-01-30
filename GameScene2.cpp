@@ -1,15 +1,15 @@
 #include <random>
+#include "GameScene2.h"
 #include "GameScene.h"
 #include "Easing.h"
 #include "SceneManager.h"
 #include "Collision.h"
-#include "GameScene2.h"
-GameScene::~GameScene()
+GameScene2::~GameScene2()
 {
 	delete lightGroup;
 }
 
-void GameScene::Ini()
+void GameScene2::Ini()
 {
 	directX = DirectXCommon::GetInstance();
 	winApi_ = WinAPI::GetInstance();
@@ -37,11 +37,11 @@ void GameScene::Ini()
 
 	Object3d::SetLight(lightGroup);
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("sphere", true);
+	skyDome_ = Object3d::CreateOBJ_uniptr("sphere", false);
 	worldTransform_.Ini();
 	worldTransform_.position = { -1,0,0 };
 
-	sphere_ = Object3d::CreateOBJ_uniptr("Earth", false);
+	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
 	sphereWT_.Ini();
 	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
@@ -69,15 +69,15 @@ void GameScene::Ini()
 	else if (lightType_ == LIGHTTYPE::SPOT_) {
 		lightGroup->SetSpotLightActive(0, true);
 	}
-	
+
 	//影
 	lightGroup->SetCircleShadowActive(0, true);
-	
 
-	
+
+
 }
 
-void GameScene::Update()
+void GameScene2::Update()
 {
 
 	//カメラ更新
@@ -154,11 +154,11 @@ void GameScene::Update()
 	lightGroup->SetCircleShadowFactorAngle(0, { circleShadowFactorAngle[0],circleShadowFactorAngle[1] });
 
 	if (input_->TriggerKey(DIK_0)) {
-		SceneManager::Transition<GameScene2>();
+		SceneManager::Transition<GameScene>();
 	}
 }
 
-void GameScene::Draw()
+void GameScene2::Draw()
 {
 	////////////////
 	//3Dオブジェクト//
@@ -183,21 +183,21 @@ void GameScene::Draw()
 
 }
 
-void GameScene::CheckAllCollision()
+void GameScene2::CheckAllCollision()
 {
 
 }
 
-void GameScene::cameraUpdate()
+void GameScene2::cameraUpdate()
 {
 
 }
 
-void GameScene::DirectionalLightUpdate()
+void GameScene2::DirectionalLightUpdate()
 {
 	lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
 	//0番目の平行光源
-	
+
 
 	lightGroup->SetDirLightDir(0, { lightDir0[0],lightDir0[1], lightDir0[2] });
 	lightGroup->SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
@@ -251,7 +251,7 @@ void GameScene::DirectionalLightUpdate()
 	ImGui::End();
 }
 
-void GameScene::PointLightUpdate()
+void GameScene2::PointLightUpdate()
 {
 	lightGroup->SetPointLightPos(0, { pointLightPos[0],pointLightPos[1], pointLightPos[2] });
 	lightGroup->SetPointLightColor(0, { pointLightColor[0],pointLightColor[1], pointLightColor[2] });
@@ -277,7 +277,7 @@ void GameScene::PointLightUpdate()
 	ImGui::End();
 }
 
-void GameScene::SpotLightUpdate()
+void GameScene2::SpotLightUpdate()
 {
 	lightGroup->SetSpotLightDir(0, { spotlightDir[0],spotlightDir[1], spotlightDir[2] });
 	lightGroup->SetSpotLightPos(0, { spotlightPos[0],spotlightPos[1], spotlightPos[2] });
