@@ -55,7 +55,7 @@ private:
 	std::unique_ptr<Object3d> floor_;
 	WorldTransform floorWT_;
 
-	float ambientColor0[3] = { 0,0,0 };
+	float ambientColor0[3] = { 1,1,1 };
 
 	//光線方向初期化値
 	float lightDir0[3] = { 0,0,1 };
@@ -84,6 +84,18 @@ private:
 	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
 	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
 
-	float fighterPos[3] = { 1,1.0f,0 };
+	float fighterPos[3] = { 1,0.0f,0 };
+	enum LIGHTTYPE {
+		DIRECTION_,
+		POINT_,
+		SPOT_,
+		NUMEND_
+	};
+	//ライトのタイプ
+	int lightType_ = DIRECTION_;
+
+	void DirectionalLightUpdate();
+	void PointLightUpdate();
+	void SpotLightUpdate();
 };
 
