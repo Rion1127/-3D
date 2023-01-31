@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector3.h"
 #include "Util.h"
+#include "myMath.h"
 class CircleShadow
 {
 public:

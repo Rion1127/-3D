@@ -4,7 +4,7 @@ using namespace DirectX;
 #include <d3d12.h>
 #pragma comment(lib, "d3d12.lib")
 #include "DirectX.h"
-#include "math.h"
+#include "myMath.h"
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataViewProjection {

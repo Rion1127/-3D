@@ -1,6 +1,7 @@
 #pragma once
 #include "vector3.h"
 #include "Util.h"
+#include "myMath.h"
 class SpotLight
 {
 public:

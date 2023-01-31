@@ -105,7 +105,7 @@
     <ClCompile Include="main.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
+    <ClCompile Include="myMath.cpp">
       <Filter>engine\ソース ファイル\math</Filter>
     </ClCompile>
     <ClCompile Include="Vector2.cpp">
@@ -215,7 +215,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="math.h">
+    <ClInclude Include="myMath.h">
       <Filter>engine\ヘッダー ファイル\math</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">

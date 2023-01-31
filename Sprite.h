@@ -5,6 +5,7 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 #include <imgui.h>
+#include <DirectXMath.h>
 class Sprite
 {
 public:

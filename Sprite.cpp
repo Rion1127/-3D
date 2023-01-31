@@ -11,7 +11,7 @@ using namespace DirectX;
 #include "Util.h"
 #include "Sprite.h"
 #include <sstream>
-#include "math.h"
+#include "myMath.h"
 
 DirectXCommon* Sprite::directX_ = nullptr;
 int Sprite::allNum = 0;

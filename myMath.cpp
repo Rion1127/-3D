@@ -1,5 +1,5 @@
 #include "Util.h"
-#include "math.h"
+#include "myMath.h"
 #define PI 3.141592f
 
 #pragma region FLOAT2
