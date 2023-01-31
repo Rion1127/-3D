@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2d\Sprite.cpp" />
     <ClCompile Include="boardObject.cpp" />
     <ClCompile Include="CircleShadow.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -48,6 +47,7 @@
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Object3d.cpp" />
     <ClCompile Include="RailCamera.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -58,7 +58,6 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\Sprite.h" />
     <ClInclude Include="boardObject.h" />
     <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="Collision.h" />
@@ -86,6 +85,7 @@
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Object3d.h" />
     <ClInclude Include="RailCamera.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="Vector2.h" />
