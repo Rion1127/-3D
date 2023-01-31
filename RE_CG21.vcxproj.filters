@@ -126,9 +126,6 @@
     <ClCompile Include="WorldTransform.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>engine\ソース ファイル\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="ViewProjection.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
@@ -213,6 +210,9 @@
     <ClCompile Include="GameScene2.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="2d\Sprite.cpp">
+      <Filter>engine\ソース ファイル\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math.h">
@@ -235,9 +235,6 @@
     </ClInclude>
     <ClInclude Include="WorldTransform.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="ViewProjection.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
@@ -322,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="GameScene2.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\Sprite.h">
+      <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
