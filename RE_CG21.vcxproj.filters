@@ -210,8 +210,11 @@
     <ClCompile Include="GameScene2.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
+    <ClCompile Include="2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="ソース.cpp">
+      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,7 +323,7 @@
     <ClInclude Include="GameScene2.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
+    <ClInclude Include="2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
   </ItemGroup>

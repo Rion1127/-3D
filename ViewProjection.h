@@ -33,20 +33,20 @@ public:
 	void Ini();
 	void Update();
 
-	XMMATRIX GetMatView();
-	XMMATRIX GetMatProjection();
-	XMFLOAT3 eye;
-	XMFLOAT3 target;
-	XMFLOAT3 up;
+	DirectX::XMMATRIX GetMatView();
+	DirectX::XMMATRIX GetMatProjection();
+	DirectX::XMFLOAT3 eye;
+	DirectX::XMFLOAT3 target;
+	DirectX::XMFLOAT3 up;
 
-	XMMATRIX matView{};
+	DirectX::XMMATRIX matView{};
 	//透視投影行列の計算
-	XMMATRIX matProjection{};
+	DirectX::XMMATRIX matProjection{};
 
 	//ビルボード行列
-	XMMATRIX matBillboard;
+	DirectX::XMMATRIX matBillboard;
 	//Y軸周りのビルボード
-	XMMATRIX matBillboardY;
+	DirectX::XMMATRIX matBillboardY;
 
 	/// <summary>
 	/// カメラシェイク
@@ -72,7 +72,7 @@ private:
 
 
 	//シェイクする前の場所
-	XMFLOAT3 originalPos;
+	DirectX::XMFLOAT3 originalPos;
 	bool isShake = false;
 	int maxShakeTime;
 	int shakeTime = 0;
