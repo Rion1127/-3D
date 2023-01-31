@@ -18,12 +18,12 @@ float Vector2::length() const
 Vector2& Vector2::normalize()
 {
 	float len = length();
-	Vector2 vec = *this;
+	//Vector2 vec = *this;
 	if (len != 0)
 	{
-		return vec /= len;
+		return *this /= len;
 	}
-	return vec;
+	return *this;
 }
 
 // “àÏ‚ğ‹‚ß‚é

@@ -23,7 +23,7 @@ Quaternion Quaternion::Conjugate() const
 //Quaternion‚Ìnorm‚ð•Ô‚·
 float Quaternion::Norm()
 {
-	return sqrt(w * w + x * x + y * y + z * z);
+	return (float)sqrt(w * w + x * x + y * y + z * z);
 }
 //³‹K‰»‚µ‚½Quaternion‚ð•Ô‚·
 Quaternion Quaternion::Normalize()
@@ -41,10 +41,10 @@ Quaternion Quaternion::Normalize()
 Quaternion Quaternion::Inverse()
 {
 	Quaternion result = {
-		this->x / pow(Norm(),2),
-		this->y / pow(Norm(),2),
-		this->z / pow(Norm(),2),
-		this->w / pow(Norm(),2),
+		this->x / (float)pow(Norm(),2),
+		this->y / (float)pow(Norm(),2),
+		this->z / (float)pow(Norm(),2),
+		this->w / (float)pow(Norm(),2),
 	};
 
 	return result;
@@ -75,7 +75,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 		float theta = acos(dot);
 		float sinPh = sin(theta);
 
-		float sinTheta1subT = sin(theta * (1.0 - t));
+		float sinTheta1subT = (float)sin(theta * (1.0 - t));
 		float sinThetaMulT = sin(theta * t);
 
 		if (dot < 0.0 && theta > 3.1415f / 2.0) {

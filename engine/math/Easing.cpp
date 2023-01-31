@@ -61,18 +61,18 @@ float Easing::Back::easeInOut(float t, float b, float c, float d)
 #pragma region Circ
 float Easing::Circ::easeIn(float t, float b, float c, float d)
 {
-	return -c * (sqrt(1 - (t /= d) * t) - 1) + b;
+	return -c * (float)(sqrt(1 - (t /= d) * t) - 1) + b;
 }
 
 float Easing::Circ::easeOut(float t, float b, float c, float d)
 {
-	return c * sqrt(1 - (t = t / d - 1) * t) + b;
+	return c * (float)sqrt(1 - (t = t / d - 1) * t) + b;
 }
 
 float Easing::Circ::easeInOut(float t, float b, float c, float d)
 {
-	if ((t /= d / 2) < 1) return -c / 2 * (sqrt(1 - t * t) - 1) + b;
-	return c / 2 * (sqrt(1 - t * (t -= 2)) + 1) + b;
+	if ((t /= d / 2) < 1) return -c / 2 * ((float)sqrt(1 - t * t) - 1) + b;
+	return c / 2 * ((float)sqrt(1 - t * (t -= 2)) + 1) + b;
 }
 #pragma endregion
 
@@ -109,7 +109,7 @@ float Easing::Back::easeOut(float start, float end, float t)
 {
 	float c1 = 1.70158f;
 	float c3 = c1 + 1.0f;
-	float time = 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2);
+	float time = 1 + c3 * (float)pow(t - 1, 3) + c1 * (float)pow(t - 1, 2);
 	return start * (1.0f - time) + end * time;
 }
 
@@ -118,8 +118,8 @@ float Easing::Back::easeInOut(float start, float end, float t)
 	float c1 = 1.70158f;
 	float c2 = c1 * 1.525f;
 	float time = 0.0f;
-	if (t < 0.5f) time = (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2;
-	else time = (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+	if (t < 0.5f) time = ((float)pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2;
+	else time = ((float)pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
 	return start * (1.0f - time) + end * time;
 }
 #pragma endregion
@@ -159,13 +159,13 @@ float Easing::Bounce::easeInOut(float t, float b, float c, float d)
 #pragma region Circ
 float Easing::Circ::easeIn(float start, float end, float t)
 {
-	float time = 1.0f - sqrt(1 - pow(t, 2));
+	float time = 1.0f - (float)sqrt(1 - (float)pow(t, 2));
 	return start * (1.0f - time) + end * time;
 }
 
 float Easing::Circ::easeOut(float start, float end, float t)
 {
-	float time = sqrt(1 - pow(t - 1, 2));
+	float time = (float)sqrt(1 - (float)pow(t - 1, 2));
 	return start * (1.0f - time) + end * time;
 }
 
@@ -173,7 +173,7 @@ float Easing::Circ::easeInOut(float start, float end, float t)
 {
 	float time;
 	if (t < 0.5f) time = 16.0f * t * t * t * t * t;
-	else time = 1.0f - pow(-2.0f * t + 2.0f, 5) / 2.0f;
+	else time = 1.0f - (float)pow(-2.0f * t + 2.0f, 5) / 2.0f;
 	return start * (1.0f - time) + end * time;
 }
 #pragma endregion
@@ -187,7 +187,7 @@ float Easing::Quint::easeIn(float start, float end, float t)
 
 float Easing::Quint::easeOut(float start, float end, float t)
 {
-	float time = 1.0f - pow(1 - t, 5);
+	float time = 1.0f - (float)pow(1 - t, 5);
 	return start * (1.0f - time) + end * time;
 }
 
@@ -195,7 +195,7 @@ float Easing::Quint::easeInOut(float start, float end, float t)
 {
 	float time;
 	if (t < 0.5f) time = 4.0f * t * t * t * t * t;
-	else time = 1.0f - pow(-2 * t + 2, 5) / 2;
+	else time = 1.0f - (float)pow(-2 * t + 2, 5) / 2;
 	return start * (1.0f - time) + end * time;
 }
 #pragma endregion
@@ -209,7 +209,7 @@ float Easing::Cubic::easeIn(float start, float end, float t)
 
 float Easing::Cubic::easeOut(float start, float end, float t)
 {
-	float time = 1.0f - pow(1 - t, 3);
+	float time = 1.0f - (float)pow(1 - t, 3);
 	return start * (1.0f - time) + end * time;
 }
 
@@ -217,7 +217,7 @@ float Easing::Cubic::easeInOut(float start, float end, float t)
 {
 	float time;
 	if (t < 0.5f) time = 4.0f * t * t * t;
-	else time = 1.0f - pow(-2 * t + 2, 3) / 2;
+	else time = 1.0f - (float)pow(-2 * t + 2, 3) / 2;
 	return start * (1.0f - time) + end * time;
 }
 #pragma endregion

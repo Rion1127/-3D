@@ -331,7 +331,7 @@ void Vertices::Draw(uint32_t indexSize,
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced(indexSize, 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced((UINT)indexSize, 1, 0, 0, 0);
 }
 
 void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
@@ -343,7 +343,7 @@ void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worl
 	//定数バッファビュー(CBV)の設定コマンド
 	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced(indices.size(), 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 

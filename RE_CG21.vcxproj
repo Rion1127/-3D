@@ -19,89 +19,77 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="boardObject.cpp" />
-    <ClCompile Include="CircleShadow.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="DirectX.cpp" />
-    <ClCompile Include="Easing.cpp" />
-    <ClCompile Include="EmptyScene.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameScene2.cpp" />
-    <ClCompile Include="ImGuiManager.cpp" />
-    <ClCompile Include="imguiTemplate.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="LightGroup.cpp" />
-    <ClCompile Include="mInput.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="myMath.cpp" />
-    <ClCompile Include="mSound.cpp" />
-    <ClCompile Include="Pipeline.cpp" />
-    <ClCompile Include="PipelineManager.cpp" />
-    <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="RailCamera.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Util.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
-    <ClCompile Include="Vertices.cpp" />
-    <ClCompile Include="ViewProjection.cpp" />
-    <ClCompile Include="WinAPI.cpp" />
-    <ClCompile Include="WorldTransform.cpp" />
+    <ClCompile Include="engine\2d\Sprite.cpp" />
+    <ClCompile Include="engine\3d\boardObject.cpp" />
+    <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
+    <ClCompile Include="engine\math\Collision.cpp" />
+    <ClCompile Include="engine\3d\DebugCamera.cpp" />
+    <ClCompile Include="engine\base\DirectX.cpp" />
+    <ClCompile Include="engine\math\Easing.cpp" />
+    <ClCompile Include="engine\base\EmptyScene.cpp" />
+    <ClCompile Include="engine\base\Framework.cpp" />
+    <ClCompile Include="engine\base\Game.cpp" />
+    <ClCompile Include="application\GameScene2.cpp" />
+    <ClCompile Include="engine\external\ImGuiManager.cpp" />
+    <ClCompile Include="engine\3d\light\DirectionalLight.cpp" />
+    <ClCompile Include="engine\3d\light\LightGroup.cpp" />
+    <ClCompile Include="engine\input\mInput.cpp" />
+    <ClCompile Include="application\GameScene.cpp" />
+    <ClCompile Include="engine\base\main.cpp" />
+    <ClCompile Include="engine\3d\Material.cpp" />
+    <ClCompile Include="engine\math\myMath.cpp" />
+    <ClCompile Include="engine\audio\mSound.cpp" />
+    <ClCompile Include="engine\base\Pipeline.cpp" />
+    <ClCompile Include="engine\base\PipelineManager.cpp" />
+    <ClCompile Include="engine\3d\light\PointLight.cpp" />
+    <ClCompile Include="engine\math\Quaternion.cpp" />
+    <ClCompile Include="application\SceneManager.cpp" />
+    <ClCompile Include="engine\3d\light\SpotLight.cpp" />
+    <ClCompile Include="engine\3d\Object3d.cpp" />
+    <ClCompile Include="engine\external\Texture.cpp" />
+    <ClCompile Include="engine\base\Util.cpp" />
+    <ClCompile Include="engine\math\Vector2.cpp" />
+    <ClCompile Include="engine\math\Vector3.cpp" />
+    <ClCompile Include="engine\3d\Vertices.cpp" />
+    <ClCompile Include="engine\3d\ViewProjection.cpp" />
+    <ClCompile Include="engine\base\WinAPI.cpp" />
+    <ClCompile Include="engine\3d\WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="boardObject.h" />
-    <ClInclude Include="CircleShadow.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DirectX.h" />
-    <ClInclude Include="Easing.h" />
-    <ClInclude Include="EmptyScene.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameScene2.h" />
-    <ClInclude Include="ImGuiManager.h" />
-    <ClInclude Include="imguiTemplate.h" />
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="LightGroup.h" />
-    <ClInclude Include="mInput.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="myMath.h" />
-    <ClInclude Include="mSound.h" />
-    <ClInclude Include="Pipeline.h" />
-    <ClInclude Include="PipelineManager.h" />
-    <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="RailCamera.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Util.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
-    <ClInclude Include="Vertices.h" />
-    <ClInclude Include="ViewProjection.h" />
-    <ClInclude Include="WinAPI.h" />
-    <ClInclude Include="WorldTransform.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-    <ProjectReference Include="imgui\imgui.vcxproj">
-      <Project>{f7d37771-5e1f-448d-9f0b-3563c98512aa}</Project>
-    </ProjectReference>
+    <ClInclude Include="engine\2d\Sprite.h" />
+    <ClInclude Include="engine\3d\boardObject.h" />
+    <ClInclude Include="engine\3d\light\CircleShadow.h" />
+    <ClInclude Include="engine\math\Collision.h" />
+    <ClInclude Include="engine\3d\DebugCamera.h" />
+    <ClInclude Include="engine\base\DirectX.h" />
+    <ClInclude Include="engine\math\Easing.h" />
+    <ClInclude Include="engine\base\EmptyScene.h" />
+    <ClInclude Include="engine\base\Framework.h" />
+    <ClInclude Include="engine\base\Game.h" />
+    <ClInclude Include="application\GameScene2.h" />
+    <ClInclude Include="engine\external\ImGuiManager.h" />
+    <ClInclude Include="engine\3d\light\DirectionalLight.h" />
+    <ClInclude Include="engine\3d\light\LightGroup.h" />
+    <ClInclude Include="engine\input\mInput.h" />
+    <ClInclude Include="application\GameScene.h" />
+    <ClInclude Include="engine\3d\Material.h" />
+    <ClInclude Include="engine\math\myMath.h" />
+    <ClInclude Include="engine\audio\mSound.h" />
+    <ClInclude Include="engine\base\Pipeline.h" />
+    <ClInclude Include="engine\base\PipelineManager.h" />
+    <ClInclude Include="engine\3d\light\PointLight.h" />
+    <ClInclude Include="engine\math\Quaternion.h" />
+    <ClInclude Include="application\SceneManager.h" />
+    <ClInclude Include="engine\3d\light\SpotLight.h" />
+    <ClInclude Include="engine\3d\Object3d.h" />
+    <ClInclude Include="engine\external\Texture.h" />
+    <ClInclude Include="engine\base\Util.h" />
+    <ClInclude Include="engine\math\Vector2.h" />
+    <ClInclude Include="engine\math\Vector3.h" />
+    <ClInclude Include="engine\3d\Vertices.h" />
+    <ClInclude Include="engine\3d\ViewProjection.h" />
+    <ClInclude Include="engine\base\WinAPI.h" />
+    <ClInclude Include="engine\3d\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli" />
@@ -145,6 +133,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="engine\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="engine\external\imgui\imgui.vcxproj">
+      <Project>{f7d37771-5e1f-448d-9f0b-3563c98512aa}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -206,11 +202,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)engine\external\DirectXTex;$(SolutionDir)engine\external\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)engine\external\DirectXTex;$(SolutionDir)engine\external\imgui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -247,7 +243,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -264,7 +260,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)2d;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
