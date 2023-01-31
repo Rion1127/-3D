@@ -238,6 +238,7 @@ void Sprite::DrawImGui()
 	else {
 		ImGui::SameLine();
 		ImGui::Text("FALSE");
+		isInvisible_ = false;
 	}
 
 	// Menu Bar

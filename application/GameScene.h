@@ -97,5 +97,11 @@ private:
 	void DirectionalLightUpdate();
 	void PointLightUpdate();
 	void SpotLightUpdate();
+
+	SoundKey gameBGM_;
+
+	Sprite testSprite_;
+	Sprite testSprite2_;
+	uint32_t uvtexture_;
 };
 

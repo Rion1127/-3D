@@ -72,9 +72,20 @@ void GameScene::Ini()
 	
 	//影
 	lightGroup->SetCircleShadowActive(0, true);
-	
 
-	
+	uvtexture_ = textureM->LoadGraph("uv.png");
+
+	testSprite_.Ini();
+	testSprite_.SetPos({ 950,500 });
+	testSprite_.SetScale({ 0.3f,0.3f });
+
+	testSprite2_.Ini();
+	testSprite2_.SetPos({ 950,300 });
+	testSprite2_.SetScale({ 0.3f,0.3f });
+
+	gameBGM_ = sound_->LoadWave("gumishipBGM.wav","BGM");
+	SoundManager::Stop(gameBGM_);
+	SoundManager::Play(gameBGM_, true, 1.0f);
 }
 
 void GameScene::Update()
@@ -180,7 +191,11 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-
+	testSprite_.Draw(uvtexture_);
+	testSprite_.DrawImGui();
+	Sprite::SetBlend(BLEND_ALPHA);
+	testSprite2_.Draw(uvtexture_);
+	testSprite2_.DrawImGui();
 }
 
 void GameScene::CheckAllCollision()
