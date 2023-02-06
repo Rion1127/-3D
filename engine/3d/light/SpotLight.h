@@ -21,7 +21,7 @@ public:
 	};
 	void SetLightDir(const Vector3& lightdir) { this->lightdir = lightdir; }
 	void SetLightPos(const Vector3& lightPos) { this->lightPos = lightPos; }
-	void SetLightColor(const Vector3& lightcolor) { this->lightColor = lightColor; }
+	void SetLightColor(const Vector3& lightcolor) { this->lightColor = lightcolor; }
 	void SetLightAtten(const Vector3& lightAtten) { this->lightAtten = lightAtten; }
 	void SetLightFactorAngle(const Vector2& lightFactorAngle) {
 		this->lightFactorAngleCos.x = cosf(ConvertAngleToRadian(lightFactorAngle.x));

@@ -85,7 +85,7 @@ void GameScene::Ini()
 
 	gameBGM_ = sound_->LoadWave("gumishipBGM.wav","BGM");
 	SoundManager::Stop(gameBGM_);
-	SoundManager::Play(gameBGM_, true, 1.0f);
+	//SoundManager::Play(gameBGM_, true, 1.0f);
 }
 
 void GameScene::Update()
@@ -191,11 +191,11 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-	testSprite_.Draw(uvtexture_);
-	testSprite_.DrawImGui();
+	//testSprite_.Draw(uvtexture_);
+	//testSprite_.DrawImGui();
 	Sprite::SetBlend(BLEND_ALPHA);
-	testSprite2_.Draw(uvtexture_);
-	testSprite2_.DrawImGui();
+	//testSprite2_.Draw(uvtexture_);
+	//testSprite2_.DrawImGui();
 }
 
 void GameScene::CheckAllCollision()
