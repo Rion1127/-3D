@@ -100,6 +100,12 @@
     <Filter Include="engine\ソース ファイル\Light">
       <UniqueIdentifier>{5e4a3e05-4f44-49bf-a7b9-bd2b9cdaa5c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ソース ファイル\Particle">
+      <UniqueIdentifier>{7be8b291-61c5-4744-9c6a-8bd04544e6a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ヘッダー ファイル\Particle">
+      <UniqueIdentifier>{0a5f484d-a197-4d00-8000-de2b3cf9e339}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -207,6 +213,15 @@
     <ClCompile Include="engine\2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="IParticle.cpp">
+      <Filter>engine\ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Emitter.cpp">
+      <Filter>engine\ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>engine\ソース ファイル\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -311,6 +326,15 @@
     <ClInclude Include="engine\2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="IParticle.h">
+      <Filter>engine\ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Emitter.h">
+      <Filter>engine\ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>engine\ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli">
@@ -320,6 +344,9 @@
       <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shader\3DObject.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Resources\shader\Particle.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>
@@ -340,6 +367,15 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\3DObjectVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticlePS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticleVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticleGS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

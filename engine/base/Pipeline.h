@@ -80,3 +80,43 @@ private:
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 };
 
+class ParticlePipeline {
+
+public:
+	//エイリアステンプレート
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+public:
+	//パーティクル初期化
+	void ParticleIni(int blend);
+
+	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
+
+	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
+private:
+	void ParticleSetInputLayout();
+
+	void ParticleSetRasterizer();
+
+	void ParticleSetShader();
+
+	void ParticleSetRootSignature();
+
+	void ParticleSetOther();
+private:
+	D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
+
+	// ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+	// パイプランステートの生成
+	ComPtr<ID3D12PipelineState> pipelineState;
+	// グラフィックスパイプライン設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout;
+
+	ComPtr <ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr <ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr <ID3DBlob> gsBlob = nullptr; // ジオメトリシェーダオブジェクト
+	ComPtr <ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+};
