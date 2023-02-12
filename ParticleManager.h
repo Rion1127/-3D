@@ -31,13 +31,18 @@ public:
 		DirectX::XMMATRIX mat;	// ３Ｄ変換行列
 		DirectX::XMMATRIX matBillboard;
 	};
+
+	struct TestBuffer
+	{
+		float test = 4;
+	};
 protected:
 	const int vertexCount = 1024;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
 
-	int activeCount = 1;
+	int activeCount = 5;
 
 	uint32_t texture_;
 
@@ -45,5 +50,6 @@ protected:
 	DirectX::XMMATRIX matProjection;
 	DirectX::XMMATRIX matBillboard;
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
+	ConstBufferData* constMap_;
 };
 

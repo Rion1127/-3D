@@ -21,17 +21,19 @@ void ParticleManager::PreDraw()
 void ParticleManager::Draw()
 {
 	HRESULT result;
-	vertMap->position = { 0,0,0 };
+	vertMap->position = { 0,0,10 };
 	vertMap->color = { 1,1,1,1 };
-	vertMap->scale = 2;
+	vertMap->scale = 5;
 
+
+	matView = XMMatrixIdentity();
+	matProjection = XMMatrixIdentity();
+	matBillboard = XMMatrixIdentity();
 	// 定数バッファへデータ転送
-	ConstBufferData* constMap = nullptr;
-	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	constMap->mat = matView * matProjection;	// 行列の合成
-	constMap->matBillboard = matBillboard;	// 行列の合成
+	result = constBuff->Map(0, nullptr, (void**)&constMap_);
+	constMap_->mat = matView * matProjection;	// 行列の合成
+	constMap_->matBillboard = matBillboard;	// 行列の合成
 	constBuff->Unmap(0, nullptr);
-
 
 	TextureManager::GetInstance()->
 		SetGraphicsDescriptorTable(
@@ -40,8 +42,17 @@ void ParticleManager::Draw()
 	DirectXCommon::GetInstance()->GetCommandList()->
 		IASetVertexBuffers(0, 1, &vbView);
 
+	// 定数バッファビューをセット
+	DirectXCommon::GetInstance()->GetCommandList()
+		->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+
 	DirectXCommon::GetInstance()->GetCommandList()->
-		DrawInstanced(activeCount,1,0,0);
+		DrawInstanced(activeCount, 1, 0, 0);
+	// 描画コマンド
+	/*DirectXCommon::GetInstance()->GetCommandList()
+		->DrawIndexedInstanced(activeCount, 1, 0, 0, 0);*/
+
+	
 }
 
 ParticleManager::ParticleManager()
