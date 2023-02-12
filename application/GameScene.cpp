@@ -181,6 +181,8 @@ void GameScene::Draw()
 	sphere_->DrawOBJ(&sphereWT_);
 	floor_->DrawOBJ(&floorWT_);
 
+	ParticleManager::PreDraw();
+
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////

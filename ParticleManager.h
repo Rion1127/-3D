@@ -13,6 +13,13 @@ public:
 	static void PreDraw();
 	void Draw();
 
+	ParticleManager();
+
+	~ParticleManager() {
+		// ƒ}ƒbƒv‚ð‰ðœ
+		vertBuff->Unmap(0, nullptr);
+	};
+
 	struct Vertex {
 		Vector3 position;
 		float scale;
@@ -25,5 +32,7 @@ protected:
 	Vertex* vertMap = nullptr;
 
 	int activeCount = 0;
+
+	uint32_t texture_;
 };
 

@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include "LightGroup.h"
+#include "ParticleManager.h"
 
 class GameScene :
 	public EmptyScene
