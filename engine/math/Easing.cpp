@@ -2,8 +2,9 @@
 #include "Easing.h"
 
 /// 元のコード
-
+//t 経過時間    b最初の位置    c移動量    d移動時間 
 #pragma region Back
+
 float Easing::Back::easeIn(float t, float b, float c, float d)
 {
 	float s = 1.70158f;
