@@ -1,4 +1,5 @@
-cbuffer cbuff0 : register(b0)
+
+cbuffer particle : register(b0)
 {
 	matrix mat; // ３Ｄ変換行列
     matrix matBillboard;//ビルボード行列

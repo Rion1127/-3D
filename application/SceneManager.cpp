@@ -3,12 +3,13 @@
 #include "WinAPI.h"
 #include "Texture.h"
 #include "Easing.h"
+#include "ParticleScene.h"
 
 
 void SceneManager::Ini()
 {
 	//ビルド開始時のシーン
-	Transition<GameScene>();
+	Transition<ParticleScene>();
 	sceneChangeSprite.Ini();
 	sceneChangePos = {
 		(float)-(WinAPI::GetInstance()->win_width / 2) ,

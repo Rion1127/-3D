@@ -367,6 +367,7 @@ void Pipeline::SpriteSetOther()
 #pragma region パーティクル
 void ParticlePipeline::ParticleIni(int blend)
 {
+	HRESULT result;
 	// 頂点シェーダの読み込みとコンパイル
 	ShaderCompileFromFile(L"Resources/shader/ParticleVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
 	// ピクセルシェーダの読み込みとコンパイル
@@ -383,6 +384,11 @@ void ParticlePipeline::ParticleIni(int blend)
 	ParticleSetRootSignature();
 
 	ParticleSetOther();
+
+	// パイプランステートの生成
+	result = DirectXCommon::GetInstance()->GetDevice()->
+		CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
+	assert(SUCCEEDED(result));
 }
 void ParticlePipeline::ParticleSetInputLayout()
 {

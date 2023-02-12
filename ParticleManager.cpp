@@ -2,6 +2,7 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 #include "Texture.h"
+#include <cassert>
 
 void ParticleManager::PreDraw()
 {
@@ -19,6 +20,19 @@ void ParticleManager::PreDraw()
 
 void ParticleManager::Draw()
 {
+	HRESULT result;
+	vertMap->position = { 0,0,0 };
+	vertMap->color = { 1,1,1,1 };
+	vertMap->scale = 2;
+
+	// 定数バッファへデータ転送
+	ConstBufferData* constMap = nullptr;
+	result = constBuff->Map(0, nullptr, (void**)&constMap);
+	constMap->mat = matView * matProjection;	// 行列の合成
+	constMap->matBillboard = matBillboard;	// 行列の合成
+	constBuff->Unmap(0, nullptr);
+
+
 	TextureManager::GetInstance()->
 		SetGraphicsDescriptorTable(
 			DirectXCommon::GetInstance()->GetCommandList(), texture_);
@@ -32,7 +46,7 @@ void ParticleManager::Draw()
 
 ParticleManager::ParticleManager()
 {
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertexCount);
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * 1);
 
 	////頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapprop{};
@@ -64,4 +78,20 @@ ParticleManager::ParticleManager()
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(Vertex);
+
+	// ヒーププロパティ
+	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	// リソース設定
+	CD3DX12_RESOURCE_DESC resourceDesc =
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
+
+	HRESULT result;
+
+	// 定数バッファの生成
+	result = DirectXCommon::GetInstance()->GetDevice()
+		->CreateCommittedResource(
+		&heapProps, // アップロード可能
+		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+		IID_PPV_ARGS(&constBuff));
+	assert(SUCCEEDED(result));
 }
