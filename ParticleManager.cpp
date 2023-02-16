@@ -4,21 +4,39 @@
 #include "Texture.h"
 #include <cassert>
 
+
 void ParticleManager::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
+	directX_->GetCommandList()->SetPipelineState(
 		PipelineManager::GetParticlePipeline(3)->gerPipelineState());
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
+	directX_->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetParticlePipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	DirectXCommon::GetInstance()->
+	directX_->
 		GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
-void ParticleManager::Draw()
+void ParticleManager::Draw(UINT texture)
+{
+	TextureManager::GetInstance()->
+		SetGraphicsDescriptorTable(
+			directX_->GetCommandList(), texture);
+
+	directX_->GetCommandList()->
+		IASetVertexBuffers(0, 1, &vbView);
+
+	// 定数バッファビューをセット
+	directX_->GetCommandList()
+		->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+
+	directX_->GetCommandList()->
+		DrawInstanced(activeCount, 1, 0, 0);
+}
+
+void ParticleManager::Update(ViewProjection VP)
 {
 	HRESULT result;
 	vertMap->position = { 0,0,10 };
@@ -26,37 +44,20 @@ void ParticleManager::Draw()
 	vertMap->scale = 5;
 
 
-	matView = XMMatrixIdentity();
-	matProjection = XMMatrixIdentity();
+	/*matView = XMMatrixIdentity();
+	matProjection = XMMatrixIdentity();*/
 	matBillboard = XMMatrixIdentity();
 	// 定数バッファへデータ転送
 	result = constBuff->Map(0, nullptr, (void**)&constMap_);
-	constMap_->mat = matView * matProjection;	// 行列の合成
+	constMap_->mat = VP.GetMatView() * VP.GetMatProjection();	// 行列の合成
 	constMap_->matBillboard = matBillboard;	// 行列の合成
 	constBuff->Unmap(0, nullptr);
-
-	TextureManager::GetInstance()->
-		SetGraphicsDescriptorTable(
-			DirectXCommon::GetInstance()->GetCommandList(), texture_);
-
-	DirectXCommon::GetInstance()->GetCommandList()->
-		IASetVertexBuffers(0, 1, &vbView);
-
-	// 定数バッファビューをセット
-	DirectXCommon::GetInstance()->GetCommandList()
-		->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
-
-	DirectXCommon::GetInstance()->GetCommandList()->
-		DrawInstanced(activeCount, 1, 0, 0);
-	// 描画コマンド
-	/*DirectXCommon::GetInstance()->GetCommandList()
-		->DrawIndexedInstanced(activeCount, 1, 0, 0, 0);*/
-
-	
 }
 
 ParticleManager::ParticleManager()
 {
+	directX_ = DirectXCommon::GetInstance();
+
 	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * 1);
 
 	////頂点バッファの設定
@@ -99,10 +100,13 @@ ParticleManager::ParticleManager()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()
+	result = directX_->GetDevice()
 		->CreateCommittedResource(
 		&heapProps, // アップロード可能
 		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuff));
 	assert(SUCCEEDED(result));
 }
+
+
+DirectXCommon* ParticleManager::directX_ = nullptr;

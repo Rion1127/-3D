@@ -3,7 +3,7 @@
 #include "Vector3.h"
 #include <d3d12.h>
 #include <wrl.h>
-
+#include "ViewProjection.h"
 class ParticleManager
 {
 public:
@@ -11,7 +11,9 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	static void PreDraw();
-	void Draw();
+	void Draw(UINT texture);
+
+	void Update(ViewProjection VP);
 
 	ParticleManager();
 
@@ -31,20 +33,19 @@ public:
 		DirectX::XMMATRIX mat;	// ÇRÇcïœä∑çsóÒ
 		DirectX::XMMATRIX matBillboard;
 	};
-
-	struct TestBuffer
-	{
-		float test = 4;
-	};
 protected:
+	static DirectXCommon* directX_;
+
 	const int vertexCount = 1024;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
 
+	
+
 	int activeCount = 5;
 
-	uint32_t texture_;
+	uint32_t texture_ = 0;
 
 	DirectX::XMMATRIX matView;
 	DirectX::XMMATRIX matProjection;

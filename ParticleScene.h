@@ -44,5 +44,9 @@ private:
 
 
 	ParticleManager particle_;
+
+	uint32_t starTexture_;
+
+	Sprite starSprite_;
 };
 

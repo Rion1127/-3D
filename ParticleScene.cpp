@@ -17,7 +17,7 @@ void ParticleScene::Ini()
 	controller_ = Controller::GetInstance();
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
-
+	
 	Object3d::Ini();
 	//BoardObject::Ini();
 	Sprite::StaticIni();
@@ -25,14 +25,16 @@ void ParticleScene::Ini()
 	debugCamera.DebugCameraIni();
 
 	gameCamera.Ini();
-	gameCamera.SetEyePos(Vector3(0, 8, -20));
+	gameCamera.SetEyePos(Vector3(0, 0, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
 	gameCamera.Update();
-	//useVP = &gameCamera;
-	useVP = debugCamera.GetViewProjection();
+	useVP = &gameCamera;
+	//useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	
+	starTexture_ = textureM->LoadGraph("particle2.png");
+
+	starSprite_.Ini();
 }
 
 void ParticleScene::Update()
@@ -42,6 +44,10 @@ void ParticleScene::Update()
 		debugCamera.Update();
 	}
 	gameCamera.Update();
+	useVP->Update();
+
+	particle_.Update(*useVP);
+
 	
 }
 
@@ -57,7 +63,7 @@ void ParticleScene::Draw()
 
 	ParticleManager::PreDraw();
 
-	particle_.Draw();
+	particle_.Draw(starTexture_);
 
 	///////////////////
 	//板状３Dオブジェクト//
@@ -68,8 +74,8 @@ void ParticleScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-	//testSprite_.Draw(uvtexture_);
-	//testSprite_.DrawImGui();
+	starSprite_.Draw(starTexture_);
+	starSprite_.DrawImGui();
 	Sprite::SetBlend(BLEND_ALPHA);
 	//testSprite2_.Draw(uvtexture_);
 	//testSprite2_.DrawImGui();
