@@ -9,10 +9,11 @@ void Vertices::Ini(ID3D12Device* device)
 	HRESULT result;
 #pragma region 頂点データ
 	//前
-	vertices.push_back({ {-5.0f,-5.0f, 0.0f },{}, { 0.0f,1.0f } });//左下
-	vertices.push_back({ {-5.0f, 5.0f, 0.0f },{}, { 0.0f,0.0f } });//左上
-	vertices.push_back({ { 5.0f,-5.0f, 0.0f },{}, { 1.0f,1.0f } });//右下
-	vertices.push_back({ { 5.0f, 5.0f, 0.0f },{}, { 1.0f,0.0f } });//右上
+	//vertices.push_back({ {-5.0f,-5.0f, 0.0f },{}, { 0.0f,1.0f } });//左下
+	//vertices.push_back({ {-5.0f, 5.0f, 0.0f },{}, { 0.0f,0.0f } });//左上
+	//vertices.push_back({ { 5.0f,-5.0f, 0.0f },{}, { 1.0f,1.0f } });//右下
+	//vertices.push_back({ { 5.0f, 5.0f, 0.0f },{}, { 1.0f,0.0f } });//右上
+	vertices.push_back({ { 0.0f, 0.0f, 0.0f },{0,0,1}, { 0,1 } });//右上
 	//後ろ
 	//vertices.push_back({ {-5.0f,  5.0f, 5.0f},{}, { 0.0f,0.0f} });//左上
 	//vertices.push_back({ {-5.0f, -5.0f, 5.0f},{}, { 0.0f,1.0f} });//左下
@@ -41,12 +42,12 @@ void Vertices::Ini(ID3D12Device* device)
 #pragma endregion
 #pragma region 頂点インデックス
 	//前
-	indices.push_back(0);
+	/*indices.push_back(0);
 	indices.push_back(1);
 	indices.push_back(2);
 	indices.push_back(2);
 	indices.push_back(1);
-	indices.push_back(3);
+	indices.push_back(3);*/
 	//後ろ
 	//indices.push_back(4);
 	//indices.push_back(5);
@@ -158,40 +159,41 @@ void Vertices::Ini(ID3D12Device* device)
 	// 頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	//リソース設定
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB; // インデックス情報が入る分のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	if (indices.size() != 0) {
+		//リソース設定
+		resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		resDesc.Width = sizeIB; // インデックス情報が入る分のサイズ
+		resDesc.Height = 1;
+		resDesc.DepthOrArraySize = 1;
+		resDesc.MipLevels = 1;
+		resDesc.SampleDesc.Count = 1;
+		resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
-		&heapProp, // ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc, // リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff));
-	assert(SUCCEEDED(result));
+		// 頂点バッファの生成
+		result = device->CreateCommittedResource(
+			&heapProp, // ヒープ設定
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc, // リソース設定
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&indexBuff));
+		assert(SUCCEEDED(result));
 
-	// インデックスバッファをマッピング
-	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	assert(SUCCEEDED(result));
-	// 全インデックスに対して
-	for (int i = 0; i < indices.size(); i++) {
-		indexMap[i] = indices[i]; // インデックスをコピー
+		// インデックスバッファをマッピング
+		uint16_t* indexMap = nullptr;
+		result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+		assert(SUCCEEDED(result));
+		// 全インデックスに対して
+		for (int i = 0; i < indices.size(); i++) {
+			indexMap[i] = indices[i]; // インデックスをコピー
+		}
+		// マッピング解除
+		indexBuff->Unmap(0, nullptr);
+
+		ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+		ibView.Format = DXGI_FORMAT_R16_UINT;
+		ibView.SizeInBytes = sizeIB;
 	}
-	// マッピング解除
-	indexBuff->Unmap(0, nullptr);
-
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
-
 }
 
 void Vertices::CreateBuffer(ID3D12Device* device)
@@ -344,6 +346,18 @@ void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worl
 	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
 	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+}
+
+void Vertices::DrawInstanced(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
+{
+	// 頂点バッファビューの設定コマンド
+	commandList->IASetVertexBuffers(0, 1, &vbView);
+	//インデックスバッファビューの設定コマンド
+	//commandList->IASetIndexBuffer(&ibView);
+	//定数バッファビュー(CBV)の設定コマンド
+	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
+	//描画コマンド
+	commandList->DrawInstanced((UINT)vertices.size(), 1, 0, 0);
 }
 
 

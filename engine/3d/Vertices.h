@@ -43,6 +43,10 @@ public:
 		ID3D12GraphicsCommandList* commandList,
 		WorldTransform* worldTransform,
 		UINT descriptorSize);
+
+	void DrawInstanced(ID3D12GraphicsCommandList* commandList,
+		WorldTransform* worldTransform,
+		UINT descriptorSize);
 private:
 	
 	// 頂点バッファの生成

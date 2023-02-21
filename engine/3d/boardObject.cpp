@@ -121,7 +121,7 @@ void BoardObject::Ini()
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
 
 	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	// その他の設定
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
@@ -211,7 +211,7 @@ void BoardObject::PreDraw()
 	directX_->GetCommandList()->SetGraphicsRootSignature(bRootSignature.Get());
 
 	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
 void BoardObject::ChangeColor(float x, float y, float z, float w)
@@ -231,5 +231,5 @@ void BoardObject::Draw(WorldTransform* worldTransform,
 		SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
 
 
-	bVertices_.Draw(6, directX_->GetCommandList(), worldTransform, descriptorSize);
+	bVertices_.DrawInstanced(directX_->GetCommandList(), worldTransform, descriptorSize);
 }

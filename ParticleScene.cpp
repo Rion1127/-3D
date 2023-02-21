@@ -31,6 +31,7 @@ void ParticleScene::Ini()
 	WT_.Ini();
 
 	texture_ = textureM->LoadGraph("keyBlade2.png");
+	whiteTexture_ = textureM->LoadGraph("white1Å~1.png");
 }
 
 void ParticleScene::Update()
@@ -54,5 +55,5 @@ void ParticleScene::Draw()
 	///////////////////
 	BoardObject::PreDraw();
 
-	object_.Draw(&WT_, texture_);
+	object_.Draw(&WT_, whiteTexture_);
 }

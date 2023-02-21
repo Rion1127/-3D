@@ -42,5 +42,5 @@ private:
 	WorldTransform WT_;
 
 	uint32_t texture_;
-
+	uint32_t whiteTexture_;
 };

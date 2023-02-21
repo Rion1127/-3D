@@ -389,7 +389,7 @@ void DirectXCommon::ClearRenderTarget() {
 
 	// 全画面クリア        Red   Green Blue  Alpha
 	//float clearColor[] = { 0,0,0,0/*0.1f, 0.25f, 0.5f, 0.0f */}; // 青っぽい色
-	commandList->ClearRenderTargetView(rtvH, blue, 0, nullptr);
+	commandList->ClearRenderTargetView(rtvH, black, 0, nullptr);
 }
 
 void DirectXCommon::ClearDepthBuffer() {

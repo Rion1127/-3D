@@ -73,7 +73,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 
 	if (result != S_OK) {
 		result = LoadFromWICFile(
-			L"Resources/white.png",
+			L"Resources/white1Å~1.png",
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}
