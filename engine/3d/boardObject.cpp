@@ -36,6 +36,7 @@ void BoardObject::Ini()
 	HRESULT result;
 	directX_ = DirectXCommon::GetInstance();
 	ComPtr <ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr <ID3DBlob> gsBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr <ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr <ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
@@ -44,7 +45,8 @@ void BoardObject::Ini()
 	// ピクセルシェーダの読み込みとコンパイル
 	ShaderCompileFromFile(L"Resources/shader/ParticlePS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
 
-	// グラフィックスパイプライン設定
+	// ピクセルシェーダの読み込みとコンパイル
+	ShaderCompileFromFile(L"Resources/shader/ParticleGS.hlsl", "main", "gs_5_0", &gsBlob, errorBlob.Get());
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	// シェーダーの設定
@@ -52,6 +54,8 @@ void BoardObject::Ini()
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+	pipelineDesc.GS.pShaderBytecode = gsBlob->GetBufferPointer();
+	pipelineDesc.GS.BytecodeLength = gsBlob->GetBufferSize();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
