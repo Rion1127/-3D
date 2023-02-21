@@ -3,6 +3,7 @@ using namespace Microsoft::WRL;
 #include <cassert>
 #include <string>
 #include "Util.h"
+#include "DirectX.h"
 
 void DisplayWarningInfo(ID3D12Device* device)
 {
@@ -129,5 +130,3 @@ Vector3 MoveTo(Vector3 goal, float speed, DirectX::XMFLOAT3& WT)
 	return resultVec;
 
 }
-
-

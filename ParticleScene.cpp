@@ -13,9 +13,6 @@ void ParticleScene::Ini()
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
-
-	BoardObject::Ini();
-
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 

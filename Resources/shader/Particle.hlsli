@@ -1,12 +1,17 @@
 //マテリアル
-cbuffer cbuff0 : register(b0)
+cbuffer Transform : register(b0)
 {
     matrix mat;
     matrix viewProj;
     float3 cameraPos;
 }
 
-
+cbuffer Camera : register(b2)
+{
+    //matrix mat;
+    //matrix viewProj;
+    //float3 cameraPos;
+}
 
 //頂点シェーダの出力構造体
 //（頂点シェーダーからピクセルシェーダーへのやり取りに使用する）

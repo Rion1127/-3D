@@ -57,7 +57,7 @@ static const int POINTLIGHT_NUM = 3;
 static const int SPOTLIGHT_NUM = 3;
 static const int CIRCLESHADOW_NUM = 1;
 
-cbuffer Light : register(b2)
+cbuffer Light : register(b3)
 {
     float3 ambientColor; //ライトへの方向の単位ベクトル
     DirLight dirLights[DIRLIGHT_NUM];       //平行光源

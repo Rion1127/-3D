@@ -7,7 +7,7 @@ using namespace DirectX;
 #include "myMath.h"
 
 // 定数バッファ用データ構造体
-struct ConstBufferDataViewProjection {
+struct ConstVPBuff {
 	DirectX::XMMATRIX view;       // ワールド → ビュー変換行列
 	DirectX::XMMATRIX projection; // ビュー → プロジェクション変換行列
 	DirectX::XMFLOAT3 cameraPos;  // カメラ座標（ワールド座標）
@@ -58,12 +58,10 @@ public:
 	void SetOriginalPos();
 	bool GetIsShake() { return isShake; }
 private:
-	void CreateConstBuffer();
-	void Map();
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff_;
 	// マッピング済みアドレス
-	ConstBufferDataViewProjection* constMap = nullptr;
+	ConstVPBuff* constMap = nullptr;
 
 	// ビューポートのアスペクト比
 	const float aspectRatio = (float)16 / 9;

@@ -9,7 +9,7 @@
 void SceneManager::Ini()
 {
 	//ビルド開始時のシーン
-	Transition<GameScene>();
+	Transition<ParticleScene>();
 	
 
 	sceneChangeGraph = TextureManager::GetInstance()->LoadGraph("white1×1.png");

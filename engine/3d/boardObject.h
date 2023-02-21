@@ -11,7 +11,7 @@ public:
 
 	static BoardObject* GetInstance();
 
-	static void Ini();
+	void Ini();
 
 	static void PreDraw();
 
@@ -33,5 +33,6 @@ private:
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
 
+	int activeCount = 0;
 };
 
