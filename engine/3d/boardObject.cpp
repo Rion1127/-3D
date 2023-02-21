@@ -49,10 +49,10 @@ void BoardObject::Ini()
 	ComPtr <ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr <ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 	// 頂点シェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/BasicVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
+	ShaderCompileFromFile(L"Resources/shader/ParticleVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
 	
 	// ピクセルシェーダの読み込みとコンパイル
-	ShaderCompileFromFile(L"Resources/shader/BasicPS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
+	ShaderCompileFromFile(L"Resources/shader/ParticlePS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
 
 	// グラフィックスパイプライン設定
 	// グラフィックスパイプライン設定

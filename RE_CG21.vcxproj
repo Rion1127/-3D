@@ -54,6 +54,7 @@
     <ClCompile Include="engine\3d\ViewProjection.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
+    <ClCompile Include="ParticleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\2d\Sprite.h" />
@@ -90,10 +91,11 @@
     <ClInclude Include="engine\3d\ViewProjection.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
+    <ClInclude Include="ParticleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli" />
-    <None Include="Resources\shader\3DObject.hlsli" />
+    <None Include="Resources\shader\Particle.hlsli" />
     <None Include="Resources\shader\Basic.hlsli" />
   </ItemGroup>
   <ItemGroup>
@@ -109,13 +111,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\shader\3DObjectPS.hlsl">
+    <FxCompile Include="Resources\shader\ParticlePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\shader\3DObjectVS.hlsl">
+    <FxCompile Include="Resources\shader\ParticleVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

@@ -207,6 +207,9 @@
     <ClCompile Include="engine\2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleScene.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -311,6 +314,9 @@
     <ClInclude Include="engine\2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleScene.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli">
@@ -319,7 +325,7 @@
     <None Include="Resources\shader\Basic.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Resources\shader\3DObject.hlsli">
+    <None Include="Resources\shader\Particle.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>
@@ -336,10 +342,10 @@
     <FxCompile Include="Resources\shader\BasicVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\3DObjectPS.hlsl">
+    <FxCompile Include="Resources\shader\ParticlePS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\3DObjectVS.hlsl">
+    <FxCompile Include="Resources\shader\ParticleVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
