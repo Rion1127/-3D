@@ -31,7 +31,7 @@ void ParticleScene::Ini()
 	WT_.Ini();
 
 	texture_ = textureM->LoadGraph("keyBlade2.png");
-	whiteTexture_ = textureM->LoadGraph("white1~1.png");
+	whiteTexture_ = textureM->LoadGraph("uv.png");
 }
 
 void ParticleScene::Update()

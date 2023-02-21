@@ -22,5 +22,16 @@ public:
 	void Draw(WorldTransform* worldTransform, uint32_t descriptorSize);
 
 private:
+	static DirectXCommon* directX_;
+
+	struct Vertex {
+		Vector3 pos;
+	};
+
+	const int vertexCount = 1024;
+	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	ComPtr<ID3D12Resource> vertBuff = nullptr;
+	Vertex* vertMap = nullptr;
+
 };
 
