@@ -38,4 +38,9 @@ private:
 	//g‚¤ƒJƒƒ‰À•W
 	ViewProjection* useVP = nullptr;
 
+	BoardObject object_;
+	WorldTransform WT_;
+
+	uint32_t texture_;
+
 };

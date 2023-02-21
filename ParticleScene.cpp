@@ -26,6 +26,11 @@ void ParticleScene::Ini()
 	//useVP = &gameCamera;
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
+
+	
+	WT_.Ini();
+
+	texture_ = textureM->LoadGraph("keyBlade2.png");
 }
 
 void ParticleScene::Update()
@@ -35,6 +40,9 @@ void ParticleScene::Update()
 		debugCamera.Update();
 	}
 	gameCamera.Update();
+
+
+	WT_.Update(*useVP);
 
 }
 
@@ -46,4 +54,5 @@ void ParticleScene::Draw()
 	///////////////////
 	BoardObject::PreDraw();
 
+	object_.Draw(&WT_, texture_);
 }

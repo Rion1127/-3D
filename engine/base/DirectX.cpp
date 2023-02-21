@@ -384,9 +384,12 @@ void DirectXCommon::ClearRenderTarget() {
 		rtvHeap->GetCPUDescriptorHandleForHeapStart(), bbIndex,
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 
+	float black[] = {0,0,0,0};
+	float blue[] = { 0.1f, 0.25f, 0.5f, 0.0f };
+
 	// 全画面クリア        Red   Green Blue  Alpha
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 0.0f }; // 青っぽい色
-	commandList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	//float clearColor[] = { 0,0,0,0/*0.1f, 0.25f, 0.5f, 0.0f */}; // 青っぽい色
+	commandList->ClearRenderTargetView(rtvH, blue, 0, nullptr);
 }
 
 void DirectXCommon::ClearDepthBuffer() {
