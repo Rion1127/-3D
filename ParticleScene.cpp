@@ -42,6 +42,8 @@ void ParticleScene::Update()
 
 	WT_.Update(*useVP);
 
+	object_.Update(*useVP);
+
 }
 
 void ParticleScene::Draw()

@@ -14,11 +14,8 @@
 
 //コマンドリストを格納する
 DirectXCommon* BoardObject::directX_ = nullptr;
-//頂点データ
-static Vertices bVertices_;
 
 BoardObject::BoardObject() {
-	bVertices_.Ini(DirectXCommon::GetInstance()->GetDevice());
 	directX_ = DirectXCommon::GetInstance();
 
 	Ini();
@@ -58,12 +55,17 @@ void BoardObject::Ini()
 	vertBuff->SetName(L"PARTICLE VERT BUFF");
 
 	// GPU上のバッファに対応した仮想メモリを取得
-	vertBuff->Map(0, nullptr, (void**)&vertMap);
+	vertBuff->Map(0, nullptr, (void**)&vertMap_);
+	//テスト
+	vertMap_->pos = { 0,0,10 };
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(Vertex);
+
+
+	constBuff = CreateBuff(constMatMap_);
 }
 
 void BoardObject::PreDraw()
@@ -77,6 +79,11 @@ void BoardObject::PreDraw()
 
 	// プリミティブ形状の設定コマンド
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+}
+
+void BoardObject::Update(ViewProjection VP)
+{
+	constMatMap_->mat = VP.GetMatView() * VP.GetMatProjection();
 }
 
 void BoardObject::ChangeColor(float x, float y, float z, float w)
@@ -95,6 +102,12 @@ void BoardObject::Draw(WorldTransform* worldTransform,
 	TextureManager::GetInstance()->
 		SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
 
-
-	bVertices_.DrawInstanced(directX_->GetCommandList(), worldTransform, descriptorSize);
+	// 頂点バッファビューの設定コマンド
+	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	//インデックスバッファビューの設定コマンド
+	//commandList->IASetIndexBuffer(&ibView);
+	//定数バッファビュー(CBV)の設定コマンド
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+	//描画コマンド
+	directX_->GetCommandList()->DrawInstanced((UINT)activeCount, 1, 0, 0);
 }
