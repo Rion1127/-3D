@@ -7,27 +7,27 @@
 #include "WorldTransform.h"
 #include "Material.h"
 #include "Util.h"
-#include "boardObject.h"
+#include "Particle.h"
 #include "DirectX.h"
 #include "Texture.h"
 #include "PipelineManager.h"
 
 //コマンドリストを格納する
-DirectXCommon* BoardObject::directX_ = nullptr;
+DirectXCommon* Particle::directX_ = nullptr;
 
-BoardObject::BoardObject() {
+Particle::Particle() {
 	directX_ = DirectXCommon::GetInstance();
 
 	Ini();
 }
 
-BoardObject* BoardObject::GetInstance()
+Particle* Particle::GetInstance()
 {
-	static BoardObject instance;
+	static Particle instance;
 	return &instance;
 }
 
-void BoardObject::Ini()
+void Particle::Ini()
 {
 	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertexCount);
 
@@ -57,7 +57,7 @@ void BoardObject::Ini()
 	// GPU上のバッファに対応した仮想メモリを取得
 	vertBuff->Map(0, nullptr, (void**)&vertMap_);
 	//テスト
-	vertMap_->pos = { 0,0,-10 };
+	vertMap_->pos = { 0,0,0 };
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
@@ -68,7 +68,7 @@ void BoardObject::Ini()
 	constBuff = CreateBuff(constMatMap_);
 }
 
-void BoardObject::PreDraw()
+void Particle::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	//パイプラインに設定した内容で描画を始める
@@ -81,22 +81,23 @@ void BoardObject::PreDraw()
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
-void BoardObject::Update(ViewProjection VP)
+void Particle::Update(ViewProjection VP)
 {
 	constMatMap_->mat = VP.GetMatView() * VP.GetMatProjection();
+	constMatMap_->billBoardMat = VP.matBillboard;
 }
 
-void BoardObject::ChangeColor(float x, float y, float z, float w)
+void Particle::ChangeColor(float x, float y, float z, float w)
 {
 	//bVertices_.ChangeColor(x, y, z, w);
 }
 
-void BoardObject::ChangeColor(XMFLOAT4 color_)
+void Particle::ChangeColor(XMFLOAT4 color_)
 {
 	//bVertices_.ChangeColor(color_);
 }
 
-void BoardObject::Draw(WorldTransform* worldTransform,
+void Particle::Draw(WorldTransform* worldTransform,
 	uint32_t descriptorSize)
 {
 	TextureManager::GetInstance()->

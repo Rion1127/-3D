@@ -2,6 +2,7 @@
 cbuffer Transform : register(b0)
 {
     matrix mat;
+    matrix matBillboard; //ビルボード行列
 }
 
 //頂点シェーダの出力構造体

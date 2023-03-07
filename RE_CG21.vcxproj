@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="application\ParticleScene.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
-    <ClCompile Include="engine\3d\boardObject.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
+    <ClCompile Include="engine\3d\Particle.cpp" />
     <ClCompile Include="engine\math\Collision.cpp" />
     <ClCompile Include="engine\3d\DebugCamera.cpp" />
     <ClCompile Include="engine\base\DirectX.cpp" />
@@ -55,13 +56,13 @@
     <ClCompile Include="engine\3d\ViewProjection.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
-    <ClCompile Include="ParticleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\ParticleScene.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
-    <ClInclude Include="engine\3d\boardObject.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
+    <ClInclude Include="engine\3d\Particle.h" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
     <ClInclude Include="engine\base\DirectX.h" />
@@ -93,7 +94,6 @@
     <ClInclude Include="engine\3d\ViewProjection.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
-    <ClInclude Include="ParticleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli" />

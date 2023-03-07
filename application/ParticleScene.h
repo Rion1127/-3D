@@ -2,7 +2,7 @@
 #include <memory>
 #include "Object3d.h"
 #include "Sprite.h"
-#include "boardObject.h"
+#include "Particle.h"
 #include "WorldTransform.h"
 #include "WinAPI.h"
 #include "DirectX.h"
@@ -38,7 +38,7 @@ private:
 	//égÇ§ÉJÉÅÉâç¿ïW
 	ViewProjection* useVP = nullptr;
 
-	BoardObject object_;
+	Particle object_;
 	WorldTransform WT_;
 
 	uint32_t texture_;

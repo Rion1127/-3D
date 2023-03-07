@@ -2,7 +2,7 @@
 #include <memory>
 #include "Object3d.h"
 #include "Sprite.h"
-#include "boardObject.h"
+#include "Particle.h"
 #include "WorldTransform.h"
 #include "WinAPI.h"
 #include "DirectX.h"

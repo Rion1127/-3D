@@ -3,14 +3,14 @@
 #include "ViewProjection.h"
 
 using namespace Microsoft::WRL;
-class BoardObject
+class Particle
 {
 public:
-	BoardObject();
+	Particle();
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static BoardObject* GetInstance();
+	static Particle* GetInstance();
 
 	void Ini();
 
@@ -38,6 +38,7 @@ private:
 
 	struct ConstBufferData {
 		DirectX::XMMATRIX mat;
+		DirectX::XMMATRIX billBoardMat;
 	};
 
 	ComPtr<ID3D12Resource> constBuff = nullptr;

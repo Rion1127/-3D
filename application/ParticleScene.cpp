@@ -15,6 +15,7 @@ void ParticleScene::Ini()
 
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
+	debugCamera.Update();
 
 	gameCamera.Ini();
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
@@ -23,6 +24,7 @@ void ParticleScene::Ini()
 	//useVP = &gameCamera;
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
+	
 
 	
 	WT_.Ini();
@@ -52,7 +54,7 @@ void ParticleScene::Draw()
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////
-	BoardObject::PreDraw();
+	Particle::PreDraw();
 
 	object_.Draw(&WT_, whiteTexture_);
 }

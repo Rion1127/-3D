@@ -132,9 +132,6 @@
     <ClCompile Include="engine\3d\DebugCamera.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\boardObject.cpp">
-      <Filter>engine\ソース ファイル\Object3D</Filter>
-    </ClCompile>
     <ClCompile Include="engine\base\WinAPI.cpp">
       <Filter>engine\ソース ファイル\DirectX</Filter>
     </ClCompile>
@@ -207,11 +204,14 @@
     <ClCompile Include="engine\2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleScene.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\ParticleScene.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Particle.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,9 +240,6 @@
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\DebugCamera.h">
-      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\3d\boardObject.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\WinAPI.h">
@@ -317,11 +314,14 @@
     <ClInclude Include="engine\2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleScene.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\ParticleScene.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Particle.h">
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
