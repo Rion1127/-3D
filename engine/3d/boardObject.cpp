@@ -57,7 +57,7 @@ void BoardObject::Ini()
 	// GPU上のバッファに対応した仮想メモリを取得
 	vertBuff->Map(0, nullptr, (void**)&vertMap_);
 	//テスト
-	vertMap_->pos = { 0,0,10 };
+	vertMap_->pos = { 0,0,-10 };
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();

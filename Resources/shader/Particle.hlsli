@@ -2,15 +2,6 @@
 cbuffer Transform : register(b0)
 {
     matrix mat;
-    matrix viewProj;
-    float3 cameraPos;
-}
-
-cbuffer Camera : register(b2)
-{
-    //matrix mat;
-    //matrix viewProj;
-    //float3 cameraPos;
 }
 
 //頂点シェーダの出力構造体
@@ -18,17 +9,13 @@ cbuffer Camera : register(b2)
 struct VSOutput
 {
 	//システム用頂点座標
-    float4 svpos : SV_POSITION; //システム用頂点座標
-    float3 normal : NORMAL; //法線ベクトル
-    float2 uv : TEXCOORD; //uv座標
+    float4 pos : POSITION; //頂点座標
 };
 
 
 //ジオメトリシェーダからピクセルシェーダへの出力
 struct GSOutput
 {
-	//システム用頂点座標
     float4 svpos : SV_POSITION; //システム用頂点座標
-    float3 normal : NORMAL; //法線ベクトル
     float2 uv : TEXCOORD; //uv座標
 };
