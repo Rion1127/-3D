@@ -78,13 +78,13 @@ void Particle::PreDraw()
 		SetGraphicsRootSignature(PipelineManager::GetParticlePipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
 }
 
 void Particle::Update(ViewProjection VP)
 {
 	constMatMap_->mat = VP.GetMatView() * VP.GetMatProjection();
-	constMatMap_->billBoardMat = VP.matBillboard;
+	constMatMap_->billBoardMat = /*VP.matBillboard*/DirectX::XMMatrixIdentity();
 }
 
 void Particle::ChangeColor(float x, float y, float z, float w)
@@ -101,7 +101,8 @@ void Particle::Draw(WorldTransform* worldTransform,
 	uint32_t descriptorSize)
 {
 	TextureManager::GetInstance()->
-		SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
+		SetGraphicsDescriptorTable(directX_->GetCommandList(),
+			descriptorSize);
 
 	// 頂点バッファビューの設定コマンド
 	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
