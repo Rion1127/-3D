@@ -16,19 +16,30 @@ public:
 
 	static void PreDraw();
 
+	/// <summary>
+	/// ブレンド設定
+	/// </summary>
+	/// <param name="BLEND_ALPHA">アルファブレンド</param>
+	/// <param name="BLEND_SUB">減算合成</param>
+	/// <param name="BLEND_NEGA">色反転合成</param>
+	/// <param name="BLEND_NORMAL">半透明合成</param>
+	static void SetBlend(int blend);
+
 	void Update(ViewProjection VP);
 
 
 	void ChangeColor(float x, float y, float z, float w);
 	void ChangeColor(XMFLOAT4 color_);
 
-	void Draw(WorldTransform* worldTransform, uint32_t descriptorSize);
+	void Draw(uint32_t descriptorSize);
 
 private:
 	static DirectXCommon* directX_;
 
 	struct Vertex {
 		Vector3 pos;
+		float scale;
+		DirectX::XMFLOAT4 color;
 	};
 
 	const int vertexCount = 1024;
@@ -44,6 +55,6 @@ private:
 	ComPtr<ID3D12Resource> constBuff = nullptr;
 	ConstBufferData* constMatMap_ = nullptr;
 
-	int activeCount = 1;
+	int activeCount = 2;
 };
 

@@ -81,10 +81,45 @@ void Particle::PreDraw()
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
+void Particle::SetBlend(int blend)
+{
+	if (blend > 3) blend = 3;
+	else if (blend < 0) blend = 0;
+	// パイプラインステートとルートシグネチャの設定コマンド
+	directX_->GetCommandList()->SetPipelineState(
+		PipelineManager::GetParticlePipeline(blend)->gerPipelineState());
+
+	directX_->GetCommandList()->SetGraphicsRootSignature(
+		PipelineManager::GetParticlePipeline(blend)->GetRootSignature());
+}
+
 void Particle::Update(ViewProjection VP)
 {
+	HRESULT result;
+
 	constMatMap_->mat = VP.GetMatView() * VP.GetMatProjection();
-	constMatMap_->billBoardMat = VP.matBillboard;
+	constMatMap_->billBoardMat = /*VP.matBillboard*/ DirectX::XMMatrixIdentity();
+
+
+	//頂点バッファへデータ送信
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result)) {
+		//パーティクルの情報を一つずつ反映
+		for (/*std::forward_list<Particle>::iterator it = particles.begin();
+			it != particles.end();
+			it++*/int i = 0; i < activeCount;i++) {
+			//座標
+			vertMap->pos = {(float) i * 5,0,0 };
+			////スケール
+			vertMap->scale = i + 1;
+			vertMap->color = {1,1,1,1};
+
+			//次の頂点へ
+			vertMap++;
+		}
+		vertBuff->Unmap(0, nullptr);
+	}
 }
 
 void Particle::ChangeColor(float x, float y, float z, float w)
@@ -97,8 +132,7 @@ void Particle::ChangeColor(XMFLOAT4 color_)
 	//bVertices_.ChangeColor(color_);
 }
 
-void Particle::Draw(WorldTransform* worldTransform,
-	uint32_t descriptorSize)
+void Particle::Draw(uint32_t descriptorSize)
 {
 	TextureManager::GetInstance()->
 		SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);

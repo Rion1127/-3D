@@ -33,7 +33,7 @@ void main(
         //中心からのオフセットをビルボード回転（モデル座標）
         float4 offset = mul(matBillboard, offset_array[i]);
         //中心からのオフセットをスケーリング
-        offset = offset_array[i] * 1.f;
+        offset = offset_array[i] * input[0].scale;
         //中心からのオフセットをビルボード回転
         offset = mul(matBillboard, offset);
         //ワールド座標ベースで、ずらす
@@ -41,6 +41,7 @@ void main(
         //ビュー、射影変換
         element.svpos = mul(mat, element.svpos);
         element.uv = uv_array[i];
+        element.color = input[0].color;
         output.Append(element);
     }
 }

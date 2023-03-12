@@ -11,6 +11,8 @@ struct VSOutput
 {
 	//システム用頂点座標
     float4 pos : POSITION; //頂点座標
+    float scale : TEXCOORD;
+    float4 color : COLOR;
 };
 
 
@@ -19,4 +21,5 @@ struct GSOutput
 {
     float4 svpos : SV_POSITION; //システム用頂点座標
     float2 uv : TEXCOORD; //uv座標
+    float4 color : COLOR;
 };

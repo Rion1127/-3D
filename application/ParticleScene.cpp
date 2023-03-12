@@ -56,5 +56,5 @@ void ParticleScene::Draw()
 	///////////////////
 	Particle::PreDraw();
 
-	object_.Draw(&WT_, whiteTexture_);
+	object_.Draw(whiteTexture_);
 }
