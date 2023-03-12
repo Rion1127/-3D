@@ -103,7 +103,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&texture_->textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
+		D3D12_RESOURCE_STATE_GENERIC_READ,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
 		nullptr,
 		IID_PPV_ARGS(&texture_->texBuff));
 	//全ミップマップについて
