@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application\ParticleScene.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\Particle.cpp" />
@@ -59,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\ParticleScene.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\Particle.h" />

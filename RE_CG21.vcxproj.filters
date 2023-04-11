@@ -204,9 +204,6 @@
     <ClCompile Include="engine\2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="application\ParticleScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
@@ -313,9 +310,6 @@
     </ClInclude>
     <ClInclude Include="engine\2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="application\ParticleScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>

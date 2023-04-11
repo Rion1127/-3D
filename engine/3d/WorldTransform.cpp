@@ -45,7 +45,7 @@ void WorldTransform::AddPosition(float x, float y, float z)
 
 void WorldTransform::Ini()
 {
-	HRESULT result;
+	//HRESULT result;
 
 	directx_ = DirectXCommon::GetInstance();
 
