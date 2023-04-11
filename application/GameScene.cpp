@@ -90,6 +90,9 @@ void GameScene::Ini()
 
 void GameScene::Update()
 {
+	Camera::current.eye = debugCamera.GetViewProjection()->eye;
+	Camera::current.up = debugCamera.GetViewProjection()->up;
+	Camera::current.Update();
 
 	//ƒJƒƒ‰XV
 	if (input_->PushKey(DIK_LCONTROL)) {
@@ -101,9 +104,9 @@ void GameScene::Update()
 	worldTransform_.rotation.y += 0.01f;
 	sphereWT_.rotation.y += 0.01f;
 
-	worldTransform_.Update(*useVP);
-	sphereWT_.Update(*useVP);
-	floorWT_.Update(*useVP);
+	worldTransform_.Update();
+	sphereWT_.Update();
+	floorWT_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		lightType_++;

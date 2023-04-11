@@ -4,7 +4,7 @@ using namespace DirectX;
 #include "math.h"
 #include <d3d12.h>
 #include <wrl.h>
-#include "Camera.h"
+
 #include "DirectX.h"
 #include "Quaternion.h"
 
@@ -37,7 +37,7 @@ public:
 	/// </summary>
 	/// <param name="viewProjection">カメラ</param>
 	/// <param name="isBillboard">0 = 無し; 1 = ビルボードあり; 2 = Y軸ビルボード</param>
-	void Update(ViewProjection viewProjection,int isBillboard = 0);
+	void Update(int isBillboard = 0);
 
 	//定数バッファ（行列用）
 	ComPtr<ID3D12Resource> constBuffTransform;

@@ -1,6 +1,8 @@
 
 #include "Util.h"
+#include "Camera.h"
 #include "WorldTransform.h"
+
 
 WorldTransform::WorldTransform()
 {
@@ -84,7 +86,7 @@ void WorldTransform::Ini()
 	constBuffTransform = CreateBuff(constMapTransform);
 }
 
-void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
+void WorldTransform::Update(int isBillboard)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -107,10 +109,10 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 	matWorld = XMMatrixIdentity();	//変形をリセット
 	//ビルボード
 	if (isBillboard == 1) {
-		matWorld *= viewProjection.matBillboard;
+		matWorld *= Camera::current.matBillboard;
 	}
 	else if (isBillboard == 2) {
-		matWorld *= viewProjection.matBillboardY;
+		matWorld *= Camera::current.matBillboardY;
 	}
 
 	matWorld *= matScale;			//ワールド行列にスケーリングを反映
@@ -125,11 +127,11 @@ void WorldTransform::Update(ViewProjection viewProjection, int isBillboard)
 
 	//定数バッファへデータ転送
 	constMapTransform->mat = matWorld ;
-	constMapTransform->viewProj = viewProjection.GetMatView() * viewProjection.GetMatProjection();
+	constMapTransform->viewProj = Camera::current.GetMatView() * Camera::current.GetMatProjection();
 	constMapTransform->cameraPos = {
-		viewProjection.eye.x,
-		viewProjection.eye.y,
-		viewProjection.eye.z
+		Camera::current.eye.x,
+		Camera::current.eye.y,
+		Camera::current.eye.z
 	};
 }
 

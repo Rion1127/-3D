@@ -41,7 +41,7 @@ void ParticleScene::Update()
 	gameCamera.Update();
 
 
-	WT_.Update(*useVP);
+	WT_.Update();
 
 	object_.Update(*useVP);
 

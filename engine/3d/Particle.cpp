@@ -93,7 +93,7 @@ void Particle::SetBlend(int blend)
 		PipelineManager::GetParticlePipeline(blend)->GetRootSignature());
 }
 
-void Particle::Update(ViewProjection VP)
+void Particle::Update(Camera VP)
 {
 	HRESULT result;
 

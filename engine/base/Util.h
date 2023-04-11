@@ -42,7 +42,7 @@ float Clamp(float value, float max, float min);
 
 void MoveTo(Vector3 goal, float speed,WorldTransform& WT);
 
-Vector3 MoveTo(Vector3 goal, float speed, DirectX::XMFLOAT3& WT);
+
 
 template <class MapClass>
 inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(MapClass& map) 

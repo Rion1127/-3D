@@ -89,9 +89,9 @@ void GameScene2::Update()
 	worldTransform_.rotation.y += 0.01f;
 	sphereWT_.rotation.y += 0.01f;
 
-	worldTransform_.Update(*useVP);
-	sphereWT_.Update(*useVP);
-	floorWT_.Update(*useVP);
+	worldTransform_.Update();
+	sphereWT_.Update();
+	floorWT_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		lightType_++;

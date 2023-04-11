@@ -25,7 +25,7 @@ public:
 	/// <param name="BLEND_NORMAL">îºìßñæçáê¨</param>
 	static void SetBlend(int blend);
 
-	void Update(ViewProjection VP);
+	void Update(Camera VP);
 
 
 	void ChangeColor(float x, float y, float z, float w);

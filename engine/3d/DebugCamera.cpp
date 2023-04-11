@@ -108,7 +108,7 @@ void DebugCamera::CameraMove()
 	viewProjection.eye.z = -frontdist * cosf(moveDist.x) * cosf(moveDist.y) + cameraTrans.z;
 }
 
-ViewProjection* DebugCamera::GetViewProjection()
+Camera* DebugCamera::GetViewProjection()
 {
 	return &viewProjection;
 }

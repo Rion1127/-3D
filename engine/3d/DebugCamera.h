@@ -11,14 +11,14 @@ public:
 	void Update();
 
 
-	ViewProjection* GetViewProjection();
+	Camera* GetViewProjection();
 
 private:
 	MouseInput* mInput_ = nullptr;
 
 	void CameraMove();
 
-	ViewProjection viewProjection;
+	Camera viewProjection;
 
 	Vector3 dist{};
 	Vector3 moveDist{};	//ãÖñ ç¿ïW

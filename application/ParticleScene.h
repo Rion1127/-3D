@@ -34,9 +34,9 @@ private:
 	SoundManager* sound_ = nullptr;
 	DebugCamera debugCamera;
 
-	ViewProjection gameCamera;
+	Camera gameCamera;
 	//g‚¤ƒJƒƒ‰À•W
-	ViewProjection* useVP = nullptr;
+	Camera* useVP = nullptr;
 
 	Particle object_;
 	WorldTransform WT_;

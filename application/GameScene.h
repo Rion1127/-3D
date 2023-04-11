@@ -37,10 +37,10 @@ private:
 	
 	void CheckAllCollision();	//‚·‚×‚Ä‚Ì“–‚½‚è”»’è
 
-	ViewProjection gameCamera;
+	Camera gameCamera;
 	void cameraUpdate();
 	//g‚¤ƒJƒƒ‰À•W
-	ViewProjection* useVP = nullptr;
+	Camera* useVP = nullptr;
 
 	LightGroup* lightGroup = nullptr;
 

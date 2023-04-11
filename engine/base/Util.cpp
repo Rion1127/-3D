@@ -104,29 +104,3 @@ void MoveTo(Vector3 goal, float speed, WorldTransform& WT)
 	WT.position =
 		WT.position + dir.SetLength(speed);
 }
-
-Vector3 MoveTo(Vector3 goal, float speed, DirectX::XMFLOAT3& WT)
-{
-	Vector3 resultVec;
-	Vector3 dir = goal - WT;
-	float dirLength = dir.length2();
-	if (dirLength < speed * speed)
-	{
-		WT.x = goal.x;
-		WT.y = goal.y;
-		WT.z = goal.z;
-		resultVec.x = WT.x;
-		resultVec.y = WT.y;
-		resultVec.z = WT.z;
-		return resultVec;
-	}
-	WT.x += (goal.x - WT.x) * speed;
-	WT.y += (goal.y - WT.y) * speed;
-	WT.z += (goal.z - WT.z) * speed;
-
-	resultVec.x = WT.x;
-	resultVec.y = WT.y;
-	resultVec.z = WT.z;
-	return resultVec;
-
-}
