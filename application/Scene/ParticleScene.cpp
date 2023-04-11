@@ -53,7 +53,7 @@ void ParticleScene::Draw()
 	///////////////////
 	//板状３Dオブジェクト//
 	///////////////////
-	Particle::PreDraw();
+	ParticleManager::GetInstance()->PreDraw();
 
 	object_.Draw(whiteTexture_);
 }

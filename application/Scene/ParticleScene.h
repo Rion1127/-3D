@@ -13,6 +13,7 @@
 #include "EmptyScene.h"
 #include <sstream>
 #include <fstream>
+#include "ParticleManager.h"
 
 class ParticleScene :
 	public EmptyScene
