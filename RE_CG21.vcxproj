@@ -19,7 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="application\ParticleScene.cpp" />
+    <ClCompile Include="application\Scene\GameScene.cpp" />
+    <ClCompile Include="application\Scene\GameScene2.cpp" />
+    <ClCompile Include="application\Scene\ParticleScene.cpp" />
+    <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\Particle.cpp" />
@@ -30,12 +33,10 @@
     <ClCompile Include="engine\base\EmptyScene.cpp" />
     <ClCompile Include="engine\base\Framework.cpp" />
     <ClCompile Include="engine\base\Game.cpp" />
-    <ClCompile Include="application\GameScene2.cpp" />
     <ClCompile Include="engine\external\ImGuiManager.cpp" />
     <ClCompile Include="engine\3d\light\DirectionalLight.cpp" />
     <ClCompile Include="engine\3d\light\LightGroup.cpp" />
     <ClCompile Include="engine\input\mInput.cpp" />
-    <ClCompile Include="application\GameScene.cpp" />
     <ClCompile Include="engine\base\main.cpp" />
     <ClCompile Include="engine\3d\Material.cpp" />
     <ClCompile Include="engine\math\myMath.cpp" />
@@ -44,7 +45,6 @@
     <ClCompile Include="engine\base\PipelineManager.cpp" />
     <ClCompile Include="engine\3d\light\PointLight.cpp" />
     <ClCompile Include="engine\math\Quaternion.cpp" />
-    <ClCompile Include="application\SceneManager.cpp" />
     <ClCompile Include="engine\3d\light\SpotLight.cpp" />
     <ClCompile Include="engine\3d\Object3d.cpp" />
     <ClCompile Include="engine\external\Texture.cpp" />
@@ -55,9 +55,13 @@
     <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="application\ParticleScene.h" />
+    <ClInclude Include="application\Scene\GameScene.h" />
+    <ClInclude Include="application\Scene\GameScene2.h" />
+    <ClInclude Include="application\Scene\ParticleScene.h" />
+    <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\Particle.h" />
@@ -68,12 +72,10 @@
     <ClInclude Include="engine\base\EmptyScene.h" />
     <ClInclude Include="engine\base\Framework.h" />
     <ClInclude Include="engine\base\Game.h" />
-    <ClInclude Include="application\GameScene2.h" />
     <ClInclude Include="engine\external\ImGuiManager.h" />
     <ClInclude Include="engine\3d\light\DirectionalLight.h" />
     <ClInclude Include="engine\3d\light\LightGroup.h" />
     <ClInclude Include="engine\input\mInput.h" />
-    <ClInclude Include="application\GameScene.h" />
     <ClInclude Include="engine\3d\Material.h" />
     <ClInclude Include="engine\math\myMath.h" />
     <ClInclude Include="engine\audio\mSound.h" />
@@ -81,7 +83,6 @@
     <ClInclude Include="engine\base\PipelineManager.h" />
     <ClInclude Include="engine\3d\light\PointLight.h" />
     <ClInclude Include="engine\math\Quaternion.h" />
-    <ClInclude Include="application\SceneManager.h" />
     <ClInclude Include="engine\3d\light\SpotLight.h" />
     <ClInclude Include="engine\3d\Object3d.h" />
     <ClInclude Include="engine\external\Texture.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
+    <ClInclude Include="ParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli" />

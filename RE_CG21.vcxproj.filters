@@ -147,17 +147,11 @@
     <ClCompile Include="engine\math\Collision.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="application\GameScene.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="engine\audio\mSound.cpp">
       <Filter>engine\ソース ファイル\Sound</Filter>
     </ClCompile>
     <ClCompile Include="engine\input\mInput.cpp">
       <Filter>engine\ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="application\SceneManager.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="engine\math\Easing.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
@@ -198,17 +192,26 @@
     <ClCompile Include="engine\3d\light\CircleShadow.cpp">
       <Filter>engine\ソース ファイル\Light</Filter>
     </ClCompile>
-    <ClCompile Include="application\GameScene2.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="engine\2d\Sprite.cpp">
       <Filter>engine\ソース ファイル\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="application\ParticleScene.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="engine\3d\Particle.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Scene\GameScene.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Scene\GameScene2.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Scene\ParticleScene.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Scene\SceneManager.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,17 +257,11 @@
     <ClInclude Include="engine\math\Collision.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="application\GameScene.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="engine\audio\mSound.h">
       <Filter>engine\ヘッダー ファイル\Sound</Filter>
     </ClInclude>
     <ClInclude Include="engine\input\mInput.h">
       <Filter>engine\ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="application\SceneManager.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="engine\math\Easing.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
@@ -305,17 +302,26 @@
     <ClInclude Include="engine\3d\light\CircleShadow.h">
       <Filter>engine\ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="application\GameScene2.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="engine\2d\Sprite.h">
       <Filter>engine\ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="application\ParticleScene.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\Particle.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Scene\SceneManager.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Scene\GameScene.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Scene\GameScene2.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Scene\ParticleScene.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
