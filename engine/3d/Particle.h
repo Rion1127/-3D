@@ -1,6 +1,6 @@
 #pragma once
 #include <wrl.h>
-#include "ViewProjection.h"
+#include "Camera.h"
 
 using namespace Microsoft::WRL;
 class Particle

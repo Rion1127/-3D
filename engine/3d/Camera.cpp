@@ -3,26 +3,26 @@
 #include "Util.h"
 #include "Camera.h"
 
-Camera Camera::current = {};
-
-Camera::Camera()
+ViewProjection::ViewProjection()
 {
 
-	eye = { 0,0,0 };
+	directX_ = DirectXCommon::GetInstance();
+
+	eye = { 0,0,-10 };
 	target = { 0,0,0 };
-	up = { 0,0,0 };
-	
-	Ini();
+	up = { 0,1,0 };
+
+	Update();
 }
 
-void Camera::SetEyePos(float x, float y, float z)
+void ViewProjection::SetEyePos(float x, float y, float z)
 {
 	eye.x = x;
 	eye.y = y;
 	eye.z = z;
 }
 
-void Camera::SetEyePos(Vector3 pos)
+void ViewProjection::SetEyePos(Vector3 pos)
 {
 	if (isShake) {
 		originalPos.x = pos.x;
@@ -36,35 +36,35 @@ void Camera::SetEyePos(Vector3 pos)
 	}
 }
 
-void Camera::SetTarget(float x, float y, float z)
+void ViewProjection::SetTarget(float x, float y, float z)
 {
 	target.x = x;
 	target.y = y;
 	target.z = z;
 }
 
-void Camera::SetTarget(Vector3 pos)
+void ViewProjection::SetTarget(Vector3 pos)
 {
 	target.x = pos.x;
 	target.y = pos.y;
 	target.z = pos.z;
 }
 
-void Camera::SetUpVec(float x, float y, float z)
+void ViewProjection::SetUpVec(float x, float y, float z)
 {
 	up.x = x;
 	up.y = y;
 	up.z = z;
 }
 
-void Camera::SetUpVec(Vector3 upVec)
+void ViewProjection::SetUpVec(Vector3 upVec)
 {
 	up.x = upVec.x;
 	up.y = upVec.y;
 	up.z = upVec.z;
 }
 
-void Camera::MoveTo(Vector3 goal, float speed)
+void ViewProjection::MoveTo(Vector3 goal, float speed)
 {
 	Vector3 dir = goal - eye;
 	float dirLength = dir.length2();
@@ -80,17 +80,8 @@ void Camera::MoveTo(Vector3 goal, float speed)
 	eye.z = eye.z + dir.SetLength(speed).z;
 }
 
-void Camera::Ini()
-{
-	directX_ = DirectXCommon::GetInstance();
 
-	eye = { 0,0,-10 };
-	up = { 0,1,0 };
-
-	Update();
-}
-
-void Camera::Update()
+void ViewProjection::Update()
 {
 	/*matView =
 		XMMatrixLookAtLH(
@@ -177,19 +168,21 @@ void Camera::Update()
 		aspectRatio,
 		0.1f, 1000.0f
 	);
+
+	
 }
 
-XMMATRIX Camera::GetMatView()
+XMMATRIX ViewProjection::GetMatView()
 {
 	return matView;
 }
 
-XMMATRIX Camera::GetMatProjection()
+XMMATRIX ViewProjection::GetMatProjection()
 {
 	return matProjection;
 }
 
-void Camera::ShakeSet(int time, float power)
+void ViewProjection::ShakeSet(int time, float power)
 {
 	shakeTime = time;
 	maxShakeTime = shakeTime;
@@ -197,7 +190,7 @@ void Camera::ShakeSet(int time, float power)
 	isShake = true;
 }
 
-void Camera::ShakeUpdate()
+void ViewProjection::ShakeUpdate()
 {
 	XMFLOAT3 shakeDist{};
 	Vector2 dist;
@@ -239,7 +232,7 @@ void Camera::ShakeUpdate()
 	}
 }
 
-void Camera::SetOriginalPos()
+void ViewProjection::SetOriginalPos()
 {
 	originalPos = eye;
 }

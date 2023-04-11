@@ -13,12 +13,12 @@ struct ConstVPBuff {
 	DirectX::XMFLOAT3 cameraPos;  // カメラ座標（ワールド座標）
 };
 
-class Camera {
+class ViewProjection {
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	Camera();
+	ViewProjection();
 	//カメラ座標
 	void SetEyePos(float x,float y,float z);
 	void SetEyePos(Vector3 pos);
@@ -30,7 +30,6 @@ public:
 	void SetUpVec(Vector3 upVec);
 	void MoveTo(Vector3 goal, float speed);
 	//初期化
-	void Ini();
 	void Update();
 
 	XMMATRIX GetMatView();
@@ -47,8 +46,6 @@ public:
 	XMMATRIX matBillboard;
 	//Y軸周りのビルボード
 	XMMATRIX matBillboardY;
-
-	static Camera current;
 
 	/// <summary>
 	/// カメラシェイク

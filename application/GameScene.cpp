@@ -24,7 +24,7 @@ void GameScene::Ini()
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 
-	gameCamera.Ini();
+
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
 	gameCamera.Update();

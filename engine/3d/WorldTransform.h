@@ -4,7 +4,7 @@ using namespace DirectX;
 #include "math.h"
 #include <d3d12.h>
 #include <wrl.h>
-#include "ViewProjection.h"
+#include "Camera.h"
 #include "DirectX.h"
 #include "Quaternion.h"
 

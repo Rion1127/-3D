@@ -126,7 +126,7 @@
     <ClCompile Include="engine\3d\WorldTransform.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\ViewProjection.cpp">
+    <ClCompile Include="engine\3d\Camera.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\DebugCamera.cpp">
@@ -233,7 +233,7 @@
     <ClInclude Include="engine\3d\WorldTransform.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
-    <ClInclude Include="engine\3d\ViewProjection.h">
+    <ClInclude Include="engine\3d\Camera.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\DebugCamera.h">

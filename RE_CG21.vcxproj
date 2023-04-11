@@ -52,7 +52,7 @@
     <ClCompile Include="engine\math\Vector2.cpp" />
     <ClCompile Include="engine\math\Vector3.cpp" />
     <ClCompile Include="engine\3d\Vertices.cpp" />
-    <ClCompile Include="engine\3d\ViewProjection.cpp" />
+    <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClInclude Include="engine\math\Vector2.h" />
     <ClInclude Include="engine\math\Vector3.h" />
     <ClInclude Include="engine\3d\Vertices.h" />
-    <ClInclude Include="engine\3d\ViewProjection.h" />
+    <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
   </ItemGroup>

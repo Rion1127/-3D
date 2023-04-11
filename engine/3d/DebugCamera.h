@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector3.h"
 #include "mInput.h"
-#include "ViewProjection.h"
+#include "Camera.h"
 #include <DirectXMath.h>
 using namespace DirectX;
 class DebugCamera

@@ -9,7 +9,6 @@ void DebugCamera::DebugCameraIni()
 	viewProjection.SetEyePos(0, 0, -200);
 	viewProjection.SetTarget(0, 0, 0);
 	viewProjection.SetUpVec(0, 1, 0);
-	viewProjection.Ini(); 
 
 	frontVec = { 0, 0, 0 };
 	sideVec = { 0,0,0 };
