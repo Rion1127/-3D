@@ -106,6 +106,12 @@
     <Filter Include="application\ソースファイル\Particle">
       <UniqueIdentifier>{81e69958-7009-43dc-a201-149efe0642b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ソース ファイル\assimp">
+      <UniqueIdentifier>{a5d0b7d7-e58f-4819-a6da-657b5a218f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ヘッダー ファイル\assimp">
+      <UniqueIdentifier>{d85c7fc1-539a-4ded-b84a-8486aa926023}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -219,6 +225,9 @@
     <ClCompile Include="application\Particle\ParticleManager.cpp">
       <Filter>application\ソースファイル\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpLoader.cpp">
+      <Filter>engine\ソース ファイル\assimp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -329,6 +338,9 @@
     <ClInclude Include="application\Particle\ParticleManager.h">
       <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="AssimpLoader.h">
+      <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shader\Sprite.hlsli">
@@ -340,6 +352,7 @@
     <None Include="Resources\shader\Particle.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shader\SpritePS.hlsl">

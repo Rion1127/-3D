@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include "ParticleManager.h"
+#include "AssimpLoader.h"
 
 class ParticleScene :
 	public EmptyScene

@@ -1,5 +1,6 @@
 #include "ParticleScene.h"
 
+
 ParticleScene::~ParticleScene()
 {
 }
@@ -30,6 +31,9 @@ void ParticleScene::Ini()
 
 	texture_ = textureM->LoadGraph("keyBlade2.png");
 	whiteTexture_ = textureM->LoadGraph("uv.png");
+
+
+	AssimpLoader::GetInstance()->Load();
 }
 
 void ParticleScene::Update()
@@ -55,5 +59,5 @@ void ParticleScene::Draw()
 	///////////////////
 	ParticleManager::GetInstance()->PreDraw();
 
-	object_.Draw(whiteTexture_);
+	//object_.Draw(whiteTexture_);
 }

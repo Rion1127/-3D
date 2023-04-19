@@ -24,6 +24,7 @@
     <ClCompile Include="application\Scene\GameScene2.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
+    <ClCompile Include="AssimpLoader.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\Particle.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="application\Scene\GameScene2.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
+    <ClInclude Include="AssimpLoader.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\Particle.h" />
@@ -96,6 +98,7 @@
     <ClInclude Include="engine\3d\WorldTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\shader\Sprite.hlsli" />
     <None Include="Resources\shader\Particle.hlsli" />
     <None Include="Resources\shader\Basic.hlsli" />
@@ -285,5 +288,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Assimp_native_4.1_v142.4.1.0\build\native\Assimp_native_4.1_v142.targets" Condition="Exists('packages\Assimp_native_4.1_v142.4.1.0\build\native\Assimp_native_4.1_v142.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Assimp_native_4.1_v142.4.1.0\build\native\Assimp_native_4.1_v142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Assimp_native_4.1_v142.4.1.0\build\native\Assimp_native_4.1_v142.targets'))" />
+  </Target>
 </Project>
