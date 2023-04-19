@@ -33,7 +33,7 @@ void ParticleScene::Ini()
 	whiteTexture_ = textureM->LoadGraph("uv.png");
 
 
-	AssimpLoader::GetInstance()->Load();
+	//AssimpLoader::GetInstance()->Load();
 }
 
 void ParticleScene::Update()

@@ -5,7 +5,15 @@
 #include <cassert>
 #include "AssimpLoader.h"
 #include "Util.h"
+#include <filesystem>
 
+namespace fs = std::filesystem;
+
+std::wstring GetDirectoryPath(const std::wstring& origin)
+{
+	fs::path p = origin.c_str();
+	return p.remove_filename().c_str();
+}
 
 AssimpLoader* AssimpLoader::GetInstance()
 {
@@ -80,8 +88,60 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 {
 	aiVector3D zero3D(0.0f, 0.0f, 0.0f);
 	aiColor4D zeroColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	dst.Vertices.vertices.resize(src->mNumVertices);
+
+	for (auto i = 0u; i < src->mNumVertices; ++i)
+	{
+		auto position = &(src->mVertices[i]);
+		auto normal = &(src->mNormals[i]);
+		auto uv = (src->HasTextureCoords(0)) ? &(src->mTextureCoords[0][i]) : &zero3D;
+		//auto tangent = (src->HasTangentsAndBitangents()) ? &(src->mTangents[i]) : &zero3D;
+		//auto color = (src->HasVertexColors(0)) ? &(src->mColors[0][i]) : &zeroColor;
+
+		// 反転オプションがあったらUVを反転させる
+		if (inverseU)
+		{
+			uv->x = 1 - uv->x;
+		}
+		if (inverseV)
+		{
+			uv->y = 1 - uv->y;
+		}
+
+		Vertices::VertexPosNormalUv vertex = {};
+		vertex.pos = DirectX::XMFLOAT3(position->x, position->y, position->z);
+		vertex.normal = DirectX::XMFLOAT3(normal->x, normal->y, normal->z);
+		vertex.uv = DirectX::XMFLOAT2(uv->x, uv->y);
+
+
+		dst.Vertices.vertices[i] = vertex;
+	}
+
+	dst.Indices.resize(src->mNumFaces * 3);
+
+	for (auto i = 0u; i < src->mNumFaces; ++i)
+	{
+		const auto& face = src->mFaces[i];
+
+		dst.Indices[i * 3 + 0] = face.mIndices[0];
+		dst.Indices[i * 3 + 1] = face.mIndices[1];
+		dst.Indices[i * 3 + 2] = face.mIndices[2];
+	}
 }
 
 void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMaterial* src)
 {
+	aiString path;
+	if (src->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), path) == AI_SUCCESS)
+	{
+		// テクスチャパスは相対パスで入っているので、ファイルの場所とくっつける
+		auto dir = GetDirectoryPath(filename);
+		auto file = std::string(path.C_Str());
+		//dst.DiffuseMap = dir + ToWideString(file);
+	}
+	else
+	{
+		//dst.DiffuseMap.clear();
+	}
 }

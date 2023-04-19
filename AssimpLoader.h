@@ -8,7 +8,7 @@ struct aiMesh;
 struct aiMaterial;
 
 struct Mesh {
-	std::vector<Vertices> Vertices; // 頂点データの配列
+	Vertices Vertices; // 頂点データの配列
 	std::vector<uint32_t> Indices; // インデックスの配列
 };
 
