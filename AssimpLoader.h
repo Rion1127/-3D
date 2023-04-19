@@ -10,6 +10,7 @@ struct aiMaterial;
 struct Mesh {
 	Vertices Vertices; // 頂点データの配列
 	std::vector<uint32_t> Indices; // インデックスの配列
+	std::wstring diffuseMap; // テクスチャのファイルパス
 };
 
 struct ImportSettings // インポートするときのパラメータ

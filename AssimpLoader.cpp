@@ -36,6 +36,20 @@ std::string ToUTF8(const std::wstring& value)
 	return result;
 }
 
+// std::string(マルチバイト文字列)からstd::wstring(ワイド文字列)を得る
+std::wstring ToWideString(const std::string& str)
+{
+	auto num1 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0);
+
+	std::wstring wstr;
+	wstr.resize(num1);
+
+	auto num2 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, &wstr[0], num1);
+
+	assert(num1 == num2);
+	return wstr;
+}
+
 bool AssimpLoader::Load(ImportSettings setting)
 {
 	assert(setting.filename);
@@ -138,10 +152,10 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 		// テクスチャパスは相対パスで入っているので、ファイルの場所とくっつける
 		auto dir = GetDirectoryPath(filename);
 		auto file = std::string(path.C_Str());
-		//dst.DiffuseMap = dir + ToWideString(file);
+		dst.diffuseMap = dir + ToWideString(file);
 	}
 	else
 	{
-		//dst.DiffuseMap.clear();
+		dst.diffuseMap.clear();
 	}
 }
