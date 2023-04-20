@@ -132,15 +132,15 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 		dst.Vertices.vertices[i] = vertex;
 	}
 
-	dst.Indices.resize(src->mNumFaces * 3);
+	dst.Vertices.indices.resize(src->mNumFaces * 3);
 
 	for (auto i = 0u; i < src->mNumFaces; ++i)
 	{
 		const auto& face = src->mFaces[i];
 
-		dst.Indices[i * 3 + 0] = face.mIndices[0];
-		dst.Indices[i * 3 + 1] = face.mIndices[1];
-		dst.Indices[i * 3 + 2] = face.mIndices[2];
+		dst.Vertices.indices[i * 3 + 0] = face.mIndices[0];
+		dst.Vertices.indices[i * 3 + 1] = face.mIndices[1];
+		dst.Vertices.indices[i * 3 + 2] = face.mIndices[2];
 	}
 }
 

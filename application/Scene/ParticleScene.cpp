@@ -32,8 +32,22 @@ void ParticleScene::Ini()
 	texture_ = textureM->LoadGraph("keyBlade2.png");
 	whiteTexture_ = textureM->LoadGraph("uv.png");
 
+	const wchar_t* modelFile = L"Resources/FBX/Alica/Alicia_solid_Unity.FBX";
 
-	//AssimpLoader::GetInstance()->Load();
+	importSetting_.filename = modelFile;
+	importSetting_.meshes = meshes;
+	importSetting_.inverseU = false;
+	importSetting_.inverseV = true;
+
+	AssimpLoader loader;
+	loader.Load(importSetting_);
+	
+	for (int i = 0; i < importSetting_.meshes.size(); i++)
+	{
+		importSetting_.meshes[i].Vertices.CreateBuffer(directX->GetDevice());
+	}
+
+	int a = 0;
 }
 
 void ParticleScene::Update()
@@ -55,7 +69,7 @@ void ParticleScene::Draw()
 {
 
 	///////////////////
-	//板状３Dオブジェクト//
+	/////パーティクル////
 	///////////////////
 	ParticleManager::GetInstance()->PreDraw();
 

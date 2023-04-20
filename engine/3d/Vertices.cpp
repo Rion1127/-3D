@@ -1,7 +1,7 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
-
+#include "DirectX.h"
 #include "Vertices.h"
 
 void Vertices::Ini(ID3D12Device* device)
@@ -131,7 +131,7 @@ void Vertices::Ini(ID3D12Device* device)
 	}
 
 	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -170,7 +170,7 @@ void Vertices::Ini(ID3D12Device* device)
 		resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 		// 頂点バッファの生成
-		result = device->CreateCommittedResource(
+		result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,
 			&resDesc, // リソース設定
@@ -243,7 +243,7 @@ void Vertices::CreateBuffer(ID3D12Device* device)
 	}
 
 	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -279,7 +279,7 @@ void Vertices::CreateBuffer(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定

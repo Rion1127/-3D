@@ -16,6 +16,8 @@
 #include "ParticleManager.h"
 #include "AssimpLoader.h"
 
+#include "Vertices.h"
+
 class ParticleScene :
 	public EmptyScene
 {
@@ -45,4 +47,11 @@ private:
 
 	uint32_t texture_;
 	uint32_t whiteTexture_;
+
+
+
+
+	
+	std::vector<Mesh> meshes;
+	ImportSettings importSetting_;
 };
