@@ -11,6 +11,8 @@ namespace fs = std::filesystem;
 
 std::wstring GetDirectoryPath(const std::wstring& origin)
 {
+	std::wstring name = origin;
+
 	fs::path p = origin.c_str();
 	return p.remove_filename().c_str();
 }
@@ -20,7 +22,12 @@ AssimpLoader* AssimpLoader::GetInstance()
 	static AssimpLoader instance;
 	return &instance;
 }
-
+//拡張子を入れ替える
+std::wstring ReplaceExtension(const std::wstring& origin, const char* ext)
+{
+	fs::path p = origin.c_str();
+	return p.replace_extension(ext).c_str();
+}
 //wstringをstd::string(マルチバイト文字列)に変換
 std::string ToUTF8(const std::wstring& value)
 {
@@ -114,6 +121,7 @@ bool AssimpLoader::Load(ImportSettings setting)
 		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
 		const auto pMaterial = scene->mMaterials[i];
 		LoadTexture(setting.filename, meshes[i], pMaterial);
+		
 	}
 
 	scene = nullptr;
@@ -175,10 +183,15 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 		// テクスチャパスは相対パスで入っているので、ファイルの場所とくっつける
 		auto dir = GetDirectoryPath(filename);
 		auto file = std::string(path.C_Str());
-		dst.diffuseMap = dir + ToWideString(file);
+		
+		std::wstring filename = dir + ToWideString(file);
+
+		filename = ReplaceExtension(filename,"tga");
+		dst.diffuseMap = filename;
 	}
 	else
 	{
 		dst.diffuseMap.clear();
 	}
+	
 }

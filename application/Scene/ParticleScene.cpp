@@ -4,6 +4,7 @@
 
 ParticleScene::~ParticleScene()
 {
+	delete lightGroup;
 }
 
 void ParticleScene::Ini()
@@ -63,7 +64,6 @@ void ParticleScene::Ini()
 	for (int i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		importSetting_->meshes[i].Vertices.CreateBuffer(directX->GetDevice());
-		//meshes[i].
 
 		std::string texturename = WStringToString(meshes[i].diffuseMap);
 		texHandle_[i] = textureM->LoadGraph(texturename);

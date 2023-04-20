@@ -41,8 +41,21 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	graphHandle = textureHandle;
 	//ユニークポインタで宣言
 	std::unique_ptr<Texture> texture_ = std::make_unique<Texture>();
+	//最終的なファイル名
+	std::string allFileName;
 
-	std::string allFileName = "Resources/" + HandleName;
+	std::string find_Name = "Resources/";
+	size_t strPos = HandleName.find(find_Name);
+	//"Resources/"　が文字列の最初になければ文字列を足す
+	
+	if (strPos == 0)
+	{
+		allFileName = HandleName;
+	}
+	else
+	{
+		allFileName = "Resources/" + HandleName;
+	}
 #pragma region 画像読み込み
 	//stringをwchar_tに変換
 	wchar_t* fileName = ConvertStrToWchar(allFileName);
@@ -62,14 +75,28 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 			}
 		}
 	}
+	//ファイルの拡張子を代入
+	std::string extension = FileExtension(HandleName);
 
-	//WICテクスチャダウンロード
-	result = LoadFromWICFile(
-		fileName,
-		WIC_FLAGS_NONE,
-		&metadata, scratchImg);
-	// バッファの破棄
-	delete[] fileName;
+	if (extension == "png")
+	{
+		//WICテクスチャダウンロード
+		result = LoadFromWICFile(
+			fileName,
+			WIC_FLAGS_NONE,
+			&metadata, scratchImg);
+	}
+	else if(extension == "tga")
+	{
+		//WICテクスチャダウンロード
+		result = LoadFromTGAFile(
+			fileName,
+			&metadata, scratchImg);
+	}
+	else
+	{
+		
+	}
 
 	if (result != S_OK) {
 		result = LoadFromWICFile(
@@ -160,5 +187,12 @@ D3D12_RESOURCE_DESC TextureManager::GetResDesc(UINT descriptorSize)
 
 
 #pragma endregion
+
+// 拡張子を返す
+std::string FileExtension(const std::string& path)
+{
+	auto idx = path.rfind(L'.');
+	return path.substr(idx + 1, path.length() - idx - 1);
+}
 
 

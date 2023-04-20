@@ -57,4 +57,5 @@ private:
 
 };
 
+std::string FileExtension(const std::string& path);
 
