@@ -384,14 +384,14 @@ void Object3d::ModelIni(const std::string& modelname, bool smoothing)
 void Object3d::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
+	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetObj3dPipeline(3)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetObj3dPipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
 void Object3d::ObjChangeColor(float x, float y, float z, float w)

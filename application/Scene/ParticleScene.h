@@ -16,8 +16,6 @@
 #include "ParticleManager.h"
 #include "AssimpLoader.h"
 
-#include "Vertices.h"
-
 class ParticleScene :
 	public EmptyScene
 {
@@ -49,9 +47,12 @@ private:
 	uint32_t whiteTexture_;
 
 
-
+	LightGroup* lightGroup = nullptr;
 
 	
 	std::vector<Mesh> meshes;
-	ImportSettings importSetting_;
+	std::vector <uint32_t> texHandle_;
+	std::unique_ptr<ImportSettings> importSetting_;
+
+	WorldTransform testWT_;
 };

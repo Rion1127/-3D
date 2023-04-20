@@ -7,26 +7,6 @@
 #include "Material.h"
 #include "WorldTransform.h"
 
-struct VertBuff{
-	struct VertexPosNormalUv {
-		XMFLOAT3 pos;		//xyz座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;		//uv座標
-	};
-	//エイリアステンプレート
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// 頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
-	//インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff = nullptr;
-	// 頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	//インデックスバッファビューの作成
-	D3D12_INDEX_BUFFER_VIEW ibView{};
-
-	void CreateBuffer();
-};
-
 class Vertices
 {
 public:

@@ -19,7 +19,7 @@ void SceneManager::Update()
 {
 	currentScene->Update();
 
-
+	
 }
 
 void SceneManager::Draw()

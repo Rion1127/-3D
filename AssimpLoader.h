@@ -35,3 +35,5 @@ private:
 	void LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool inverseV);
 	void LoadTexture(const wchar_t* filename, Mesh& dst, const aiMaterial* src);
 };
+
+std::string WStringToString(std::wstring oWString);
