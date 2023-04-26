@@ -38,15 +38,12 @@ void GameScene::Ini()
 	Object3d::SetLight(lightGroup);
 
 	skyDome_ = Object3d::CreateOBJ_uniptr("sphere", true);
-	worldTransform_.Ini();
 	worldTransform_.position = { -1,0,0 };
 
 	sphere_ = Object3d::CreateOBJ_uniptr("Earth", false);
-	sphereWT_.Ini();
 	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
 	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
-	floorWT_.Ini();
 	floorWT_.position = { 0,-2,0 };
 	floorWT_.scale = { 5,1.f,5 };
 

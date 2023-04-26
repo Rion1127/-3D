@@ -349,7 +349,7 @@ void Sprite::Draw(UINT descriptorSize)
 	}
 #pragma endregion
 
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
@@ -386,7 +386,7 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 	constMapTransform->mat = matProjection; // 行列の合成
 
 #pragma endregion
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(directX_->GetCommandList(), descriptorSize);
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド

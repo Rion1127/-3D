@@ -20,7 +20,7 @@ public:
 
 	uint32_t LoadGraph(const std::string& HandleName);
 
-	void SetGraphicsDescriptorTable(ID3D12GraphicsCommandList* commandList, UINT descriptorSize);
+	void SetGraphicsDescriptorTable(UINT descriptorSize);
 
 	D3D12_RESOURCE_DESC GetResDesc(UINT descriptorSize);
 

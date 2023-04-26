@@ -16,6 +16,7 @@
 #include "ParticleManager.h"
 #include "AssimpLoader.h"
 
+#include "AssimpObject3D.h"
 class ParticleScene :
 	public EmptyScene
 {
@@ -55,4 +56,8 @@ private:
 	std::unique_ptr<ImportSettings> importSetting_;
 
 	WorldTransform testWT_;
+
+	AssinpModel testModel_;
+
+	AssimpObject3D assimpObj_;
 };

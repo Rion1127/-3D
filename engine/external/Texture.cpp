@@ -35,7 +35,7 @@ void TextureManager::Ini(ID3D12Device* device)
 
 uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 {
-	HRESULT result;
+	HRESULT result = E_FAIL;
 	uint32_t graphHandle{};
 	//画像を格納するアドレスを代入
 	graphHandle = textureHandle;
@@ -166,17 +166,17 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	return graphHandle;
 }
 
-void TextureManager::SetGraphicsDescriptorTable(ID3D12GraphicsCommandList* commandList,UINT descriptorSize)
+void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 {
 	//SRVヒープの設定コマンド
 	ID3D12DescriptorHeap* heaps[] = { srvHeap.Get() };
-	commandList->SetDescriptorHeaps(1, heaps);
+	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	srvGpuHandle.ptr += descriptorSize;
-	commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
 D3D12_RESOURCE_DESC TextureManager::GetResDesc(UINT descriptorSize)

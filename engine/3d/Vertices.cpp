@@ -196,7 +196,7 @@ void Vertices::Ini(ID3D12Device* device)
 	}
 }
 
-void Vertices::CreateBuffer(ID3D12Device* device)
+void Vertices::CreateBuffer()
 {
 	HRESULT result;
 
@@ -322,42 +322,48 @@ void Vertices::Map()
 }
 
 void Vertices::Draw(uint32_t indexSize,
-	ID3D12GraphicsCommandList* commandList,
 	WorldTransform* worldTransform,
 	UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	commandList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	commandList->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList()->
+		IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced((UINT)indexSize, 1, 0, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList()->
+		DrawIndexedInstanced((UINT)indexSize, 1, 0, 0, 0);
 }
 
-void Vertices::Draw(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
+void Vertices::Draw(WorldTransform* worldTransform, UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	commandList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	commandList->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList()->
+		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
-void Vertices::DrawInstanced(ID3D12GraphicsCommandList* commandList, WorldTransform* worldTransform, UINT descriptorSize)
+void Vertices::DrawInstanced(WorldTransform* worldTransform, UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	commandList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
 	//commandList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	commandList->SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	commandList->DrawInstanced((UINT)vertices.size(), 1, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList()->
+		DrawInstanced((UINT)vertices.size(), 1, 0, 0);
 }
 
 

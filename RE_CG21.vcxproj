@@ -25,6 +25,8 @@
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="AssimpLoader.cpp" />
+    <ClCompile Include="AssimpObject3D.cpp" />
+    <ClCompile Include="AssinpModel.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\Particle.cpp" />
@@ -65,6 +67,8 @@
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="AssimpLoader.h" />
+    <ClInclude Include="AssimpObject3D.h" />
+    <ClInclude Include="AssinpModel.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\Particle.h" />

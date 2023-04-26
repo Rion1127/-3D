@@ -33,12 +33,10 @@ void ParticleScene::Ini()
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);
 
-	WT_.Ini();
-
 	texture_ = textureM->LoadGraph("keyBlade2.png");
 	whiteTexture_ = textureM->LoadGraph("uv.png");
 
-	const wchar_t* modelFile = L"Resources/FBX/Alica/Alicia_solid_Unity.FBX";
+	const wchar_t* modelFile = L"Resources/FBX/untitled.glb";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {
@@ -48,33 +46,25 @@ void ParticleScene::Ini()
 		true
 	};
 
-	//importSetting_.filename = modelFile;
-	//importSetting_.meshes = meshes;
-	//importSetting_.inverseU = false;
-	//importSetting_.inverseV = true;
+	//importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
 
-	importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
+	////AssimpLoader loader;
+	//AssimpLoader::GetInstance()->Load(*importSetting_);
 
+	//texHandle_.resize(meshes.size());
+	//for (int i = 0; i < importSetting_->meshes.size(); i++)
+	//{
+	//	importSetting_->meshes[i].Vertices.CreateBuffer();
 
+	//	std::string texturename = WStringToString(meshes[i].diffuseMap);
+	//	texHandle_[i] = textureM->LoadGraph(texturename);
+	//}
 
-	AssimpLoader loader;
-	loader.Load(*importSetting_);
-
-	texHandle_.resize(meshes.size());
-	for (int i = 0; i < importSetting_->meshes.size(); i++)
-	{
-		importSetting_->meshes[i].Vertices.CreateBuffer(directX->GetDevice());
-
-		std::string texturename = WStringToString(meshes[i].diffuseMap);
-		texHandle_[i] = textureM->LoadGraph(texturename);
-	}
-
-	testWT_.Ini();
 
 	int a = 0;
 
-	
-	
+	testModel_.Create(modelFile);
+	assimpObj_.SetModel(&testModel_);
 	
 }
 
@@ -102,6 +92,8 @@ void ParticleScene::Update()
 	
 	lightGroup->Update();
 
+	assimpObj_.Update();
+
 }
 
 void ParticleScene::Draw()
@@ -111,13 +103,8 @@ void ParticleScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 	lightGroup->Draw(3);
-	for (int i = 0; i < importSetting_->meshes.size(); i++)
-	{
-		TextureManager::GetInstance()->
-			SetGraphicsDescriptorTable(DirectXCommon::GetInstance()->GetCommandList(), texHandle_[i]);
-
-		importSetting_->meshes[i].Vertices.Draw(DirectXCommon::GetInstance()->GetCommandList(), &testWT_, 0);
-	}
+	
+	assimpObj_.Draw();
 
 	///////////////////
 	/////パーティクル////

@@ -2,6 +2,7 @@
 using namespace DirectX;
 #include "Texture.h"
 #include "Material.h"
+#include "DirectX.h"
 
 Material* Material::Create(ID3D12Device* device)
 {
@@ -105,11 +106,12 @@ void Material::ChangeColor(XMFLOAT4 color_)
 	//constMapMaterial->color = XMFLOAT4(color_);
 }
 
-void Material::Draw(ID3D12GraphicsCommandList* commandList, UINT descriptorSize)
+void Material::Draw(UINT descriptorSize)
 {
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(commandList, descriptorSize);
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	//commandList->SetGraphicsRootConstantBufferView(0, constBufferMaterial->GetGPUVirtualAddress());
 	//ルートパラメータ配列2番目を指定
-	commandList->SetGraphicsRootConstantBufferView(2, constBufferB3->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(2, constBufferB3->GetGPUVirtualAddress());
 }

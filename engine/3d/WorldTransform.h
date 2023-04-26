@@ -30,8 +30,6 @@ public:
 	void AddScale(float x, float y, float z);
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
-
-	void Ini();
 	/// <summary>
 	/// ワールドトランスフォーム更新
 	/// </summary>
@@ -53,11 +51,6 @@ public:
 private:
 	//ワールド変換行列
 	XMMATRIX matWorld;
-
-
-	
-
-	DirectXCommon* directx_ = nullptr;
 
 	//クォータニオン
 	Quaternion q = { 0,1,0,0 };

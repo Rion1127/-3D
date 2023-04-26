@@ -228,6 +228,12 @@
     <ClCompile Include="AssimpLoader.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpObject3D.cpp">
+      <Filter>engine\ソース ファイル\assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="AssinpModel.cpp">
+      <Filter>engine\ソース ファイル\assimp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -339,6 +345,12 @@
       <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
     <ClInclude Include="AssimpLoader.h">
+      <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="AssinpModel.h">
+      <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpObject3D.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
     </ClInclude>
   </ItemGroup>

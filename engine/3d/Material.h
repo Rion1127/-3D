@@ -25,7 +25,7 @@ public:
 	void ChangeColor(float x, float y, float z, float w);
 	void ChangeColor(XMFLOAT4 color_);
 
-	void Draw(ID3D12GraphicsCommandList* commandList, UINT descriptorSize);
+	void Draw(UINT descriptorSize);
 
 	std::string name_;            // マテリアル名
 	std::string textureFilename_; // テクスチャファイル名

@@ -112,7 +112,7 @@ void Particle::Update(Camera VP)
 			//座標
 			vertMap->pos = {(float) i * 5,0,0 };
 			////スケール
-			vertMap->scale = i + 1;
+			vertMap->scale = i + 1.f;
 			vertMap->color = {1,1,1,1};
 
 			//次の頂点へ
@@ -135,8 +135,7 @@ void Particle::ChangeColor(XMFLOAT4 color_)
 void Particle::Draw(uint32_t descriptorSize)
 {
 	TextureManager::GetInstance()->
-		SetGraphicsDescriptorTable(directX_->GetCommandList(),
-			descriptorSize);
+		SetGraphicsDescriptorTable(descriptorSize);
 
 	// 頂点バッファビューの設定コマンド
 	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);

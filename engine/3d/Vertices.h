@@ -20,7 +20,7 @@ public:
 
 	void Ini(ID3D12Device* device);
 
-	void CreateBuffer(ID3D12Device* device);
+	void CreateBuffer();
 
 	void AddVertices(const VertexPosNormalUv& vertex) { vertices.push_back(vertex); }
 	void AddIndex(const uint16_t& vertex) { indices.push_back(vertex); }
@@ -35,16 +35,14 @@ public:
 	void Map();
 
 	void Draw(uint32_t indexSize,
-		ID3D12GraphicsCommandList* commandList,
 		WorldTransform* worldTransform,
 		UINT descriptorSize);
 
 	void Draw(
-		ID3D12GraphicsCommandList* commandList,
 		WorldTransform* worldTransform,
 		UINT descriptorSize);
 
-	void DrawInstanced(ID3D12GraphicsCommandList* commandList,
+	void DrawInstanced(
 		WorldTransform* worldTransform,
 		UINT descriptorSize);
 private:

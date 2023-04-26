@@ -103,7 +103,7 @@ void Object3d::SetModel(const Object3d* model)
 
 	// メッシュのバッファ生成
 	for (auto& m : vert_) {
-		m->CreateBuffer(directX_->GetDevice());
+		m->CreateBuffer();
 	}
 }
 
@@ -373,7 +373,7 @@ void Object3d::ModelIni(const std::string& modelname, bool smoothing)
 	LoadOBJ(modelname);
 	// メッシュのバッファ生成
 	for (auto& m : vert_) {
-		m->CreateBuffer(directX_->GetDevice());
+		m->CreateBuffer();
 	}
 
 	if (smoothing) {
@@ -412,21 +412,21 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform)
 {
 	lightGroup->Draw(3);
 	for (auto& m : materials_) {
-		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
+		m.second->Draw(textureHandle_.at(0));
 	}
 	for (auto& v : vert_) {
 		
-		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle_.at(0));
+		v->Draw(worldTransform, textureHandle_.at(0));
 	}
 }
 
 void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& m : materials_) {
-		m.second->Draw(DirectXCommon::GetInstance()->GetCommandList(), textureHandle_.at(0));
+		m.second->Draw(textureHandle_.at(0));
 	}
 	for (auto& v : vert_) {
-		v->Draw(directX_->GetCommandList(), worldTransform, textureHandle);
+		v->Draw(worldTransform, textureHandle);
 	}
 }
 
