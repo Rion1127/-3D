@@ -58,10 +58,23 @@ private:
 
 	void SpriteSetOther();
 
+
 #pragma endregion
 public:
-	
+	//Spriteèâä˙âª
+	void ToonIni(int blend);
+private:
+#pragma region Sprite
+	void ToonSetInputLayout();
 
+	void ToonSetRasterizer();
+
+	void ToonSetShader();
+
+	void ToonSetRootSignature();
+
+	void ToonSetOther();
+public:
 	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 
 	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }

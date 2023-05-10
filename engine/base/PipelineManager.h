@@ -21,9 +21,13 @@ public:
 	static ParticlePipeline* GetParticlePipeline(int blendTipe) {
 		return &particlePipeline_.at(blendTipe);
 	};
+	static Pipeline* GetToonPipeline(int blendTipe) {
+		return &toonPipeline_.at(blendTipe);
+	};
 private:
 	static std::array<Pipeline, 4> Object3dPipeline_;
 	static std::array<Pipeline, 4> SpritePipeline_;
 	static std::array<ParticlePipeline, 4> particlePipeline_;
+	static std::array<Pipeline, 4> toonPipeline_;
 
 };

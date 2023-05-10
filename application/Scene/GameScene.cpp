@@ -179,6 +179,16 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 
+	// パイプラインステートとルートシグネチャの設定コマンド
+	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
+		PipelineManager::GetToonPipeline(3)->gerPipelineState());
+
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
+		PipelineManager::GetToonPipeline(3)->GetRootSignature());
+
+	// プリミティブ形状の設定コマンド
+	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
 	skyDome_->DrawOBJ(&worldTransform_);
 	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
 	floor_->DrawOBJ(&floorWT_);
