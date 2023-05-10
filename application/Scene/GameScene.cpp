@@ -40,7 +40,7 @@ void GameScene::Ini()
 	skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
 	worldTransform_.position = { -1,0,0 };
 
-	sphere_ = Object3d::CreateOBJ_uniptr("Earth", false);
+	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
 	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
 	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
@@ -179,6 +179,7 @@ void GameScene::Draw()
 	////////////////
 	Object3d::PreDraw();
 
+	skyDome_->DrawOBJ(&worldTransform_);
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());
@@ -189,9 +190,9 @@ void GameScene::Draw()
 	// プリミティブ形状の設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	skyDome_->DrawOBJ(&worldTransform_);
+	
 	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
-	floor_->DrawOBJ(&floorWT_);
+	//floor_->DrawOBJ(&floorWT_);
 
 	///////////////////
 	//板状３Dオブジェクト//

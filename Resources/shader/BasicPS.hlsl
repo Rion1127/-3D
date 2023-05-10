@@ -38,7 +38,7 @@ float4 main(VSOutput input) : SV_TARGET
 	
 	
 	//光沢度
-    const float shininess = 20.0f;
+    const float shininess = 4.0f;
 	//頂点から視点への方向ベクトル
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	//環境反射光
@@ -54,46 +54,14 @@ float4 main(VSOutput input) : SV_TARGET
 			//ライトに向かうベクトルと法線の内積
             float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
 			//反射光ベクトル
-            float3 reflect = normalize(-dirLights[i].lightv) + 2 * input.normal * dotlightnormal;
+            float3 reflect = normalize(-dirLights[i].lightv) + 2 * dotlightnormal * input.normal;
 			//拡散反射光
-            float3 diffuse = dotlightnormal * m_diffuse * dirLights[i].lightColor;
+            float3 diffuse = dotlightnormal * m_diffuse;
 			//鏡面反射光
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * dirLights[i].lightColor;
 			//すべて加算する
             shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor;
-			
-            float3 pos = { 0, 0, 0 };
-			//陰影
-            float intensity = saturate(dot(normalize(input.normal), dirLights[i].lightv));
-			
-            float4 white = { 1, 1, 1, 1 };
-            float4 blue = { 0.04, 0.43, 1, 1 };
-			//トゥーンカラー
-            color.rgb =
-						(step(0.7f, intensity) == 1) ?
-						white.rgb : white.rgb * 0.45f;
-			
-            color.rgb *= dirLights[i].lightColor.rgb;
-			
-            float4 toonSpecular;
-			
-            toonSpecular.rgb =
-						(step(0.3f, specular.r) == 1) ?
-						dirLights[i].lightColor : texcolor;
-			//テクスチャカラーに代入
-            texcolor.rgb = toonSpecular.rgb;
-			
-          //////リムライト//////
-            half rim = 1.0f - abs(dot(eyedir, input.normal));
-            float3 emission /*= _RimColor.rgb * pow(rim, _RimPower) * _RimPower*/;
-					//内積値(rim)を基準(_RimRange)にトゥーン調にする
-            emission =
-						(step(rim, 0.7f) == 1) ?
-						texcolor.rgb : blue;
-					//リムライトの色を代入する
-            texcolor.rgb = emission;
-            texcolor = float4(texcolor.rgb, 1.0f);
-
+			shadecolor.a = 1;
         }
     }
 	//点光源
@@ -194,7 +162,7 @@ float4 main(VSOutput input) : SV_TARGET
 		
    
 	//シェーディングによる色で描画
-    return color * texcolor;
+    return shadecolor * texcolor;
 	
     //return float4(input.uv.xy, 1, 1);
     //return float4(tex.Sample(smp, input.uv));
