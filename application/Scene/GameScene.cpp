@@ -52,6 +52,9 @@ void GameScene::Ini()
 		lightGroup->SetDirLightActive(0, true);
 		lightGroup->SetDirLightActive(1, false);
 		lightGroup->SetDirLightActive(2, false);
+		lightColor0[0] = 1;
+		lightColor0[1] = 1;
+		lightColor0[2] = 1;
 	}
 	//点光源
 	else if (lightType_ == LIGHTTYPE::POINT_) {
@@ -175,7 +178,6 @@ void GameScene::Draw()
 	//3Dオブジェクト//
 	////////////////
 	Object3d::PreDraw();
-	Object3d::SetBlend(BLEND_NORMAL);
 
 	skyDome_->DrawOBJ(&worldTransform_);
 	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
@@ -230,7 +232,7 @@ void GameScene::DirectionalLightUpdate()
 
 	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
-	static int num0clicked = 0;
+	static int num0clicked = 1;
 	if (ImGui::Button("Num 0 Light"))num0clicked++;
 	if (num0clicked & 1) {
 		lightGroup->SetDirLightActive(0, true);
