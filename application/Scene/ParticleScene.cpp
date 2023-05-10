@@ -63,8 +63,8 @@ void ParticleScene::Ini()
 
 	int a = 0;
 
-	testModel_.Create(modelFile);
-	assimpObj_.SetModel(&testModel_);
+	//testModel_.Create(modelFile);
+	//assimpObj_.SetModel(&testModel_);
 	
 }
 

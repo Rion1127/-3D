@@ -45,7 +45,7 @@ float4 main(VSOutput input) : SV_TARGET
     float3 ambient = m_ambient * 0.3f;
 	//シェーディング
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
-    float4 color = {1,1,1,1 };
+    float4 color = { 1, 1, 1, 1 };
 	//平行光源
     for (int i = 0; i < DIRLIGHT_NUM; i++)
     {
@@ -69,9 +69,9 @@ float4 main(VSOutput input) : SV_TARGET
             float4 white = { 1, 1, 1, 1 };
             float4 blue = { 0.04, 0.43, 1, 1 };
 			//トゥーンカラー
-            color =
+            color.rgb =
 						(step(0.7f, intensity) == 1) ?
-						white : white * 0.45f;
+						white.rgb : white.rgb * 0.45f;
 			
             color.rgb *= dirLights[i].lightColor.rgb;
 			
@@ -80,7 +80,7 @@ float4 main(VSOutput input) : SV_TARGET
             toonSpecular.rgb =
 						(step(0.3f, specular.r) == 1) ?
 						dirLights[i].lightColor : texcolor;
-					//テクスチャカラーに代入
+			//テクスチャカラーに代入
             texcolor.rgb = toonSpecular.rgb;
 			
           //////リムライト//////
@@ -182,7 +182,7 @@ float4 main(VSOutput input) : SV_TARGET
             float cos = dot(lightv, circleShadows[i].dir);
 			//減衰開始各おから、減衰終了角度にかけて減衰
 			//減衰開始角度の内側は1倍、減衰終了角度の外側は0倍の輝度
-            float angleatten = 
+            float angleatten =
 			smoothstep(circleShadows[i].factorAngleCos.y,
 			circleShadows[i].factorAngleCos.x, cos);
 			//角度減衰を乗算
@@ -192,7 +192,7 @@ float4 main(VSOutput input) : SV_TARGET
         }
     }
 		
-    color.a = 1.0f;
+   
 	//シェーディングによる色で描画
     return color * texcolor;
 	
