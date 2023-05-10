@@ -42,7 +42,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//頂点から視点への方向ベクトル
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	//環境反射光
-    float3 ambient = m_ambient;
+    float3 ambient = m_ambient * 0.3f;
 	//シェーディング
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 	//平行光源
@@ -53,9 +53,9 @@ float4 main(VSOutput input) : SV_TARGET
 			//ライトに向かうベクトルと法線の内積
             float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
 			//反射光ベクトル
-            float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
+            float3 reflect = normalize(-dirLights[i].lightv) + 2 * input.normal * dotlightnormal;
 			//拡散反射光
-            float3 diffuse = dotlightnormal * m_diffuse;
+            float3 diffuse = dotlightnormal * m_diffuse * dirLights[i].lightColor;
 			//鏡面反射光
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 			//すべて加算する
@@ -161,8 +161,8 @@ float4 main(VSOutput input) : SV_TARGET
 		
    
 	//シェーディングによる色で描画
-       // return shadecolor * texcolor;
+    return shadecolor * texcolor;
 	
     //return float4(input.uv.xy, 1, 1);
-    return float4(tex.Sample(smp, input.uv));
+    //return float4(tex.Sample(smp, input.uv));
 }

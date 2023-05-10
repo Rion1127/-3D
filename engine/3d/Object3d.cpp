@@ -423,7 +423,7 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform)
 void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& m : materials_) {
-		m.second->Draw(textureHandle_.at(0));
+		m.second->Draw(textureHandle);
 	}
 	for (auto& v : vert_) {
 		v->Draw(worldTransform, textureHandle);

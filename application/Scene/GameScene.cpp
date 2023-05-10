@@ -37,7 +37,7 @@ void GameScene::Ini()
 
 	Object3d::SetLight(lightGroup);
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("sphere", true);
+	skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
 	worldTransform_.position = { -1,0,0 };
 
 	sphere_ = Object3d::CreateOBJ_uniptr("Earth", false);
@@ -178,7 +178,7 @@ void GameScene::Draw()
 	Object3d::SetBlend(BLEND_NORMAL);
 
 	skyDome_->DrawOBJ(&worldTransform_);
-	sphere_->DrawOBJ(&sphereWT_);
+	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
 	floor_->DrawOBJ(&floorWT_);
 
 	///////////////////
