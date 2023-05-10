@@ -38,13 +38,13 @@ float4 main(VSOutput input) : SV_TARGET
 	
 	
 	//光沢度
-    const float shininess = 4.0f;
+    const float shininess = 20.0f;
 	//頂点から視点への方向ベクトル
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	//環境反射光
-    float3 ambient = m_ambient * 0.3f;
+    float3 ambient = m_ambient * 0.3f * ambientColor;
 	//シェーディング
-    float4 shadecolor = float4(ambientColor * ambient, m_alpha);
+    float4 shadecolor = float4(ambient, m_alpha);
     float4 color = { 1, 1, 1, 1 };
 	//平行光源
     for (int i = 0; i < DIRLIGHT_NUM; i++)
@@ -52,16 +52,16 @@ float4 main(VSOutput input) : SV_TARGET
         if (dirLights[i].active)
         {
 			//ライトに向かうベクトルと法線の内積
-            float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
+            float intensity = saturate(dot(normalize(input.normal), normalize(dirLights[i].lightv)));
 			//反射光ベクトル
-            float3 reflect = normalize(-dirLights[i].lightv) + 2 * dotlightnormal * input.normal;
+            float3 reflect = -dirLights[i].lightv + 2 * input.normal * dot(input.normal, dirLights[i].lightv);
 			//拡散反射光
-            float3 diffuse = dotlightnormal * m_diffuse;
+            float3 diffuse =  m_diffuse * intensity  * dirLights[i].lightColor;
 			//鏡面反射光
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * dirLights[i].lightColor;
 			//すべて加算する
-            shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor;
-			shadecolor.a = 1;
+            shadecolor.rgb += (diffuse.rgb + specular.rgb) * dirLights[i].lightColor;
+            shadecolor.a = 1;
         }
     }
 	//点光源
