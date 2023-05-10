@@ -67,10 +67,11 @@ float4 main(VSOutput input) : SV_TARGET
             float intensity = saturate(dot(normalize(input.normal), dirLights[i].lightv));
 			
             float4 white = { 1, 1, 1, 1 };
+            float4 blue = { 0.04, 0.43, 1, 1 };
 			//トゥーンカラー
             color =
 						(step(0.7f, intensity) == 1) ?
-						white : white * 0.75f;
+						white : white * 0.45f;
 			
             color.rgb *= dirLights[i].lightColor.rgb;
 			
@@ -82,7 +83,16 @@ float4 main(VSOutput input) : SV_TARGET
 					//テクスチャカラーに代入
             texcolor.rgb = toonSpecular.rgb;
 			
-            
+          //////リムライト//////
+            half rim = 1.0f - abs(dot(eyedir, input.normal));
+            float3 emission /*= _RimColor.rgb * pow(rim, _RimPower) * _RimPower*/;
+					//内積値(rim)を基準(_RimRange)にトゥーン調にする
+            emission =
+						(step(rim, 0.7f) == 1) ?
+						texcolor.rgb : blue;
+					//リムライトの色を代入する
+            texcolor.rgb = emission;
+            texcolor = float4(texcolor.rgb, 1.0f);
 
         }
     }
