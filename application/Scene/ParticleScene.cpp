@@ -28,7 +28,7 @@ void ParticleScene::Ini()
 	useVP->SetOriginalPos();
 	
 	lightGroup = LightGroup::Create();
-	Object3d::SetLight(lightGroup);
+	Object3D::SetLight(lightGroup);
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);
@@ -101,7 +101,7 @@ void ParticleScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Object3d::PreDraw();
+	Object3D::PreDraw();
 	lightGroup->Draw(3);
 	
 	assimpObj_.Draw();

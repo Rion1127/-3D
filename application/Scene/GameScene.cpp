@@ -18,7 +18,7 @@ void GameScene::Ini()
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
-	Object3d::Ini();
+	Model::Ini();
 	//BoardObject::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
@@ -35,9 +35,9 @@ void GameScene::Ini()
 	lightGroup = LightGroup::Create();
 	//light->SetLightDir()
 
-	Object3d::SetLight(lightGroup);
+	Object3D::SetLight(lightGroup);
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
+	/*skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
 	worldTransform_.position = { -1,0,0 };
 
 	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
@@ -45,7 +45,7 @@ void GameScene::Ini()
 
 	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
 	floorWT_.position = { 0,-2,0 };
-	floorWT_.scale = { 5,1.f,5 };
+	floorWT_.scale = { 5,1.f,5 };*/
 
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
@@ -101,12 +101,14 @@ void GameScene::Update()
 	gameCamera.Update();
 	cameraUpdate();
 
-	worldTransform_.rotation.y += 0.01f;
-	sphereWT_.rotation.y += 0.01f;
+	//worldTransform_.rotation.y += 0.01f;
+	//sphereWT_.rotation.y += 0.01f;
 
-	worldTransform_.Update();
-	sphereWT_.Update();
-	floorWT_.Update();
+	//worldTransform_.Update();
+	//sphereWT_.Update();
+	//floorWT_.Update();
+
+	skyDome_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		/*lightType_++;
@@ -145,7 +147,7 @@ void GameScene::Update()
 
 	lightGroup->Update();
 
-	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
+	//sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
@@ -177,9 +179,11 @@ void GameScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Object3d::PreDraw();
+	Object3D::PreDraw();
 
-	skyDome_->DrawOBJ(&worldTransform_);
+	skyDome_.Draw();
+
+	//skyDome_->DrawOBJ(&worldTransform_);
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());
@@ -191,7 +195,7 @@ void GameScene::Draw()
 	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	
-	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
+	//sphere_->DrawOBJ(&sphereWT_,uvtexture_);
 	//floor_->DrawOBJ(&floorWT_);
 
 	///////////////////

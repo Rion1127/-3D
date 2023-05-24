@@ -46,13 +46,13 @@ private:
 
 	float t = 0;
 
-	std::unique_ptr<Object3d> skyDome_;
+	std::unique_ptr<Model> skyDome_;
 	WorldTransform worldTransform_;
 
-	std::unique_ptr<Object3d> sphere_;
+	std::unique_ptr<Model> sphere_;
 	WorldTransform sphereWT_;
 
-	std::unique_ptr<Object3d> floor_;
+	std::unique_ptr<Model> floor_;
 	WorldTransform floorWT_;
 
 	float ambientColor0[3] = { 1,1,1 };
