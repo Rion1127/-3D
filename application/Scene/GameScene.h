@@ -87,6 +87,7 @@ private:
 public:
 	Object3D obj3d;
 
+	std::vector<Object3D*> objects_;
 private:
 
 	void DirectionalLightUpdate();

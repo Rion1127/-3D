@@ -3,16 +3,20 @@
 
 Object3D::Object3D()
 {
-	model = Model::CreateOBJ("sphere",true);
+	
 }
 
 Object3D::~Object3D()
 {
-	delete model;
+	delete model_;
 }
 
 void Object3D::Init()
 {
+	if (model_ == nullptr)
+	{
+		model_ = Model::CreateOBJ("cube", true);
+	}
 }
 
 void Object3D::Update()
@@ -45,5 +49,5 @@ void Object3D::PreDraw()
 
 void Object3D::Draw()
 {
-	model->DrawOBJ(&worldTrnasform_);
+	model_->DrawOBJ(&worldTrnasform_);
 }

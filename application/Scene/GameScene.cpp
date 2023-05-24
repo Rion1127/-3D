@@ -3,7 +3,6 @@
 #include "Easing.h"
 #include "SceneManager.h"
 #include "Collision.h"
-#include "GameScene2.h"
 #include "JsonLoader.h"
 
 GameScene::~GameScene()
@@ -50,6 +49,13 @@ void GameScene::Ini()
 	lightGroup->SetCircleShadowActive(0, true);
 
 	JsonLoader::GetInstance()->LoadFile("test.json");
+
+	obj3d.SetModel(Model::CreateOBJ("sphere", true));
+	JsonLoader::GetInstance()->SetObjects(&objects_,0);
+	for (auto& obj : objects_)
+	{
+		obj->Init();
+	}
 }
 
 void GameScene::Update()
@@ -126,6 +132,11 @@ void GameScene::Update()
 		SceneManager::Transition<GameScene2>();
 	}*/
 
+	for (auto& obj : objects_)
+	{
+		obj->Update();
+	}
+
 	obj3d.Update();
 }
 
@@ -135,7 +146,12 @@ void GameScene::Draw()
 	//3Dオブジェクト//
 	////////////////
 	Object3D::PreDraw();
-	obj3d.Draw();
+	//obj3d.Draw();
+
+	for (auto& obj : objects_)
+	{
+		obj->Draw();
+	}
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());

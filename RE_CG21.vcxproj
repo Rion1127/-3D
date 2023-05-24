@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="application\Particle\ParticleManager.cpp" />
     <ClCompile Include="application\Scene\GameScene.cpp" />
-    <ClCompile Include="application\Scene\GameScene2.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="AssimpLoader.cpp" />
@@ -65,7 +64,6 @@
   <ItemGroup>
     <ClInclude Include="application\Particle\ParticleManager.h" />
     <ClInclude Include="application\Scene\GameScene.h" />
-    <ClInclude Include="application\Scene\GameScene2.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="AssimpLoader.h" />

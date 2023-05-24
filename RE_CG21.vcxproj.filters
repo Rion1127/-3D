@@ -219,9 +219,6 @@
     <ClCompile Include="application\Scene\GameScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="application\Scene\GameScene2.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="application\Scene\ParticleScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
@@ -244,7 +241,7 @@
       <Filter>engine\ソース ファイル\Loader</Filter>
     </ClCompile>
     <ClCompile Include="Object3D.cpp">
-      <Filter>engine\ソース ファイル</Filter>
+      <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,9 +344,6 @@
     <ClInclude Include="application\Scene\GameScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="application\Scene\GameScene2.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="application\Scene\ParticleScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
@@ -372,7 +366,7 @@
       <Filter>engine\ヘッダー ファイル\Loader</Filter>
     </ClInclude>
     <ClInclude Include="Object3D.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
