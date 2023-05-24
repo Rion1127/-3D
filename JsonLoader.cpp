@@ -47,7 +47,6 @@ void JsonLoader::LoadFile(std::string fileName)
 
 	//レベルデータ格納用インスタンスを生成
 	LevelData* levelData = new LevelData();
-
 	
 	//"object"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
@@ -59,12 +58,6 @@ void JsonLoader::LoadFile(std::string fileName)
 
 		if (type.compare("MESH") == 0)
 		{
-			/*if (object.contains("name"))
-			{
-				levelData->fileName.emplace_back(new std::string);
-				std::string
-			}*/
-
 			levelData->object.emplace_back(new Object3D);
 			Object3D* newobj = levelData->object.back();
 
@@ -101,62 +94,10 @@ void JsonLoader::LoadFile(std::string fileName)
 
 				newobj.SetParent(parent->GetWorldTransform());
 
-				//Scanning(object, deserialized, levelData);
 			}
 		}
 	}
 
 	levelData_.push_back(*levelData);
 	delete levelData;
-}
-
-void JsonLoader::Scanning(nlohmann::json& object, 
-	nlohmann::json deserialized, LevelData* levelData)
-{
-	assert(object.contains("type"));
-
-	//種別を取得
-	std::string type = object["type"].get<std::string>();
-
-	if (type.compare("MESH") == 0)
-	{
-		levelData->object.emplace_back(new Object3D);
-		Object3D* newobj = levelData->object.back();
-
-		//トランスフォームのパラメータ読み込み
-		nlohmann::json& transform = object["transform"];
-		//平行移動
-		Vector3 pos = {
-			(float)transform["translation"][1],
-			(float)transform["translation"][2],
-			-(float)transform["translation"][0],
-		};
-		newobj->SetPos(pos);
-		//回転角
-		Vector3 rot = {
-			-(float)transform["rotation"][1],
-			-(float)transform["rotation"][2],
-			(float)transform["rotation"][0],
-		};
-		newobj->SetRot(rot);
-		//スケーリング
-		Vector3 scale = {
-			(float)transform["scaling"][1],
-			(float)transform["scaling"][2],
-			(float)transform["scaling"][0],
-		};
-		newobj->SetScale(scale);
-	}
-
-	if (object.contains("children"))
-	{
-		levelData->object.emplace_back(new Object3D);
-		Object3D& newobj = *levelData->object.back();
-
-		Object3D* parent = levelData->object.at(levelData->object.size() - 2);
-
-		newobj.SetParent(parent->GetWorldTransform());
-
-		Scanning(object, deserialized, levelData);
-	}
 }

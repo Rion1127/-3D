@@ -30,7 +30,6 @@ public:
 		}
 	}
 private:
-	void Scanning(nlohmann::json& object,nlohmann::json deserialized, LevelData* levelData);
 	
 private:
 	//ÉQÉbÉ^Å[
