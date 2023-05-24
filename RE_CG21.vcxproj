@@ -50,7 +50,7 @@
     <ClCompile Include="engine\3d\light\PointLight.cpp" />
     <ClCompile Include="engine\math\Quaternion.cpp" />
     <ClCompile Include="engine\3d\light\SpotLight.cpp" />
-    <ClCompile Include="engine\3d\Object3d.cpp" />
+    <ClCompile Include="engine\3d\Model.cpp" />
     <ClCompile Include="engine\external\Texture.cpp" />
     <ClCompile Include="engine\base\Util.cpp" />
     <ClCompile Include="engine\math\Vector2.cpp" />
@@ -59,6 +59,8 @@
     <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
+    <ClCompile Include="JsonLoader.cpp" />
+    <ClCompile Include="Object3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Particle\ParticleManager.h" />
@@ -72,6 +74,7 @@
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\Particle.h" />
+    <ClInclude Include="engine\external\json.hpp" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
     <ClInclude Include="engine\base\DirectX.h" />
@@ -91,7 +94,7 @@
     <ClInclude Include="engine\3d\light\PointLight.h" />
     <ClInclude Include="engine\math\Quaternion.h" />
     <ClInclude Include="engine\3d\light\SpotLight.h" />
-    <ClInclude Include="engine\3d\Object3d.h" />
+    <ClInclude Include="engine\3d\Model.h" />
     <ClInclude Include="engine\external\Texture.h" />
     <ClInclude Include="engine\base\Util.h" />
     <ClInclude Include="engine\math\Vector2.h" />
@@ -100,6 +103,8 @@
     <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
+    <ClInclude Include="JsonLoader.h" />
+    <ClInclude Include="Object3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

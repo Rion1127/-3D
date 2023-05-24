@@ -112,6 +112,12 @@
     <Filter Include="engine\ヘッダー ファイル\assimp">
       <UniqueIdentifier>{d85c7fc1-539a-4ded-b84a-8486aa926023}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ソース ファイル\Loader">
+      <UniqueIdentifier>{2f3747fa-a3bd-4bc5-8af5-d7cd6c18e381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ヘッダー ファイル\Loader">
+      <UniqueIdentifier>{32c13fad-7b90-43d1-aaab-b9bf7430368d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -129,7 +135,7 @@
     <ClCompile Include="engine\3d\Material.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\Object3d.cpp">
+    <ClCompile Include="engine\3d\Model.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\Vertices.cpp">
@@ -234,6 +240,12 @@
     <ClCompile Include="AssinpModel.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
+    <ClCompile Include="JsonLoader.cpp">
+      <Filter>engine\ソース ファイル\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Object3D.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -248,7 +260,7 @@
     <ClInclude Include="engine\3d\Material.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
-    <ClInclude Include="engine\3d\Object3d.h">
+    <ClInclude Include="engine\3d\Model.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\Vertices.h">
@@ -352,6 +364,15 @@
     </ClInclude>
     <ClInclude Include="AssimpObject3D.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonLoader.h">
+      <Filter>engine\ヘッダー ファイル\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\external\json.hpp">
+      <Filter>engine\ヘッダー ファイル\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Object3D.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

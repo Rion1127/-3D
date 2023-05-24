@@ -18,7 +18,7 @@ void GameScene2::Ini()
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
-	Object3d::Ini();
+	Model::Ini();
 	//BoardObject::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
@@ -34,15 +34,15 @@ void GameScene2::Ini()
 	lightGroup = LightGroup::Create();
 	//light->SetLightDir()
 
-	Object3d::SetLight(lightGroup);
+	Model::SetLight(lightGroup);
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("sphere", false);
+	skyDome_ = Model::CreateOBJ_uniptr("sphere", false);
 	worldTransform_.position = { -1,0,0 };
 
-	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
+	sphere_ = Model::CreateOBJ_uniptr("Earth", true);
 	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
-	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
+	floor_ = Model::CreateOBJ_uniptr("cube", false);
 	floorWT_.position = { 0,-2,0 };
 	floorWT_.scale = { 5,1.f,5 };
 
@@ -159,8 +159,8 @@ void GameScene2::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Object3d::PreDraw();
-	Object3d::SetBlend(BLEND_NORMAL);
+	Object3D::PreDraw();
+	Object3D::SetBlend(BLEND_NORMAL);
 
 	skyDome_->DrawOBJ(&worldTransform_);
 	sphere_->DrawOBJ(&sphereWT_);

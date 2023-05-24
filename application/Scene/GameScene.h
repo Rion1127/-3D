@@ -46,15 +46,6 @@ private:
 
 	float t = 0;
 
-	std::unique_ptr<Object3d> skyDome_;
-	WorldTransform worldTransform_;
-
-	std::unique_ptr<Object3d> sphere_;
-	WorldTransform sphereWT_;
-
-	std::unique_ptr<Object3d> floor_;
-	WorldTransform floorWT_;
-
 	float ambientColor0[3] = { 1,1,1 };
 
 	//光線方向初期化値
@@ -93,15 +84,13 @@ private:
 	};
 	//ライトのタイプ
 	int lightType_ = DIRECTION_;
+public:
+	Object3D obj3d;
+
+private:
 
 	void DirectionalLightUpdate();
 	void PointLightUpdate();
 	void SpotLightUpdate();
-
-	SoundKey gameBGM_;
-
-	Sprite testSprite_;
-	Sprite testSprite2_;
-	uint32_t uvtexture_;
 };
 

@@ -4,6 +4,8 @@
 #include "SceneManager.h"
 #include "Collision.h"
 #include "GameScene2.h"
+#include "JsonLoader.h"
+
 GameScene::~GameScene()
 {
 	delete lightGroup;
@@ -18,8 +20,7 @@ void GameScene::Ini()
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
-	Object3d::Ini();
-	//BoardObject::Ini();
+	Model::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
@@ -28,24 +29,12 @@ void GameScene::Ini()
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
 	gameCamera.Update();
-	//useVP = &gameCamera;
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
 	lightGroup = LightGroup::Create();
-	//light->SetLightDir()
 
-	Object3d::SetLight(lightGroup);
-
-	skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
-	worldTransform_.position = { -1,0,0 };
-
-	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
-	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
-
-	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
-	floorWT_.position = { 0,-2,0 };
-	floorWT_.scale = { 5,1.f,5 };
+	Model::SetLight(lightGroup);
 
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
@@ -56,36 +45,11 @@ void GameScene::Ini()
 		lightColor0[1] = 1;
 		lightColor0[2] = 1;
 	}
-	////点光源
-	//else if (lightType_ == LIGHTTYPE::POINT_) {
-	//	lightGroup->SetPointLightActive(0, true);
-	//	lightGroup->SetPointLightActive(1, false);
-	//	lightGroup->SetPointLightActive(2, false);
-	//	pointLightPos[0] = 0.5f;
-	//	pointLightPos[0] = 1.0f;
-	//	pointLightPos[0] = 0.0f;
-	//}
-	////スポットライト
-	//else if (lightType_ == LIGHTTYPE::SPOT_) {
-	//	lightGroup->SetSpotLightActive(0, true);
-	//}
 	
 	//影
 	lightGroup->SetCircleShadowActive(0, true);
 
-	uvtexture_ = textureM->LoadGraph("uv.png");
-
-	testSprite_.Ini();
-	testSprite_.SetPos({ 950,500 });
-	testSprite_.SetScale({ 0.3f,0.3f });
-
-	testSprite2_.Ini();
-	testSprite2_.SetPos({ 950,300 });
-	testSprite2_.SetScale({ 0.3f,0.3f });
-
-	//gameBGM_ = sound_->LoadWave("gumishipBGM.wav","BGM");
-	//SoundManager::Stop(gameBGM_);
-	//SoundManager::Play(gameBGM_, true, 1.0f);
+	JsonLoader::GetInstance()->LoadFile("test.json");
 }
 
 void GameScene::Update()
@@ -100,13 +64,6 @@ void GameScene::Update()
 	}
 	gameCamera.Update();
 	cameraUpdate();
-
-	worldTransform_.rotation.y += 0.01f;
-	sphereWT_.rotation.y += 0.01f;
-
-	worldTransform_.Update();
-	sphereWT_.Update();
-	floorWT_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		/*lightType_++;
@@ -145,8 +102,6 @@ void GameScene::Update()
 
 	lightGroup->Update();
 
-	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
-
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
 		DirectionalLightUpdate();
@@ -170,6 +125,8 @@ void GameScene::Update()
 	/*if (input_->TriggerKey(DIK_0)) {
 		SceneManager::Transition<GameScene2>();
 	}*/
+
+	obj3d.Update();
 }
 
 void GameScene::Draw()
@@ -177,9 +134,8 @@ void GameScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Object3d::PreDraw();
-
-	skyDome_->DrawOBJ(&worldTransform_);
+	Object3D::PreDraw();
+	obj3d.Draw();
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());
@@ -191,7 +147,6 @@ void GameScene::Draw()
 	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	
-	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
 	//floor_->DrawOBJ(&floorWT_);
 
 	///////////////////
@@ -236,47 +191,47 @@ void GameScene::DirectionalLightUpdate()
 	//lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1], lightDir2[2] });
 	//lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 
-	ImGui::Begin("DirectionalLight");
+	//ImGui::Begin("DirectionalLight");
 
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	//ImGui::SetWindowSize(ImVec2(500, 200));
+	////ImGui::SetWindowPos(ImVec2(0, 0));
+	////ImGui::SetWindowSize(ImVec2(500, 200));
 
-	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
+	////ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
-	static int num0clicked = 1;
-	if (ImGui::Button("Num 0 Light"))num0clicked++;
-	if (num0clicked & 1) {
-		lightGroup->SetDirLightActive(0, true);
-		ImGui::SameLine();
-		ImGui::Text("Num 0 Light ON!");
-	}
-	else lightGroup->SetDirLightActive(0, false);
-	ImGui::SliderFloat3("lightDir0", lightDir0, -1.f, 1.0f);
-	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
+	//static int num0clicked = 1;
+	//if (ImGui::Button("Num 0 Light"))num0clicked++;
+	//if (num0clicked & 1) {
+	//	lightGroup->SetDirLightActive(0, true);
+	//	ImGui::SameLine();
+	//	ImGui::Text("Num 0 Light ON!");
+	//}
+	//else lightGroup->SetDirLightActive(0, false);
+	//ImGui::SliderFloat3("lightDir0", lightDir0, -1.f, 1.0f);
+	//ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
 
-	/*static int num1clicked = 0;
-	if (ImGui::Button("Num 1 Light"))num1clicked++;
-	if (num1clicked & 1) {
-		lightGroup->SetDirLightActive(1, true);
-		ImGui::SameLine();
-		ImGui::Text("Num 1 Light ON!");
-	}
-	else lightGroup->SetDirLightActive(1, false);
+	///*static int num1clicked = 0;
+	//if (ImGui::Button("Num 1 Light"))num1clicked++;
+	//if (num1clicked & 1) {
+	//	lightGroup->SetDirLightActive(1, true);
+	//	ImGui::SameLine();
+	//	ImGui::Text("Num 1 Light ON!");
+	//}
+	//else lightGroup->SetDirLightActive(1, false);
 
-	ImGui::SliderFloat3("lightDir1", lightDir1, -1.f, 1.0f);
-	ImGui::ColorEdit3("lightColor1", lightColor1, ImGuiColorEditFlags_Float);
-	static int num2clicked = 0;
-	if (ImGui::Button("Num 2 Light"))num2clicked++;
-	if (num2clicked & 1) {
-		lightGroup->SetDirLightActive(2, true);
-		ImGui::SameLine();
-		ImGui::Text("Num 2 Light ON!");
-	}
-	else lightGroup->SetDirLightActive(2, false);*/
-	//ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
-	//ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
+	//ImGui::SliderFloat3("lightDir1", lightDir1, -1.f, 1.0f);
+	//ImGui::ColorEdit3("lightColor1", lightColor1, ImGuiColorEditFlags_Float);
+	//static int num2clicked = 0;
+	//if (ImGui::Button("Num 2 Light"))num2clicked++;
+	//if (num2clicked & 1) {
+	//	lightGroup->SetDirLightActive(2, true);
+	//	ImGui::SameLine();
+	//	ImGui::Text("Num 2 Light ON!");
+	//}
+	//else lightGroup->SetDirLightActive(2, false);*/
+	////ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
+	////ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
 
-	ImGui::End();
+	//ImGui::End();
 }
 
 void GameScene::PointLightUpdate()

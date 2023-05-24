@@ -9,32 +9,25 @@
 #include "LightGroup.h"
 
 using namespace Microsoft::WRL;
-class Object3d
+class Model
 {
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	~Object3d();
+	~Model();
 
-	static Object3d* GetInstance();
+	static Model* GetInstance();
 
 	static void Ini();
 	//モデルを読み込む
-	static Object3d* CreateOBJ(const std::string& modelname,bool smoothing = false);
-	static std::unique_ptr<Object3d> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false);
-	/// <summary>
-	/// ブレンド設定
-	/// </summary>
-	/// <param name="BLEND_ALPHA">アルファブレンド</param>
-	/// <param name="BLEND_SUB">減算合成</param>
-	/// <param name="BLEND_NEGA">色反転合成</param>
-	/// <param name="BLEND_NORMAL">半透明合成</param>
-	static void SetBlend(int blend);
+	static Model* CreateOBJ(const std::string& modelname,bool smoothing = false);
+	static std::unique_ptr<Model> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false);
+	
 
-	void SetModel(const Object3d* model);
+	void SetModel(const Model* model);
 
-	static void SetLight(LightGroup* lightGroup) { Object3d::lightGroup = lightGroup; }
+	static void SetLight(LightGroup* lightGroup) { Model::lightGroup = lightGroup; }
 private:
 	//モデル初期化(CreateOBJ()に入っている)
 	void ModelIni(const std::string& modelname, bool smoothing);
@@ -48,7 +41,7 @@ private:
 	void AddMaterial(Material* material);
 
 public:
-	static void PreDraw();
+	
 
 	//オブジェクトの色を変える
 	void ObjChangeColor(float x, float y, float z, float w);

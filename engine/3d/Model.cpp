@@ -10,16 +10,16 @@
 #include <fstream>
 #include <sstream>
 #include "Util.h"
-#include "Object3d.h"
+#include "Model.h"
 
 const std::string kBaseDirectory = "Resources/";
 
 //コマンドリストを格納する
 static DirectXCommon* directX_ = nullptr;
 
-LightGroup* Object3d::lightGroup = nullptr;
+LightGroup* Model::lightGroup = nullptr;
 
-Object3d::~Object3d()
+Model::~Model()
 {
 	for (auto m : vert_) {
 		delete m;
@@ -31,46 +31,36 @@ Object3d::~Object3d()
 	materials_.clear();
 }
 
-Object3d* Object3d::GetInstance()
+Model* Model::GetInstance()
 {
-	static Object3d instance;
+	static Model instance;
 	return &instance;
 }
 
-void Object3d::Ini()
+void Model::Ini()
 {
 	directX_ = DirectXCommon::GetInstance();
 }
 
-Object3d* Object3d::CreateOBJ(const std::string& modelname, bool smoothing)
+Model* Model::CreateOBJ(const std::string& modelname, bool smoothing)
 {
-	Object3d* instance = new Object3d;
+	Model* instance = new Model;
 	instance->ModelIni(modelname, smoothing);
 
 	return instance;
 }
 
-std::unique_ptr<Object3d> Object3d::CreateOBJ_uniptr(const std::string& modelname, bool smoothing)
+std::unique_ptr<Model> Model::CreateOBJ_uniptr(const std::string& modelname, bool smoothing)
 {
-	std::unique_ptr<Object3d> instance = std::make_unique<Object3d>();
+	std::unique_ptr<Model> instance = std::make_unique<Model>();
 	instance->ModelIni(modelname,smoothing);
 
 	return /*std::move(*/instance/*)*/;
 }
 
-void Object3d::SetBlend(int blend)
-{
-	if (blend > 3) blend = 3;
-	else if (blend < 0) blend = 0;
-	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
-		PipelineManager::GetObj3dPipeline(blend)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetObj3dPipeline(blend)->GetRootSignature());
-}
 
-void Object3d::SetModel(const Object3d* model)
+void Model::SetModel(const Model* model)
 {
 	
 	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
@@ -107,7 +97,7 @@ void Object3d::SetModel(const Object3d* model)
 	}
 }
 
-void Object3d::LoadOBJ(const std::string& modelname)
+void Model::LoadOBJ(const std::string& modelname)
 {
 	const std::string filename = modelname + ".obj";
 	const std::string directoryPath = kBaseDirectory + modelname + "/";
@@ -230,7 +220,7 @@ void Object3d::LoadOBJ(const std::string& modelname)
 	file.close();
 }
 
-void Object3d::LoadMaterial(const std::string& directoryPath, const std::string& filename)
+void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename)
 {
 	// ファイルストリーム
 	std::ifstream file;
@@ -340,7 +330,7 @@ void Object3d::LoadMaterial(const std::string& directoryPath, const std::string&
 	}
 }
 
-void Object3d::LoadTexture()
+void Model::LoadTexture()
 {
 	std::string directoryPath = name_ + "/";
 
@@ -361,13 +351,13 @@ void Object3d::LoadTexture()
 	}
 }
 
-void Object3d::AddMaterial(Material* material)
+void Model::AddMaterial(Material* material)
 {
 	// コンテナに登録
 	materials_.emplace(material->name_, material);
 }
 
-void Object3d::ModelIni(const std::string& modelname, bool smoothing)
+void Model::ModelIni(const std::string& modelname, bool smoothing)
 {
 	this->smoothing = smoothing;
 	LoadOBJ(modelname);
@@ -381,34 +371,23 @@ void Object3d::ModelIni(const std::string& modelname, bool smoothing)
 	}
 }
 
-void Object3d::PreDraw()
-{
-	// パイプラインステートとルートシグネチャの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetObj3dPipeline(3)->gerPipelineState());
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetObj3dPipeline(3)->GetRootSignature());
 
-	// プリミティブ形状の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-
-void Object3d::ObjChangeColor(float x, float y, float z, float w)
+void Model::ObjChangeColor(float x, float y, float z, float w)
 {
 	for (auto& m : materials_) {
 		m.second->ChangeColor(x, y, z, w);
 	}
 }
 
-void Object3d::ObjChangeColor(XMFLOAT4 color_)
+void Model::ObjChangeColor(XMFLOAT4 color_)
 {
 	for (auto& m : materials_) {
 		m.second->ChangeColor(color_);
 	}
 }
 
-void Object3d::DrawOBJ(WorldTransform* worldTransform)
+void Model::DrawOBJ(WorldTransform* worldTransform)
 {
 	lightGroup->Draw(3);
 	for (auto& m : materials_) {
@@ -420,7 +399,7 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform)
 	}
 }
 
-void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
+void Model::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 {
 	for (auto& m : materials_) {
 		m.second->Draw(textureHandle);
@@ -430,12 +409,12 @@ void Object3d::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 	}
 }
 
-void Object3d::AddSmoothData(unsigned short indexPositon, unsigned short indexVertex)
+void Model::AddSmoothData(unsigned short indexPositon, unsigned short indexVertex)
 {
 	smoothData[indexPositon].emplace_back(indexVertex);
 }
 
-void Object3d::CalculateSmoothedVertexNormals()
+void Model::CalculateSmoothedVertexNormals()
 {
 	auto itr = smoothData.begin();
 	for (; itr != smoothData.end(); ++itr) {
