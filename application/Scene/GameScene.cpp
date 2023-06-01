@@ -3,7 +3,7 @@
 #include "Easing.h"
 #include "SceneManager.h"
 #include "Collision.h"
-#include "GameScene2.h"
+
 GameScene::~GameScene()
 {
 	delete lightGroup;
@@ -18,7 +18,7 @@ void GameScene::Ini()
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
-	Object3d::Ini();
+	Model::Ini();
 	//BoardObject::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
@@ -35,17 +35,22 @@ void GameScene::Ini()
 	lightGroup = LightGroup::Create();
 	//light->SetLightDir()
 
-	Object3d::SetLight(lightGroup);
+	Model::SetLight(lightGroup);
 
-	skyDome_ = Object3d::CreateOBJ_uniptr("uvSphere", true);
+	skyDome_ = Model::CreateOBJ_uniptr("uvSphere", true);
 	worldTransform_.position = { -1,0,0 };
 
-	sphere_ = Object3d::CreateOBJ_uniptr("Earth", true);
+	sphere_ = Model::CreateOBJ_uniptr("Earth", true);
 	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
 
-	floor_ = Object3d::CreateOBJ_uniptr("cube", false);
+	floor_ = Model::CreateOBJ_uniptr("cube", false);
 	floorWT_.position = { 0,-2,0 };
 	floorWT_.scale = { 5,1.f,5 };
+
+	testObj = std::move(std::make_unique<Object3d>());
+	testObj->SetModel(Model::CreateOBJ("Earth", true));
+	testObjWT_.position = { 0,0,-2 };
+	testObjWT_.scale = { 1,1,1 };
 
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
@@ -107,6 +112,7 @@ void GameScene::Update()
 	worldTransform_.Update();
 	sphereWT_.Update();
 	floorWT_.Update();
+	testObjWT_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN)) {
 		/*lightType_++;
@@ -151,15 +157,7 @@ void GameScene::Update()
 	if (lightType_ == LIGHTTYPE::DIRECTION_) {
 		DirectionalLightUpdate();
 	}
-	////点光源
-	//else if (lightType_ == LIGHTTYPE::POINT_) {
-	//	PointLightUpdate();
-	//}
-	////スポットライト
-	//else if (lightType_ == LIGHTTYPE::SPOT_) {
-	//	SpotLightUpdate();
-	//}
-
+	
 	lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
 
 	lightGroup->SetCircleShadowDir(0, { circleShadowDir[0],circleShadowDir[1], circleShadowDir[2] });
@@ -167,9 +165,6 @@ void GameScene::Update()
 	lightGroup->SetCircleShadowAtten(0, { circleShadowAtten[0],circleShadowAtten[1], circleShadowAtten[2] });
 	lightGroup->SetCircleShadowFactorAngle(0, { circleShadowFactorAngle[0],circleShadowFactorAngle[1] });
 
-	/*if (input_->TriggerKey(DIK_0)) {
-		SceneManager::Transition<GameScene2>();
-	}*/
 }
 
 void GameScene::Draw()
@@ -177,9 +172,10 @@ void GameScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Object3d::PreDraw();
+	Model::PreDraw();
 
 	skyDome_->DrawOBJ(&worldTransform_);
+	testObj->Draw(testObjWT_);
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());

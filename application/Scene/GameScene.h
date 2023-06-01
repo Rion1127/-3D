@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Object3d.h"
+#include "Model.h"
 #include "Sprite.h"
 #include "Particle.h"
 #include "WorldTransform.h"
@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include "LightGroup.h"
+#include "Object3d.h"
 
 class GameScene :
 	public EmptyScene
@@ -46,14 +47,17 @@ private:
 
 	float t = 0;
 
-	std::unique_ptr<Object3d> skyDome_;
+	std::unique_ptr<Model> skyDome_;
 	WorldTransform worldTransform_;
 
-	std::unique_ptr<Object3d> sphere_;
+	std::unique_ptr<Model> sphere_;
 	WorldTransform sphereWT_;
 
-	std::unique_ptr<Object3d> floor_;
+	std::unique_ptr<Model> floor_;
 	WorldTransform floorWT_;
+
+	std::unique_ptr<Object3d> testObj;
+	WorldTransform testObjWT_;
 
 	float ambientColor0[3] = { 1,1,1 };
 

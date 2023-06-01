@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="application\Particle\ParticleManager.cpp" />
     <ClCompile Include="application\Scene\GameScene.cpp" />
-    <ClCompile Include="application\Scene\GameScene2.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="AssimpLoader.cpp" />
@@ -59,11 +58,11 @@
     <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
+    <ClCompile Include="Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Particle\ParticleManager.h" />
     <ClInclude Include="application\Scene\GameScene.h" />
-    <ClInclude Include="application\Scene\GameScene2.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="AssimpLoader.h" />
@@ -100,6 +99,7 @@
     <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
+    <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

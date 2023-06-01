@@ -213,9 +213,6 @@
     <ClCompile Include="application\Scene\GameScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="application\Scene\GameScene2.cpp">
-      <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="application\Scene\ParticleScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
@@ -233,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="AssinpModel.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,9 +335,6 @@
     <ClInclude Include="application\Scene\GameScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="application\Scene\GameScene2.h">
-      <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="application\Scene\ParticleScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
@@ -352,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="AssimpObject3D.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
