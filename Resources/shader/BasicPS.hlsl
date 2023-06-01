@@ -61,7 +61,7 @@ float4 main(VSOutput input) : SV_TARGET
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * dirLights[i].lightColor;
 			//‚·‚×‚Ä‰ÁŽZ‚·‚é
             shadecolor.rgb += (diffuse.rgb + specular.rgb) * dirLights[i].lightColor;
-            shadecolor.a = 1;
+            //shadecolor.a = 1;
         }
     }
 	//“_ŒõŒ¹

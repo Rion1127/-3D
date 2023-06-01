@@ -18,9 +18,12 @@ void DebugCamera::DebugCameraIni()
 
 void DebugCamera::Update()
 {
-	//マウスの情報の更新
-	CameraMove();
-	viewProjection.Update();
+	if (DirectXInput::GetInstance()->PushKey(DIK_LCONTROL))
+	{
+		//マウスの情報の更新
+		CameraMove();
+		viewProjection.Update();
+	}
 }
 
 void DebugCamera::CameraMove()

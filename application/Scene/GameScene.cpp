@@ -37,23 +37,18 @@ void GameScene::Ini()
 
 	Model::SetLight(lightGroup);
 
-	skyDome_ = Model::CreateOBJ_uniptr("uvSphere", true);
-	worldTransform_.position = { -1,0,0 };
+	skyDome_ = std::move(std::make_unique<Object3d>());
+	skyDome_->SetModel(Model::CreateOBJ("uvSphere", true));
 
-	sphere_ = Model::CreateOBJ_uniptr("Earth", true);
-	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
-
-	floor_ = Model::CreateOBJ_uniptr("cube", false);
-	floorWT_.position = { 0,-2,0 };
-	floorWT_.scale = { 5,1.f,5 };
+	sphere_ = std::move(std::make_unique<Object3d>());
+	sphere_->SetModel(Model::CreateOBJ("uvSphere", true));
 
 	testObj = std::move(std::make_unique<Object3d>());
-	testObj->SetModel(Model::CreateOBJ("Earth", true));
-	testObjWT_.position = { 0,0,-2 };
-	testObjWT_.scale = { 1,1,1 };
+	testObj->SetModel(Model::CreateOBJ("uvSphere", true));
 
 	//平行光源
-	if (lightType_ == LIGHTTYPE::DIRECTION_) {
+	if (lightType_ == LIGHTTYPE::DIRECTION_)
+	{
 		lightGroup->SetDirLightActive(0, true);
 		lightGroup->SetDirLightActive(1, false);
 		lightGroup->SetDirLightActive(2, false);
@@ -74,7 +69,7 @@ void GameScene::Ini()
 	//else if (lightType_ == LIGHTTYPE::SPOT_) {
 	//	lightGroup->SetSpotLightActive(0, true);
 	//}
-	
+
 	//影
 	lightGroup->SetCircleShadowActive(0, true);
 
@@ -100,68 +95,82 @@ void GameScene::Update()
 	Camera::current.Update();
 
 	//カメラ更新
-	if (input_->PushKey(DIK_LCONTROL)) {
-		debugCamera.Update();
-	}
+
+	debugCamera.Update();
+
 	gameCamera.Update();
 	cameraUpdate();
 
-	worldTransform_.rotation.y += 0.01f;
-	sphereWT_.rotation.y += 0.01f;
+	static float rotY = 0;
+	rotY += 0.01f;
+	
+	skyDome_->SetPos({ -2,0,0 });
+	skyDome_->SetRot({ 0,rotY,0 });
+	sphere_->SetPos({ 2,0,0 });
+	sphere_->SetRot({ 0,rotY,0 });
+	testObj->SetPos({ 0,0,-2 });
+	testObj->SetRot({ 0,rotY,0 });
 
-	worldTransform_.Update();
-	sphereWT_.Update();
-	floorWT_.Update();
-	testObjWT_.Update();
+	skyDome_->Update();
+	sphere_->Update();
+	testObj->Update();
 
-	if (input_->TriggerKey(DIK_RETURN)) {
-		/*lightType_++;
-		if (lightType_ >= LIGHTTYPE::NUMEND_)lightType_ = 0;*/
+	if (input_->TriggerKey(DIK_RETURN))
+	{
+		lightType_++;
+		if (lightType_ >= LIGHTTYPE::NUMEND_)lightType_ = 0;
 
 		//平行光源
-		if (lightType_ == LIGHTTYPE::DIRECTION_) {
+		if (lightType_ == LIGHTTYPE::DIRECTION_)
+		{
 			lightGroup->SetDirLightActive(0, true);
 			lightGroup->SetDirLightActive(1, false);
 			lightGroup->SetDirLightActive(2, false);
 			//スポットライト無効化
 			lightGroup->SetSpotLightActive(0, false);
 		}
-		////点光源
-		//else if (lightType_ == LIGHTTYPE::POINT_) {
-		//	lightGroup->SetPointLightActive(0, true);
-		//	lightGroup->SetPointLightActive(1, false);
-		//	lightGroup->SetPointLightActive(2, false);
-		//	pointLightPos[0] = 0.5f;
-		//	pointLightPos[0] = 1.0f;
-		//	pointLightPos[0] = 0.0f;
-		//	//平行光源無効化
-		//	lightGroup->SetDirLightActive(0, false);
-		//	lightGroup->SetDirLightActive(1, false);
-		//	lightGroup->SetDirLightActive(2, false);
-		//}
-		////スポットライト
-		//else if (lightType_ == LIGHTTYPE::SPOT_) {
-		//	lightGroup->SetSpotLightActive(0, true);
-		//	//点光源
-		//	lightGroup->SetPointLightActive(0, false);
-		//	lightGroup->SetPointLightActive(1, false);
-		//	lightGroup->SetPointLightActive(2, false);
-		//}
+		//点光源
+		else if (lightType_ == LIGHTTYPE::POINT_) {
+			lightGroup->SetPointLightActive(0, true);
+			lightGroup->SetPointLightActive(1, false);
+			lightGroup->SetPointLightActive(2, false);
+			pointLightPos[0] = 0.5f;
+			pointLightPos[0] = 1.0f;
+			pointLightPos[0] = 0.0f;
+			//平行光源無効化
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
+		}
+		//スポットライト
+		else if (lightType_ == LIGHTTYPE::SPOT_) {
+			lightGroup->SetSpotLightActive(0, true);
+			//点光源
+			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetPointLightActive(1, false);
+			lightGroup->SetPointLightActive(2, false);
+		}
 	}
 
 	lightGroup->Update();
 
-	sphereWT_.SetPosition(fighterPos[0], fighterPos[1], fighterPos[2]);
-
 	//平行光源
-	if (lightType_ == LIGHTTYPE::DIRECTION_) {
+	if (lightType_ == LIGHTTYPE::DIRECTION_)
+	{
 		DirectionalLightUpdate();
 	}
-	
+	else if (lightType_ == LIGHTTYPE::POINT_)
+	{
+		PointLightUpdate();
+	}
+	else if (lightType_ == LIGHTTYPE::SPOT_)
+	{
+		SpotLightUpdate();
+	}
+
 	lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
 
 	lightGroup->SetCircleShadowDir(0, { circleShadowDir[0],circleShadowDir[1], circleShadowDir[2] });
-	lightGroup->SetCircleShadowCasterPos(0, { fighterPos[0],fighterPos[1], fighterPos[2] });
 	lightGroup->SetCircleShadowAtten(0, { circleShadowAtten[0],circleShadowAtten[1], circleShadowAtten[2] });
 	lightGroup->SetCircleShadowFactorAngle(0, { circleShadowFactorAngle[0],circleShadowFactorAngle[1] });
 
@@ -174,8 +183,9 @@ void GameScene::Draw()
 	////////////////
 	Model::PreDraw();
 
-	skyDome_->DrawOBJ(&worldTransform_);
-	testObj->Draw(testObjWT_);
+	skyDome_->Draw();
+	testObj->Draw();
+
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());
@@ -186,14 +196,8 @@ void GameScene::Draw()
 	// プリミティブ形状の設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	
-	sphere_->DrawOBJ(&sphereWT_,uvtexture_);
-	//floor_->DrawOBJ(&floorWT_);
+	sphere_->Draw();
 
-	///////////////////
-	//板状３Dオブジェクト//
-	///////////////////
-	//BoardObject::PreDraw();
 
 
 	////////////
@@ -221,16 +225,16 @@ void GameScene::DirectionalLightUpdate()
 {
 	//lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
 	//0番目の平行光源
-	
+
 
 	lightGroup->SetDirLightDir(0, { lightDir0[0],lightDir0[1], lightDir0[2] });
 	lightGroup->SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
-	////1番目の平行光源
-	//lightGroup->SetDirLightDir(1, { lightDir1[0],lightDir1[1], lightDir1[2] });
-	//lightGroup->SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
-	////2番目の平行光源
-	//lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1], lightDir2[2] });
-	//lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
+	//1番目の平行光源
+	lightGroup->SetDirLightDir(1, { lightDir1[0],lightDir1[1], lightDir1[2] });
+	lightGroup->SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
+	//2番目の平行光源
+	lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1], lightDir2[2] });
+	lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 
 	ImGui::Begin("DirectionalLight");
 
@@ -241,7 +245,8 @@ void GameScene::DirectionalLightUpdate()
 
 	static int num0clicked = 1;
 	if (ImGui::Button("Num 0 Light"))num0clicked++;
-	if (num0clicked & 1) {
+	if (num0clicked & 1)
+	{
 		lightGroup->SetDirLightActive(0, true);
 		ImGui::SameLine();
 		ImGui::Text("Num 0 Light ON!");
@@ -250,7 +255,7 @@ void GameScene::DirectionalLightUpdate()
 	ImGui::SliderFloat3("lightDir0", lightDir0, -1.f, 1.0f);
 	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
 
-	/*static int num1clicked = 0;
+	static int num1clicked = 0;
 	if (ImGui::Button("Num 1 Light"))num1clicked++;
 	if (num1clicked & 1) {
 		lightGroup->SetDirLightActive(1, true);
@@ -268,9 +273,9 @@ void GameScene::DirectionalLightUpdate()
 		ImGui::SameLine();
 		ImGui::Text("Num 2 Light ON!");
 	}
-	else lightGroup->SetDirLightActive(2, false);*/
-	//ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
-	//ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
+	else lightGroup->SetDirLightActive(2, false);
+	ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
+	ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
 
 	ImGui::End();
 }
