@@ -169,9 +169,9 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 	{
 		const auto& face = src->mFaces[i];
 
-		dst.Vertices.indices[i * 3 + 0] = face.mIndices[0];
-		dst.Vertices.indices[i * 3 + 1] = face.mIndices[1];
-		dst.Vertices.indices[i * 3 + 2] = face.mIndices[2];
+		dst.Vertices.indices[i * 3 + 0] = (uint16_t)face.mIndices[0];
+		dst.Vertices.indices[i * 3 + 1] = (uint16_t)face.mIndices[1];
+		dst.Vertices.indices[i * 3 + 2] = (uint16_t)face.mIndices[2];
 	}
 }
 

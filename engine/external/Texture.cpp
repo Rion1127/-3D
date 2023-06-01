@@ -123,7 +123,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	texture_->textureResourceDesc.Width = metadata.width;
 	texture_->textureResourceDesc.Height = (UINT)metadata.height;
 	texture_->textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	texture_->textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
+	texture_->textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	texture_->textureResourceDesc.SampleDesc.Count = 1;
 	//テクスチャバッファの生成
 	result = device_->CreateCommittedResource(

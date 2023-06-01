@@ -60,9 +60,6 @@ void ParticleScene::Ini()
 	//	texHandle_[i] = textureM->LoadGraph(texturename);
 	//}
 
-
-	int a = 0;
-
 	//testModel_.Create(modelFile);
 	//assimpObj_.SetModel(&testModel_);
 	
