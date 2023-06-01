@@ -45,10 +45,8 @@ private:
 
 	LightGroup* lightGroup = nullptr;
 
-	float t = 0;
 
 	std::unique_ptr<Object3d> skyDome_;
-	
 
 	std::unique_ptr<Object3d> sphere_;
 
