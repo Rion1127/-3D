@@ -100,7 +100,7 @@ float Easing::Cubic::easeInOut(float t, float b, float c, float d)
 #pragma region Back
 float Easing::Back::easeIn(float start, float end, float t)
 {
-	float c1 = 1.70158;
+	float c1 = 1.70158f;
 	float c3 = c1 + 1.0f;
 	float time = (c3 * t * t * t - c1 * t * t);
 	return start * (1.0f - time) + end * time;
