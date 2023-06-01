@@ -16,6 +16,9 @@
 #include "LightGroup.h"
 #include "Object3d.h"
 
+#include "AssimpObject3D.h"
+#include "AssimpLoader.h"
+
 class GameScene :
 	public EmptyScene
 {
@@ -52,6 +55,16 @@ private:
 
 
 	std::unique_ptr<Object3d> testObj;
+
+	std::vector<Mesh> meshes;
+	std::vector <uint32_t> texHandle_;
+	std::unique_ptr<ImportSettings> importSetting_;
+
+	WorldTransform testWT_;
+
+	AssinpModel testModel_;
+
+	AssimpObject3D assimpObj_;
 
 	float ambientColor0[3] = { 1,1,1 };
 

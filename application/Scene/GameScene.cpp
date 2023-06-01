@@ -46,6 +46,20 @@ void GameScene::Ini()
 	testObj = std::move(std::make_unique<Object3d>());
 	testObj->SetModel(Model::CreateOBJ("uvSphere", true));
 
+	
+	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
+	const wchar_t* modelFile = L"Resources/boneTest/RS2_11.fbx";
+	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
+	//  L"Resources/FBX/untitled.glb"
+	ImportSettings importSetting = {
+		modelFile,
+		meshes,
+		false,
+		true
+	};
+	testModel_.Create(modelFile);
+	assimpObj_.SetModel(&testModel_);
+
 	//平行光源
 	if (lightType_ == LIGHTTYPE::DIRECTION_)
 	{
@@ -95,11 +109,13 @@ void GameScene::Update()
 	Camera::current.Update();
 
 	//カメラ更新
-
 	debugCamera.Update();
 
 	gameCamera.Update();
 	cameraUpdate();
+
+	assimpObj_.SetPos({ 0,0,0 });
+	assimpObj_.Update();
 
 	static float rotY = 0;
 	rotY += 0.01f;
@@ -168,7 +184,7 @@ void GameScene::Update()
 		SpotLightUpdate();
 	}
 
-	lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
+	//lightGroup->SetAmbientColor({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] });
 
 	lightGroup->SetCircleShadowDir(0, { circleShadowDir[0],circleShadowDir[1], circleShadowDir[2] });
 	lightGroup->SetCircleShadowAtten(0, { circleShadowAtten[0],circleShadowAtten[1], circleShadowAtten[2] });
@@ -184,7 +200,9 @@ void GameScene::Draw()
 	Model::PreDraw();
 
 	skyDome_->Draw();
-	testObj->Draw();
+	//testObj->Draw();
+
+	assimpObj_.Draw();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
@@ -196,7 +214,7 @@ void GameScene::Draw()
 	// プリミティブ形状の設定コマンド
 	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	sphere_->Draw();
+	//sphere_->Draw();
 
 
 
@@ -292,7 +310,7 @@ void GameScene::PointLightUpdate()
 	//ImGui::SetWindowPos(ImVec2(0, 0));
 	//ImGui::SetWindowSize(ImVec2(500, 200));
 
-	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
+	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
 	ImGui::ColorEdit3("pointLightColor", pointLightColor, ImGuiColorEditFlags_Float);
 	ImGui::SliderFloat3("pointLightPos", pointLightPos, -5.f, 5.0f);
@@ -320,7 +338,7 @@ void GameScene::SpotLightUpdate()
 	//ImGui::SetWindowPos(ImVec2(0, 0));
 	//ImGui::SetWindowSize(ImVec2(500, 200));
 
-	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
+	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
 	ImGui::SliderFloat3("SpotLightDir", spotlightDir, -5.f, 5.0f);
 	ImGui::ColorEdit3("spotLightColor", spotLightColor, ImGuiColorEditFlags_Float);

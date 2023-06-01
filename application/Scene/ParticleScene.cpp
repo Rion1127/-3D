@@ -36,7 +36,7 @@ void ParticleScene::Ini()
 	texture_ = textureM->LoadGraph("keyBlade2.png");
 	whiteTexture_ = textureM->LoadGraph("uv.png");
 
-	const wchar_t* modelFile = L"Resources/FBX/untitled.glb";
+	const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {
@@ -45,6 +45,8 @@ void ParticleScene::Ini()
 		false,
 		true
 	};
+	testModel_.Create(modelFile);
+	assimpObj_.SetModel(&testModel_);
 
 	//importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
 
