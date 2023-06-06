@@ -48,7 +48,7 @@ void GameScene::Ini()
 
 	
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
-	const wchar_t* modelFile = L"Resources/boneTest/RS2_11.fbx";
+	const wchar_t* modelFile = L"Resources/boneTest/testCube.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {

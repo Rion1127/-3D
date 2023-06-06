@@ -17,7 +17,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 
 	importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
 
-	AssimpLoader::GetInstance()->Load(*importSetting_);
+	AssimpLoader::GetInstance()->Load(importSetting_.get());
 
 	texHandle_.resize(meshes.size());
 	for (int i = 0; i < importSetting_->meshes.size(); i++)

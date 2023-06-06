@@ -80,26 +80,38 @@ std::string WStringToString(std::wstring oWString)
 	return(oRet);
 }
 
-bool AssimpLoader::Load(ImportSettings setting)
+bool AssimpLoader::Load(ImportSettings* setting)
 {
-	assert(setting.filename);
+	assert(setting->filename);
 
-	auto& meshes = setting.meshes;
-	auto inverseU = setting.inverseU;
-	auto inverseV = setting.inverseV;
+	auto& meshes = setting->meshes;
+	auto inverseU = setting->inverseU;
+	auto inverseV = setting->inverseV;
+	auto bone = setting->bone;
 
-	auto path = ToUTF8(setting.filename);
+	auto path = ToUTF8(setting->filename);
 
 	Assimp::Importer importer;
 	//ˆÈ‰º‚Ìƒtƒ‰ƒO‚Ì”’l‚ð‘ã“ü‚µ‚Ä‚¢‚­
 	int flag = 0;
-	flag |= aiProcess_Triangulate;
+	/*flag |= aiProcess_Triangulate;
 	flag |= aiProcess_PreTransformVertices;
 	flag |= aiProcess_CalcTangentSpace;
 	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_GenUVCoords;
 	flag |= aiProcess_RemoveRedundantMaterials;
 	flag |= aiProcess_OptimizeMeshes;
+	flag |= aiProcess_LimitBoneWeights;*/
+
+	flag |= aiProcess_Triangulate;
+	flag |= aiProcess_JoinIdenticalVertices;
+	flag |= aiProcess_CalcTangentSpace;
+	flag |= aiProcess_GenSmoothNormals;
+	flag |= aiProcess_GenUVCoords;
+	flag |= aiProcess_TransformUVCoords;
+	flag |= aiProcess_RemoveRedundantMaterials;
+	flag |= aiProcess_OptimizeMeshes;
+	flag |= aiProcess_LimitBoneWeights;
 
 	auto scene = importer.ReadFile(path, flag);
 
@@ -120,8 +132,11 @@ bool AssimpLoader::Load(ImportSettings setting)
 		const auto pMesh = scene->mMeshes[i];
 		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
 		const auto pMaterial = scene->mMaterials[i];
-		LoadTexture(setting.filename, meshes[i], pMaterial);
-		
+		LoadTexture(setting->filename, meshes[i], pMaterial);
+		if (scene->mMeshes[i]->mBones != nullptr)
+		{
+			setting->bone = new aiBone(**scene->mMeshes[i]->mBones);
+		}
 	}
 
 	scene = nullptr;

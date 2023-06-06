@@ -6,6 +6,8 @@
 
 struct aiMesh;
 struct aiMaterial;
+struct aiBone;
+
 
 struct Mesh {
 	Vertices Vertices; // 頂点データの配列
@@ -19,6 +21,7 @@ public:
 	std::vector<Mesh>& meshes; // 出力先のメッシュ配列
 	bool inverseU = false; // U座標を反転させるか
 	bool inverseV = false; // V座標を反転させるか
+	aiBone* bone = nullptr;
 };
 
 class AssimpLoader
@@ -29,7 +32,7 @@ public:
 
 	static AssimpLoader* GetInstance();
 
-	bool Load(ImportSettings setting); // モデルをロードする
+	bool Load(ImportSettings* setting); // モデルをロードする
 
 private:
 	void LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool inverseV);
