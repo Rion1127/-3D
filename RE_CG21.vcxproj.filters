@@ -368,6 +368,9 @@
     <None Include="Resources\shader\Toon.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
+    <None Include="Resources\shader\assimp.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shader\SpritePS.hlsl">
@@ -395,6 +398,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\ToonVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\assimpVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\assimpPS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
