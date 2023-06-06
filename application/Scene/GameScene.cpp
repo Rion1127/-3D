@@ -106,6 +106,7 @@ void GameScene::Update()
 {
 	Camera::current.eye = debugCamera.GetViewProjection()->eye;
 	Camera::current.up = debugCamera.GetViewProjection()->up;
+	Camera::current.target = debugCamera.GetViewProjection()->target;
 	Camera::current.Update();
 
 	//ƒJƒƒ‰XV

@@ -132,22 +132,28 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
 		const auto pMaterial = scene->mMaterials[i];
 		LoadTexture(setting->filename, meshes[i], pMaterial);
-		if (scene->mMeshes[i]->mBones != nullptr)
-		{
-			//ƒ{[ƒ“‚Ìî•ñ‚ð¶¬
-			setting->bones_.emplace_back(new aiBone(**scene->mMeshes[i]->mBones));
-			//Matrix‚ð“]’u
-			setting->boneMtrix_.emplace_back();
-			DirectX::XMMATRIX& mt = setting->boneMtrix_.back();
-			aiMatrix4x4& m = setting->bones_.at(i)->mOffsetMatrix;
-			mt = {
-				m.a1, m.b1, m.c1, m.d1,	// “]’u
-				m.a2, m.b2, m.c2, m.d2,
-				m.a3, m.b3, m.c3, m.d3,
-				m.a4, m.b4, m.c4, m.d4
-			};
-		}
+
+		LoadBones(i, scene->mMeshes[i],setting);
+		//if (scene->mMeshes[i]->mBones != nullptr)
+		//{
+		//	//ƒ{[ƒ“‚Ìî•ñ‚ð¶¬
+		//	setting->bones_.emplace_back(new aiBone(**scene->mMeshes[i]->mBones));
+		//	//Matrix‚ð“]’u
+		//	setting->boneMtrix_.emplace_back();
+		//	DirectX::XMMATRIX& mt = setting->boneMtrix_.back();
+		//	aiMatrix4x4& m = setting->bones_.at(i)->mOffsetMatrix;
+		//	mt = {
+		//		m.a1, m.b1, m.c1, m.d1,	// “]’u
+		//		m.a2, m.b2, m.c2, m.d2,
+		//		m.a3, m.b3, m.c3, m.d3,
+		//		m.a4, m.b4, m.c4, m.d4
+		//	};
+		//	
+		//}
+		
 	}
+
+	
 
 	scene = nullptr;
 
@@ -219,4 +225,30 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 		dst.diffuseMap.clear();
 	}
 	
+}
+
+void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting)
+{
+	
+	for (int i = 0; i < pMesh->mNumBones; i++) {
+		uint32_t BoneIndex = 0;
+		std::string BoneName(pMesh->mBones[i]->mName.data);
+
+		setting->boneData.emplace_back();
+		BoneData& b_data = setting->boneData.back();
+		
+		aiMatrix4x4& m = pMesh->mBones[i]->mOffsetMatrix;
+		b_data.boneMatrix_ = {
+			m.a1, m.b1, m.c1, m.d1,	// “]’u
+			m.a2, m.b2, m.c2, m.d2,
+			m.a3, m.b3, m.c3, m.d3,
+			m.a4, m.b4, m.c4, m.d4
+		};
+		/*for (int j = 0; j < pMesh->mBones[i]->; j++) {
+			b_data.IDs[i] = pMesh->mBones[i]->mWeights[i].mVertexId;
+		}*/
+
+
+		int a = 0;
+	}
 }
