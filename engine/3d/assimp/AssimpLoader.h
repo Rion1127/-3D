@@ -21,7 +21,8 @@ public:
 	std::vector<Mesh>& meshes; // 出力先のメッシュ配列
 	bool inverseU = false; // U座標を反転させるか
 	bool inverseV = false; // V座標を反転させるか
-	aiBone* bone = nullptr;
+	std::vector<aiBone*> bones_;
+	std::vector<XMMATRIX> boneMtrix_;
 };
 
 class AssimpLoader

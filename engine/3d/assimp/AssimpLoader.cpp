@@ -87,7 +87,6 @@ bool AssimpLoader::Load(ImportSettings* setting)
 	auto& meshes = setting->meshes;
 	auto inverseU = setting->inverseU;
 	auto inverseV = setting->inverseV;
-	auto bone = setting->bone;
 
 	auto path = ToUTF8(setting->filename);
 
@@ -135,7 +134,18 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		LoadTexture(setting->filename, meshes[i], pMaterial);
 		if (scene->mMeshes[i]->mBones != nullptr)
 		{
-			setting->bone = new aiBone(**scene->mMeshes[i]->mBones);
+			//ƒ{[ƒ“‚Ìî•ñ‚ð¶¬
+			setting->bones_.emplace_back(new aiBone(**scene->mMeshes[i]->mBones));
+			//Matrix‚ð“]’u
+			setting->boneMtrix_.emplace_back();
+			DirectX::XMMATRIX& mt = setting->boneMtrix_.back();
+			aiMatrix4x4& m = setting->bones_.at(i)->mOffsetMatrix;
+			mt = {
+				m.a1, m.b1, m.c1, m.d1,	// “]’u
+				m.a2, m.b2, m.c2, m.d2,
+				m.a3, m.b3, m.c3, m.d3,
+				m.a4, m.b4, m.c4, m.d4
+			};
 		}
 	}
 

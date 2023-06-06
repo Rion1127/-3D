@@ -13,6 +13,15 @@ private:
 	std::vector <uint32_t> texHandle_;
 	std::unique_ptr<ImportSettings> importSetting_;
 
+	
+
+
 	WorldTransform WorldTransform_;
+public:
+	static const int MAX_BONES = 32;
+
+	struct ConstBufferDataSkin {
+		DirectX::XMMATRIX bones[MAX_BONES];
+	};
 };
 
