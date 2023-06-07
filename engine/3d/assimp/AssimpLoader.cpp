@@ -60,7 +60,7 @@ std::wstring ToWideString(const std::string& str)
 std::string WStringToString(std::wstring oWString)
 {
 	// wstring → SJIS
-	int iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str()
+	uint32_t iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str()
 		, -1, (char*)NULL, 0, NULL, NULL);
 
 	// バッファの取得
@@ -92,7 +92,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 
 	Assimp::Importer importer;
 	//以下のフラグの数値を代入していく
-	int flag = 0;
+	uint32_t flag = 0;
 	/*flag |= aiProcess_Triangulate;
 	flag |= aiProcess_PreTransformVertices;
 	flag |= aiProcess_CalcTangentSpace;
@@ -126,7 +126,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 	// 読み込んだデータを自分で定義したMesh構造体に変換する
 	meshes.clear();
 	meshes.resize(scene->mNumMeshes);
-	for (size_t i = 0; i < meshes.size(); ++i)
+	for (uint32_t i = 0; i < meshes.size(); ++i)
 	{
 		const auto pMesh = scene->mMeshes[i];
 		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
@@ -172,8 +172,7 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 		auto position = &(src->mVertices[i]);
 		auto normal = &(src->mNormals[i]);
 		auto uv = (src->HasTextureCoords(0)) ? &(src->mTextureCoords[0][i]) : &zero3D;
-		//auto tangent = (src->HasTangentsAndBitangents()) ? &(src->mTangents[i]) : &zero3D;
-		//auto color = (src->HasVertexColors(0)) ? &(src->mColors[0][i]) : &zeroColor;
+		
 
 		// 反転オプションがあったらUVを反転させる
 		if (inverseU)
@@ -229,26 +228,45 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 
 void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting)
 {
-	
-	for (int i = 0; i < pMesh->mNumBones; i++) {
+	int m_NumBones = 0;
+	for (uint32_t i = 0; i < pMesh->mNumBones; i++)
+	{
 		uint32_t BoneIndex = 0;
 		std::string BoneName(pMesh->mBones[i]->mName.data);
 
 		setting->boneData.emplace_back();
-		BoneData& b_data = setting->boneData.back();
+		BoneIndex = m_NumBones;
+		m_NumBones++;
 		
 		aiMatrix4x4& m = pMesh->mBones[i]->mOffsetMatrix;
-		b_data.boneMatrix_ = {
+		aiBone& bone = *pMesh->mBones[i];
+		setting->boneData[BoneIndex].boneMatrix_ = {
 			m.a1, m.b1, m.c1, m.d1,	// 転置
 			m.a2, m.b2, m.c2, m.d2,
 			m.a3, m.b3, m.c3, m.d3,
 			m.a4, m.b4, m.c4, m.d4
 		};
-		/*for (int j = 0; j < pMesh->mBones[i]->; j++) {
-			b_data.IDs[i] = pMesh->mBones[i]->mWeights[i].mVertexId;
+		/*if (m_BoneMapping.find(BoneName) == m_BoneMapping.end())
+		{
+			
+			
+			BoneInfo bi;
+			m_BoneInfo.push_back(bi);
+		}
+		else
+		{
+			BoneIndex = m_BoneMapping[BoneName];
+		}
+
+		m_BoneMapping[BoneName] = BoneIndex;
+		
+
+		for (uint32_t j = 0; j < pMesh->mBones[i]->mNumWeights; j++)
+		{
+			uint32_t VertexID = m_Entries[MeshIndex].BaseVertex + pMesh->mBones[i]->mWeights[j].mVertexId;
+			float Weight = pMesh->mBones[i]->mWeights[j].mWeight;
+			Bones[VertexID].AddBoneData(BoneIndex, Weight);
 		}*/
-
-
-		int a = 0;
 	}
+	int a = 0;
 }

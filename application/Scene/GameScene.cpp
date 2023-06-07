@@ -6,7 +6,7 @@
 
 GameScene::~GameScene()
 {
-	delete lightGroup;
+	
 }
 
 void GameScene::Ini()
@@ -32,10 +32,10 @@ void GameScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 
-	lightGroup = LightGroup::Create();
-	//light->SetLightDir()
-
-	Model::SetLight(lightGroup);
+	
+	lightGroup = std::make_unique<LightGroup>();
+	lightGroup->Init();
+	Model::SetLight(lightGroup.get());
 
 	skyDome_ = std::move(std::make_unique<Object3d>());
 	skyDome_->SetModel(Model::CreateOBJ("uvSphere", true));
@@ -48,7 +48,7 @@ void GameScene::Ini()
 
 	
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
-	const wchar_t* modelFile = L"Resources/boneTest/testCube.gltf";
+	const wchar_t* modelFile = L"Resources/boneTest/boneTest.fbx";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {

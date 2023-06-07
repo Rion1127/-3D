@@ -6,6 +6,7 @@
 #include <vector>
 #include "Material.h"
 #include "WorldTransform.h"
+#include <array>
 
 class Vertices
 {
@@ -14,6 +15,8 @@ public:
 		XMFLOAT3 pos;		//xyz座標
 		XMFLOAT3 normal;	//法線ベクトル
 		XMFLOAT2 uv;		//uv座標
+		std::array<uint32_t, 4> m_BoneIDs;
+		std::array<float,4> m_Weights;
 	};
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;

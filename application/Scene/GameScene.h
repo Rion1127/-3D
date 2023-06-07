@@ -46,7 +46,7 @@ private:
 	//g‚¤ƒJƒƒ‰À•W
 	Camera* useVP = nullptr;
 
-	LightGroup* lightGroup = nullptr;
+	std::unique_ptr<LightGroup> lightGroup = nullptr;
 
 
 	std::unique_ptr<Object3d> skyDome_;
