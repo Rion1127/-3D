@@ -7,6 +7,7 @@
 #include <imgui.h>
 #include <DirectXMath.h>
 #include "Vector2.h"
+#include "Texture.h"
 class Sprite
 {
 public:
@@ -59,6 +60,8 @@ public:
 	void SetTex_LeftTop(Vector2 pos) { textureLeftTop_ = pos; }
 	//画像UV座標変更
 	void SetTex_Size(Vector2 pos) { textureSize = pos; }
+	//テクスチャ
+	void SetTexture(Texture* texture) { texture_ = *texture; }
 
 	Vector2 GetScale() { return Scale_; }
 	Vector2 GetPos() { return pos_; }
@@ -136,34 +139,23 @@ private:
 	ConstBufferDataTransform* constMapTransform = nullptr;
 	XMMATRIX matProjection;
 
-	// ワールド行列
-	DirectX::XMMATRIX matWorld_{};
-	//色
-	DirectX::XMFLOAT4 color_;
-	//回転
-	float rot_;
-	//座標
-	Vector2 pos_;
-	//スケール
-	Vector2 Scale_;
-	//アンカーポイント
-	Vector2 anchorPoint_;
-	//左右フリップ
-	bool isFlipX_ = false;
-	//上下フリップ
-	bool isFlipY_ = false;
-	//非表示フラグ
-	bool isInvisible_ = false;
-	//テクスチャ左上座標
-	Vector2 textureLeftTop_ = { 0.0f,0.0f };
-	//テクスチャ切り出しサイズ
-	Vector2 textureSize = { 0.f,0.f };
-	//imgui表示
-	bool isImguiDisplay = false;
-
+	
+	DirectX::XMMATRIX matWorld_{};// ワールド行列
+	
+	DirectX::XMFLOAT4 color_;//色
+	
+	float rot_;				//回転
+	Vector2 pos_;			//座標
+	Vector2 Scale_;			//スケール
+	Vector2 anchorPoint_;	//アンカーポイント
+	bool isFlipX_ = false;	//左右フリップ
+	bool isFlipY_ = false;	//上下フリップ
+	bool isInvisible_ = false;					//非表示フラグ
+	Vector2 textureLeftTop_ = { 0.0f,0.0f };	//テクスチャ左上座標
+	Vector2 textureSize = { 0.f,0.f };			//テクスチャ切り出しサイズ
+	bool isImguiDisplay = false;				//imgui表示フラグ
 	uint32_t descriptorSize = 0;
-
-	Vector2 texSize;
+	Texture texture_;		//テクスチャ
 
 #pragma region
 	std::string guiName_;

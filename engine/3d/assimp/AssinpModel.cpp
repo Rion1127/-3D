@@ -25,7 +25,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 		importSetting_->meshes[i].Vertices.CreateBuffer();
 
 		std::string texturename = WStringToString(meshes[i].diffuseMap);
-		texHandle_[i] = TextureManager::GetInstance()->LoadGraph(texturename);
+		texHandle_[i] = TextureManager::GetInstance()->LoadGraph(texturename, texturename);
 	}
 }
 

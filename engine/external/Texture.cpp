@@ -15,6 +15,8 @@ void TextureManager::Ini(ID3D12Device* device)
 	device_ = device;
 	HRESULT result;
 	//デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
+
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
 	srvHeapDesc.NumDescriptors = (UINT)kMaxSRVCount;
@@ -24,7 +26,7 @@ void TextureManager::Ini(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 	//SRVヒープの先頭ハンドルを取得
 	srvHandle = srvHeap.Get()->GetCPUDescriptorHandleForHeapStart();
-	
+
 	//ヒープ設定
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
@@ -33,7 +35,7 @@ void TextureManager::Ini(ID3D12Device* device)
 	textureHandle = 0;
 }
 
-uint32_t TextureManager::LoadGraph(const std::string& HandleName)
+uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::string& name)
 {
 	HRESULT result = E_FAIL;
 	uint32_t graphHandle{};
@@ -47,7 +49,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	std::string find_Name = "Resources/";
 	size_t strPos = HandleName.find(find_Name);
 	//"Resources/"　が文字列の最初になければ文字列を足す
-	
+
 	if (strPos == 0)
 	{
 		allFileName = HandleName;
@@ -68,13 +70,19 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	//画像の名前を保存する
 	texture_->handleName_ = HandleName;
 	//同じ画像があった場合その画像と同じ数値を返す
+
+
 	for (int i = 0; i < texData.size(); i++) {
-		if (texData.size() > 0) {
-			if (texData.at(i * descriptorSize)->handleName_ == HandleName) {
-				return i * descriptorSize;
+		if (name == "") {
+			continue;
+			if (texData.size() > 0) {
+				if (texData.find(name)->second->handleName_ == HandleName) {
+					return texData.find(name)->second->textureHandle;
+				}
 			}
 		}
 	}
+
 	//ファイルの拡張子を代入
 	std::string extension = FileExtension(HandleName);
 
@@ -86,7 +94,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}
-	else if(extension == "tga")
+	else if (extension == "tga")
 	{
 		//WICテクスチャダウンロード
 		result = LoadFromTGAFile(
@@ -95,7 +103,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	}
 	else
 	{
-		
+
 	}
 
 	if (result != S_OK) {
@@ -159,8 +167,15 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName)
 	//次に格納する場所にアドレスを移す
 	srvHandle.ptr += descriptorSize;
 
+	texture_->textureHandle = graphHandle;
+	texture_->textureName_ = name;
+	texture_->size_ = {
+		(float)metadata.width,
+		(float)metadata.height,
+	};
+
 	//std::mapにHandleNameをキーワードにしたTexture型の配列を作る
-	texData.insert(std::make_pair(graphHandle, std::move(texture_)));
+	texData.insert(std::make_pair(name, std::move(texture_)));
 
 	//画像を格納したアドレスを返す
 	return graphHandle;
@@ -179,9 +194,9 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
-D3D12_RESOURCE_DESC TextureManager::GetResDesc(UINT descriptorSize)
+Texture* TextureManager::GetTexture(std::string name)
 {
-	return texData.at(descriptorSize).get()->textureResourceDesc;
+	return texData[name].get();
 }
 
 

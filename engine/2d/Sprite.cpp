@@ -278,13 +278,6 @@ void Sprite::Update()
 	{
 		return;
 	}
-	// 画像のサイズを取得
-	D3D12_RESOURCE_DESC resDesc = TextureManager::GetInstance()->GetResDesc(descriptorSize);
-
-	texSize = {
-		(float)resDesc.Width,
-		(float)resDesc.Height
-	};
 
 	// ワールド行列の更新
 	matWorld_ = XMMatrixIdentity();
@@ -324,7 +317,7 @@ void Sprite::Draw()
 		return;
 	}
 
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//定数バッファビュー(CBV)の設定コマンド
 	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
@@ -389,10 +382,10 @@ void Sprite::SetBlend(int blend)
 
 void Sprite::TransferVertex()
 {
-	float left = (0.0f - anchorPoint_.x) * texSize.x;
-	float right = (1.0f - anchorPoint_.x) * texSize.x;
-	float top = (0.0f - anchorPoint_.y) * texSize.y;
-	float bottom = (1.0f - anchorPoint_.y) * texSize.y;
+	float left = (0.0f - anchorPoint_.x) * texture_.size_.x;
+	float right = (1.0f - anchorPoint_.x) * texture_.size_.x;
+	float top = (0.0f - anchorPoint_.y) * texture_.size_.y;
+	float bottom = (1.0f - anchorPoint_.y) * texture_.size_.y;
 	//左右反転
 	if (isFlipX_)
 	{
@@ -416,10 +409,10 @@ void Sprite::TransferVertex()
 	//切り取り範囲がどちらも0の場合UV座標は変えない
 	if (textureSize.x != 0 && textureSize.y != 0)
 	{
-		float tex_left = textureLeftTop_.x / texSize.x;
-		float tex_right = (textureLeftTop_.x + textureSize.x) / texSize.x;
-		float tex_top = textureLeftTop_.y / texSize.y;
-		float tex_bottom = (textureLeftTop_.y + textureSize.y) / texSize.y;
+		float tex_left = textureLeftTop_.x / texture_.size_.x;
+		float tex_right = (textureLeftTop_.x + textureSize.x) / texture_.size_.x;
+		float tex_top = textureLeftTop_.y / texture_.size_.y;
+		float tex_bottom = (textureLeftTop_.y + textureSize.y) / texture_.size_.y;
 		//頂点のUVに反映する
 		vertices.at(LB).uv = { tex_left	, tex_bottom };//左下
 		vertices.at(LT).uv = { tex_left	, tex_top };//左上

@@ -97,7 +97,7 @@ void Material::LoadTexture(const std::string& directoryPath)
 	std::string filepath = directoryPath + textureFilename_;
 
 	// テクスチャ読み込み
-	textureHandle_ = TextureManager::GetInstance()->LoadGraph(filepath);
+	textureHandle_ = TextureManager::GetInstance()->LoadGraph(filepath, filepath);
 }
 
 void Material::ChangeColor(XMFLOAT4 color_)

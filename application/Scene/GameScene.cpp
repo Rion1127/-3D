@@ -87,11 +87,12 @@ void GameScene::Ini()
 	//影
 	lightGroup->SetCircleShadowActive(0, true);
 
-	uvtexture_ = textureM->LoadGraph("uv.png");
+	uvtexture_ = textureM->LoadGraph("uv.png","uv");
 
 	testSprite_.Ini();
 	testSprite_.SetPos({ 950,500 });
 	testSprite_.SetScale({ 0.3f,0.3f });
+	testSprite_.SetTexture(textureM->GetTexture("uv"));
 
 	testSprite2_.Ini();
 	testSprite2_.SetPos({ 950,300 });
@@ -131,6 +132,8 @@ void GameScene::Update()
 	skyDome_->Update();
 	sphere_->Update();
 	testObj->Update();
+
+	testSprite_.Update();
 
 	if (input_->TriggerKey(DIK_RETURN))
 	{
@@ -223,7 +226,8 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-	//testSprite_.Draw(uvtexture_);
+	testSprite_.Draw();
+	testSprite_.DrawImGui();
 	//testSprite_.DrawImGui();
 	Sprite::SetBlend(BLEND_ALPHA);
 	//testSprite2_.Draw(uvtexture_);
