@@ -15,8 +15,9 @@ struct Texture {
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
 	//テクスチャファイル名
 	std::string fileName_;
-	//テクスチャの
+	//設定したテクスチャの名前
 	std::string textureName_;
+	//テクスチャアドレス
 	uint32_t textureHandle;
 	//テクスチャサイズ
 	Vector2 size_;
@@ -30,7 +31,7 @@ public:
 
 	static TextureManager* GetInstance();
 
-	void Ini(ID3D12Device* device);
+	void Ini();
 
 	uint32_t LoadGraph(const std::string& fileName, const std::string& name);
 
@@ -41,8 +42,6 @@ public:
 	//設定をもとにSRV用でスクリプタヒープを生成
 	ComPtr<ID3D12DescriptorHeap> srvHeap{};
 private:
-	
-	ComPtr<ID3D12Device> device_{};	//デバイスを格納
 	//テクスチャの情報を格納
 	std::map < std::string , std::unique_ptr<Texture>> texData{};
 	//次に格納する場所のアドレス
@@ -53,8 +52,6 @@ private:
 	
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle{};
-	//ヒープ設定
-	D3D12_HEAP_PROPERTIES textureHeapProp{};
 
 };
 

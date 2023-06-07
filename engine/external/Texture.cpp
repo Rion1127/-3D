@@ -10,9 +10,8 @@ TextureManager* TextureManager::GetInstance()
 	return &instance;
 }
 
-void TextureManager::Ini(ID3D12Device* device)
+void TextureManager::Ini()
 {
-	device_ = device;
 	HRESULT result;
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
@@ -22,15 +21,12 @@ void TextureManager::Ini(ID3D12Device* device)
 	srvHeapDesc.NumDescriptors = (UINT)kMaxSRVCount;
 
 	//設定をもとにSRV用でスクリプタヒープを生成
-	result = device_->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	result = DirectXCommon::GetInstance()->GetDevice()->
+		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 	//SRVヒープの先頭ハンドルを取得
 	srvHandle = srvHeap.Get()->GetCPUDescriptorHandleForHeapStart();
-
-	//ヒープ設定
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	
 
 	textureHandle = 0;
 }
@@ -66,7 +62,8 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	ScratchImage scratchImg{};
 	ScratchImage mipChain{};
 
-	UINT descriptorSize = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	UINT descriptorSize = DirectXCommon::GetInstance()->GetDevice()->
+		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//画像の名前を保存する
 	texture_->fileName_ = fileName;
 	//同じ画像があった場合その画像と同じ数値を返す
@@ -131,8 +128,14 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	//ヒープ設定
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	//テクスチャバッファの生成
-	result = device_->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -160,7 +163,8 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 	//ハンドルのさす位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texture_->texBuff.Get(), &srvDesc, srvHandle);
+	DirectXCommon::GetInstance()->GetDevice()->
+		CreateShaderResourceView(texture_->texBuff.Get(), &srvDesc, srvHandle);
 	//次に格納する場所のアドレスを示す
 	textureHandle += descriptorSize;
 	//次に格納する場所にアドレスを移す

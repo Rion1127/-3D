@@ -13,7 +13,7 @@ void Framework::Init()
 	directX->Ini(winApi);
 
 	//テクスチャマネージャー初期化
-	TextureManager::GetInstance()->Ini(directX->GetDevice());
+	TextureManager::GetInstance()->Ini();
 	//インプット初期化
 	//キーボード
 	input_ = DirectXInput::GetInstance();
