@@ -15,6 +15,7 @@
 #include <fstream>
 #include "LightGroup.h"
 #include "Object3d.h"
+#include "PostEffect.h"
 
 #include "AssimpObject3D.h"
 #include "AssimpLoader.h"
@@ -109,10 +110,10 @@ private:
 	void PointLightUpdate();
 	void SpotLightUpdate();
 
-	SoundKey gameBGM_;
-
 	Sprite testSprite_;
 	Sprite testSprite2_;
 	uint32_t uvtexture_;
+
+	//PostEffect postEffect_;
 };
 

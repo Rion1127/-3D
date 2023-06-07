@@ -112,6 +112,12 @@
     <Filter Include="engine\ヘッダー ファイル\assimp">
       <UniqueIdentifier>{d85c7fc1-539a-4ded-b84a-8486aa926023}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ヘッダー ファイル\PostEffect">
+      <UniqueIdentifier>{ac564593-04b7-48aa-bcf5-4059bcdbdf49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ソース ファイル\PostEffect">
+      <UniqueIdentifier>{1aa0e441-a190-4a2c-a6af-9dce2d862a06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -234,6 +240,9 @@
     <ClCompile Include="engine\3d\assimp\AssinpModel.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
+    <ClCompile Include="engine\2d\PostEffect.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -352,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\PostEffect.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@
     <ClCompile Include="application\Scene\GameScene.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
+    <ClCompile Include="engine\2d\PostEffect.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpLoader.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpObject3D.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="application\Scene\GameScene.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
+    <ClInclude Include="engine\2d\PostEffect.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\assimp\AssimpLoader.h" />
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h" />

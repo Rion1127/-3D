@@ -272,55 +272,19 @@ void Sprite::DrawImGui()
 	ImGui::End();
 }
 
-void Sprite::PreDraw()
+void Sprite::Update()
 {
-	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
-		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
-
-	directX_->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetSpritePipeline(3)->GetRootSignature());
-
-	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-
-void Sprite::Draw(UINT descriptorSize)
-{
-	if (isImguiDisplay) {
-		DrawImGui();
-	}
-
-	if (isInvisible_) {
+	if (isInvisible_)
+	{
 		return;
 	}
-	HRESULT result = S_OK;
-#pragma region 画像のサイズを取得
+	// 画像のサイズを取得
 	D3D12_RESOURCE_DESC resDesc = TextureManager::GetInstance()->GetResDesc(descriptorSize);
 
-#pragma endregion
-	float left = (0.0f - anchorPoint_.x) * resDesc.Width;
-	float right = (1.0f - anchorPoint_.x) * resDesc.Width;
-	float top = (0.0f - anchorPoint_.y) * resDesc.Height;
-	float bottom = (1.0f - anchorPoint_.y) * resDesc.Height;
-	//左右反転
-	if (isFlipX_) {
-		left = -left;
-		right = -right;
-	}
-	//上下反転
-	if (isFlipY_) {
-		top = -top;
-		bottom = -bottom;
-	}
-
-#pragma region 画像の頂点データを更新
-	vertices.at(LB).pos = { left	, bottom	,0 };//左下
-	vertices.at(LT).pos = { left	, top		,0 };//左上
-	vertices.at(RB).pos = { right	, bottom	,0 };//右下
-	vertices.at(RT).pos = { right	, top		,0 };//右上
-
-	std::copy(std::begin(vertices), std::end(vertices), vertMap);
+	texSize = {
+		(float)resDesc.Width,
+		(float)resDesc.Height
+	};
 
 	// ワールド行列の更新
 	matWorld_ = XMMatrixIdentity();
@@ -334,20 +298,31 @@ void Sprite::Draw(UINT descriptorSize)
 
 #pragma endregion
 
-#pragma region 画像範囲指定
-	//切り取り範囲がどちらも0の場合UV座標は変えない
-	if (textureSize.x != 0 && textureSize.y != 0) {
-		float tex_left = textureLeftTop_.x / resDesc.Width;
-		float tex_right = (textureLeftTop_.x + textureSize.x) / resDesc.Width;
-		float tex_top = textureLeftTop_.y / resDesc.Height;
-		float tex_bottom = (textureLeftTop_.y + textureSize.y) / resDesc.Height;
-		//頂点のUVに反映する
-		vertices.at(LB).uv = { tex_left	, tex_bottom };//左下
-		vertices.at(LT).uv = { tex_left	, tex_top };//左上
-		vertices.at(RB).uv = { tex_right, tex_bottom };//右下
-		vertices.at(RT).uv = { tex_right, tex_top };//右上
+	TransferVertex();
+}
+
+void Sprite::PreDraw()
+{
+	// パイプラインステートとルートシグネチャの設定コマンド
+	directX_->GetCommandList()->SetPipelineState(
+		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
+
+	directX_->GetCommandList()->SetGraphicsRootSignature(
+		PipelineManager::GetSpritePipeline(3)->GetRootSignature());
+
+	// プリミティブ形状の設定コマンド
+	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+}
+
+void Sprite::Draw()
+{
+	if (isImguiDisplay) {
+		DrawImGui();
 	}
-#pragma endregion
+
+	if (isInvisible_) {
+		return;
+	}
 
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
@@ -410,4 +385,45 @@ void Sprite::SetBlend(int blend)
 
 	directX_->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetSpritePipeline(blend)->GetRootSignature());
+}
+
+void Sprite::TransferVertex()
+{
+	float left = (0.0f - anchorPoint_.x) * texSize.x;
+	float right = (1.0f - anchorPoint_.x) * texSize.x;
+	float top = (0.0f - anchorPoint_.y) * texSize.y;
+	float bottom = (1.0f - anchorPoint_.y) * texSize.y;
+	//左右反転
+	if (isFlipX_)
+	{
+		left = -left;
+		right = -right;
+	}
+	//上下反転
+	if (isFlipY_)
+	{
+		top = -top;
+		bottom = -bottom;
+	}
+
+	vertices.at(LB).pos = { left	, bottom	,0 };//左下
+	vertices.at(LT).pos = { left	, top		,0 };//左上
+	vertices.at(RB).pos = { right	, bottom	,0 };//右下
+	vertices.at(RT).pos = { right	, top		,0 };//右上
+
+	std::copy(std::begin(vertices), std::end(vertices), vertMap);
+
+	//切り取り範囲がどちらも0の場合UV座標は変えない
+	if (textureSize.x != 0 && textureSize.y != 0)
+	{
+		float tex_left = textureLeftTop_.x / texSize.x;
+		float tex_right = (textureLeftTop_.x + textureSize.x) / texSize.x;
+		float tex_top = textureLeftTop_.y / texSize.y;
+		float tex_bottom = (textureLeftTop_.y + textureSize.y) / texSize.y;
+		//頂点のUVに反映する
+		vertices.at(LB).uv = { tex_left	, tex_bottom };//左下
+		vertices.at(LT).uv = { tex_left	, tex_top };//左上
+		vertices.at(RB).uv = { tex_right, tex_bottom };//右下
+		vertices.at(RT).uv = { tex_right, tex_top };//右上
+	}
 }

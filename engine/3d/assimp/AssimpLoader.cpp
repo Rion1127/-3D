@@ -133,7 +133,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		const auto pMaterial = scene->mMaterials[i];
 		LoadTexture(setting->filename, meshes[i], pMaterial);
 
-		LoadBones(i, scene->mMeshes[i],setting);
+		//LoadBones(i, scene->mMeshes[i],setting);
 		//if (scene->mMeshes[i]->mBones != nullptr)
 		//{
 		//	//ƒ{[ƒ“‚Ìî•ñ‚ğ¶¬

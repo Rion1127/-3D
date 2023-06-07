@@ -6,6 +6,7 @@
 #include "PipelineManager.h"
 #include <imgui.h>
 #include <DirectXMath.h>
+#include "Vector2.h"
 class Sprite
 {
 public:
@@ -65,9 +66,11 @@ public:
 	void SetImGui(bool flag) { isImguiDisplay = flag; }
 	void DrawImGui();
 
+	void Update();
+
 	static void PreDraw();
 	//画像サイズ自動取得(描画座標は中心)
-	void Draw(UINT descriptorSize);
+	void Draw();
 	//画像の頂点データを自分で指定
 	void Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize);
 	/// <summary>
@@ -80,6 +83,8 @@ public:
 	static void SetBlend(int blend);
 
 	static void AddAllNum() { allNum++; }
+private:
+	void TransferVertex();
 private:
 	static int allNum;
 	int spriteNum = 0;
@@ -155,6 +160,10 @@ private:
 	Vector2 textureSize = { 0.f,0.f };
 	//imgui表示
 	bool isImguiDisplay = false;
+
+	uint32_t descriptorSize = 0;
+
+	Vector2 texSize;
 
 #pragma region
 	std::string guiName_;

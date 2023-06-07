@@ -91,7 +91,7 @@ void Framework::Draw()
 	//•`‰æƒRƒ}ƒ“ƒh
 	directX->PreDraw();
 	//ƒQ[ƒ€ƒV[ƒ“•`‰æ
-	SceneManager::Draw();
+	//SceneManager::Draw();
 	//imguiI—¹
 	imguiManeger_->End();
 	//imgui•`‰æ
