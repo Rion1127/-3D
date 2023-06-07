@@ -11,17 +11,14 @@
 using namespace DirectX;
 
 struct Texture {
-	//テクスチャ
-	std::string handleName_;
-	//リソース設定
-	D3D12_RESOURCE_DESC textureResourceDesc{};
-	//シェーダリソースビュー設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};			//設定構造体
 	//テクスチャバッファの生成
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
-
-	uint32_t textureHandle;
+	//テクスチャファイル名
+	std::string fileName_;
+	//テクスチャの
 	std::string textureName_;
+	uint32_t textureHandle;
+	//テクスチャサイズ
 	Vector2 size_;
 };
 
@@ -35,7 +32,7 @@ public:
 
 	void Ini(ID3D12Device* device);
 
-	uint32_t LoadGraph(const std::string& HandleName, const std::string& name);
+	uint32_t LoadGraph(const std::string& fileName, const std::string& name);
 
 	void SetGraphicsDescriptorTable(UINT descriptorSize);
 
@@ -48,9 +45,7 @@ private:
 	ComPtr<ID3D12Device> device_{};	//デバイスを格納
 	//テクスチャの情報を格納
 	std::map < std::string , std::unique_ptr<Texture>> texData{};
-	////テクスチャバッファを格納
-	//std::map <char, int> test;
-	//画像を保存するアドレスを格納する
+	//次に格納する場所のアドレス
 	uint32_t textureHandle;
 
 //SRVの最大個数

@@ -35,7 +35,7 @@ void TextureManager::Ini(ID3D12Device* device)
 	textureHandle = 0;
 }
 
-uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::string& name)
+uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::string& name)
 {
 	HRESULT result = E_FAIL;
 	uint32_t graphHandle{};
@@ -47,20 +47,20 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 	std::string allFileName;
 
 	std::string find_Name = "Resources/";
-	size_t strPos = HandleName.find(find_Name);
+	size_t strPos = fileName.find(find_Name);
 	//"Resources/"　が文字列の最初になければ文字列を足す
 
 	if (strPos == 0)
 	{
-		allFileName = HandleName;
+		allFileName = fileName;
 	}
 	else
 	{
-		allFileName = "Resources/" + HandleName;
+		allFileName = "Resources/" + fileName;
 	}
 #pragma region 画像読み込み
 	//stringをwchar_tに変換
-	wchar_t* fileName = ConvertStrToWchar(allFileName);
+	wchar_t* allFileName_w = ConvertStrToWchar(allFileName);
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
@@ -68,7 +68,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 
 	UINT descriptorSize = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//画像の名前を保存する
-	texture_->handleName_ = HandleName;
+	texture_->fileName_ = fileName;
 	//同じ画像があった場合その画像と同じ数値を返す
 
 
@@ -76,7 +76,7 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 		if (name == "") {
 			continue;
 			if (texData.size() > 0) {
-				if (texData.find(name)->second->handleName_ == HandleName) {
+				if (texData.find(name)->second->fileName_ == fileName) {
 					return texData.find(name)->second->textureHandle;
 				}
 			}
@@ -84,13 +84,13 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 	}
 
 	//ファイルの拡張子を代入
-	std::string extension = FileExtension(HandleName);
+	std::string extension = FileExtension(fileName);
 
 	if (extension == "png")
 	{
 		//WICテクスチャダウンロード
 		result = LoadFromWICFile(
-			fileName,
+			allFileName_w,
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}
@@ -98,14 +98,11 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 	{
 		//WICテクスチャダウンロード
 		result = LoadFromTGAFile(
-			fileName,
+			allFileName_w,
 			&metadata, scratchImg);
 	}
-	else
-	{
-
-	}
-
+	
+	//失敗したときは白のテクスチャを読み込む
 	if (result != S_OK) {
 		result = LoadFromWICFile(
 			L"Resources/white1×1.png",
@@ -124,20 +121,21 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 	//読み込んだディフューズテクスチャをSRGBとして扱う
 	metadata.format = MakeSRGB(metadata.format);
 #pragma endregion
-
 	//リソース設定
-	texture_->textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	texture_->textureResourceDesc.Format = metadata.format;
-	texture_->textureResourceDesc.Width = metadata.width;
-	texture_->textureResourceDesc.Height = (UINT)metadata.height;
-	texture_->textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	texture_->textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
-	texture_->textureResourceDesc.SampleDesc.Count = 1;
+	D3D12_RESOURCE_DESC textureResourceDesc{};
+	//リソース設定
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
+	textureResourceDesc.SampleDesc.Count = 1;
 	//テクスチャバッファの生成
 	result = device_->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&texture_->textureResourceDesc,
+		&textureResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
 		nullptr,
 		IID_PPV_ARGS(&texture_->texBuff));
@@ -154,14 +152,15 @@ uint32_t TextureManager::LoadGraph(const std::string& HandleName, const std::str
 			(UINT)img->slicePitch);	//1枚サイズ
 		assert(SUCCEEDED(result));
 	}
-
 	//シェーダリソースビュー設定
-	texture_->srvDesc.Format = texture_->textureResourceDesc.Format;	//RGBA float
-	texture_->srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	texture_->srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	texture_->srvDesc.Texture2D.MipLevels = texture_->textureResourceDesc.MipLevels;
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};			//設定構造体
+	//シェーダリソースビュー設定
+	srvDesc.Format = textureResourceDesc.Format;	//RGBA float
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 	//ハンドルのさす位置にシェーダーリソースビュー作成
-	device_->CreateShaderResourceView(texture_->texBuff.Get(), &texture_->srvDesc, srvHandle);
+	device_->CreateShaderResourceView(texture_->texBuff.Get(), &srvDesc, srvHandle);
 	//次に格納する場所のアドレスを示す
 	textureHandle += descriptorSize;
 	//次に格納する場所にアドレスを移す
