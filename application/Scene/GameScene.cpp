@@ -90,9 +90,10 @@ void GameScene::Ini()
 	
 
 	testSprite_.Ini();
-	testSprite_.SetPos({ 950,500 });
-	testSprite_.SetScale({ 0.3f,0.3f });
-	testSprite_.SetTexture(textureM->GetTexture("uv"));
+	//testSprite_.SetPos({ 950,500 });
+	//testSprite_.SetScale({ 0.3f,0.3f });
+	testSprite_.SetAnchor({ 0,0 });
+	testSprite_.SetTexture(textureM->GetTexture("Test"));
 
 	testSprite2_.Ini();
 	testSprite2_.SetPos({ 950,300 });
