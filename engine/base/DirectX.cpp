@@ -53,7 +53,7 @@ void RDirectX::DXGIDeviceIni() {
 #endif
 
 	// 対応レベルの配列
-	D3D_FEATURE_LEVEL levels[] = {
+	std::vector<D3D_FEATURE_LEVEL> levels = {
 	  D3D_FEATURE_LEVEL_12_1,
 	  D3D_FEATURE_LEVEL_12_0,
 	  D3D_FEATURE_LEVEL_11_1,
@@ -93,7 +93,7 @@ void RDirectX::DXGIDeviceIni() {
 	D3D_FEATURE_LEVEL featureLevel;
 	for (int i = 0; i < adapters.size(); i++) {
 		// デバイスを生成
-		for (int levelIndex = 0; levelIndex < _countof(levels); levelIndex++) {
+		for (int levelIndex = 0; levelIndex < levels.size(); levelIndex++) {
 			result =
 				D3D12CreateDevice(adapters[i].Get(), levels[levelIndex], IID_PPV_ARGS(&device));
 			if (SUCCEEDED(result)) {
@@ -165,19 +165,19 @@ void RDirectX::CommandIni() {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
 
 		// 抑制するエラー
-		D3D12_MESSAGE_ID denyIds[] = {
+		std::vector<D3D12_MESSAGE_ID> denyIds = {
 			/*
 			 * Windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤーの相互作用バグによるエラーメッセージ
 			 * https://stackoverflow.com/questions/69805245/directx-12-application-is-crashing-in-windows-11
 			 */
 			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE };
 		// 抑制する表示レベル
-		D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		std::vector<D3D12_MESSAGE_SEVERITY> severities = { D3D12_MESSAGE_SEVERITY_INFO };
 		D3D12_INFO_QUEUE_FILTER filter{};
-		filter.DenyList.NumIDs = _countof(denyIds);
-		filter.DenyList.pIDList = denyIds;
-		filter.DenyList.NumSeverities = _countof(severities);
-		filter.DenyList.pSeverityList = severities;
+		filter.DenyList.NumIDs = (UINT)denyIds.size();
+		filter.DenyList.pIDList = denyIds.data();
+		filter.DenyList.NumSeverities = (UINT)severities.size();
+		filter.DenyList.pSeverityList = severities.data();
 		// 指定したエラーの表示を抑制する
 		infoQueue->PushStorageFilter(&filter);
 		
@@ -340,8 +340,8 @@ void RDirectX::PostDraw() {
 	commandList->Close();
 
 	// コマンドリストの実行
-	ID3D12CommandList* cmdLists[] = { commandList.Get() }; // コマンドリストの配列
-	commandQueue_->ExecuteCommandLists(1, cmdLists);
+	std::vector<ID3D12CommandList*> cmdLists = { commandList.Get() }; // コマンドリストの配列
+	commandQueue_->ExecuteCommandLists(1, cmdLists.data());
 
 	// バッファをフリップ
 	result = swapChain->Present(1, 0);
@@ -384,12 +384,12 @@ void RDirectX::ClearRenderTarget() {
 		rtvHeap->GetCPUDescriptorHandleForHeapStart(), bbIndex,
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 
-	float black[] = {0,0,0,0};
-	float blue[] = { 0.1f, 0.25f, 0.5f, 0.0f };
+	std::vector<float> black = {0,0,0,0};
+	std::vector<float> blue = { 0.1f, 0.25f, 0.5f, 0.0f };
 
 	// 全画面クリア        Red   Green Blue  Alpha
 	//float clearColor[] = { 0,0,0,0/*0.1f, 0.25f, 0.5f, 0.0f */}; // 青っぽい色
-	commandList->ClearRenderTargetView(rtvH, blue, 0, nullptr);
+	commandList->ClearRenderTargetView(rtvH, blue.data(), 0, nullptr);
 }
 
 void RDirectX::ClearDepthBuffer() {

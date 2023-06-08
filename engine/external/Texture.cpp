@@ -185,8 +185,8 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 {
 	//SRVヒープの設定コマンド
-	ID3D12DescriptorHeap* heaps[] = { srvHeap.Get() };
-	RDirectX::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps);
+	std::vector<ID3D12DescriptorHeap*> heaps = { srvHeap.Get() };
+	RDirectX::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps.data());
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();

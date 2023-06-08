@@ -31,6 +31,8 @@ void Framework::Init()
 	LightGroup::StaticInit();
 
 	loadManager_.LoadAllResources();
+
+	postEffect = std::move(std::make_unique<PostEffect>());
 }
 
 void Framework::Finalize()
@@ -55,6 +57,8 @@ void Framework::Update()
 	DirectXInput::GetInstance()->InputUpdata();
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
+
+	postEffect->Update();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
@@ -86,7 +90,8 @@ void Framework::Draw()
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	SceneManager::Draw();
+	//SceneManager::Draw();
+	postEffect->Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

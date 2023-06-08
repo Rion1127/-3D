@@ -19,6 +19,7 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+	
 	static void StaticIni();
 	void Ini(std::string guiname = "");
 	//座標を代入する
@@ -86,9 +87,9 @@ public:
 	static void SetBlend(int blend);
 
 	static void AddAllNum() { allNum++; }
-private:
+protected:
 	void TransferVertex();
-private:
+protected:
 	static int allNum;
 	int spriteNum = 0;
 

@@ -13,6 +13,7 @@
 #include "ImGuiManager.h"
 #include <imgui.h>
 #include "LoadManager.h"
+#include "PostEffect.h"
 class Framework
 {
 private:
@@ -48,5 +49,6 @@ private:
 	////imgui‰Šú‰»
 	//ImGuiManager* imguiManeger_ = nullptr;
 	//LoadManager
+	std::unique_ptr<PostEffect> postEffect;
 };
 
