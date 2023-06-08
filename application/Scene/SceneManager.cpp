@@ -12,7 +12,7 @@ void SceneManager::Ini()
 	Transition<GameScene>();
 	
 
-	sceneChangeGraph = TextureManager::GetInstance()->LoadGraph("white1Å~1.png","White");
+	
 }
 
 void SceneManager::Update()

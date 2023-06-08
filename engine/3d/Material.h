@@ -5,6 +5,7 @@
 #include <string>
 #pragma comment(lib, "d3d12.lib")
 #include <cassert>
+#include "Texture.h"
 
 class Material
 {
@@ -30,7 +31,7 @@ public:
 	std::string name_;            // マテリアル名
 	std::string textureFilename_; // テクスチャファイル名
 	// テクスチャハンドル
-	uint32_t textureHandle_ = 0;
+	Texture texture_;
 private:
 	////定数バッファ用データ構造体
 	//struct ConstBufferDataMaterial {

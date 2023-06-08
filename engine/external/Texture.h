@@ -33,7 +33,7 @@ public:
 
 	void Ini();
 
-	uint32_t LoadGraph(const std::string& fileName, const std::string& name);
+	void LoadGraph(const std::string& fileName, const std::string& name);
 
 	void SetGraphicsDescriptorTable(UINT descriptorSize);
 

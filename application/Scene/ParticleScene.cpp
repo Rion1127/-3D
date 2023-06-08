@@ -33,8 +33,7 @@ void ParticleScene::Ini()
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);
 
-	texture_ = textureM->LoadGraph("keyBlade2.png","key");
-	whiteTexture_ = textureM->LoadGraph("uv.png","uv");
+	
 
 	const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"

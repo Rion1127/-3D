@@ -87,7 +87,7 @@ void GameScene::Ini()
 	//‰e
 	lightGroup->SetCircleShadowActive(0, true);
 
-	uvtexture_ = textureM->LoadGraph("uv.png","uv");
+	
 
 	testSprite_.Ini();
 	testSprite_.SetPos({ 950,500 });

@@ -243,6 +243,9 @@
     <ClCompile Include="engine\2d\PostEffect.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="application\LoadManager.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="engine\2d\PostEffect.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="application\LoadManager.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

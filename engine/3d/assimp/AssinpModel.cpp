@@ -19,13 +19,14 @@ void AssinpModel::Create(const wchar_t* modelFile)
 
 	AssimpLoader::GetInstance()->Load(importSetting_.get());
 
-	texHandle_.resize(meshes.size());
+	texture_.resize(meshes.size());
 	for (int i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		importSetting_->meshes[i].Vertices.CreateBuffer();
 
 		std::string texturename = WStringToString(meshes[i].diffuseMap);
-		texHandle_[i] = TextureManager::GetInstance()->LoadGraph(texturename, texturename);
+		TextureManager::GetInstance()->LoadGraph(texturename, texturename);
+		texture_[i] = *TextureManager::GetInstance()->GetTexture(texturename);
 	}
 }
 
@@ -34,7 +35,7 @@ void AssinpModel::Draw(WorldTransform WT)
 	for (int i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		TextureManager::GetInstance()->
-			SetGraphicsDescriptorTable(texHandle_[i]);
+			SetGraphicsDescriptorTable(texture_[i].textureHandle);
 
 		importSetting_->meshes[i].Vertices.Draw(&WT, 0);
 	}

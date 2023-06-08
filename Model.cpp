@@ -101,9 +101,9 @@ void Model::SetModel(const Model* model)
 
 	//materials_.insert(model->materials_.begin(), model->materials_.end());
 
-	for (size_t i = 0; i < model->textureHandle_.size(); i++)
+	for (size_t i = 0; i < model->texture_.size(); i++)
 	{
-		textureHandle_.push_back(model->textureHandle_[i]);
+		texture_.push_back(model->texture_[i]);
 	}
 
 	// メッシュのバッファ生成
@@ -390,7 +390,7 @@ void Model::LoadTexture()
 			// マテリアルにテクスチャ読み込み
 			material->LoadTexture("white1×1.png");
 		}
-		textureHandle_.push_back(material->textureHandle_);
+		texture_.push_back(material->texture_);
 	}
 }
 
@@ -450,12 +450,12 @@ void Model::DrawOBJ(WorldTransform* worldTransform)
 	lightGroup->Draw(3);
 	for (auto& m : materials_)
 	{
-		m.second->Draw(textureHandle_.at(0));
+		m.second->Draw(texture_.at(0).textureHandle);
 	}
 	for (auto& v : vert_)
 	{
 
-		v->Draw(worldTransform, textureHandle_.at(0));
+		v->Draw(worldTransform, texture_.at(0).textureHandle);
 	}
 }
 

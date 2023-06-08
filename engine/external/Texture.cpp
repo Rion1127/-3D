@@ -31,7 +31,7 @@ void TextureManager::Ini()
 	textureHandle = 0;
 }
 
-uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::string& name)
+void TextureManager::LoadGraph(const std::string& fileName, const std::string& name)
 {
 	HRESULT result = E_FAIL;
 	uint32_t graphHandle{};
@@ -74,7 +74,7 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 			continue;
 			if (texData.size() > 0) {
 				if (texData.find(name)->second->fileName_ == fileName) {
-					return texData.find(name)->second->textureHandle;
+					break;
 				}
 			}
 		}
@@ -180,8 +180,6 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	//std::mapにHandleNameをキーワードにしたTexture型の配列を作る
 	texData.insert(std::make_pair(name, std::move(texture_)));
 
-	//画像を格納したアドレスを返す
-	return graphHandle;
 }
 
 void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)

@@ -7,6 +7,7 @@
 #include "PipelineManager.h"
 #include <unordered_map>
 #include "LightGroup.h"
+#include "Texture.h"
 
 class Model
 {
@@ -74,7 +75,7 @@ private:
 	void CalculateSmoothedVertexNormals();
 public:
 	std::vector<Vertices*> vert_;
-	std::vector<uint32_t> textureHandle_;
+	std::vector<Texture> texture_;
 	// マテリアルコンテナ
 	std::map<std::string, Material*> materials_;
 	//ライト

@@ -5,47 +5,42 @@
 void Framework::Init()
 {
 	//winAPI初期化
-	winApi = WinAPI::GetInstance();
-	winApi->Ini();
+	WinAPI::GetInstance()->Ini();
 
 	//DirectX初期化
-	directX = RDirectX::GetInstance();
-	directX->Ini(winApi);
+	RDirectX::GetInstance()->Ini(WinAPI::GetInstance());
 
 	//テクスチャマネージャー初期化
 	TextureManager::GetInstance()->Ini();
 	//インプット初期化
 	//キーボード
-	input_ = DirectXInput::GetInstance();
-	input_->InputIni();
+	DirectXInput::GetInstance()->InputIni();
 	//コントローラー
-	controller = Controller::GetInstance();
-	controller->Ini();
+	Controller::GetInstance()->Ini();
 	//マウス
-	mouse = MouseInput::GetInstance();
-	mouse->MouseIni();
+	MouseInput::GetInstance()->MouseIni();
 	//サウンド初期化
-	sound_ = SoundManager::GetInstance();
-	sound_->Init();
+	SoundManager::GetInstance()->Init();
 
 	PipelineManager::Ini();
 
 	//imgui初期化
-	imguiManeger_ = ImGuiManager::Getinstance();
-	imguiManeger_->Init();
+	ImGuiManager::Getinstance()->Init();
 
 	DirectionalLight::StaticInit();
 	LightGroup::StaticInit();
+
+	loadManager_.LoadAllResources();
 }
 
 void Framework::Finalize()
 {
 	// ウィンドウクラスを登録解除
-	winApi->ReleaseClass();
+	WinAPI::GetInstance()->ReleaseClass();
 	//サウンド関連解放
-	sound_->ReleaseAllSounds();
+	SoundManager::GetInstance()->ReleaseAllSounds();
 	//imgui解放
-	imguiManeger_->Finalize();
+	ImGuiManager::Getinstance()->Finalize();
 
 	
 }
@@ -55,11 +50,11 @@ void Framework::Update()
 	// ゲームループ
 
 	//imgui開始
-	imguiManeger_->Begin();
+	ImGuiManager::Getinstance()->Begin();
 	//インプット関連更新
-	input_->InputUpdata();
-	controller->Update();
-	mouse->Updata();
+	DirectXInput::GetInstance()->InputUpdata();
+	Controller::GetInstance()->Update();
+	MouseInput::GetInstance()->Updata();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
@@ -72,7 +67,7 @@ void Framework::Run()
 	Init();
 
 	while (true) {
-		if (winApi->MsgCheck()) {
+		if (WinAPI::GetInstance()->MsgCheck()) {
 			break;
 		}
 
@@ -89,13 +84,13 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//描画コマンド
-	directX->PreDraw();
+	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
 	SceneManager::Draw();
 	//imgui終了
-	imguiManeger_->End();
+	ImGuiManager::Getinstance()->End();
 	//imgui描画
-	imguiManeger_->Draw();
+	ImGuiManager::Getinstance()->Draw();
 	//描画終了
-	directX->PostDraw();
+	RDirectX::GetInstance()->PostDraw();
 }

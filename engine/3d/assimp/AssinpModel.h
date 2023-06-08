@@ -1,6 +1,7 @@
 #pragma once
 #include "AssimpLoader.h"
 #include "WorldTransform.h"
+#include "Texture.h"
 class AssinpModel
 {
 public:
@@ -10,7 +11,7 @@ public:
 	void Draw(WorldTransform WT);
 private:
 	std::vector<Mesh> meshes;
-	std::vector <uint32_t> texHandle_;
+	std::vector <Texture> texture_;
 	std::unique_ptr<ImportSettings> importSetting_;
 
 	
