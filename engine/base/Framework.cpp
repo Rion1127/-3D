@@ -33,6 +33,7 @@ void Framework::Init()
 	loadManager_.LoadAllResources();
 
 	postEffect = std::move(std::make_unique<PostEffect>());
+	postEffect->SetTexture(*TextureManager::GetInstance()->GetTexture("White1280x720"));
 }
 
 void Framework::Finalize()
@@ -87,10 +88,14 @@ void Framework::Run()
 
 void Framework::Draw()
 {
+	//レンダーテクスチャへの描画
+	postEffect->PreDrawScene();
+	SceneManager::Draw();
+	postEffect->PostDrawScene();
+
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	//SceneManager::Draw();
 	postEffect->Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
