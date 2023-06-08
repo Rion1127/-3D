@@ -9,7 +9,7 @@ void Framework::Init()
 	winApi->Ini();
 
 	//DirectX初期化
-	directX = DirectXCommon::GetInstance();
+	directX = RDirectX::GetInstance();
 	directX->Ini(winApi);
 
 	//テクスチャマネージャー初期化

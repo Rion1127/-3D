@@ -10,13 +10,13 @@
 #include <d3d12sdklayers.h>
 #include "WinAPI.h"
 #include <chrono>
-class DirectXCommon
+class RDirectX
 {
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static DirectXCommon* GetInstance();
+	static RDirectX* GetInstance();
 
 	ID3D12Device* GetDevice() { return device.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList.Get(); }

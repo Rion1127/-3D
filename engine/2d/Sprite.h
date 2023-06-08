@@ -92,20 +92,17 @@ private:
 	static int allNum;
 	int spriteNum = 0;
 
-	static DirectXCommon* directX_;
+#pragma region 頂点データ
 	struct Vertex {
 		XMFLOAT3 pos;
 		XMFLOAT2 uv;
 	};
-
 	enum VertNum {
 		LB,	//左下
 		LT,	//左上
 		RB,	//右下
 		RT	//右上
 	};
-
-#pragma region 頂点データ
 	//頂点データ
 	std::vector<Vertex> vertices;
 	// 頂点バッファビューの作成

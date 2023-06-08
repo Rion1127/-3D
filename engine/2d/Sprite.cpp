@@ -13,12 +13,10 @@ using namespace DirectX;
 #include <sstream>
 #include "myMath.h"
 
-DirectXCommon* Sprite::directX_ = nullptr;
 int Sprite::allNum = 0;
 
 void Sprite::StaticIni()
 {
-	directX_ = DirectXCommon::GetInstance();
 }
 
 void Sprite::Ini(std::string guiname)
@@ -68,7 +66,7 @@ void Sprite::Ini(std::string guiname)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = directX_->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -116,7 +114,7 @@ void Sprite::Ini(std::string guiname)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 
-	result = directX_->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -158,7 +156,7 @@ void Sprite::Ini(std::string guiname)
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = directX_->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,
@@ -183,7 +181,7 @@ void Sprite::Ini(std::string guiname)
 			CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransform) + 0xff) & ~0xff);
 
 		// 定数バッファの生成
-		result = directX_->GetDevice()->CreateCommittedResource(
+		result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 			&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr, IID_PPV_ARGS(&constBuffTransform));
 		assert(SUCCEEDED(result));
@@ -297,14 +295,14 @@ void Sprite::Update()
 void Sprite::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
+	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetSpritePipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
 void Sprite::Draw()
@@ -319,16 +317,19 @@ void Sprite::Draw()
 
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	directX_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
-	directX_->GetCommandList()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	RDirectX::GetInstance()->GetCommandList()->
+		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
@@ -356,16 +357,19 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 #pragma endregion
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	directX_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	directX_->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
-	directX_->GetCommandList()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	RDirectX::GetInstance()->GetCommandList()->
+		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 void Sprite::SetBlend(int blend)
@@ -373,10 +377,10 @@ void Sprite::SetBlend(int blend)
 	if (blend > 3) blend = 3;
 	else if (blend < 0) blend = 0;
 	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
+	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetSpritePipeline(blend)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetSpritePipeline(blend)->GetRootSignature());
 }
 

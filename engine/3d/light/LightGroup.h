@@ -115,7 +115,7 @@ private:
 		//丸影
 		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 	};
-	static DirectXCommon* directX;
+	static RDirectX* directX;
 
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff;

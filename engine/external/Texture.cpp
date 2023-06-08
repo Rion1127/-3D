@@ -21,7 +21,7 @@ void TextureManager::Ini()
 	srvHeapDesc.NumDescriptors = (UINT)kMaxSRVCount;
 
 	//設定をもとにSRV用でスクリプタヒープを生成
-	result = DirectXCommon::GetInstance()->GetDevice()->
+	result = RDirectX::GetInstance()->GetDevice()->
 		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 	//SRVヒープの先頭ハンドルを取得
@@ -62,7 +62,7 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	ScratchImage scratchImg{};
 	ScratchImage mipChain{};
 
-	UINT descriptorSize = DirectXCommon::GetInstance()->GetDevice()->
+	UINT descriptorSize = RDirectX::GetInstance()->GetDevice()->
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//画像の名前を保存する
 	texture_->fileName_ = fileName;
@@ -135,7 +135,7 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	//テクスチャバッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -163,7 +163,7 @@ uint32_t TextureManager::LoadGraph(const std::string& fileName, const std::strin
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 	//ハンドルのさす位置にシェーダーリソースビュー作成
-	DirectXCommon::GetInstance()->GetDevice()->
+	RDirectX::GetInstance()->GetDevice()->
 		CreateShaderResourceView(texture_->texBuff.Get(), &srvDesc, srvHandle);
 	//次に格納する場所のアドレスを示す
 	textureHandle += descriptorSize;
@@ -188,13 +188,13 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 {
 	//SRVヒープの設定コマンド
 	ID3D12DescriptorHeap* heaps[] = { srvHeap.Get() };
-	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps);
+	RDirectX::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps);
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	srvGpuHandle.ptr += descriptorSize;
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
 Texture* TextureManager::GetTexture(std::string name)

@@ -131,7 +131,7 @@ void Vertices::Ini(ID3D12Device* device)
 	}
 
 	// 頂点バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -170,7 +170,7 @@ void Vertices::Ini(ID3D12Device* device)
 		resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 		// 頂点バッファの生成
-		result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+		result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 			&heapProp, // ヒープ設定
 			D3D12_HEAP_FLAG_NONE,
 			&resDesc, // リソース設定
@@ -243,7 +243,7 @@ void Vertices::CreateBuffer()
 	}
 
 	// 頂点バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -279,7 +279,7 @@ void Vertices::CreateBuffer()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// 頂点バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc, // リソース設定
@@ -326,43 +326,43 @@ void Vertices::Draw(uint32_t indexSize,
 	UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		DrawIndexedInstanced((UINT)indexSize, 1, 0, 0, 0);
 }
 
 void Vertices::Draw(WorldTransform* worldTransform, UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 void Vertices::DrawInstanced(WorldTransform* worldTransform, UINT descriptorSize)
 {
 	// 頂点バッファビューの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファビューの設定コマンド
 	//commandList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		DrawInstanced((UINT)vertices.size(), 1, 0, 0);
 }
 

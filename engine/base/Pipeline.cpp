@@ -2,9 +2,9 @@
 #include "Util.h"
 #include "Pipeline.h"
 
-DirectXCommon* Pipeline::directX_ = DirectXCommon::GetInstance();
+RDirectX* Pipeline::directX_ = RDirectX::GetInstance();
 
-DirectXCommon* ParticlePipeline::directX_ = DirectXCommon::GetInstance();
+RDirectX* ParticlePipeline::directX_ = RDirectX::GetInstance();
 
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 {

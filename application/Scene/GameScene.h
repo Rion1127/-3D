@@ -32,7 +32,7 @@ public:
 
 	void Draw()override;
 private:
-	DirectXCommon* directX = nullptr;
+	RDirectX* directX = nullptr;
 	WinAPI* winApi_ = nullptr;
 	DirectXInput* input_ = nullptr;
 	Controller* controller_ = nullptr;

@@ -66,7 +66,7 @@ inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(MapClass& map)
 	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resdesc,

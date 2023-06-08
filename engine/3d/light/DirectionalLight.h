@@ -41,7 +41,7 @@ public:
 	};
 private:
 
-	static DirectXCommon* directX;
+	static RDirectX* directX;
 
 	ComPtr<ID3D12Resource> constBuff;
 	ConstBufferData* constMap;

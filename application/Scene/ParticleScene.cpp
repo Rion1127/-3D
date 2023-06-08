@@ -9,7 +9,7 @@ ParticleScene::~ParticleScene()
 
 void ParticleScene::Ini()
 {
-	directX = DirectXCommon::GetInstance();
+	directX = RDirectX::GetInstance();
 	winApi_ = WinAPI::GetInstance();
 	input_ = DirectXInput::GetInstance();
 	controller_ = Controller::GetInstance();

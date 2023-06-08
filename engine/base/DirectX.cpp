@@ -9,13 +9,13 @@
 
 #include "DirectX.h"
 
-DirectXCommon* DirectXCommon::GetInstance()
+RDirectX* RDirectX::GetInstance()
 {
-	static DirectXCommon instance;
+	static RDirectX instance;
 	return &instance;
 }
 
-void DirectXCommon::Ini(WinAPI* winApi)
+void RDirectX::Ini(WinAPI* winApi)
 {
 	winApi_ = winApi;
 	//FPS固定初期化
@@ -34,7 +34,7 @@ void DirectXCommon::Ini(WinAPI* winApi)
 	CreateFence();
 }
 
-void DirectXCommon::DXGIDeviceIni() {
+void RDirectX::DXGIDeviceIni() {
 	HRESULT result = S_FALSE;
 
 #ifdef _DEBUG
@@ -114,7 +114,7 @@ void DirectXCommon::DXGIDeviceIni() {
 
 }
 
-void DirectXCommon::CreateSwapChain() {
+void RDirectX::CreateSwapChain() {
 	HRESULT result = S_FALSE;
 
 	//スワップチェーンを生成
@@ -139,7 +139,7 @@ void DirectXCommon::CreateSwapChain() {
 	
 }
 
-void DirectXCommon::CommandIni() {
+void RDirectX::CommandIni() {
 	HRESULT result = S_FALSE;
 
 	// コマンドアロケータを生成
@@ -185,7 +185,7 @@ void DirectXCommon::CommandIni() {
 #endif
 }
 
-void DirectXCommon::CreateFinalRenderTargets() {
+void RDirectX::CreateFinalRenderTargets() {
 	HRESULT result = S_FALSE;
 
 	DXGI_SWAP_CHAIN_DESC swcDesc = {};
@@ -220,7 +220,7 @@ void DirectXCommon::CreateFinalRenderTargets() {
 	}
 }
 
-void DirectXCommon::CreateDepthBuffer() {
+void RDirectX::CreateDepthBuffer() {
 	HRESULT result = S_FALSE;
 
 	// ヒーププロパティ
@@ -252,7 +252,7 @@ void DirectXCommon::CreateDepthBuffer() {
 		depthBuffer_.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
-void DirectXCommon::CreateFence() {
+void RDirectX::CreateFence() {
 	HRESULT result = S_FALSE;
 
 	// フェンスの生成
@@ -261,13 +261,13 @@ void DirectXCommon::CreateFence() {
 }
 
 
-void DirectXCommon::InitializeFixFPS()
+void RDirectX::InitializeFixFPS()
 {
 	//現在時間を記録する
 	reference_ = std::chrono::steady_clock::now();
 }
 
-void DirectXCommon::UpdateFixFPS()
+void RDirectX::UpdateFixFPS()
 {
 	// 1/60秒ぴったりの時間
 	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
@@ -292,7 +292,7 @@ void DirectXCommon::UpdateFixFPS()
 	reference_ = std::chrono::steady_clock::now();
 }
 
-void DirectXCommon::PreDraw() {
+void RDirectX::PreDraw() {
 	// バックバッファの番号を取得（2つなので0番か1番）
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -326,7 +326,7 @@ void DirectXCommon::PreDraw() {
 	commandList->RSSetScissorRects(1, &rect);
 }
 
-void DirectXCommon::PostDraw() {
+void RDirectX::PostDraw() {
 	HRESULT result;
 
 	// リソースバリアを変更（描画対象→表示状態）
@@ -376,7 +376,7 @@ void DirectXCommon::PostDraw() {
 		nullptr); // 再びコマンドリストを貯める準備
 }
 
-void DirectXCommon::ClearRenderTarget() {
+void RDirectX::ClearRenderTarget() {
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
 	// レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
@@ -392,7 +392,7 @@ void DirectXCommon::ClearRenderTarget() {
 	commandList->ClearRenderTargetView(rtvH, blue, 0, nullptr);
 }
 
-void DirectXCommon::ClearDepthBuffer() {
+void RDirectX::ClearDepthBuffer() {
 	// 深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvH =
 		CD3DX12_CPU_DESCRIPTOR_HANDLE(dsvHeap->GetCPUDescriptorHandleForHeapStart());

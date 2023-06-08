@@ -34,7 +34,7 @@ public:
 	void Draw(uint32_t descriptorSize);
 
 private:
-	static DirectXCommon* directX_;
+	static RDirectX* directX_;
 
 	struct Vertex {
 		Vector3 pos;

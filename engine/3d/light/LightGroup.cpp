@@ -1,11 +1,11 @@
 #include "LightGroup.h"
 #include <cassert>
 
-DirectXCommon* LightGroup::directX = nullptr;
+RDirectX* LightGroup::directX = nullptr;
 
 void LightGroup::StaticInit()
 {
-	directX = DirectXCommon::GetInstance();
+	directX = RDirectX::GetInstance();
 }
 
 LightGroup* LightGroup::Create()

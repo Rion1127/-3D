@@ -13,10 +13,10 @@
 #include "PipelineManager.h"
 
 //コマンドリストを格納する
-DirectXCommon* Particle::directX_ = nullptr;
+RDirectX* Particle::directX_ = nullptr;
 
 Particle::Particle() {
-	directX_ = DirectXCommon::GetInstance();
+	directX_ = RDirectX::GetInstance();
 
 	Ini();
 }

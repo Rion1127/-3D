@@ -112,6 +112,6 @@ void Material::Draw(UINT descriptorSize)
 	//定数バッファビュー(CBV)の設定コマンド
 	//commandList->SetGraphicsRootConstantBufferView(0, constBufferMaterial->GetGPUVirtualAddress());
 	//ルートパラメータ配列2番目を指定
-	DirectXCommon::GetInstance()->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(2, constBufferB3->GetGPUVirtualAddress());
 }

@@ -15,7 +15,7 @@ void ImGuiManager::Init()
 	HRESULT result;
 
 	winApi_ = WinAPI::GetInstance();
-	directX_ = DirectXCommon::GetInstance();
+	directX_ = RDirectX::GetInstance();
 	//ImGuiのコンテキストを生成
 	ImGui::CreateContext();
 	//ImGuiのスタイルを設定

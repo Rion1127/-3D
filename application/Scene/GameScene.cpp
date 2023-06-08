@@ -11,7 +11,7 @@ GameScene::~GameScene()
 
 void GameScene::Ini()
 {
-	directX = DirectXCommon::GetInstance();
+	directX = RDirectX::GetInstance();
 	winApi_ = WinAPI::GetInstance();
 	input_ = DirectXInput::GetInstance();
 	controller_ = Controller::GetInstance();
@@ -209,14 +209,14 @@ void GameScene::Draw()
 	assimpObj_.Draw();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(
+	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetToonPipeline(3)->gerPipelineState());
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
 		PipelineManager::GetToonPipeline(3)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//sphere_->Draw();
 

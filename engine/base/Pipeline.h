@@ -89,7 +89,7 @@ private:
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	//コマンドリストを格納する
-	static DirectXCommon* directX_;
+	static RDirectX* directX_;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout;
 
@@ -128,7 +128,7 @@ private:
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	//コマンドリストを格納する
-	static DirectXCommon* directX_;
+	static RDirectX* directX_;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout;
 

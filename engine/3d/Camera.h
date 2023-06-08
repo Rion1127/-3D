@@ -63,7 +63,7 @@ private:
 	// ビューポートのアスペクト比
 	const float aspectRatio = (float)16 / 9;
 
-	DirectXCommon* directX_ = nullptr;
+	RDirectX* directX_ = nullptr;
 
 
 	//シェイクする前の場所

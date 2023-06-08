@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 #include <cassert>
 
-DirectXCommon* DirectionalLight::directX = nullptr;
+RDirectX* DirectionalLight::directX = nullptr;
 
 DirectionalLight* DirectionalLight::Create()
 {
@@ -14,7 +14,7 @@ DirectionalLight* DirectionalLight::Create()
 
 void DirectionalLight::StaticInit()
 {
-	DirectionalLight::directX = DirectXCommon::GetInstance();
+	DirectionalLight::directX = RDirectX::GetInstance();
 }
 
 void DirectionalLight::Init()

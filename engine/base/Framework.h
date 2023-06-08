@@ -30,7 +30,7 @@ public:
 private:
 	WinAPI* winApi = nullptr;
 	//DirectX初期化
-	DirectXCommon* directX = nullptr;
+	RDirectX* directX = nullptr;
 	//インプット初期化
 	//キーボード
 	DirectXInput* input_ = nullptr;

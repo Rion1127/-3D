@@ -18,7 +18,7 @@ public:
 	void Draw();
 private:
 	WinAPI* winApi_ = nullptr;
-	DirectXCommon* directX_ = nullptr;
+	RDirectX* directX_ = nullptr;
 
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;

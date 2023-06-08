@@ -8,7 +8,7 @@ Camera Camera::current{};
 Camera::Camera()
 {
 
-	directX_ = DirectXCommon::GetInstance();
+	directX_ = RDirectX::GetInstance();
 
 	eye = { 0,0,-10 };
 	target = { 0,0,0 };
