@@ -49,14 +49,36 @@ PostEffect::PostEffect():Sprite()
 		assert(SUCCEEDED(result));
 		delete[] img;
 	}
+	//SRV用でスクリプタヒープ設定
+	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
+	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;;
+	srvDescHeapDesc.NumDescriptors = 1;
+	//SRV用でスクリプタヒープを生成
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
+	assert(SUCCEEDED(result));
+	//SRV設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	//デスクリプタヒープにSRV作成
+	RDirectX::GetInstance()->GetDevice()->
+		CreateShaderResourceView(texBuff_.Get(),
+			&srvDesc,
+			descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
+		);
+	isImguiDisplay = true;
 }
 
 void PostEffect::Draw()
 {
-	//if (isImguiDisplay)
-	//{
+	if (isImguiDisplay)
+	{
 		DrawImGui();
-	//}
+	}
 
 	if (isInvisible_)
 	{
@@ -72,7 +94,12 @@ void PostEffect::Draw()
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
+	//SRVヒープの設定コマンド
+	std::vector<ID3D12DescriptorHeap*> heaps = { descHeapSRV_.Get() };
+	RDirectX::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps.data());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
+	
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
