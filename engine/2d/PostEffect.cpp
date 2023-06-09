@@ -1,14 +1,19 @@
 #include "PostEffect.h"
 #include "WinAPI.h"
 
-const float PostEffect::clearColor[4] = {0.25f,0.5f,0.1f,0.0f};
+const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
+const int PostEffect::vertNum = 4;
 
-PostEffect::PostEffect() :Sprite()
+PostEffect::PostEffect() /*:Sprite()*/
 {
 	texture_ = *TextureManager::GetInstance()->GetTexture("White");
-	Sprite::Ini("postEffect");
-	anchorPoint_ = { 0,0 };
 
+	//頂点バッファ生成
+	CreateVertBuff();
+	//ibView生成
+	CreateibView();
+	//定数バッファ生成
+	CreateConstBuff();
 	//テクスチャ生成
 	CreateTexBuff();
 	//SRV生成
@@ -20,20 +25,26 @@ PostEffect::PostEffect() :Sprite()
 	//DSV作成
 	CreateDSV();
 
-	isImguiDisplay = true;
+
+}
+
+void PostEffect::PUpdate()
+{
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	ConstBufferDataTransform* constMapTransform = nullptr;
+	HRESULT result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);
+	 result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
+	if (SUCCEEDED(result)) {
+		XMFLOAT4 color_ = { 1,1,1,1 };
+		// 定数バッファにデータ転送
+		constMapMaterial->color = color_;
+		constMapTransform->mat = XMMatrixIdentity(); // 行列の合成
+	}
+	
 }
 
 void PostEffect::Draw()
 {
-	if (isImguiDisplay)
-	{
-		DrawImGui();
-	}
-
-	if (isInvisible_)
-	{
-		return;
-	}
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
 		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
@@ -58,16 +69,16 @@ void PostEffect::Draw()
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 void PostEffect::PreDrawScene()
@@ -113,6 +124,125 @@ void PostEffect::PostDrawScene()
 		ResourceBarrier(1, &barrier);
 }
 
+void PostEffect::CreateVertBuff()
+{
+	HRESULT result;
+
+	//頂点バッファ生成
+	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC resDesc =
+		CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUV) * vertNum);
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateCommittedResource(
+			&heapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&vertBuff_));
+	assert(SUCCEEDED(result));
+	//頂点データ
+	VertexPosUV vertices[vertNum] = {
+		{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
+		{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
+		{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
+		{{+0.5f,+0.5f,0.0f},{1.f,0.f}},//右上
+	};
+	//頂点バッファへのデータ転送
+	VertexPosUV* vertMap = nullptr;
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	if (SUCCEEDED(result)) {
+		memcpy(vertMap, vertices, sizeof(vertices));
+		vertBuff_->Unmap(0, nullptr);
+	}
+
+	//頂点バッファビューの設定
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeof(VertexPosUV) * 4;
+	vbView_.StrideInBytes = sizeof(VertexPosUV);
+}
+
+void PostEffect::CreateibView()
+{
+	HRESULT result;
+	indices_.push_back(0);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(3);
+
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * indices_.size());
+
+	D3D12_RESOURCE_DESC resDesc{};
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB; // 頂点データ全体のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	// 頂点バッファの設定
+	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
+	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
+		&heapProp, // ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc, // リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
+	assert(SUCCEEDED(result));
+
+	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	assert(SUCCEEDED(result));
+	// 全頂点に対して
+	for (int i = 0; i < indices_.size(); i++) {
+		indexMap[i] = indices_[i]; // 座標をコピー
+	}
+	// 繋がりを解除
+	indexBuff->Unmap(0, nullptr);
+	//インデックスバッファビューの作成
+	ibView_.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
+}
+
+void PostEffect::CreateConstBuff()
+{
+	HRESULT result;
+	//定数バッファの生成
+	D3D12_HEAP_PROPERTIES heapProp =
+		D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC resDesc =
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateCommittedResource(
+			&heapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuffMaterial));
+	assert(SUCCEEDED(result));
+
+	// ヒーププロパティ
+	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	// リソース設定
+	CD3DX12_RESOURCE_DESC resourceDesc =
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransform) + 0xff) & ~0xff);
+
+	// 定数バッファの生成
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
+		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr, IID_PPV_ARGS(&constBuffTransform));
+	assert(SUCCEEDED(result));
+}
+
 void PostEffect::CreateTexBuff()
 {
 	HRESULT result;
@@ -127,7 +257,7 @@ void PostEffect::CreateTexBuff()
 
 	CD3DX12_HEAP_PROPERTIES prop =
 		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK,
-		D3D12_MEMORY_POOL_L0);
+			D3D12_MEMORY_POOL_L0);
 	CD3DX12_CLEAR_VALUE clear_Value =
 		CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
 	//テクスチャバッファの生成

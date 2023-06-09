@@ -137,3 +137,28 @@ private:
 	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 };
+
+class PiprlineObject {
+public:
+	//エイリアステンプレート
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	void Init();
+
+	void AddrootParams(int num);
+	void AddInputLayout(const char* name,DXGI_FORMAT format);
+private:
+	// ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+	// パイプランステート
+	ComPtr<ID3D12PipelineState> pipelineState;
+	// グラフィックスパイプライン設定
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
+	std::vector<D3D12_ROOT_PARAMETER> rootParams_;
+
+	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+};

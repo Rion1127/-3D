@@ -59,7 +59,7 @@ void Framework::Update()
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 
-	postEffect->Update();
+	postEffect->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();

@@ -80,7 +80,7 @@ void Pipeline::Object3dIni(int blend)
 	//その他の設定
 	object3DSetOther();
 	// ブレンドステート
-	SetBlend(pipelineDesc,blend);
+	SetBlend(pipelineDesc, blend);
 	// パイプランステートの生成
 	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
@@ -127,12 +127,12 @@ void Pipeline::SpriteIni(int blend)
 	//その他の設定
 	SpriteSetOther();
 	// ブレンドステート
-	SetBlend(pipelineDesc,blend);
+	SetBlend(pipelineDesc, blend);
 	// パイプランステートの生成
 	result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
-	
+
 }
 
 void Pipeline::ToonIni(int blend)
@@ -212,6 +212,7 @@ void Pipeline::object3DSetShader()
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+
 }
 
 void Pipeline::object3DSetRootSignature()
@@ -674,7 +675,7 @@ void ParticlePipeline::SetRootSignature()
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature.Get();
 
-	
+
 }
 
 void ParticlePipeline::SetOther()
@@ -686,4 +687,51 @@ void ParticlePipeline::SetOther()
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+}
+
+void PiprlineObject::Init()
+{
+}
+
+void PiprlineObject::AddrootParams(int num)
+{
+	uint32_t size = 0;
+	for (int i = 0; i < num; i++) {
+		D3D12_ROOT_PARAMETER rootParams;
+		if (rootParams_.size() == 1) {
+			//デスクリプタレンジの設定
+			D3D12_DESCRIPTOR_RANGE descriptorRange{};
+
+			//デスクリプタレンジの設定
+			descriptorRange.NumDescriptors = 1;					//一度の描画に好かうテクスチャが1枚なので1
+			descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+			descriptorRange.BaseShaderRegister = 0;				//テクスチャレジスタ0番
+			descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+			rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+			rootParams.DescriptorTable.pDescriptorRanges = &descriptorRange;					//デスクリプタレンジ
+			rootParams.DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+			rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+		}
+		else {
+			//定数バッファ
+			rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+			rootParams.Descriptor.ShaderRegister = size;					//定数バッファ番号
+			rootParams.Descriptor.RegisterSpace = 0;						//デフォルト値
+			rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+			size++;
+		}
+
+		rootParams_.emplace_back(rootParams);
+	}
+}
+
+void PiprlineObject::AddInputLayout(const char* name, DXGI_FORMAT format)
+{
+	inputLayout.push_back(
+		{
+		name, 0, format, 0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		});
 }
