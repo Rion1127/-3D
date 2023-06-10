@@ -192,7 +192,7 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 	srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	srvGpuHandle.ptr += descriptorSize;
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 }
 
 Texture* TextureManager::GetTexture(std::string name)

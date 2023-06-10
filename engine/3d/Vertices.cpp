@@ -346,7 +346,7 @@ void Vertices::Draw(WorldTransform* worldTransform, UINT descriptorSize)
 	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(0, worldTransform->constBuffTransform->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(1, worldTransform->constBuffTransform->GetGPUVirtualAddress());
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);

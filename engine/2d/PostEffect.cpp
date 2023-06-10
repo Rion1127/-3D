@@ -63,11 +63,11 @@ void PostEffect::Draw()
 	srvGpuHandle = descHeapSRV_.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	srvGpuHandle.ptr += texture_.textureHandle;
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(1, constBuffMaterial->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド

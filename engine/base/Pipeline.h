@@ -21,7 +21,7 @@ D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
 /// <param name="BLEND_SUB">減算合成</param>
 /// <param name="BLEND_NEGA">色反転合成</param>
 /// <param name="BLEND_NORMAL">半透明合成</param>
-void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc,int blend);
+void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, int blend);
 
 class Pipeline
 {
@@ -80,7 +80,7 @@ public:
 	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
 
 private:
-	
+
 
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
@@ -138,22 +138,17 @@ private:
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 };
 
-class PiprlineObject {
-public:
+class PipelineObject {
+private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	void Init();
-
-	void AddrootParams(int num);
-	void AddInputLayout(const char* name,DXGI_FORMAT format);
-private:
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプランステート
 	ComPtr<ID3D12PipelineState> pipelineState;
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
-	
+
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
 	std::vector<D3D12_ROOT_PARAMETER> rootParams_;
 
@@ -161,4 +156,21 @@ private:
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> gsBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+public:
+	enum CULL_MODE {
+		NONE = 1,
+		FRONT = 2,
+		BACK = 3
+	};
+public:
+
+	void Init(int blendNum, CULL_MODE cullmode);
+
+	void SetVSshader(LPCWSTR fileName);
+	void SetPSshader(LPCWSTR fileName);
+	void SetGSshader(LPCWSTR fileName);
+
+	void AddrootParams(int num);
+	void AddInputLayout(const char* name, DXGI_FORMAT format);
+
 };
