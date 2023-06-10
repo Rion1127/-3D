@@ -83,7 +83,7 @@ void DebugCamera::CameraMove()
 	}
 	//Šg‘åk¬
 	else if (!mInput_->IsMouseDown(MOUSE_WHEEL)) {
-		frontdist += -mInput_->IsMouseWheel() * (frontdist * 0.001f);
+		frontdist +=  -(float)mInput_->IsMouseWheel() * (frontdist * 0.001f);
 	}
 	//‹…–ÊÀ•WˆÚ“®
 	if (mInput_->IsMouseDown(MOUSE_LEFT)) {

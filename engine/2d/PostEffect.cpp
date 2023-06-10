@@ -278,16 +278,16 @@ void PostEffect::CreateTexBuff()
 	//画像全体のデータサイズ
 	const auto depthPitch = rowPitch * WinAPI::win_height;
 	//画像イメージ
-	UINT* img = new UINT[pixelCount];
+	std::vector<UINT> img;
+	img.resize(pixelCount);
 	for (uint32_t i = 0; i < pixelCount; i++)
 	{
 		img[i] = 0xff0000ff;
 	}
 	//テクスチャバッファにデータ転送
 	result = texBuff_->WriteToSubresource(0, nullptr,
-		img, rowPitch, depthPitch);
+		img.data(), rowPitch, depthPitch);
 	assert(SUCCEEDED(result));
-	delete[] img;
 }
 
 void PostEffect::CreateSRV()

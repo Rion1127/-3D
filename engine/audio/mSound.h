@@ -4,6 +4,8 @@
 #include <map>
 #include <wrl.h>
 #include <fstream>
+#include <memory>
+#include <vector>
 
 typedef std::string SoundKey;
 
@@ -30,16 +32,15 @@ class SoundData
 public:
 	WAVEFORMATEX wfex;
 
-	BYTE* pBuffer;
+	std::vector<BYTE> pBuffer;
 
 	uint32_t bufferSize;
 
 	IXAudio2SourceVoice* sound;
 
 	void Release() {
-		delete[] pBuffer;
 
-		this->pBuffer = 0;
+		this->pBuffer.clear();
 		this->bufferSize = 0;
 		this->wfex = {};
 

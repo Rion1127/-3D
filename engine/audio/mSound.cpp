@@ -58,7 +58,7 @@ SoundKey SoundManager::LoadWave(std::string path, SoundKey key)
 	assert(format.chunk.size <= sizeof(format.fmt));
 	file.read((char*)&format.fmt, format.chunk.size);
 
-	ChunkHeader data;
+	ChunkHeader data{};
 	file.read((char*)&data, sizeof(data));
 
 	if (strncmp(data.id, "JUNK", 4) == 0)
@@ -72,15 +72,17 @@ SoundKey SoundManager::LoadWave(std::string path, SoundKey key)
 		assert(0);
 	}
 
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
+	std::vector<BYTE> pBuffer;
+	pBuffer.resize(data.size);
+	
+	file.read((char*)pBuffer.data(), data.size);
 
 	file.close();
 
 	SoundData soundData = {};
 
 	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
+	soundData.pBuffer = pBuffer;
 	soundData.bufferSize = data.size;
 
 	sndMap.emplace(key, soundData);
@@ -112,7 +114,7 @@ void SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 
 	XAUDIO2_BUFFER buf{};
 
-	buf.pAudioData = pSnd->pBuffer;
+	buf.pAudioData = pSnd->pBuffer.data();
 	buf.AudioBytes = pSnd->bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	if (loopFlag) buf.LoopCount = XAUDIO2_LOOP_INFINITE;

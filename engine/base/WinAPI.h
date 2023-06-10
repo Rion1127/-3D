@@ -3,6 +3,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3d12.h>
 #pragma comment(lib, "d3d12.lib")
+#include <stdint.h>
 class WinAPI
 {
 public:
