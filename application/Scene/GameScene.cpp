@@ -267,7 +267,7 @@ void GameScene::DirectionalLightUpdate()
 
 	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
-	static int num0clicked = 1;
+	static uint32_t num0clicked = 1;
 	if (ImGui::Button("Num 0 Light"))num0clicked++;
 	if (num0clicked & 1)
 	{
@@ -279,7 +279,7 @@ void GameScene::DirectionalLightUpdate()
 	ImGui::SliderFloat3("lightDir0", lightDir0, -1.f, 1.0f);
 	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
 
-	static int num1clicked = 0;
+	static uint32_t num1clicked = 0;
 	if (ImGui::Button("Num 1 Light"))num1clicked++;
 	if (num1clicked & 1) {
 		lightGroup->SetDirLightActive(1, true);
@@ -290,7 +290,7 @@ void GameScene::DirectionalLightUpdate()
 
 	ImGui::SliderFloat3("lightDir1", lightDir1, -1.f, 1.0f);
 	ImGui::ColorEdit3("lightColor1", lightColor1, ImGuiColorEditFlags_Float);
-	static int num2clicked = 0;
+	static uint32_t num2clicked = 0;
 	if (ImGui::Button("Num 2 Light"))num2clicked++;
 	if (num2clicked & 1) {
 		lightGroup->SetDirLightActive(2, true);

@@ -2,7 +2,7 @@
 #include "WinAPI.h"
 
 const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
-const int PostEffect::vertNum = 4;
+const uint32_t PostEffect::vertNum = 4;
 
 PostEffect::PostEffect() /*:Sprite()*/
 {
@@ -201,7 +201,7 @@ void PostEffect::CreateibView()
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < indices_.size(); i++) {
+	for (uint32_t i = 0; i < indices_.size(); i++) {
 		indexMap[i] = indices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -279,7 +279,7 @@ void PostEffect::CreateTexBuff()
 	const auto depthPitch = rowPitch * WinAPI::win_height;
 	//画像イメージ
 	UINT* img = new UINT[pixelCount];
-	for (int i = 0; i < pixelCount; i++)
+	for (uint32_t i = 0; i < pixelCount; i++)
 	{
 		img[i] = 0xff0000ff;
 	}

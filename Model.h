@@ -30,7 +30,7 @@ public:
 	/// <param name="BLEND_SUB">減算合成</param>
 	/// <param name="BLEND_NEGA">色反転合成</param>
 	/// <param name="BLEND_NORMAL">半透明合成</param>
-	static void SetBlend(int blend);
+	static void SetBlend(uint32_t blend);
 
 	void SetModel(const Model* model);
 
@@ -74,10 +74,10 @@ private:
 	//平滑化された頂点法線の計算
 	void CalculateSmoothedVertexNormals();
 public:
-	std::vector<Vertices*> vert_;
+	std::vector<std::unique_ptr<Vertices>> vert_;
 	std::vector<Texture> texture_;
 	// マテリアルコンテナ
-	std::map<std::string, Material*> materials_;
+	std::map<std::string, std::unique_ptr<Material>> materials_;
 	//ライト
 	static LightGroup* lightGroup;
 

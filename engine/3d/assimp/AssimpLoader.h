@@ -15,7 +15,7 @@ struct Mesh {
 };
 
 struct BoneData {
-	static const int NUM_BONES_PER_VERTEX = 4;
+	static const uint32_t NUM_BONES_PER_VERTEX = 4;
 
 	uint32_t IDs[NUM_BONES_PER_VERTEX];
 	float Weights[NUM_BONES_PER_VERTEX];

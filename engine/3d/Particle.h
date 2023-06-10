@@ -23,7 +23,7 @@ public:
 	/// <param name="BLEND_SUB">å∏éZçáê¨</param>
 	/// <param name="BLEND_NEGA">êFîΩì]çáê¨</param>
 	/// <param name="BLEND_NORMAL">îºìßñæçáê¨</param>
-	static void SetBlend(int blend);
+	static void SetBlend(uint32_t blend);
 
 	void Update(Camera VP);
 
@@ -42,7 +42,7 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 
-	const int vertexCount = 1024;
+	const uint32_t vertexCount = 1024;
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap_ = nullptr;
@@ -55,6 +55,6 @@ private:
 	ComPtr<ID3D12Resource> constBuff = nullptr;
 	ConstBufferData* constMatMap_ = nullptr;
 
-	int activeCount = 2;
+	uint32_t activeCount = 2;
 };
 

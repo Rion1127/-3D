@@ -84,14 +84,14 @@ public:
 	/// <param name="BLEND_SUB">減算合成</param>
 	/// <param name="BLEND_NEGA">色反転合成</param>
 	/// <param name="BLEND_NORMAL">半透明合成</param>
-	static void SetBlend(int blend);
+	static void SetBlend(uint32_t blend);
 
 	static void AddAllNum() { allNum++; }
 protected:
 	void TransferVertex();
 protected:
-	static int allNum;
-	int spriteNum = 0;
+	static uint32_t allNum;
+	uint32_t spriteNum = 0;
 
 #pragma region 頂点データ
 	struct Vertex {
@@ -157,7 +157,7 @@ protected:
 
 #pragma region
 	std::string guiName_;
-	int clicked = 0;
+	uint32_t clicked = 0;
 	const char* gui;
 
 	std::string name;

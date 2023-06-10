@@ -4,7 +4,6 @@
 
 ParticleScene::~ParticleScene()
 {
-	delete lightGroup;
 }
 
 void ParticleScene::Ini()
@@ -27,8 +26,9 @@ void ParticleScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 	
-	lightGroup = LightGroup::Create();
-	Model::SetLight(lightGroup);
+	lightGroup = std::move(std::make_unique<LightGroup>());
+	lightGroup->Init();
+	Model::SetLight(lightGroup.get());
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);

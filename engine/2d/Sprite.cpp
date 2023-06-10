@@ -13,7 +13,7 @@ using namespace DirectX;
 #include <sstream>
 #include "myMath.h"
 
-int Sprite::allNum = 0;
+uint32_t Sprite::allNum = 0;
 
 void Sprite::StaticIni()
 {
@@ -79,7 +79,7 @@ void Sprite::Ini(std::string guiname)
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < vertices.size(); i++) {
+	for (uint32_t i = 0; i < vertices.size(); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -128,7 +128,7 @@ void Sprite::Ini(std::string guiname)
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < indices.size(); i++) {
+	for (uint32_t i = 0; i < indices.size(); i++) {
 		indexMap[i] = indices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -372,7 +372,7 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
-void Sprite::SetBlend(int blend)
+void Sprite::SetBlend(uint32_t blend)
 {
 	//if (blend > 3) blend = 3;
 	//else if (blend < 0) blend = 0;

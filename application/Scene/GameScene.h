@@ -104,7 +104,7 @@ private:
 		NUMEND_
 	};
 	//ライトのタイプ
-	int lightType_ = DIRECTION_;
+	uint32_t lightType_ = DIRECTION_;
 
 	void DirectionalLightUpdate();
 	void PointLightUpdate();

@@ -67,7 +67,7 @@ private:
 public:
 	void SetTexture(Texture texture) { texture_ = texture; }
 private:
-	static const int vertNum;
+	static const uint32_t vertNum;
 	struct VertexPosUV {
 		Vector3 pos;
 		Vector2 uv;

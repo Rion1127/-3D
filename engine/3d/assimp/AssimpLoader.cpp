@@ -32,13 +32,11 @@ std::wstring ReplaceExtension(const std::wstring& origin, const char* ext)
 std::string ToUTF8(const std::wstring& value)
 {
 	auto length = WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, nullptr, 0, nullptr, nullptr);
-	auto buffer = new char[length];
+	std::vector<char> buffer;
+	buffer.resize(length);
+	WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, buffer.data(), length, nullptr, nullptr);
 
-	WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, buffer, length, nullptr, nullptr);
-
-	std::string result(buffer);
-	delete[] buffer;
-	buffer = nullptr;
+	std::string result(buffer.data());
 
 	return result;
 }
@@ -64,17 +62,17 @@ std::string WStringToString(std::wstring oWString)
 		, -1, (char*)NULL, 0, NULL, NULL);
 
 	// バッファの取得
-	CHAR* cpMultiByte = new CHAR[iBufferSize];
-
+	std::vector<CHAR> cpMultiByte;
+	cpMultiByte.resize(iBufferSize);
 	// wstring → SJIS
-	WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str(), -1, cpMultiByte
+	WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str(), -1, cpMultiByte.data()
 		, iBufferSize, NULL, NULL);
 
 	// stringの生成
-	std::string oRet(cpMultiByte, cpMultiByte + iBufferSize - 1);
+	std::string oRet(cpMultiByte.data(), cpMultiByte.data() + iBufferSize - 1);
 
 	// バッファの破棄
-	delete[] cpMultiByte;
+	
 
 	// 変換結果を返す
 	return(oRet);
@@ -228,7 +226,7 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 
 void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting)
 {
-	int m_NumBones = 0;
+	uint32_t m_NumBones = 0;
 	for (uint32_t i = 0; i < pMesh->mNumBones; i++)
 	{
 		uint32_t BoneIndex = 0;
@@ -268,5 +266,5 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 			Bones[VertexID].AddBoneData(BoneIndex, Weight);
 		}*/
 	}
-	int a = 0;
+	
 }

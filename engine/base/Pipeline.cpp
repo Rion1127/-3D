@@ -23,7 +23,7 @@ D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 	return samplerDesc;
 }
 
-void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, int blend)
+void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, uint32_t blend)
 {
 
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
@@ -182,7 +182,7 @@ void PipelineObject::AddrootParams()
 	rootParams_.clear();
 	uint32_t size = 0;
 	//inputLayout + 1の数分rootParams_を作る
-	for (int i = 0; i < inputLayout.size() + 1; i++) {
+	for (uint32_t i = 0; i < inputLayout.size() + 1; i++) {
 		D3D12_ROOT_PARAMETER rootParams{};
 		//配列の最初にテクスチャ
 		if (rootParams_.size() == 0) {

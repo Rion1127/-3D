@@ -21,16 +21,9 @@ LightGroup* Model::lightGroup = nullptr;
 
 Model::~Model()
 {
-	for (auto m : vert_)
-	{
-		delete m;
-	}
-	vert_.clear();
-	for (auto m : materials_)
-	{
-		delete m.second;
-	}
 	materials_.clear();
+	vert_.clear();
+	texture_.clear();
 }
 
 Model* Model::GetInstance()
@@ -60,7 +53,7 @@ std::unique_ptr<Model> Model::CreateOBJ_uniptr(const std::string& modelname, boo
 	return instance;
 }
 
-void Model::SetBlend(int blend)
+void Model::SetBlend(uint32_t blend)
 {
 	//if (blend > 3) blend = 3;
 	//else if (blend < 0) blend = 0;
@@ -75,17 +68,17 @@ void Model::SetBlend(int blend)
 void Model::SetModel(const Model* model)
 {
 
-	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
-	Vertices* vert = vert_.back();		//空のvert_のアドレスをvertに入れる
+	vert_.emplace_back(std::move(std::make_unique<Vertices>()));	//空の頂点データを入れる
+	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
 
 	for (size_t i = 0; i < model->vert_[0]->vertices.size(); i++)
 	{
-		vert->AddVertices(model->vert_[0]->vertices[i]);
+		vert.AddVertices(model->vert_[0]->vertices[i]);
 	}
 
 	for (size_t i = 0; i < model->vert_[0]->indices.size(); i++)
 	{
-		vert->AddIndex(model->vert_[0]->indices[i]);
+		vert.AddIndex(model->vert_[0]->indices[i]);
 	}
 
 
@@ -136,9 +129,9 @@ void Model::LoadOBJ(const std::string& modelname)
 	std::vector<XMFLOAT2> texcoords; // テクスチャUV
 
 	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
-	Vertices* vert = vert_.back();		//空のvert_のアドレスをvertに入れる
+	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
 
-	int indexCountTex = 0;
+	uint32_t indexCountTex = 0;
 
 	while (getline(file, line))
 	{
@@ -195,7 +188,7 @@ void Model::LoadOBJ(const std::string& modelname)
 
 		if (key == "f")
 		{
-			int faceIndexCount = 0;
+			uint32_t faceIndexCount = 0;
 			// 半角スペース区切りで行の続きを読み込む
 			std::string index_string;
 			while (getline(line_stream, index_string, ' '))
@@ -214,11 +207,11 @@ void Model::LoadOBJ(const std::string& modelname)
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 
-				vert->AddVertices(vertex);
+				vert.AddVertices(vertex);
 				//エッジ平滑化用のデータを追加
 				if (smoothing)
 				{
-					AddSmoothData(indexPosition, (unsigned short)vert->GetVertexCount() - 1);
+					AddSmoothData(indexPosition, (unsigned short)vert.GetVertexCount() - 1);
 				}
 
 				// インデックスデータの追加
@@ -226,13 +219,13 @@ void Model::LoadOBJ(const std::string& modelname)
 				{
 					// 四角形ポリゴンの4点目なので、
 					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
-					vert->AddIndex(indexCountTex - 1);
-					vert->AddIndex(indexCountTex);
-					vert->AddIndex(indexCountTex - 3);
+					vert.AddIndex(indexCountTex - 1);
+					vert.AddIndex(indexCountTex);
+					vert.AddIndex(indexCountTex - 3);
 				}
 				else
 				{
-					vert->AddIndex(indexCountTex);
+					vert.AddIndex(indexCountTex);
 				}
 				faceIndexCount++;
 				indexCountTex++;
@@ -376,21 +369,21 @@ void Model::LoadTexture()
 
 	for (auto& m : materials_)
 	{
-		Material* material = m.second;
+		Material& material = *m.second;
 
 		// テクスチャあり
-		if (material->textureFilename_.size() > 0)
+		if (material.textureFilename_.size() > 0)
 		{
 			// マテリアルにテクスチャ読み込み
-			material->LoadTexture(directoryPath);
+			material.LoadTexture(directoryPath);
 		}
 		// テクスチャなし
 		else
 		{
 			// マテリアルにテクスチャ読み込み
-			material->LoadTexture("white1×1.png");
+			material.LoadTexture("white1×1.png");
 		}
-		texture_.push_back(material->texture_);
+		texture_.push_back(material.texture_);
 	}
 }
 
@@ -502,7 +495,7 @@ void Model::CalculateSmoothedVertexNormals()
 			float z = normal.m128_f32[2];
 
 			vert_[0]->vertices[index].normal = { x,y,z };
-			int a = 0;
+			uint32_t a = 0;
 		}
 	}
 	vert_[0]->Map();

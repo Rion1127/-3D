@@ -69,7 +69,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//“¯‚¶‰æ‘œ‚ª‚ ‚Á‚½ê‡‚»‚Ì‰æ‘œ‚Æ“¯‚¶”’l‚ğ•Ô‚·
 
 
-	for (int i = 0; i < texData.size(); i++) {
+	for (uint32_t i = 0; i < texData.size(); i++) {
 		if (name == "") {
 			continue;
 			if (texData.size() > 0) {

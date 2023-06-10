@@ -106,7 +106,7 @@ void Vertices::Ini(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//法線の計算
-	for (int i = 0; i < indices.size() / 3; i++) {
+	for (uint32_t i = 0; i < indices.size() / 3; i++) {
 		//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
 		unsigned short index0 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 0];
@@ -146,7 +146,7 @@ void Vertices::Ini(ID3D12Device* device)
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < vertices.size(); i++) {
+	for (uint32_t i = 0; i < vertices.size(); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -184,7 +184,7 @@ void Vertices::Ini(ID3D12Device* device)
 		result = indexBuff->Map(0, nullptr, (void**)&indexMap);
 		assert(SUCCEEDED(result));
 		// 全インデックスに対して
-		for (int i = 0; i < indices.size(); i++) {
+		for (uint32_t i = 0; i < indices.size(); i++) {
 			indexMap[i] = indices[i]; // インデックスをコピー
 		}
 		// マッピング解除
@@ -218,7 +218,7 @@ void Vertices::CreateBuffer()
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//法線の計算
-	for (int i = 0; i < indices.size() / 3; i++) {
+	for (uint32_t i = 0; i < indices.size() / 3; i++) {
 		//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
 		unsigned short index0 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 0];
@@ -257,7 +257,7 @@ void Vertices::CreateBuffer()
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
-	for (int i = 0; i < vertices.size(); i++) {
+	for (uint32_t i = 0; i < vertices.size(); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -293,7 +293,7 @@ void Vertices::CreateBuffer()
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全インデックスに対して
-	for (int i = 0; i < indices.size(); i++) {
+	for (uint32_t i = 0; i < indices.size(); i++) {
 		indexMap[i] = indices[i]; // インデックスをコピー
 	}
 	// マッピング解除
@@ -314,7 +314,7 @@ void Vertices::Map()
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (int i = 0; i < vertices.size(); i++) {
+	for (uint32_t i = 0; i < vertices.size(); i++) {
 		vertMap[i] = vertices[i]; // 座標をコピー
 	}
 	// 繋がりを解除
