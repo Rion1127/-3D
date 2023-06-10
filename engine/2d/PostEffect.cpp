@@ -47,10 +47,10 @@ void PostEffect::Draw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
+		PipelineManager::GetPipelineObject()->gerPipelineState());
 
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetSpritePipeline(3)->GetRootSignature());
+		PipelineManager::GetPipelineObject()->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト

@@ -162,6 +162,14 @@ public:
 		FRONT = 2,
 		BACK = 3
 	};
+	enum TOPOLOGY_TYPE
+	{
+		UNDEFINED = 0,
+		POINT = 1,
+		LINE = 2,
+		TRIANGLE = 3,
+		PATCH = 4
+	} ;
 	enum ShaderType {
 		VS,
 		PS,
@@ -169,11 +177,14 @@ public:
 	};
 public:
 
-	void Init(int blendNum, CULL_MODE cullmode);
+	void Init(int blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype);
 
 	void Setshader(LPCWSTR fileName,ShaderType shadertype);
 
 	void AddrootParams(int num);
 	void AddInputLayout(const char* semanticName, DXGI_FORMAT format);
+public:
+	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 
+	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
 };

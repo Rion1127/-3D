@@ -90,27 +90,6 @@ void Pipeline::SpriteIni(int blend)
 {
 	HRESULT result;
 
-	//// 頂点シェーダの読み込みとコンパイル
-	//ShaderCompileFromFile(L"Resources/shader/SpriteVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
-	//// ピクセルシェーダの読み込みとコンパイル
-	//ShaderCompileFromFile(L"Resources/shader/SpritePS.hlsl", "main", "ps_5_0", &psBlob, errorBlob.Get());
-	//// ルートシグネチャの設定
-	//SpriteSetRootSignature();
-	//// シェーダーの設定
-	//SpriteSetShader();
-	//// サンプルマスクの設定
-	//// ラスタライザの設定
-	//SpriteSetRasterizer();
-	////インプットレイアウト設定
-	//SpriteSetInputLayout();
-	////その他の設定
-	//SpriteSetOther();
-	//// ブレンドステート
-	//SetBlend(blend);
-	//// パイプランステートの生成
-	//result = directX_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
-	//assert(SUCCEEDED(result));
-
 	// 頂点シェーダの読み込みとコンパイル
 	ShaderCompileFromFile(L"Resources/shader/SpriteVS.hlsl", "main", "vs_5_0", &vsBlob, errorBlob.Get());
 	// ピクセルシェーダの読み込みとコンパイル
@@ -250,7 +229,7 @@ void Pipeline::object3DSetRootSignature()
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//定数バッファ2番（ライト関連）
 	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[3].Descriptor.ShaderRegister = 3;					//定数バッファ番号
+	rootParams[3].Descriptor.ShaderRegister = 2;					//定数バッファ番号
 	rootParams[3].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 
@@ -498,7 +477,7 @@ void Pipeline::ToonSetRootSignature() {
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 	//定数バッファ2番（ライト関連）
 	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//種類
-	rootParams[3].Descriptor.ShaderRegister = 3;					//定数バッファ番号
+	rootParams[3].Descriptor.ShaderRegister = 2;					//定数バッファ番号
 	rootParams[3].Descriptor.RegisterSpace = 0;						//デフォルト値
 	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 
@@ -691,9 +670,18 @@ void ParticlePipeline::SetOther()
 }
 #pragma endregion
 
-void PipelineObject::Init(int blendNum, CULL_MODE cullmode)
+void PipelineObject::Init(int blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype)
 {
 	HRESULT result;
+	// シェーダーの設定
+	if (vsBlob != nullptr) {
+		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+	}
+	if (psBlob != nullptr) {
+		pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+	}
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -715,32 +703,19 @@ void PipelineObject::Init(int blendNum, CULL_MODE cullmode)
 	// ルートシグネチャの設定
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	rootSignatureDesc.pParameters = rootParams_.data();	//ルートパラメータの先頭アドレス
-	rootSignatureDesc.NumParameters = (UINT)rootParams_.size();			//ルートパラメータ数
+	rootSignatureDesc.NumParameters = rootParams_.size();			//ルートパラメータ数
 	rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = RDirectX::GetInstance()->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature.Get();
-
-	// シェーダーの設定
-	if (vsBlob != nullptr) {
-		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
-		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
-	}
-	if (psBlob != nullptr) {
-		pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
-		pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
-	}
-	if (gsBlob != nullptr) {
-		pipelineDesc.GS.pShaderBytecode = gsBlob->GetBufferPointer();
-		pipelineDesc.GS.BytecodeLength = gsBlob->GetBufferSize();
-	}
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -751,17 +726,17 @@ void PipelineObject::Init(int blendNum, CULL_MODE cullmode)
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	pipelineDesc.DepthStencilState.DepthEnable = true;	//深度テストを行う
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
 	pipelineDesc.InputLayout.NumElements = (UINT)inputLayout.size();
 
 	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
+	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE(topologytype);
 	// その他の設定
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
@@ -769,6 +744,7 @@ void PipelineObject::Init(int blendNum, CULL_MODE cullmode)
 
 	// ブレンドステート
 	SetBlend(pipelineDesc, blendNum);
+
 	// パイプランステートの生成
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
@@ -782,10 +758,10 @@ void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
 		ShaderCompileFromFile(fileName, "main", "vs_5_0", &vsBlob, errorBlob.Get());
 	}
 	else if (shadertype == ShaderType::PS) {
-		ShaderCompileFromFile(fileName, "main", "vs_5_0", &psBlob, errorBlob.Get());
+		ShaderCompileFromFile(fileName, "main", "ps_5_0", &psBlob, errorBlob.Get());
 	}
 	else if (shadertype == ShaderType::GS) {
-		ShaderCompileFromFile(fileName, "main", "vs_5_0", &gsBlob, errorBlob.Get());
+		ShaderCompileFromFile(fileName, "main", "gs_5_0", &gsBlob, errorBlob.Get());
 	}
 }
 
@@ -797,7 +773,7 @@ void PipelineObject::AddrootParams(int num)
 		if (rootParams_.size() == 0) {
 			//デスクリプタレンジの設定
 			D3D12_DESCRIPTOR_RANGE* descriptorRange = 
-				new D3D12_DESCRIPTOR_RANGE;
+				new D3D12_DESCRIPTOR_RANGE{};
 
 			//デスクリプタレンジの設定
 			descriptorRange->NumDescriptors = 1;					//一度の描画に好かうテクスチャが1枚なので1

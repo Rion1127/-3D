@@ -16,15 +16,15 @@ void PipelineManager::Ini() {
 	}
 
 
-	/*posteffectPipeline_.AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	posteffectPipeline_.AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	posteffectPipeline_.AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
 	posteffectPipeline_.Setshader(L"Resources/shader/PostEffectVS.hlsl", PipelineObject::VS);
-	posteffectPipeline_.Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);*/
+	posteffectPipeline_.Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);
 	//posteffectPipeline_.SetPSshader(L"Resources/shader/BasicPS.hlsl");
 
-	/*posteffectPipeline_.AddrootParams(3);
-	for (int i = 0; i < 4; i++) {
-		posteffectPipeline_.Init(i, PipelineObject::CULL_MODE::NONE);
-	}*/
+	posteffectPipeline_.AddrootParams(3);
+	//for (int i = 0; i < 4; i++) {
+		posteffectPipeline_.Init(3, PipelineObject::CULL_MODE::NONE, PipelineObject::TRIANGLE);
+	//}
 };

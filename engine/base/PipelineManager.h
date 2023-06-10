@@ -24,6 +24,8 @@ public:
 	static Pipeline* GetToonPipeline(int blendTipe) {
 		return &toonPipeline_.at(blendTipe);
 	};
+
+	static PipelineObject* GetPipelineObject() { return &posteffectPipeline_; }
 private:
 	static std::array<Pipeline, 4> Object3dPipeline_;
 	static std::array<Pipeline, 4> SpritePipeline_;
