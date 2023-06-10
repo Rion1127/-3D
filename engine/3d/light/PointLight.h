@@ -11,7 +11,7 @@ public:
 		Vector3 lightColor;
 		float pad2;
 		Vector3 lightatten;
-		unsigned int active;
+		uint32_t active;
 	};
 	//À•W‘ã“ü
 	void SetLightPos(const Vector3& lightPos) { this->lightPos = lightPos; }

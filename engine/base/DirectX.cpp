@@ -91,9 +91,9 @@ void RDirectX::DXGIDeviceIni() {
 
 	result = S_FALSE;
 	D3D_FEATURE_LEVEL featureLevel;
-	for (int i = 0; i < adapters.size(); i++) {
+	for (uint32_t i = 0; i < adapters.size(); i++) {
 		// デバイスを生成
-		for (int levelIndex = 0; levelIndex < levels.size(); levelIndex++) {
+		for (uint32_t levelIndex = 0; levelIndex < levels.size(); levelIndex++) {
 			result =
 				D3D12CreateDevice(adapters[i].Get(), levels[levelIndex], IID_PPV_ARGS(&device));
 			if (SUCCEEDED(result)) {
@@ -201,7 +201,7 @@ void RDirectX::CreateFinalRenderTargets() {
 
 	// 裏表の２つ分について
 	backBuffers.resize(swcDesc.BufferCount);
-	for (int i = 0; i < backBuffers.size(); i++) {
+	for (uint32_t i = 0; i < backBuffers.size(); i++) {
 		// スワップチェーンからバッファを取得
 		result = swapChain->GetBuffer(i, IID_PPV_ARGS(&backBuffers[i]));
 		assert(SUCCEEDED(result));

@@ -93,7 +93,7 @@ void Particle::PreDraw()
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
 }
 
-void Particle::SetBlend(int blend)
+void Particle::SetBlend(uint32_t blend)
 {
 	//if (blend > 3) blend = 3;
 	//else if (blend < 0) blend = 0;
@@ -120,7 +120,7 @@ void Particle::Update(Camera VP)
 		//パーティクルの情報を一つずつ反映
 		for (/*std::forward_list<Particle>::iterator it = particles.begin();
 			it != particles.end();
-			it++*/int i = 0; i < activeCount;i++) {
+			it++*/uint32_t i = 0; i < activeCount;i++) {
 			//座標
 			vertMap->pos = {(float) i * 5,0,0 };
 			////スケール

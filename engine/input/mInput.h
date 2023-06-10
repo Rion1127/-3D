@@ -51,7 +51,7 @@ public:
 	//[1] MOUSE_RIGHT= 右ボタン
 	//[2] MOUSE_WHEEL= マウスホイール
 	bool IsMouseReleas(BYTE button);
-	int IsMouseWheel();
+	uint32_t IsMouseWheel();
 	
 	//マウスが1フレームに移動したベクトルを取得する
 	Vector3 GetCursorMove();

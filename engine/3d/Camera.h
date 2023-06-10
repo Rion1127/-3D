@@ -54,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="time">揺れる時間</param>
 	/// <param name="power">揺れる大きさ</param>
-	void ShakeSet(int time, float power);
+	void ShakeSet(uint32_t time, float power);
 	void ShakeUpdate();
 	void SetOriginalPos();
 	bool GetIsShake() { return isShake; }
@@ -69,8 +69,8 @@ private:
 	//シェイクする前の場所
 	XMFLOAT3 originalPos;
 	bool isShake = false;
-	int maxShakeTime;
-	int shakeTime = 0;
+	uint32_t maxShakeTime;
+	uint32_t shakeTime = 0;
 	float power_;
 };
 

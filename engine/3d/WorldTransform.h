@@ -35,7 +35,7 @@ public:
 	/// </summary>
 	/// <param name="viewProjection">カメラ</param>
 	/// <param name="isBillboard">0 = 無し; 1 = ビルボードあり; 2 = Y軸ビルボード</param>
-	void Update(int isBillboard = 0);
+	void Update(uint32_t isBillboard = 0);
 
 	//定数バッファ（行列用）
 	ComPtr<ID3D12Resource> constBuffTransform;

@@ -51,7 +51,7 @@ void WorldTransform::AddPosition(float x, float y, float z)
 
 
 
-void WorldTransform::Update(int isBillboard)
+void WorldTransform::Update(uint32_t isBillboard)
 {
 	XMMATRIX matScale, matRot, matTrans;
 

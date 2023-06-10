@@ -4,8 +4,6 @@
 
 RDirectX* Pipeline::directX_ = RDirectX::GetInstance();
 
-RDirectX* ParticlePipeline::directX_ = RDirectX::GetInstance();
-
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 {
 	//テクスチャサンプラーの設定

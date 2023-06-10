@@ -12,10 +12,10 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static const int DirLightNum = 3;
-	static const int PointLightNum = 3;
-	static const int SpotLightNum = 3;
-	static const int CircleShadowNum = 1;
+	static const uint32_t DirLightNum = 3;
+	static const uint32_t PointLightNum = 3;
+	static const uint32_t SpotLightNum = 3;
+	static const uint32_t CircleShadowNum = 1;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -33,19 +33,19 @@ public:
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="acrive">有効フラグ</param>
-	void SetDirLightActive(int index, bool active);
+	void SetDirLightActive(uint32_t index, bool active);
 	/// <summary>
 	/// 平行光源のライト方向をセット
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト方向</param>
-	void SetDirLightDir(int index, const Vector3& lightdir);
+	void SetDirLightDir(uint32_t index, const Vector3& lightdir);
 	/// <summary>
 	/// 平行光源のカラーをセット
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト色</param>
-	void SetDirLightColor(int index, const Vector3& lightColor);
+	void SetDirLightColor(uint32_t index, const Vector3& lightColor);
 #pragma endregion
 #pragma region 点光源
 	/// <summary>
@@ -53,41 +53,41 @@ public:
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="acrive">有効フラグ</param>
-	void SetPointLightActive(int index, bool active);
+	void SetPointLightActive(uint32_t index, bool active);
 	/// <summary>
 	/// 点光源の座標をセット
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト方向</param>
-	void SetPointLightPos(int index, const Vector3& lightPos);
+	void SetPointLightPos(uint32_t index, const Vector3& lightPos);
 	/// <summary>
 	/// 点光源のカラーをセット
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト色</param>
-	void SetPointLightColor(int index, const Vector3& lightColor);
+	void SetPointLightColor(uint32_t index, const Vector3& lightColor);
 	/// <summary>
 	/// 点光源の距離減衰をセット
 	/// </summary>
 	/// <param name="index">ライト番号</param>
 	/// <param name="lightdir">ライト色</param>
-	void SetPointLightAtten(int index, const Vector3& lightAtten);
+	void SetPointLightAtten(uint32_t index, const Vector3& lightAtten);
 #pragma endregion
 #pragma region スポットライト
-	void SetSpotLightActive(int index, bool active);
-	void SetSpotLightDir(int index, const Vector3& lightdir);
-	void SetSpotLightPos(int index, const Vector3& lightPos);
-	void SetSpotLightColor(int index, const Vector3& lightColor);
-	void SetSpotLightAtten(int index, const Vector3& lightAtten);
-	void SetSpotLightFactorAngle(int index, const Vector2& lightFactorAngle);
+	void SetSpotLightActive(uint32_t index, bool active);
+	void SetSpotLightDir(uint32_t index, const Vector3& lightdir);
+	void SetSpotLightPos(uint32_t index, const Vector3& lightPos);
+	void SetSpotLightColor(uint32_t index, const Vector3& lightColor);
+	void SetSpotLightAtten(uint32_t index, const Vector3& lightAtten);
+	void SetSpotLightFactorAngle(uint32_t index, const Vector2& lightFactorAngle);
 #pragma endregion
 #pragma region 丸影
-	void SetCircleShadowActive(int index, bool active);
-	void SetCircleShadowCasterPos(int index, const Vector3& casterPos);
-	void SetCircleShadowDir(int index, const Vector3& lightdir);
-	void SetCircleShadowDistanceCasterLight(int index, float ditanceCasterLight);
-	void SetCircleShadowAtten(int index, const Vector3& lightAtten);
-	void SetCircleShadowFactorAngle(int index, const Vector2& lightFactorAngle);
+	void SetCircleShadowActive(uint32_t index, bool active);
+	void SetCircleShadowCasterPos(uint32_t index, const Vector3& casterPos);
+	void SetCircleShadowDir(uint32_t index, const Vector3& lightdir);
+	void SetCircleShadowDistanceCasterLight(uint32_t index, float ditanceCasterLight);
+	void SetCircleShadowAtten(uint32_t index, const Vector3& lightAtten);
+	void SetCircleShadowFactorAngle(uint32_t index, const Vector2& lightFactorAngle);
 #pragma endregion
 	/// <summary>
 	/// 標準のライト設定

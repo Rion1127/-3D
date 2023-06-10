@@ -35,7 +35,7 @@ void ImGuiManager::Init()
 
 	ImGui_ImplDX12_Init(
 		directX_->GetDevice(),
-		static_cast<int>(directX_->GetBackBufferCount()),
+		static_cast<uint32_t>(directX_->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvHeap_.Get(),
 		srvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		srvHeap_->GetGPUDescriptorHandleForHeapStart()

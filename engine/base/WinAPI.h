@@ -17,8 +17,8 @@ public:
 	
 	static LRESULT WindowProcA(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	// ウィンドウサイズ
-	static const int win_width = 1280; // 横幅
-	static const int win_height = 720; // 縦幅
+	static const uint32_t win_width = 1280; // 横幅
+	static const uint32_t win_height = 720; // 縦幅
 
 	// ウィンドウクラスの設定
 	WNDCLASSEX w{};

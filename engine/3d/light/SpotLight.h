@@ -16,7 +16,7 @@ public:
 		Vector3 lightatten;	//‹——£Œ¸Š
 		float pad4;
 		Vector2 lightfactorranglecos;
-		unsigned int active;
+		uint32_t active;
 		float pad5;
 	};
 	void SetLightDir(const Vector3& lightdir) { this->lightdir = lightdir; }

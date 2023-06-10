@@ -160,8 +160,8 @@ FLOAT3& FLOAT3::operator/=(const Vector3& v)
 #pragma region Matrix4
 Matrix4::Matrix4()
 {
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (uint32_t i = 0; i < 4; i++) {
+        for (uint32_t j = 0; j < 4; j++) {
             m[i][j] = 0;
         }
     }
@@ -196,9 +196,9 @@ Matrix4::Matrix4(
 
 void Matrix4::UnitMatrix()
 {
-    for (int i = 0; i < 4; i++) {
+    for (uint32_t i = 0; i < 4; i++) {
         m[i][i] = 1.0f;
-        for (int j = 0; j < 4; j++) {
+        for (uint32_t j = 0; j < 4; j++) {
             if (i != j) {
                m[i][j] = 0.0f;
             }

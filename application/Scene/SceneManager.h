@@ -19,7 +19,7 @@ public:
 		currentScene = std::unique_ptr<NextScene>(new NextScene());
 		currentScene->Ini();
 	}
-	static void SetChangeStart(int sceneNum) {
+	static void SetChangeStart(uint32_t sceneNum) {
 		if (isNext_ == false) {
 			changeStartCount_ = GetNowCount();
 			sceneNum_ = sceneNum;
@@ -33,12 +33,12 @@ public:
 	static Sprite sceneChangeSprite;
 	static Vector2 sceneChangePos;
 	static uint32_t sceneChangeGraph;
-	static int changeStartCount_;
-	static int sceneNum_;
+	static uint32_t changeStartCount_;
+	static uint32_t sceneNum_;
 	static bool isNext_;
-	static int continueScene;
+	static uint32_t continueScene;
 	static bool isDifferent;
-	static int different;
+	static uint32_t different;
 };
 
 enum SceneNum {

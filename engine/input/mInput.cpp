@@ -48,7 +48,7 @@ void DirectXInput::InputIni()	//初期化
 
 void DirectXInput::InputUpdata()	//アップデート
 {
-	for (int i = 0; i < 256; ++i)
+	for (uint32_t i = 0; i < 256; ++i)
 	{
 		oldkeys[i] = keys[i];
 	}
@@ -182,7 +182,7 @@ bool MouseInput::IsMouseReleas(BYTE button)
 	return false;
 }
 
-int MouseInput::IsMouseWheel()
+uint32_t MouseInput::IsMouseWheel()
 {
 	return mouseState.lZ;
 }

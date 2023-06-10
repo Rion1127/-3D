@@ -184,7 +184,7 @@ XMMATRIX Camera::GetMatProjection()
 	return matProjection;
 }
 
-void Camera::ShakeSet(int time, float power)
+void Camera::ShakeSet(uint32_t time, float power)
 {
 	shakeTime = time;
 	maxShakeTime = shakeTime;

@@ -32,7 +32,7 @@ public:
 
 	BYTE* pBuffer;
 
-	unsigned int bufferSize;
+	uint32_t bufferSize;
 
 	IXAudio2SourceVoice* sound;
 

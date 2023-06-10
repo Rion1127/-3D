@@ -52,7 +52,7 @@ void ShaderCompileFromFile(
 wchar_t* ConvertStrToWchar(const std::string string)
 {
 	// SJIS → wstring	std::string型のサイズを取得
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, (wchar_t*)NULL, 0);
+	uint32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, (wchar_t*)NULL, 0);
 
 	// バッファの取得		HandleNameのサイズ分のwchara_tを用意する
 	wchar_t* result = new wchar_t[iBufferSize];
@@ -64,17 +64,17 @@ wchar_t* ConvertStrToWchar(const std::string string)
 
 using namespace std::chrono;
 
-int GetNowCount(void) {
-	return static_cast<int>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
+uint32_t GetNowCount(void) {
+	return static_cast<uint32_t>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
 }
 
-float GetNowTime(int startCount)
+float GetNowTime(uint32_t startCount)
 {
 	// 経過時間
 	float nowTime = 0.0f;
 
 	// 現在の時間
-	int nowCount = GetNowCount();
+	uint32_t nowCount = GetNowCount();
 
 	// 経過時間
 	return nowTime = (nowCount - startCount) / 1000.0f;
