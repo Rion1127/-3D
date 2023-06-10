@@ -35,7 +35,7 @@ void ParticleScene::Ini()
 
 	
 
-	const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
+	const wchar_t* modelFile = L"Resources/boneTest/testCube.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {
@@ -102,12 +102,12 @@ void ParticleScene::Draw()
 	Model ::PreDraw();
 	lightGroup->Draw(3);
 	
-	assimpObj_.Draw();
+	//assimpObj_.Draw();
 
 	///////////////////
 	/////パーティクル////
 	///////////////////
 	ParticleManager::GetInstance()->PreDraw();
 
-	//object_.Draw(whiteTexture_);
+	object_.Draw(whiteTexture_);
 }

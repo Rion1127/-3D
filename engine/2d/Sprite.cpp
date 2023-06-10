@@ -195,7 +195,7 @@ void Sprite::Ini(std::string guiname)
 
 	// 射影行列計算
 	matProjection = XMMatrixOrthographicOffCenterLH(
-		0.0f, (float)1280, (float)720, 0.0f, 0.0f, 1.0f);
+		0.0f, (float)WinAPI::win_width, (float)WinAPI::win_height, 0.0f, 0.0f, 1.0f);
 
 	//スケール
 	Scale_ = { 1.f,1.f };
@@ -296,10 +296,10 @@ void Sprite::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetSpritePipeline(3)->gerPipelineState());
+		PipelineManager::GetPipelineObjects("Sprite")->GetPipelineStateAlpha());
 
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetSpritePipeline(3)->GetRootSignature());
+		PipelineManager::GetPipelineObjects("Sprite")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
@@ -374,14 +374,14 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 
 void Sprite::SetBlend(int blend)
 {
-	if (blend > 3) blend = 3;
-	else if (blend < 0) blend = 0;
-	// パイプラインステートとルートシグネチャの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetSpritePipeline(blend)->gerPipelineState());
+	//if (blend > 3) blend = 3;
+	//else if (blend < 0) blend = 0;
+	//// パイプラインステートとルートシグネチャの設定コマンド
+	//RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
+	//	PipelineManager::GetSpritePipeline(blend)->gerPipelineState());
 
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetSpritePipeline(blend)->GetRootSignature());
+	//RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
+	//	PipelineManager::GetSpritePipeline(blend)->GetRootSignature());
 }
 
 void Sprite::TransferVertex()

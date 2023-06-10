@@ -227,7 +227,7 @@ void RDirectX::CreateDepthBuffer() {
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 	// リソース設定
 	CD3DX12_RESOURCE_DESC depthResDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		DXGI_FORMAT_D32_FLOAT, 1280, 720, 1, 0, 1, 0,
+		DXGI_FORMAT_D32_FLOAT, winApi_->win_width, winApi_->win_height, 1, 0, 1, 0,
 		D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 	CD3DX12_CLEAR_VALUE clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
 	// リソースの生成
@@ -319,10 +319,10 @@ void RDirectX::PreDraw() {
 
 	// ビューポートの設定
 	CD3DX12_VIEWPORT viewport =
-		CD3DX12_VIEWPORT(0.0f, 0.0f, 1280, 720);
+		CD3DX12_VIEWPORT(0.0f, 0.0f, winApi_->win_width, winApi_->win_height);
 	commandList->RSSetViewports(1, &viewport);
 	// シザリング矩形の設定
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, 1280, 720);
+	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, winApi_->win_width, winApi_->win_height);
 	commandList->RSSetScissorRects(1, &rect);
 }
 

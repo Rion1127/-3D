@@ -11,6 +11,7 @@
 #include "DirectX.h"
 #include "Texture.h"
 #include "PipelineManager.h"
+#include "PipelineManager.h"
 
 //コマンドリストを格納する
 RDirectX* Particle::directX_ = nullptr;
@@ -19,6 +20,17 @@ Particle::Particle() {
 	directX_ = RDirectX::GetInstance();
 
 	Ini();
+
+	PipelineManager::AddPipeline("Particle");
+	PipelineManager::GetPipelineObjects("Particle")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	PipelineManager::GetPipelineObjects("Particle")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32_FLOAT);
+	PipelineManager::GetPipelineObjects("Particle")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleVS.hlsl", PipelineObject::VS);
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticlePS.hlsl", PipelineObject::PS);
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleGS.hlsl", PipelineObject::GS);
+
+	PipelineManager::Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO);
 }
 
 Particle* Particle::GetInstance()
@@ -73,9 +85,9 @@ void Particle::PreDraw()
 	// パイプラインステートとルートシグネチャの設定コマンド
 	//パイプラインに設定した内容で描画を始める
 	directX_->GetCommandList()->
-		SetPipelineState(PipelineManager::GetParticlePipeline(3)->gerPipelineState());
+		SetPipelineState(PipelineManager::GetPipelineObjects("Particle")->GetPipelineStateAlpha());
 	directX_->GetCommandList()->
-		SetGraphicsRootSignature(PipelineManager::GetParticlePipeline(3)->GetRootSignature());
+		SetGraphicsRootSignature(PipelineManager::GetPipelineObjects("Particle")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
@@ -83,14 +95,14 @@ void Particle::PreDraw()
 
 void Particle::SetBlend(int blend)
 {
-	if (blend > 3) blend = 3;
-	else if (blend < 0) blend = 0;
-	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
-		PipelineManager::GetParticlePipeline(blend)->gerPipelineState());
+	//if (blend > 3) blend = 3;
+	//else if (blend < 0) blend = 0;
+	//// パイプラインステートとルートシグネチャの設定コマンド
+	//directX_->GetCommandList()->SetPipelineState(
+	//	PipelineManager::GetParticlePipeline(blend)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetParticlePipeline(blend)->GetRootSignature());
+	//directX_->GetCommandList()->SetGraphicsRootSignature(
+	//	PipelineManager::GetParticlePipeline(blend)->GetRootSignature());
 }
 
 void Particle::Update(Camera VP)
@@ -142,7 +154,7 @@ void Particle::Draw(uint32_t descriptorSize)
 	//インデックスバッファビューの設定コマンド
 	//commandList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuff->GetGPUVirtualAddress());
 	//描画コマンド
 	directX_->GetCommandList()->DrawInstanced((UINT)activeCount, 1, 0, 0);
 }

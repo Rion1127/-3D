@@ -35,7 +35,7 @@ void AssinpModel::Draw(WorldTransform WT)
 	for (int i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		TextureManager::GetInstance()->
-			SetGraphicsDescriptorTable(texture_[i].textureHandle);
+			SetGraphicsDescriptorTable(0);
 
 		importSetting_->meshes[i].Vertices.Draw(&WT, 0);
 	}

@@ -1,30 +1,60 @@
 #include "PipelineManager.h"
 
-std::array<Pipeline, 4> PipelineManager::Object3dPipeline_;
-std::array<Pipeline, 4> PipelineManager::SpritePipeline_;
-std::array<ParticlePipeline, 4> PipelineManager::particlePipeline_;
-std::array<Pipeline, 4> PipelineManager::toonPipeline_;
-
-PipelineObject PipelineManager::posteffectPipeline_;
+std::map<std::string, std::unique_ptr<PipelineObject>> PipelineManager::pipelineObjects_;
 
 void PipelineManager::Ini() {
-	for (int i = 0; i < 4; i++) {
-		Object3dPipeline_.at(i).Object3dIni(i);
-		SpritePipeline_.at(i).SpriteIni(i);
-		particlePipeline_.at(i).Init(i);
-		toonPipeline_.at(i).ToonIni(i);
+	//オブジェクト3D
+	AddPipeline("Object3D");
+	GetPipelineObjects("Object3D")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3D")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3D")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Object3D")->Setshader(L"Resources/shader/BasicVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("Object3D")->Setshader(L"Resources/shader/BasicPS.hlsl", PipelineObject::PS);
+
+	Create("Object3D", BACK,TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ALL);
+	//スプライト
+	AddPipeline("Sprite");
+	GetPipelineObjects("Sprite")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Sprite")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Sprite")->Setshader(L"Resources/shader/SpriteVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("Sprite")->Setshader(L"Resources/shader/SpritePS.hlsl", PipelineObject::PS);
+
+	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO);
+	
+	//トゥーンオブジェクト3D
+	AddPipeline("Toon");
+	GetPipelineObjects("Toon")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Toon")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Toon")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Toon")->Setshader(L"Resources/shader/ToonVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("Toon")->Setshader(L"Resources/shader/ToonPS.hlsl", PipelineObject::PS);
+
+	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
+
+	//ポストエフェクト
+	AddPipeline("PostEffect");
+	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("PostEffect")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);
+
+	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO);
+
+}
+void PipelineManager::Create(std::string pipelinename, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc)
+{
+	for (size_t i = 0; i < 4; i++) {
+		pipelineObjects_[pipelinename]->Create(BlendNum(i), cullmode, topologytype, depthWriteMasc);
 	}
-
-
-	posteffectPipeline_.AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
-	posteffectPipeline_.AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
-
-	posteffectPipeline_.Setshader(L"Resources/shader/PostEffectVS.hlsl", PipelineObject::VS);
-	posteffectPipeline_.Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);
-	//posteffectPipeline_.SetPSshader(L"Resources/shader/BasicPS.hlsl");
-
-	posteffectPipeline_.AddrootParams(3);
-	//for (int i = 0; i < 4; i++) {
-		posteffectPipeline_.Init(3, PipelineObject::CULL_MODE::NONE, PipelineObject::TRIANGLE);
-	//}
+}
+void PipelineManager::AddPipeline(std::string pipelinename)
+{
+	std::unique_ptr<PipelineObject> obj = std::move(std::make_unique<PipelineObject>());
+	obj->name_ = pipelinename;
+	pipelineObjects_.insert(std::make_pair(pipelinename, std::move(obj)));
 };
+

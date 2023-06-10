@@ -57,19 +57,19 @@ std::unique_ptr<Model> Model::CreateOBJ_uniptr(const std::string& modelname, boo
 	std::unique_ptr<Model> instance = std::make_unique<Model>();
 	instance->ModelIni(modelname, smoothing);
 
-	return /*std::move(*/instance/*)*/;
+	return instance;
 }
 
 void Model::SetBlend(int blend)
 {
-	if (blend > 3) blend = 3;
-	else if (blend < 0) blend = 0;
-	// パイプラインステートとルートシグネチャの設定コマンド
-	directX_->GetCommandList()->SetPipelineState(
-		PipelineManager::GetObj3dPipeline(blend)->gerPipelineState());
+	//if (blend > 3) blend = 3;
+	//else if (blend < 0) blend = 0;
+	//// パイプラインステートとルートシグネチャの設定コマンド
+	//directX_->GetCommandList()->SetPipelineState(
+	//	PipelineManager::GetObj3dPipeline(blend)->gerPipelineState());
 
-	directX_->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetObj3dPipeline(blend)->GetRootSignature());
+	//directX_->GetCommandList()->SetGraphicsRootSignature(
+	//	PipelineManager::GetObj3dPipeline(blend)->GetRootSignature());
 }
 
 void Model::SetModel(const Model* model)
@@ -420,10 +420,10 @@ void Model::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetObj3dPipeline(3)->gerPipelineState());
+		PipelineManager::GetPipelineObjects("Object3D")->GetPipelineStateAlpha());
 
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetObj3dPipeline(3)->GetRootSignature());
+		PipelineManager::GetPipelineObjects("Object3D")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト

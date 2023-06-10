@@ -204,21 +204,21 @@ void GameScene::Draw()
 	////////////////
 	Model::PreDraw();
 
-	skyDome_->Draw();
+	
 	//testObj->Draw();
 
 	assimpObj_.Draw();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetToonPipeline(3)->gerPipelineState());
+		PipelineManager::GetPipelineObjects("Toon")->GetPipelineStateAlpha());
 
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetToonPipeline(3)->GetRootSignature());
+		PipelineManager::GetPipelineObjects("Toon")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
+	skyDome_->Draw();
 	//sphere_->Draw();
 
 
@@ -230,7 +230,7 @@ void GameScene::Draw()
 	testSprite_.Draw();
 	testSprite_.DrawImGui();
 	//testSprite_.DrawImGui();
-	Sprite::SetBlend(BLEND_ALPHA);
+	Sprite::SetBlend(BlendNum::ALPHA);
 	//testSprite2_.Draw(uvtexture_);
 	//testSprite2_.DrawImGui();
 }

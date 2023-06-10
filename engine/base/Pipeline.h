@@ -6,10 +6,12 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include "DirectX.h"
 
-#define BLEND_ALPHA		0x0000
-#define BLEND_SUB		0x0001
-#define BLEND_NEGA		0x0002
-#define BLEND_NORMAL	0x0003
+enum BlendNum {
+	ADD,
+	SUB,
+	NEGA,
+	ALPHA,
+};
 
 //サンプラーデスクを設定
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC();
@@ -138,6 +140,24 @@ private:
 	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
 };
 
+enum CULL_MODE {
+	NONE = 1,
+	FRONT = 2,
+	BACK = 3
+};
+enum TOPOLOGY_TYPE
+{
+	TOPOLOGY_UNDEFINED = 0,
+	TOPOLOGY_POINT = 1,
+	TOPOLOGY_LINE = 2,
+	TOPOLOGY_TRIANGLE = 3,
+	TOPOLOGY_PATCH = 4
+};
+enum WRIGHT_MASK {
+	DEPTH_WRITE_MASK_ZERO = 0,
+	DEPTH_WRITE_MASK_ALL = 1
+};
+
 class PipelineObject {
 private:
 	//エイリアステンプレート
@@ -145,9 +165,10 @@ private:
 	// ルートシグネチャ
 	ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプランステート
-	ComPtr<ID3D12PipelineState> pipelineState;
-	// グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	ComPtr<ID3D12PipelineState> pipelineStateAdd;
+	ComPtr<ID3D12PipelineState> pipelineStateSub;
+	ComPtr<ID3D12PipelineState> pipelineStateNega;
+	ComPtr<ID3D12PipelineState> pipelineStateAlpha;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
 	std::vector<D3D12_ROOT_PARAMETER> rootParams_;
@@ -156,35 +177,29 @@ private:
 	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> gsBlob = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+	
+	
 public:
-	enum CULL_MODE {
-		NONE = 1,
-		FRONT = 2,
-		BACK = 3
-	};
-	enum TOPOLOGY_TYPE
-	{
-		UNDEFINED = 0,
-		POINT = 1,
-		LINE = 2,
-		TRIANGLE = 3,
-		PATCH = 4
-	} ;
+	
 	enum ShaderType {
 		VS,
 		PS,
 		GS
 	};
 public:
+	std::string name_;
 
-	void Init(int blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype);
+	void Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc);
 
 	void Setshader(LPCWSTR fileName,ShaderType shadertype);
 
-	void AddrootParams(int num);
+	void AddrootParams();
 	void AddInputLayout(const char* semanticName, DXGI_FORMAT format);
 public:
 	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 
-	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
+	ID3D12PipelineState* GetPipelineStateAdd() { return pipelineStateAdd.Get(); }
+	ID3D12PipelineState* GetPipelineStateSub() { return pipelineStateSub.Get(); }
+	ID3D12PipelineState* GetPipelineStateNega() { return pipelineStateNega.Get(); }
+	ID3D12PipelineState* GetPipelineStateAlpha() { return pipelineStateAlpha.Get(); }
 };
