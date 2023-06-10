@@ -10,7 +10,7 @@ public:
 
 	void Draw(WorldTransform WT);
 private:
-	std::vector<Mesh> meshes;
+	std::vector<Mesh> meshes_;
 	std::vector <Texture> texture_;
 	std::unique_ptr<ImportSettings> importSetting_;
 

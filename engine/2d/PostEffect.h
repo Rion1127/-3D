@@ -13,11 +13,11 @@ private:
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
 	//深度バッファ
-	ComPtr<ID3D12Resource> depthBuff;
+	ComPtr<ID3D12Resource> depthBuff_;
 	//RTV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
+	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
 	//DSV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapDSV;
+	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 
 	//頂点データ
 	ComPtr<ID3D12Resource> vertBuff_;
@@ -26,24 +26,24 @@ private:
 	//インデックスデータ
 	std::vector<uint16_t> indices_;
 	// インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff = nullptr;
+	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	//定数バッファ用データ構造体
 	struct ConstBufferDataMaterial {
 		XMFLOAT4 color;
 	};
-	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	
 
 	struct ConstBufferDataTransform {
 		XMMATRIX mat;
 	};
-	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
+	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 	
 private:
 	//画面クリアカラー
-	static const float clearColor[4];
+	static const float clearColor_[4];
 	Texture texture_;
 public:
 	PostEffect();
@@ -67,7 +67,7 @@ private:
 public:
 	void SetTexture(Texture texture) { texture_ = texture; }
 private:
-	static const uint32_t vertNum;
+	static const uint32_t vertNum_;
 	struct VertexPosUV {
 		Vector3 pos;
 		Vector2 uv;

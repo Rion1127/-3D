@@ -18,20 +18,20 @@ private:
 
 	void CameraMove();
 
-	Camera viewProjection;
+	Camera viewProjection_;
 
-	Vector3 dist{};
-	Vector3 moveDist{};	//球面座標
-	Vector3 cameraTrans{};//平行移動座標
+	Vector3 dist_{};
+	Vector3 moveDist_{};	//球面座標
+	Vector3 cameraTrans_{};//平行移動座標
 
 	//正面・横・上ベクトル
-	Vector3 frontVec{};
-	Vector3 sideVec{};
-	Vector3 upVec{};
+	Vector3 frontVec_{};
+	Vector3 sideVec_{};
+	Vector3 upVec_{};
 
 	
 
-	float frontdist;
+	float frontdist_;
 
 };
 

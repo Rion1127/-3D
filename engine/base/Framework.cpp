@@ -32,8 +32,8 @@ void Framework::Init()
 
 	loadManager_.LoadAllResources();
 
-	postEffect = std::move(std::make_unique<PostEffect>());
-	postEffect->SetTexture(*TextureManager::GetInstance()->GetTexture("White"));
+	postEffect_ = std::move(std::make_unique<PostEffect>());
+	postEffect_->SetTexture(*TextureManager::GetInstance()->GetTexture("White"));
 }
 
 void Framework::Finalize()
@@ -59,7 +59,7 @@ void Framework::Update()
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 
-	postEffect->PUpdate();
+	postEffect_->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
@@ -89,14 +89,14 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	postEffect->PreDrawScene();
+	postEffect_->PreDrawScene();
 	SceneManager::Draw();
-	postEffect->PostDrawScene();
+	postEffect_->PostDrawScene();
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	postEffect->Draw();
+	postEffect_->Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

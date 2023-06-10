@@ -30,23 +30,23 @@ struct FormatChunk
 class SoundData
 {
 public:
-	WAVEFORMATEX wfex;
+	WAVEFORMATEX wfex_;
 
-	std::vector<BYTE> pBuffer;
+	std::vector<BYTE> pBuffer_;
 
-	uint32_t bufferSize;
+	uint32_t bufferSize_;
 
-	IXAudio2SourceVoice* sound;
+	IXAudio2SourceVoice* sound_;
 
 	void Release() {
 
-		this->pBuffer.clear();
-		this->bufferSize = 0;
-		this->wfex = {};
+		pBuffer_.clear();
+		bufferSize_ = 0;
+		wfex_ = {};
 
-		if (sound != nullptr)
+		if (sound_ != nullptr)
 		{
-			sound->Stop();
+			sound_->Stop();
 		}
 	}
 };
@@ -91,8 +91,8 @@ public:
 	static void ReleaseAllSounds();
 
 private:
-	static ComPtr<IXAudio2> xAudio2;
-	static IXAudio2MasteringVoice* masterVoice;
-	static std::map<SoundKey, SoundData> sndMap;
+	static ComPtr<IXAudio2> xAudio2_;
+	static IXAudio2MasteringVoice* masterVoice_;
+	static std::map<SoundKey, SoundData> sndMap_;
 
 };

@@ -6,47 +6,47 @@
 
 WorldTransform::WorldTransform()
 {
-	position = { 0,0,0 };
-	scale = { 1,1,1 };
-	rotation = { 0,0,0 };
+	position_ = { 0,0,0 };
+	scale_ = { 1,1,1 };
+	rotation_ = { 0,0,0 };
 
-	constBuffTransform = CreateBuff(constMapTransform);
+	constBuffTransform_ = CreateBuff(constMapTransform_);
 }
 
 void WorldTransform::SetScale(float x, float y, float z)
 {
-	scale = { x,y,z };
+	scale_ = { x,y,z };
 }
 
 void WorldTransform::SetRotation(float x, float y, float z)
 {
-	rotation = { x,y,z };
+	rotation_ = { x,y,z };
 }
 
 void WorldTransform::SetPosition(float x, float y, float z)
 {
-	position = { x,y,z };
+	position_ = { x,y,z };
 }
 
 void WorldTransform::AddScale(float x, float y, float z)
 {
-	scale.x += x;
-	scale.y += y;
-	scale.z += z;
+	scale_.x += x;
+	scale_.y += y;
+	scale_.z += z;
 }
 
 void WorldTransform::AddRotation(float x, float y, float z)
 {
-	rotation.x += x;
-	rotation.y += y;
-	rotation.z += z;
+	rotation_.x += x;
+	rotation_.y += y;
+	rotation_.z += z;
 }
 
 void WorldTransform::AddPosition(float x, float y, float z)
 {
-	position.x += x;
-	position.y += y;
-	position.z += z;
+	position_.x += x;
+	position_.y += y;
+	position_.z += z;
 }
 
 
@@ -56,13 +56,13 @@ void WorldTransform::Update(uint32_t isBillboard)
 	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation.z);
-	matRot *= XMMatrixRotationX(rotation.x);
-	matRot *= XMMatrixRotationY(rotation.y);
+	matRot *= XMMatrixRotationZ(rotation_.z);
+	matRot *= XMMatrixRotationX(rotation_.x);
+	matRot *= XMMatrixRotationY(rotation_.y);
 	matTrans = XMMatrixTranslation(
-		position.x, position.y, position.z);
+		position_.x, position_.y, position_.z);
 
 	
 	//クォータニオン
@@ -71,32 +71,32 @@ void WorldTransform::Update(uint32_t isBillboard)
 	matRot = q.UpdateMatrix();*/
 
 	//ワールド行列の合成
-	matWorld = XMMatrixIdentity();	//変形をリセット
+	matWorld_ = XMMatrixIdentity();	//変形をリセット
 	//ビルボード
 	if (isBillboard == 1) {
-		matWorld *= Camera::current.matBillboard;
+		matWorld_ *= Camera::current_.matBillboard_;
 	}
 	else if (isBillboard == 2) {
-		matWorld *= Camera::current.matBillboardY;
+		matWorld_ *= Camera::current_.matBillboardY_;
 	}
 
-	matWorld *= matScale;			//ワールド行列にスケーリングを反映
-	matWorld *= matRot;				//ワールド行列に開店を反映
-	matWorld *= matTrans;			//ワールド行列に平行移動を反映
+	matWorld_ *= matScale;			//ワールド行列にスケーリングを反映
+	matWorld_ *= matRot;				//ワールド行列に開店を反映
+	matWorld_ *= matTrans;			//ワールド行列に平行移動を反映
 
 	//親オブジェクトがあれば
-	if (parent) {
+	if (parent_) {
 		//親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
+		matWorld_ *= parent_->matWorld_;
 	}
 
 	//定数バッファへデータ転送
-	constMapTransform->mat = matWorld ;
-	constMapTransform->viewProj = Camera::current.GetMatView() * Camera::current.GetMatProjection();
-	constMapTransform->cameraPos = {
-		Camera::current.eye.x,
-		Camera::current.eye.y,
-		Camera::current.eye.z
+	constMapTransform_->mat = matWorld_;
+	constMapTransform_->viewProj = Camera::current_.GetMatView() * Camera::current_.GetMatProjection();
+	constMapTransform_->cameraPos = {
+		Camera::current_.eye_.x,
+		Camera::current_.eye_.y,
+		Camera::current_.eye_.z
 	};
 }
 

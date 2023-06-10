@@ -65,15 +65,15 @@ void Material::Ini(ID3D12Device* device)
 			&cbResourceDesc,	//リソース設定
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&constBufferB3));
+			IID_PPV_ARGS(&constBufferB3_));
 		assert(SUCCEEDED(result));
 		//定数バッファのマッピング
-		result = constBufferB3->Map(0, nullptr, (void**)&constMapB3);	//マッピング
+		result = constBufferB3_->Map(0, nullptr, (void**)&constMapB3_);	//マッピング
 		assert(SUCCEEDED(result));
-		constMapB3->ambient = ambient_;
-		constMapB3->diffuse = diffuse_;
-		constMapB3->specular = specular_;
-		constMapB3->alpha = alpha;
+		constMapB3_->ambient = ambient_;
+		constMapB3_->diffuse = diffuse_;
+		constMapB3_->specular = specular_;
+		constMapB3_->alpha = alpha_;
 		//constBufferB3->Unmap(0,nullptr);
 	}
 }
@@ -114,5 +114,5 @@ void Material::Draw(UINT descriptorSize)
 	//commandList->SetGraphicsRootConstantBufferView(0, constBufferMaterial->GetGPUVirtualAddress());
 	//ルートパラメータ配列2番目を指定
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBufferB3->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(2, constBufferB3_->GetGPUVirtualAddress());
 }

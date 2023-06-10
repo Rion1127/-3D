@@ -3,83 +3,83 @@
 #include "Util.h"
 #include "Camera.h"
 
-Camera Camera::current{};
+Camera Camera::current_{};
 
 Camera::Camera()
 {
 
 	directX_ = RDirectX::GetInstance();
 
-	eye = { 0,0,-10 };
-	target = { 0,0,0 };
-	up = { 0,1,0 };
+	eye_ = { 0,0,-10 };
+	target_ = { 0,0,0 };
+	up_ = { 0,1,0 };
 
 	Update();
 }
 
 void Camera::SetEyePos(float x, float y, float z)
 {
-	eye.x = x;
-	eye.y = y;
-	eye.z = z;
+	eye_.x = x;
+	eye_.y = y;
+	eye_.z = z;
 }
 
 void Camera::SetEyePos(Vector3 pos)
 {
-	if (isShake) {
-		originalPos.x = pos.x;
-		originalPos.y = pos.y;
-		originalPos.z = pos.z;
+	if (isShake_) {
+		originalPos_.x = pos.x;
+		originalPos_.y = pos.y;
+		originalPos_.z = pos.z;
 	}
-	else if (isShake == false) {
-		eye.x = pos.x;
-		eye.y = pos.y;
-		eye.z = pos.z;
+	else if (isShake_ == false) {
+		eye_.x = pos.x;
+		eye_.y = pos.y;
+		eye_.z = pos.z;
 	}
 }
 
 void Camera::SetTarget(float x, float y, float z)
 {
-	target.x = x;
-	target.y = y;
-	target.z = z;
+	target_.x = x;
+	target_.y = y;
+	target_.z = z;
 }
 
 void Camera::SetTarget(Vector3 pos)
 {
-	target.x = pos.x;
-	target.y = pos.y;
-	target.z = pos.z;
+	target_.x = pos.x;
+	target_.y = pos.y;
+	target_.z = pos.z;
 }
 
 void Camera::SetUpVec(float x, float y, float z)
 {
-	up.x = x;
-	up.y = y;
-	up.z = z;
+	up_.x = x;
+	up_.y = y;
+	up_.z = z;
 }
 
 void Camera::SetUpVec(Vector3 upVec)
 {
-	up.x = upVec.x;
-	up.y = upVec.y;
-	up.z = upVec.z;
+	up_.x = upVec.x;
+	up_.y = upVec.y;
+	up_.z = upVec.z;
 }
 
 void Camera::MoveTo(Vector3 goal, float speed)
 {
-	Vector3 dir = goal - eye;
+	Vector3 dir = goal - eye_;
 	float dirLength = dir.length2();
 	if (dirLength < speed * speed)
 	{
-		eye.x = goal.x;
-		eye.y = goal.y;
-		eye.z = goal.z;
+		eye_.x = goal.x;
+		eye_.y = goal.y;
+		eye_.z = goal.z;
 		return;
 	}
-	eye.x = eye.x + dir.SetLength(speed).x;
-	eye.y = eye.y + dir.SetLength(speed).y;
-	eye.z = eye.z + dir.SetLength(speed).z;
+	eye_.x = eye_.x + dir.SetLength(speed).x;
+	eye_.y = eye_.y + dir.SetLength(speed).y;
+	eye_.z = eye_.z + dir.SetLength(speed).z;
 }
 
 
@@ -93,11 +93,11 @@ void Camera::Update()
 
 #pragma region ビュー行列
 			//視点座標
-	XMVECTOR eyePosition = XMLoadFloat3(&eye);
+	XMVECTOR eyePosition = XMLoadFloat3(&eye_);
 	//注視点座標
-	XMVECTOR targetPosition = XMLoadFloat3(&target);
+	XMVECTOR targetPosition = XMLoadFloat3(&target_);
 	//（仮の）上方向
-	XMVECTOR upVector = XMLoadFloat3(&up);
+	XMVECTOR upVector = XMLoadFloat3(&up_);
 
 	//カメラZ軸（視線方向）
 	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
@@ -127,7 +127,7 @@ void Camera::Update()
 	matCameraRot.r[2] = cameraAxisZ;
 	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
 	//転置により逆用列（逆回転）を計算
-	matView = XMMatrixTranspose(matCameraRot);
+	matView_ = XMMatrixTranspose(matCameraRot);
 	//視点座標に-1を賭けた座標
 	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
 	//カメラの位置からワールド原点へのベクトル（カメラ座標系）
@@ -137,13 +137,13 @@ void Camera::Update()
 	//一つのベクトルにまとめる
 	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
 	//ビュー行列に平行移動成分を設定
-	matView.r[3] = translation;
+	matView_.r[3] = translation;
 
 	//全方向ビルボード行列
-	matBillboard.r[0] = cameraAxisX;
-	matBillboard.r[1] = cameraAxisY;
-	matBillboard.r[2] = cameraAxisZ;
-	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
+	matBillboard_.r[0] = cameraAxisX;
+	matBillboard_.r[1] = cameraAxisY;
+	matBillboard_.r[2] = cameraAxisZ;
+	matBillboard_.r[3] = XMVectorSet(0, 0, 0, 1);
 
 	//Y軸周りビルボード行列
 	//カメラXYZ軸
@@ -156,18 +156,18 @@ void Camera::Update()
 	ybillCameraAxisZ = XMVector3Cross(cameraAxisX, cameraAxisY);
 
 	////Y軸回りビルボード行列
-	matBillboardY.r[0] = ybillCameraAxisX;
-	matBillboardY.r[1] = ybillCameraAxisY;
-	matBillboardY.r[2] = ybillCameraAxisZ;
-	matBillboardY.r[3] = XMVectorSet(0, 0, 0, 1);
+	matBillboardY_.r[0] = ybillCameraAxisX;
+	matBillboardY_.r[1] = ybillCameraAxisY;
+	matBillboardY_.r[2] = ybillCameraAxisZ;
+	matBillboardY_.r[3] = XMVectorSet(0, 0, 0, 1);
 #pragma endregion
 	//カメラシェイクアップデート
 	ShakeUpdate();
 
 	//透視投影行列の計算
-	matProjection = XMMatrixPerspectiveFovLH(
+	matProjection_ = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(45.0f),
-		aspectRatio,
+		aspectRatio_,
 		0.1f, 1000.0f
 	);
 
@@ -176,43 +176,43 @@ void Camera::Update()
 
 XMMATRIX Camera::GetMatView()
 {
-	return matView;
+	return matView_;
 }
 
 XMMATRIX Camera::GetMatProjection()
 {
-	return matProjection;
+	return matProjection_;
 }
 
 void Camera::ShakeSet(uint32_t time, float power)
 {
-	shakeTime = time;
-	maxShakeTime = shakeTime;
+	shakeTime_ = time;
+	maxShakeTime_ = shakeTime_;
 	power_ = power;
-	isShake = true;
+	isShake_ = true;
 }
 
 void Camera::ShakeUpdate()
 {
 	XMFLOAT3 shakeDist{};
 	Vector2 dist;
-	if (shakeTime > 0) {
-		shakeTime--;
+	if (shakeTime_ > 0) {
+		shakeTime_--;
 		//乱数シード生成器
 		std::random_device seed_gen;
 		//メルセンヌ・ツイスターの乱数エンジン
 		std::mt19937_64 engine(seed_gen());
 		//振動の大きさ
-		if (shakeTime > maxShakeTime * 0.8f) {
+		if (shakeTime_ > maxShakeTime_ * 0.8f) {
 			dist = { -(power_ * 0.8f) , power_ * 0.8f };
 		}
-		else if (shakeTime > maxShakeTime * 0.6f) {
+		else if (shakeTime_ > maxShakeTime_ * 0.6f) {
 			dist = { -(power_ * 0.5f),power_ * 0.5f };
 		}
-		else if (shakeTime > maxShakeTime * 0.4f) {
+		else if (shakeTime_ > maxShakeTime_ * 0.4f) {
 			dist = { -(power_ * 0.2f), power_ * 0.2f };
 		}
-		else if (shakeTime > maxShakeTime * 0.2f) {
+		else if (shakeTime_ > maxShakeTime_ * 0.2f) {
 			dist = { -(power_ * 0.05f), power_ * 0.05f };
 		}
 		std::uniform_real_distribution<float> transDistX(dist.x, dist.y);
@@ -221,14 +221,14 @@ void Camera::ShakeUpdate()
 		shakeDist.x = transDistX(engine);
 		shakeDist.y = transDistY(engine);
 
-		eye = originalPos + shakeDist;
+		eye_ = originalPos_ + shakeDist;
 	}
 	else {
 		SetOriginalPos();
 		//元の座標を代入する
 		//if (isShake == true) {
-			eye = originalPos;
-			isShake = false;
+			eye_ = originalPos_;
+			isShake_ = false;
 		//}
 		
 	}
@@ -236,7 +236,7 @@ void Camera::ShakeUpdate()
 
 void Camera::SetOriginalPos()
 {
-	originalPos = eye;
+	originalPos_ = eye_;
 }
 
 const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2)

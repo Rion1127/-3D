@@ -18,11 +18,11 @@ public:
 
 	static RDirectX* GetInstance();
 
-	ID3D12Device* GetDevice() { return device.Get(); }
-	ID3D12GraphicsCommandList* GetCommandList() { return commandList.Get(); }
+	ID3D12Device* GetDevice() { return device_.Get(); }
+	ID3D12GraphicsCommandList* GetCommandList() { return commandList_.Get(); }
 
 	//バックバッファの数を取得
-	size_t GetBackBufferCount() { return backBuffers.size(); }
+	size_t GetBackBufferCount() { return backBuffers_.size(); }
 
 	void Ini(WinAPI* winApi);
 
@@ -39,24 +39,24 @@ private:
 	void CreateDepthBuffer();
 	/// フェンス生成
 	void CreateFence();
-	ComPtr<ID3D12Device> device;
+	ComPtr<ID3D12Device> device_;
 	ComPtr<IDXGIFactory7> dxgiFactory_;
-	ComPtr<IDXGISwapChain4> swapChain;
+	ComPtr<IDXGISwapChain4> swapChain_;
 	ComPtr<ID3D12CommandAllocator> commandAllocator_;
-	ComPtr<ID3D12GraphicsCommandList> commandList;
+	ComPtr<ID3D12GraphicsCommandList> commandList_;
 	ComPtr<ID3D12CommandQueue> commandQueue_;
-	ComPtr<ID3D12DescriptorHeap> rtvHeap;
+	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 	// デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
 	//バックバッファ
-	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
 	ComPtr<ID3D12Resource> depthBuffer_;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_;
 
 	WinAPI* winApi_ = nullptr;
 	// フェンスの生成
-	ComPtr<ID3D12Fence> fence;
-	UINT64 fenceVal = 0;
+	ComPtr<ID3D12Fence> fence_;
+	UINT64 fenceVal_ = 0;
 	//FPS固定初期化
 	void InitializeFixFPS();
 	//FPS固定更新

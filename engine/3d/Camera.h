@@ -34,20 +34,20 @@ public:
 
 	XMMATRIX GetMatView();
 	XMMATRIX GetMatProjection();
-	XMFLOAT3 eye;
-	XMFLOAT3 target;
-	XMFLOAT3 up;
+	XMFLOAT3 eye_;
+	XMFLOAT3 target_;
+	XMFLOAT3 up_;
 
-	XMMATRIX matView{};
+	XMMATRIX matView_{};
 	//透視投影行列の計算
-	XMMATRIX matProjection{};
+	XMMATRIX matProjection_{};
 
 	//ビルボード行列
-	XMMATRIX matBillboard;
+	XMMATRIX matBillboard_;
 	//Y軸周りのビルボード
-	XMMATRIX matBillboardY;
+	XMMATRIX matBillboardY_;
 
-	static Camera current;
+	static Camera current_;
 
 	/// <summary>
 	/// カメラシェイク
@@ -57,20 +57,20 @@ public:
 	void ShakeSet(uint32_t time, float power);
 	void ShakeUpdate();
 	void SetOriginalPos();
-	bool GetIsShake() { return isShake; }
+	bool GetIsShake() { return isShake_; }
 private:
 
 	// ビューポートのアスペクト比
-	const float aspectRatio = (float)16 / 9;
+	const float aspectRatio_ = (float)16 / 9;
 
 	RDirectX* directX_ = nullptr;
 
 
 	//シェイクする前の場所
-	XMFLOAT3 originalPos;
-	bool isShake = false;
-	uint32_t maxShakeTime;
-	uint32_t shakeTime = 0;
+	XMFLOAT3 originalPos_;
+	bool isShake_ = false;
+	uint32_t maxShakeTime_;
+	uint32_t shakeTime_ = 0;
 	float power_;
 };
 

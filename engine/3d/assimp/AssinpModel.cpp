@@ -10,7 +10,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 {
 	ImportSettings importSetting = {
 		modelFile,
-		meshes,
+		meshes_,
 		false,
 		true
 	};
@@ -19,12 +19,12 @@ void AssinpModel::Create(const wchar_t* modelFile)
 
 	AssimpLoader::GetInstance()->Load(importSetting_.get());
 
-	texture_.resize(meshes.size());
+	texture_.resize(meshes_.size());
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		importSetting_->meshes[i].Vertices.CreateBuffer();
 
-		std::string texturename = WStringToString(meshes[i].diffuseMap);
+		std::string texturename = WStringToString(meshes_[i].diffuseMap);
 		TextureManager::GetInstance()->LoadGraph(texturename, texturename);
 		texture_[i] = *TextureManager::GetInstance()->GetTexture(texturename);
 	}

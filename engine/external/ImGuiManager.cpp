@@ -21,7 +21,7 @@ void ImGuiManager::Init()
 	//ImGuiのスタイルを設定
 	ImGui::StyleColorsDark();
 
-	ImGui_ImplWin32_Init(winApi_->hwnd);
+	ImGui_ImplWin32_Init(winApi_->hwnd_);
 
 	//デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};

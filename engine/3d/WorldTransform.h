@@ -38,21 +38,21 @@ public:
 	void Update(uint32_t isBillboard = 0);
 
 	//定数バッファ（行列用）
-	ComPtr<ID3D12Resource> constBuffTransform;
+	ComPtr<ID3D12Resource> constBuffTransform_;
 	//定数バッファマップ（行列用）
-	ConstBufferDataTransform* constMapTransform;
+	ConstBufferDataTransform* constMapTransform_;
 	//親オブジェクトへのポインタ
-	WorldTransform* parent = nullptr;
+	WorldTransform* parent_ = nullptr;
 	
 	//アフィン変換情報
-	Vector3 scale = { 1,1,1 };
-	Vector3 rotation = { 0,0,0 };
-	Vector3 position = { 0,0,0 };
+	Vector3 scale_ = { 1,1,1 };
+	Vector3 rotation_ = { 0,0,0 };
+	Vector3 position_ = { 0,0,0 };
 private:
 	//ワールド変換行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld_;
 
 	//クォータニオン
-	Quaternion q = { 0,1,0,0 };
+	Quaternion quaternion_ = { 0,1,0,0 };
 };
 

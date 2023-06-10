@@ -68,10 +68,10 @@ void ParticleScene::Ini()
 
 void ParticleScene::Update()
 {
-	Camera::current.eye = debugCamera.GetViewProjection()->eye;
-	Camera::current.up = debugCamera.GetViewProjection()->up;
-	Camera::current.target = debugCamera.GetViewProjection()->target;
-	Camera::current.Update();
+	Camera::current_.eye_ = debugCamera.GetViewProjection()->eye_;
+	Camera::current_.up_ = debugCamera.GetViewProjection()->up_;
+	Camera::current_.target_ = debugCamera.GetViewProjection()->target_;
+	Camera::current_.Update();
 	//ƒJƒƒ‰XV
 	if (input_->PushKey(DIK_LCONTROL)) {
 		debugCamera.Update();

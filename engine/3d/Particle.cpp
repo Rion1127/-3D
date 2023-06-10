@@ -41,7 +41,7 @@ Particle* Particle::GetInstance()
 
 void Particle::Ini()
 {
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * vertexCount);
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * CvertexCount);
 
 	////頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapprop{};
@@ -62,22 +62,22 @@ void Particle::Ini()
 		&resdesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff)
+		IID_PPV_ARGS(&vertBuff_)
 	);
-	vertBuff->SetName(L"PARTICLE VERT BUFF");
+	vertBuff_->SetName(L"PARTICLE VERT BUFF");
 
 	// GPU上のバッファに対応した仮想メモリを取得
-	vertBuff->Map(0, nullptr, (void**)&vertMap_);
+	vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 	//テスト
 	vertMap_->pos = { 0,0,0 };
 
 	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(Vertex);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB;
+	vbView_.StrideInBytes = sizeof(Vertex);
 
 
-	constBuff = CreateBuff(constMatMap_);
+	constBuff_ = CreateBuff(constMatMap_);
 }
 
 void Particle::PreDraw()
@@ -115,12 +115,12 @@ void Particle::Update(Camera VP)
 
 	//頂点バッファへデータ送信
 	Vertex* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
 		//パーティクルの情報を一つずつ反映
 		for (/*std::forward_list<Particle>::iterator it = particles.begin();
 			it != particles.end();
-			it++*/uint32_t i = 0; i < activeCount;i++) {
+			it++*/uint32_t i = 0; i < activeCount_;i++) {
 			//座標
 			vertMap->pos = {(float) i * 5,0,0 };
 			////スケール
@@ -130,7 +130,7 @@ void Particle::Update(Camera VP)
 			//次の頂点へ
 			vertMap++;
 		}
-		vertBuff->Unmap(0, nullptr);
+		vertBuff_->Unmap(0, nullptr);
 	}
 }
 
@@ -150,11 +150,11 @@ void Particle::Draw(uint32_t descriptorSize)
 		SetGraphicsDescriptorTable(descriptorSize);
 
 	// 頂点バッファビューの設定コマンド
-	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
 	//commandList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuff->GetGPUVirtualAddress());
+	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());
 	//描画コマンド
-	directX_->GetCommandList()->DrawInstanced((UINT)activeCount, 1, 0, 0);
+	directX_->GetCommandList()->DrawInstanced((UINT)activeCount_, 1, 0, 0);
 }

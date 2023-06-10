@@ -64,17 +64,17 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	// シェーダーの設定
-	if (vsBlob != nullptr) {
-		pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
-		pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+	if (vsBlob_ != nullptr) {
+		pipelineDesc.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
+		pipelineDesc.VS.BytecodeLength = vsBlob_->GetBufferSize();
 	}
-	if (psBlob != nullptr) {
-		pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
-		pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+	if (psBlob_ != nullptr) {
+		pipelineDesc.PS.pShaderBytecode = psBlob_->GetBufferPointer();
+		pipelineDesc.PS.BytecodeLength = psBlob_->GetBufferSize();
 	}
-	if (gsBlob != nullptr) {
-		pipelineDesc.GS.pShaderBytecode = gsBlob->GetBufferPointer();
-		pipelineDesc.GS.BytecodeLength = gsBlob->GetBufferSize();
+	if (gsBlob_ != nullptr) {
+		pipelineDesc.GS.pShaderBytecode = gsBlob_->GetBufferPointer();
+		pipelineDesc.GS.BytecodeLength = gsBlob_->GetBufferSize();
 	}
 
 	//テクスチャサンプラーの設定
@@ -105,14 +105,14 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	rootSignatureDesc.NumStaticSamplers = 1;
 	// ルートシグネチャのシリアライズ
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
-		&rootSigBlob, &errorBlob);
+		&rootSigBlob, &errorBlob_);
 	assert(SUCCEEDED(result));
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
+		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature.Get();
+	pipelineDesc.pRootSignature = rootSignature_.Get();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -130,8 +130,8 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	
 
 	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.pInputElementDescs = inputLayout.data();
-	pipelineDesc.InputLayout.NumElements = (UINT)inputLayout.size();
+	pipelineDesc.InputLayout.pInputElementDescs = inputLayout_.data();
+	pipelineDesc.InputLayout.NumElements = (UINT)inputLayout_.size();
 
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE(topologytype);
@@ -145,18 +145,18 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	// パイプランステートの生成
 	if (blendNum == BlendNum::ADD) {
 		result = RDirectX::GetInstance()->GetDevice()->
-			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAdd));
+			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAdd_));
 	}else if (blendNum == BlendNum::NEGA) {
 		result = RDirectX::GetInstance()->GetDevice()->
-			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateNega));
+			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateNega_));
 	}
 	else if (blendNum == BlendNum::SUB) {
 		result = RDirectX::GetInstance()->GetDevice()->
-			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateSub));
+			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateSub_));
 	}
 	else if (blendNum == BlendNum::ALPHA) {
 		result = RDirectX::GetInstance()->GetDevice()->
-			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlpha));
+			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlpha_));
 	}
 	assert(SUCCEEDED(result));
 }
@@ -165,13 +165,13 @@ void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
 {
 	// 頂点シェーダの読み込みとコンパイル
 	if (shadertype == ShaderType::VS) {
-		ShaderCompileFromFile(fileName, "main", "vs_5_0", &vsBlob, errorBlob.Get());
+		ShaderCompileFromFile(fileName, "main", "vs_5_0", &vsBlob_, errorBlob_.Get());
 	}
 	else if (shadertype == ShaderType::PS) {
-		ShaderCompileFromFile(fileName, "main", "ps_5_0", &psBlob, errorBlob.Get());
+		ShaderCompileFromFile(fileName, "main", "ps_5_0", &psBlob_, errorBlob_.Get());
 	}
 	else if (shadertype == ShaderType::GS) {
-		ShaderCompileFromFile(fileName, "main", "gs_5_0", &gsBlob, errorBlob.Get());
+		ShaderCompileFromFile(fileName, "main", "gs_5_0", &gsBlob_, errorBlob_.Get());
 	}
 }
 
@@ -180,7 +180,7 @@ void PipelineObject::AddrootParams()
 	rootParams_.clear();
 	uint32_t size = 0;
 	//inputLayout + 1の数分rootParams_を作る
-	for (uint32_t i = 0; i < inputLayout.size() + 1; i++) {
+	for (uint32_t i = 0; i < inputLayout_.size() + 1; i++) {
 		D3D12_ROOT_PARAMETER rootParams{};
 		//配列の最初にテクスチャ
 		if (rootParams_.size() == 0) {
@@ -214,7 +214,7 @@ void PipelineObject::AddrootParams()
 
 void PipelineObject::AddInputLayout(const char* semanticName, DXGI_FORMAT format)
 {
-	inputLayout.push_back(
+	inputLayout_.push_back(
 		{
 		semanticName, 0, format, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,

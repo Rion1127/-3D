@@ -13,21 +13,21 @@ bool RayCollision(WorldTransform ray, WorldTransform obj)
 	//ワールド座標を代入
 	Vector3 objPos;
 	Vector3 rayPos;
-	objPos = obj.position;
-	rayPos = ray.position;
+	objPos = obj.position_;
+	rayPos = ray.position_;
 #pragma region レイの当たり判定
 	//レイの始点と終点を代入
 	Vector3 rayStart;
 	Vector3 rayEnd;
 	rayStart = {
-		ray.position.x,
-		ray.position.y,
-		ray.position.z - ray.scale.z - 11.0f,
+		ray.position_.x,
+		ray.position_.y,
+		ray.position_.z - ray.scale_.z - 11.0f,
 	};
 	rayEnd = {
-		ray.position.x,
-		ray.position.y,
-		ray.position.z + ray.scale.z + 11.0f,
+		ray.position_.x,
+		ray.position_.y,
+		ray.position_.z + ray.scale_.z + 11.0f,
 	};
 	//始点と終点からレイのベクトル(a→)を求める
 	Vector3 rayVec;
@@ -60,7 +60,7 @@ bool RayCollision(WorldTransform ray, WorldTransform obj)
 
 	//垂線の長さが半径+半径より短ければ当たってる
 	bool isHit = false;
-	if (line.length() <= obj.scale.x + 4.3f) {
+	if (line.length() <= obj.scale_.x + 4.3f) {
 		if (raySize >= ray2ObjectLength) {
 			isHit = true;
 		}
@@ -79,13 +79,13 @@ bool BallCollision(const WorldTransform& a, const WorldTransform& b) {
 	float x, y, z;
 	float r;
 
-	x = (float)pow(b.position.x - a.position.x, 2);
-	y = (float)pow(b.position.y - a.position.y, 2);
-	z = (float)pow(b.position.z - a.position.z, 2);
+	x = (float)pow(b.position_.x - a.position_.x, 2);
+	y = (float)pow(b.position_.y - a.position_.y, 2);
+	z = (float)pow(b.position_.z - a.position_.z, 2);
 
 	float pos = x + y + z;
 
-	r = (float)pow(a.scale.x + b.scale.x, 2);
+	r = (float)pow(a.scale_.x + b.scale_.x, 2);
 	if (pos <= r) {
 		return true;
 	}

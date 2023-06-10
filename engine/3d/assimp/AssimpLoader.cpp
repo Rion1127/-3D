@@ -163,7 +163,7 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 	aiVector3D zero3D(0.0f, 0.0f, 0.0f);
 	aiColor4D zeroColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	dst.Vertices.vertices.resize(src->mNumVertices);
+	dst.Vertices.vertices_.resize(src->mNumVertices);
 
 	for (auto i = 0u; i < src->mNumVertices; ++i)
 	{
@@ -188,18 +188,18 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 		vertex.uv = DirectX::XMFLOAT2(uv->x, uv->y);
 
 
-		dst.Vertices.vertices[i] = vertex;
+		dst.Vertices.vertices_[i] = vertex;
 	}
 
-	dst.Vertices.indices.resize(src->mNumFaces * 3);
+	dst.Vertices.indices_.resize(src->mNumFaces * 3);
 
 	for (auto i = 0u; i < src->mNumFaces; ++i)
 	{
 		const auto& face = src->mFaces[i];
 
-		dst.Vertices.indices[i * 3 + 0] = (uint16_t)face.mIndices[0];
-		dst.Vertices.indices[i * 3 + 1] = (uint16_t)face.mIndices[1];
-		dst.Vertices.indices[i * 3 + 2] = (uint16_t)face.mIndices[2];
+		dst.Vertices.indices_[i * 3 + 0] = (uint16_t)face.mIndices[0];
+		dst.Vertices.indices_[i * 3 + 1] = (uint16_t)face.mIndices[1];
+		dst.Vertices.indices_[i * 3 + 2] = (uint16_t)face.mIndices[2];
 	}
 }
 

@@ -22,11 +22,11 @@ public:
 	bool GetKeyReleased(UINT8 key);
 
 private:
-	IDirectInputDevice8* keyboard = nullptr;
+	IDirectInputDevice8* keyboard_ = nullptr;
 	//全キーの入力状態を取得する
-	BYTE keys[256] = {};
+	BYTE keys_[256] = {};
 	//全キーの入力状態を取得する
-	BYTE oldkeys[256] = {};
+	BYTE oldkeys_[256] = {};
 
 	WinAPI* winapi_ = nullptr;
 };
@@ -60,21 +60,21 @@ public:
 	float GetCursorMoveY();
 	float GetCursorMoveZ();
 	
-	POINT p;
+	POINT p_;
 	//現フレームのマウスの位置
-	Vector3 mPos;
+	Vector3 mPos_;
 	//前フレームのマウスの位置
-	Vector3 prevmPos;
+	Vector3 prevmPos_;
 	//マウスが動いた方向のベクトル
-	Vector3 mouseVec;
+	Vector3 mouseVec_;
 private:
 	//マウスの座標を取得する
 	void GetCursorPosition();
 
-	IDirectInputDevice8* mouse = nullptr;
+	IDirectInputDevice8* mouse_ = nullptr;
 
-	DIMOUSESTATE mouseState;
-	DIMOUSESTATE prevmouseState;
+	DIMOUSESTATE mouseState_;
+	DIMOUSESTATE prevmouseState_;
 	//HWND* hwnd_ = nullptr;
 	WinAPI* winapi_ = nullptr;
 };
@@ -92,7 +92,7 @@ public:
 
 	void Update();
 
-	bool GetActive() { return isConnect; }
+	bool GetActive() { return isConnect_; }
 
 	WORD GetButtons(WORD button);
 	WORD GetTriggerButtons(WORD button);
@@ -120,12 +120,12 @@ private:
 #define PAD_X				0x4000
 #define PAD_Y				0x8000
 
-	XINPUT_STATE state;
-	XINPUT_STATE preState;
-	bool isConnect;
+	XINPUT_STATE state_;
+	XINPUT_STATE preState_;
+	bool isConnect_;
 
 	//バイブレーション
-	XINPUT_VIBRATION vibration;
+	XINPUT_VIBRATION vibration_;
 
 };
 

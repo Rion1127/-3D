@@ -60,14 +60,14 @@ public:
 	//画像左上変更
 	void SetTex_LeftTop(Vector2 pos) { textureLeftTop_ = pos; }
 	//画像UV座標変更
-	void SetTex_Size(Vector2 pos) { textureSize = pos; }
+	void SetTex_Size(Vector2 pos) { textureSize_ = pos; }
 	//テクスチャ
 	void SetTexture(Texture* texture) { texture_ = *texture; }
 
 	Vector2 GetScale() { return Scale_; }
 	Vector2 GetPos() { return pos_; }
 
-	void SetImGui(bool flag) { isImguiDisplay = flag; }
+	void SetImGui(bool flag) { isImguiDisplay_ = flag; }
 	void DrawImGui();
 
 	void Update();
@@ -86,12 +86,12 @@ public:
 	/// <param name="BLEND_NORMAL">半透明合成</param>
 	static void SetBlend(uint32_t blend);
 
-	static void AddAllNum() { allNum++; }
+	static void AddAllNum() { SAllNum++; }
 protected:
 	void TransferVertex();
 protected:
-	static uint32_t allNum;
-	uint32_t spriteNum = 0;
+	static uint32_t SAllNum;
+	uint32_t spriteNum_ = 0;
 
 #pragma region 頂点データ
 	struct Vertex {
@@ -105,21 +105,21 @@ protected:
 		RT	//右上
 	};
 	//頂点データ
-	std::vector<Vertex> vertices;
+	std::vector<Vertex> vertices_;
 	// 頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	// 頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
+	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 
-	Vertex* vertMap = nullptr;
+	Vertex* vertMap_ = nullptr;
 #pragma endregion
 #pragma region インデックスデータ
 	//インデックスデータ
-	std::vector<uint16_t> indices;
+	std::vector<uint16_t> indices_;
 	// インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff = nullptr;
+	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView{};
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
 #pragma endregion
 
 	ComPtr<ID3D12GraphicsCommandList> commandList_;
@@ -127,15 +127,15 @@ protected:
 	struct ConstBufferDataMaterial {
 		XMFLOAT4 color;
 	};
-	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
+	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 
 	struct ConstBufferDataTransform {
 		XMMATRIX mat;
 	};
-	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
-	XMMATRIX matProjection;
+	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
+	ConstBufferDataTransform* constMapTransform_ = nullptr;
+	XMMATRIX matProjection_;
 
 	
 	DirectX::XMMATRIX matWorld_{};// ワールド行列
@@ -150,17 +150,17 @@ protected:
 	bool isFlipY_ = false;	//上下フリップ
 	bool isInvisible_ = false;					//非表示フラグ
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };	//テクスチャ左上座標
-	Vector2 textureSize = { 0.f,0.f };			//テクスチャ切り出しサイズ
-	bool isImguiDisplay = false;				//imgui表示フラグ
-	uint32_t descriptorSize = 0;
+	Vector2 textureSize_ = { 0.f,0.f };			//テクスチャ切り出しサイズ
+	bool isImguiDisplay_ = false;				//imgui表示フラグ
+	uint32_t descriptorSize_ = 0;
 	Texture texture_;		//テクスチャ
 
 #pragma region
 	std::string guiName_;
-	uint32_t clicked = 0;
-	const char* gui;
+	uint32_t clicked_ = 0;
+	const char* gui_;
 
-	std::string name;
+	std::string name_;
 #pragma endregion
 };
 

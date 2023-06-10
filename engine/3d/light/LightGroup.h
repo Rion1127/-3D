@@ -12,10 +12,10 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static const uint32_t DirLightNum = 3;
-	static const uint32_t PointLightNum = 3;
-	static const uint32_t SpotLightNum = 3;
-	static const uint32_t CircleShadowNum = 1;
+	static const uint32_t SDirLightNum = 3;
+	static const uint32_t SPointLightNum = 3;
+	static const uint32_t SSpotLightNum = 3;
+	static const uint32_t SCircleShadowNum = 1;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -107,30 +107,30 @@ private:
 		Vector3 ambientColor;
 		float pad1;
 		//平行光源用
-		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		DirectionalLight::ConstBufferData dirLights[SDirLightNum];
 		//点光源用
-		PointLight::ConstBufferData pointLights[PointLightNum];
+		PointLight::ConstBufferData pointLights_[SPointLightNum];
 		//点光源用
-		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		SpotLight::ConstBufferData spotLights[SSpotLightNum];
 		//丸影
-		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
+		CircleShadow::ConstBufferData circleShadows[SCircleShadowNum];
 	};
-	static RDirectX* directX;
+	static RDirectX* directX_;
 
 	//定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
+	ComPtr<ID3D12Resource> constBuff_;
 	//環境光の色
-	Vector3 ambientColor = { 1,1,1 };
+	Vector3 ambientColor_ = { 1,1,1 };
 	//平行光源の配列
-	DirectionalLight dirLights[DirLightNum];
+	DirectionalLight dirLights_[SDirLightNum];
 	//点光源の配列
-	PointLight pointLights[PointLightNum];
+	PointLight pointLights_[SPointLightNum];
 	//スポットライト
-	SpotLight spotLights[SpotLightNum];
+	SpotLight spotLights_[SSpotLightNum];
 	//丸影
-	CircleShadow circleShadows[CircleShadowNum];
+	CircleShadow circleShadows_[SCircleShadowNum];
 
 	//ダーティフラグ
-	bool dirty = false;
+	bool dirty_ = false;
 };
 

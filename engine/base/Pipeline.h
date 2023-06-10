@@ -32,27 +32,27 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
-	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
+	ID3D12RootSignature* GetRootSignature() { return rootSignature_.Get(); }
 
-	ID3D12PipelineState* gerPipelineState() { return pipelineState.Get(); }
+	ID3D12PipelineState* gerPipelineState() { return pipelineState_.Get(); }
 
 private:
 
 
 	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+	ComPtr<ID3D12RootSignature> rootSignature_;
 	// パイプランステートの生成
-	ComPtr<ID3D12PipelineState> pipelineState;
+	ComPtr<ID3D12PipelineState> pipelineState_;
 	// グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc_{};
 	//コマンドリストを格納する
 	static RDirectX* directX_;
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout;
+	std::vector<D3D12_INPUT_ELEMENT_DESC>inputLayout_;
 
-	ComPtr < ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ComPtr < ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ComPtr < ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+	ComPtr < ID3DBlob> vsBlob_ = nullptr; // 頂点シェーダオブジェクト
+	ComPtr < ID3DBlob> psBlob_ = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr < ID3DBlob> errorBlob_ = nullptr; // エラーオブジェクト
 };
 
 
@@ -80,20 +80,20 @@ private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// ルートシグネチャ
-	ComPtr<ID3D12RootSignature> rootSignature;
+	ComPtr<ID3D12RootSignature> rootSignature_;
 	// パイプランステート
-	ComPtr<ID3D12PipelineState> pipelineStateAdd;
-	ComPtr<ID3D12PipelineState> pipelineStateSub;
-	ComPtr<ID3D12PipelineState> pipelineStateNega;
-	ComPtr<ID3D12PipelineState> pipelineStateAlpha;
+	ComPtr<ID3D12PipelineState> pipelineStateAdd_;
+	ComPtr<ID3D12PipelineState> pipelineStateSub_;
+	ComPtr<ID3D12PipelineState> pipelineStateNega_;
+	ComPtr<ID3D12PipelineState> pipelineStateAlpha_;
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout_;
 	std::vector<D3D12_ROOT_PARAMETER> rootParams_;
 
-	ComPtr<ID3DBlob> vsBlob = nullptr; // 頂点シェーダオブジェクト
-	ComPtr<ID3DBlob> psBlob = nullptr; // ピクセルシェーダオブジェクト
-	ComPtr<ID3DBlob> gsBlob = nullptr; // ピクセルシェーダオブジェクト
-	ComPtr<ID3DBlob> errorBlob = nullptr; // エラーオブジェクト
+	ComPtr<ID3DBlob> vsBlob_ = nullptr; // 頂点シェーダオブジェクト
+	ComPtr<ID3DBlob> psBlob_ = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> gsBlob_ = nullptr; // ピクセルシェーダオブジェクト
+	ComPtr<ID3DBlob> errorBlob_ = nullptr; // エラーオブジェクト
 	
 	
 public:
@@ -113,10 +113,10 @@ public:
 	void AddrootParams();
 	void AddInputLayout(const char* semanticName, DXGI_FORMAT format);
 public:
-	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
+	ID3D12RootSignature* GetRootSignature() { return rootSignature_.Get(); }
 
-	ID3D12PipelineState* GetPipelineStateAdd() { return pipelineStateAdd.Get(); }
-	ID3D12PipelineState* GetPipelineStateSub() { return pipelineStateSub.Get(); }
-	ID3D12PipelineState* GetPipelineStateNega() { return pipelineStateNega.Get(); }
-	ID3D12PipelineState* GetPipelineStateAlpha() { return pipelineStateAlpha.Get(); }
+	ID3D12PipelineState* GetPipelineStateAdd() { return pipelineStateAdd_.Get(); }
+	ID3D12PipelineState* GetPipelineStateSub() { return pipelineStateSub_.Get(); }
+	ID3D12PipelineState* GetPipelineStateNega() { return pipelineStateNega_.Get(); }
+	ID3D12PipelineState* GetPipelineStateAlpha() { return pipelineStateAlpha_.Get(); }
 };

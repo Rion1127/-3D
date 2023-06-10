@@ -34,7 +34,7 @@ public:
 
 	void SetModel(const Model* model);
 
-	static void SetLight(LightGroup* lightGroup) { Model::lightGroup = lightGroup; }
+	static void SetLight(LightGroup* lightGroup) { Model::lightGroup_ = lightGroup; }
 private:
 	//モデル初期化(CreateOBJ()に入っている)
 	void ModelIni(const std::string& modelname, bool smoothing);
@@ -68,8 +68,8 @@ private:
 	std::string name_;
 
 	//頂点法線スムージング用データ
-	bool smoothing = false;
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	bool smoothing_ = false;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
 	//平滑化された頂点法線の計算
 	void CalculateSmoothedVertexNormals();
@@ -79,7 +79,7 @@ public:
 	// マテリアルコンテナ
 	std::map<std::string, std::unique_ptr<Material>> materials_;
 	//ライト
-	static LightGroup* lightGroup;
+	static LightGroup* lightGroup_;
 
 };
 

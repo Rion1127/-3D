@@ -13,7 +13,7 @@ using namespace DirectX;
 #include <sstream>
 #include "myMath.h"
 
-uint32_t Sprite::allNum = 0;
+uint32_t Sprite::SAllNum = 0;
 
 void Sprite::StaticIni()
 {
@@ -21,7 +21,7 @@ void Sprite::StaticIni()
 
 void Sprite::Ini(std::string guiname)
 {
-	spriteNum = allNum;
+	spriteNum_ = SAllNum;
 	Sprite::AddAllNum();
 
 
@@ -33,26 +33,26 @@ void Sprite::Ini(std::string guiname)
 
 		std::ostringstream oss;
 
-		oss << spriteNum;
-		name = "Sprite" + oss.str();
-		gui = name.c_str();
+		oss << spriteNum_;
+		name_ = "Sprite" + oss.str();
+		gui_ = name_.c_str();
 	}
 	else {
 		guiName_ = guiname;
 
-		gui = guiName_.c_str();
+		gui_ = guiName_.c_str();
 	}
 
 	HRESULT result;
 #pragma region 頂点データ
 	//頂点データ
-	vertices.push_back({ {   -0.0f,100.0f,0.0f },{0.0f,1.0f} });//左下
-	vertices.push_back({ {   -0.0f, +0.0f,0.0f },{0.0f,0.0f} });//左上
-	vertices.push_back({ { +100.0f,100.0f,0.0f },{1.0f,1.0f} });//右下
-	vertices.push_back({ { +100.0f, +0.0f,0.0f },{1.0f,0.0f} });//右上
+	vertices_.push_back({ {   -0.0f,100.0f,0.0f },{0.0f,1.0f} });//左下
+	vertices_.push_back({ {   -0.0f, +0.0f,0.0f },{0.0f,0.0f} });//左上
+	vertices_.push_back({ { +100.0f,100.0f,0.0f },{1.0f,1.0f} });//右下
+	vertices_.push_back({ { +100.0f, +0.0f,0.0f },{1.0f,0.0f} });//右上
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * vertices.size());
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * vertices_.size());
 	// 頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
 	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
@@ -72,38 +72,38 @@ void Sprite::Ini(std::string guiname)
 		&resDesc, // リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff));
+		IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (uint32_t i = 0; i < vertices.size(); i++) {
-		vertMap[i] = vertices[i]; // 座標をコピー
+	for (uint32_t i = 0; i < vertices_.size(); i++) {
+		vertMap_[i] = vertices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	vertBuff->Unmap(0, nullptr);
+	vertBuff_->Unmap(0, nullptr);
 
 	// 頂点バッファビューの作成
 	// GPU仮想アドレス
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	// 頂点バッファのサイズ
-	vbView.SizeInBytes = sizeVB;
+	vbView_.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 #pragma endregion
 
 #pragma region インデックスデータ
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(3);
+	indices_.push_back(0);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(1);
+	indices_.push_back(2);
+	indices_.push_back(3);
 
 	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * indices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * indices_.size());
 
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	resDesc.Width = sizeIB; // 頂点データ全体のサイズ
@@ -120,23 +120,23 @@ void Sprite::Ini(std::string guiname)
 		&resDesc, // リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+		IID_PPV_ARGS(&indexBuff_));
 	assert(SUCCEEDED(result));
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (uint32_t i = 0; i < indices.size(); i++) {
-		indexMap[i] = indices[i]; // 座標をコピー
+	for (uint32_t i = 0; i < indices_.size(); i++) {
+		indexMap[i] = indices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	indexBuff->Unmap(0, nullptr);
+	indexBuff_->Unmap(0, nullptr);
 	//インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB;
 
 #pragma endregion
 
@@ -162,14 +162,14 @@ void Sprite::Ini(std::string guiname)
 		&cbResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial));
+		IID_PPV_ARGS(&constBuffMaterial_));
 	assert(SUCCEEDED(result));
 
 	//定数バッファのマッピング
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);
+	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);
 	assert(SUCCEEDED(result));
 	//値を書き込むと自動的に転送される
-	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1.0f);
+	constMapMaterial_->color = XMFLOAT4(1, 1, 1, 1.0f);
 #pragma endregion
 
 #pragma region トランスフォーム
@@ -183,19 +183,19 @@ void Sprite::Ini(std::string guiname)
 		// 定数バッファの生成
 		result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 			&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr, IID_PPV_ARGS(&constBuffTransform));
+			nullptr, IID_PPV_ARGS(&constBuffTransform_));
 		assert(SUCCEEDED(result));
 	}
 
 	// 定数バッファマッピング
-	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
+	result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform_);
 	assert(SUCCEEDED(result));
 	//単位行列を代入
-	constMapTransform->mat = XMMatrixIdentity();
+	constMapTransform_->mat = XMMatrixIdentity();
 
 	// 射影行列計算
-	matProjection = XMMatrixOrthographicOffCenterLH(
-		0.0f, (float)WinAPI::win_width, (float)WinAPI::win_height, 0.0f, 0.0f, 1.0f);
+	matProjection_ = XMMatrixOrthographicOffCenterLH(
+		0.0f, WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y, 0.0f, 0.0f, 1.0f);
 
 	//スケール
 	Scale_ = { 1.f,1.f };
@@ -221,13 +221,13 @@ void Sprite::SetScale(Vector2 scale)
 
 void Sprite::DrawImGui()
 {
-	ImGui::Begin(gui);
+	ImGui::Begin(gui_);
 	/* ここに追加したいGUIを書く */
 
-	//static int clicked = 0;
-	if (ImGui::Button("isInvisible_"))clicked++;
+	//static int clicked_ = 0;
+	if (ImGui::Button("isInvisible_"))clicked_++;
 	//クリックされた場合表示しない
-	if (clicked & 1)
+	if (clicked_ & 1)
 	{
 		ImGui::SameLine();
 		ImGui::Text("TRUE");
@@ -284,8 +284,8 @@ void Sprite::Update()
 	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
 
 	// 定数バッファにデータ転送
-	constMapMaterial->color = color_;
-	constMapTransform->mat = matWorld_ * matProjection; // 行列の合成
+	constMapMaterial_->color = color_;
+	constMapTransform_->mat = matWorld_ * matProjection_; // 行列の合成
 
 #pragma endregion
 
@@ -307,7 +307,7 @@ void Sprite::PreDraw()
 
 void Sprite::Draw()
 {
-	if (isImguiDisplay) {
+	if (isImguiDisplay_) {
 		DrawImGui();
 	}
 
@@ -318,18 +318,18 @@ void Sprite::Draw()
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(1, constBuffMaterial->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize)
@@ -337,12 +337,12 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 	HRESULT result = S_OK;
 
 #pragma region 画像の頂点データを更新
-	vertices.at(0).pos = { LdX,LdY,0 };//左下
-	vertices.at(1).pos = { LuX,LuY,0 };//左上
-	vertices.at(2).pos = { RdX,RdY,0 };//右下
-	vertices.at(3).pos = { RuX,RuY,0 };//右上
+	vertices_.at(0).pos = { LdX,LdY,0 };//左下
+	vertices_.at(1).pos = { LuX,LuY,0 };//左上
+	vertices_.at(2).pos = { RdX,RdY,0 };//右下
+	vertices_.at(3).pos = { RuX,RuY,0 };//右上
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	std::copy(std::begin(vertices), std::end(vertices), vertMap);
+	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
 
 	// ワールド行列の更新
 	matWorld_ = XMMatrixIdentity();
@@ -351,25 +351,25 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
 
 	// 定数バッファにデータ転送
-	constMapMaterial->color = color_;
-	constMapTransform->mat = matProjection; // 行列の合成
+	constMapMaterial_->color = color_;
+	constMapTransform_->mat = matProjection_; // 行列の合成
 
 #pragma endregion
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(0, constBuffMaterial_->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
+	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 void Sprite::SetBlend(uint32_t blend)
@@ -403,24 +403,24 @@ void Sprite::TransferVertex()
 		bottom = -bottom;
 	}
 
-	vertices.at(LB).pos = { left	, bottom	,0 };//左下
-	vertices.at(LT).pos = { left	, top		,0 };//左上
-	vertices.at(RB).pos = { right	, bottom	,0 };//右下
-	vertices.at(RT).pos = { right	, top		,0 };//右上
+	vertices_.at(LB).pos = { left	, bottom	,0 };//左下
+	vertices_.at(LT).pos = { left	, top		,0 };//左上
+	vertices_.at(RB).pos = { right	, bottom	,0 };//右下
+	vertices_.at(RT).pos = { right	, top		,0 };//右上
 
-	std::copy(std::begin(vertices), std::end(vertices), vertMap);
+	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
 
 	//切り取り範囲がどちらも0の場合UV座標は変えない
-	if (textureSize.x != 0 && textureSize.y != 0)
+	if (textureSize_.x != 0 && textureSize_.y != 0)
 	{
 		float tex_left = textureLeftTop_.x / texture_.size_.x;
-		float tex_right = (textureLeftTop_.x + textureSize.x) / texture_.size_.x;
+		float tex_right = (textureLeftTop_.x + textureSize_.x) / texture_.size_.x;
 		float tex_top = textureLeftTop_.y / texture_.size_.y;
-		float tex_bottom = (textureLeftTop_.y + textureSize.y) / texture_.size_.y;
+		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / texture_.size_.y;
 		//頂点のUVに反映する
-		vertices.at(LB).uv = { tex_left	, tex_bottom };//左下
-		vertices.at(LT).uv = { tex_left	, tex_top };//左上
-		vertices.at(RB).uv = { tex_right, tex_bottom };//右下
-		vertices.at(RT).uv = { tex_right, tex_top };//右上
+		vertices_.at(LB).uv = { tex_left	, tex_bottom };//左下
+		vertices_.at(LT).uv = { tex_left	, tex_top };//左上
+		vertices_.at(RB).uv = { tex_right, tex_bottom };//右下
+		vertices_.at(RT).uv = { tex_right, tex_top };//右上
 	}
 }

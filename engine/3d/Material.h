@@ -52,14 +52,14 @@ private:
 		float alpha;
 	};
 	//定数バッファの生成
-	ComPtr < ID3D12Resource> constBufferB3 = nullptr;
+	ComPtr < ID3D12Resource> constBufferB3_ = nullptr;
 	//定数バッファのマッピング
-	ConstBufferDataB3* constMapB3 = nullptr;
+	ConstBufferDataB3* constMapB3_ = nullptr;
 
 	XMFLOAT3 ambient_ ;
 	XMFLOAT3 diffuse_ ;
 	XMFLOAT3 specular_ ;
-	float alpha = 1.0f;
+	float alpha_ = 1.0f;
 	
 };
 

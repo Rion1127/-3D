@@ -17,7 +17,7 @@ const std::string kBaseDirectory = "Resources/";
 //コマンドリストを格納する
 static RDirectX* directX_ = nullptr;
 
-LightGroup* Model::lightGroup = nullptr;
+LightGroup* Model::lightGroup_ = nullptr;
 
 Model::~Model()
 {
@@ -71,14 +71,14 @@ void Model::SetModel(const Model* model)
 	vert_.emplace_back(std::move(std::make_unique<Vertices>()));	//空の頂点データを入れる
 	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
 
-	for (size_t i = 0; i < model->vert_[0]->vertices.size(); i++)
+	for (size_t i = 0; i < model->vert_[0]->vertices_.size(); i++)
 	{
-		vert.AddVertices(model->vert_[0]->vertices[i]);
+		vert.AddVertices(model->vert_[0]->vertices_[i]);
 	}
 
-	for (size_t i = 0; i < model->vert_[0]->indices.size(); i++)
+	for (size_t i = 0; i < model->vert_[0]->indices_.size(); i++)
 	{
-		vert.AddIndex(model->vert_[0]->indices[i]);
+		vert.AddIndex(model->vert_[0]->indices_[i]);
 	}
 
 
@@ -209,7 +209,7 @@ void Model::LoadOBJ(const std::string& modelname)
 
 				vert.AddVertices(vertex);
 				//エッジ平滑化用のデータを追加
-				if (smoothing)
+				if (smoothing_)
 				{
 					AddSmoothData(indexPosition, (unsigned short)vert.GetVertexCount() - 1);
 				}
@@ -395,7 +395,7 @@ void Model::AddMaterial(Material* material)
 
 void Model::ModelIni(const std::string& modelname, bool smoothing)
 {
-	this->smoothing = smoothing;
+	smoothing_ = smoothing;
 	LoadOBJ(modelname);
 	// メッシュのバッファ生成
 	for (auto& m : vert_)
@@ -440,7 +440,7 @@ void Model::ObjChangeColor(XMFLOAT4 color_)
 
 void Model::DrawOBJ(WorldTransform* worldTransform)
 {
-	lightGroup->Draw(3);
+	lightGroup_->Draw(3);
 	for (auto& m : materials_)
 	{
 		m.second->Draw(texture_.at(0).textureHandle);
@@ -466,13 +466,13 @@ void Model::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
 
 void Model::AddSmoothData(unsigned short indexPositon, unsigned short indexVertex)
 {
-	smoothData[indexPositon].emplace_back(indexVertex);
+	smoothData_[indexPositon].emplace_back(indexVertex);
 }
 
 void Model::CalculateSmoothedVertexNormals()
 {
-	auto itr = smoothData.begin();
-	for (; itr != smoothData.end(); ++itr)
+	auto itr = smoothData_.begin();
+	for (; itr != smoothData_.end(); ++itr)
 	{
 		//各面用の共通頂点コレクション
 		std::vector<unsigned short>& v = itr->second;
@@ -480,9 +480,9 @@ void Model::CalculateSmoothedVertexNormals()
 		DirectX::XMVECTOR normal = {};
 		for (unsigned short index : v)
 		{
-			float x = vert_[0]->vertices[index].normal.x;
-			float y = vert_[0]->vertices[index].normal.y;
-			float z = vert_[0]->vertices[index].normal.z;
+			float x = vert_[0]->vertices_[index].normal.x;
+			float y = vert_[0]->vertices_[index].normal.y;
+			float z = vert_[0]->vertices_[index].normal.z;
 
 			normal += XMVectorSet(x, y, z, 0);
 		}
@@ -494,7 +494,7 @@ void Model::CalculateSmoothedVertexNormals()
 			float y = normal.m128_f32[1];
 			float z = normal.m128_f32[2];
 
-			vert_[0]->vertices[index].normal = { x,y,z };
+			vert_[0]->vertices_[index].normal = { x,y,z };
 			uint32_t a = 0;
 		}
 	}

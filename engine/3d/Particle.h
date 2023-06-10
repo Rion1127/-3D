@@ -42,9 +42,9 @@ private:
 		DirectX::XMFLOAT4 color;
 	};
 
-	const uint32_t vertexCount = 1024;
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
+	const uint32_t CvertexCount = 1024;
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	Vertex* vertMap_ = nullptr;
 
 	struct ConstBufferData {
@@ -52,9 +52,9 @@ private:
 		DirectX::XMMATRIX billBoardMat;
 	};
 
-	ComPtr<ID3D12Resource> constBuff = nullptr;
+	ComPtr<ID3D12Resource> constBuff_ = nullptr;
 	ConstBufferData* constMatMap_ = nullptr;
 
-	uint32_t activeCount = 2;
+	uint32_t activeCount_ = 2;
 };
 

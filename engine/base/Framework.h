@@ -49,6 +49,6 @@ private:
 	////imgui‰Šú‰»
 	//ImGuiManager* imguiManeger_ = nullptr;
 	//LoadManager
-	std::unique_ptr<PostEffect> postEffect;
+	std::unique_ptr<PostEffect> postEffect_;
 };
 

@@ -1,8 +1,8 @@
 #include "PostEffect.h"
 #include "WinAPI.h"
 
-const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
-const uint32_t PostEffect::vertNum = 4;
+const float PostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
+const uint32_t PostEffect::vertNum_ = 4;
 
 PostEffect::PostEffect() /*:Sprite()*/
 {
@@ -32,8 +32,8 @@ void PostEffect::PUpdate()
 {
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ConstBufferDataTransform* constMapTransform = nullptr;
-	HRESULT result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);
-	 result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
+	HRESULT result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial);
+	 result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform);
 	if (SUCCEEDED(result)) {
 		XMFLOAT4 color_ = { 1,1,1,1 };
 		// 定数バッファにデータ転送
@@ -67,14 +67,14 @@ void PostEffect::Draw()
 
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(1, constBuffMaterial->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
@@ -94,23 +94,23 @@ void PostEffect::PreDrawScene()
 
 	//レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH =
-		descHeapRTV->GetCPUDescriptorHandleForHeapStart();
+		descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
-		descHeapDSV->GetCPUDescriptorHandleForHeapStart();
+		descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 	//レンダーターゲットをセット
 	cmdList.OMSetRenderTargets(1, &rtvH, false, &dsvH);
 	//ビューポートの設定
 	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f,
-		WinAPI::win_width, WinAPI::win_height);
+		WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
 	cmdList.RSSetViewports(1, &viewPort);
 	//シザリング矩形の設定
 	CD3DX12_RECT rect = CD3DX12_RECT(0, 0,
-		WinAPI::win_width, WinAPI::win_height);
+		(LONG)WinAPI::GetWindowSize().x, (LONG)WinAPI::GetWindowSize().y);
 	cmdList.RSSetScissorRects(1, &rect);
 
 	//全画面クリア
-	cmdList.ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	cmdList.ClearRenderTargetView(rtvH, clearColor_, 0, nullptr);
 	//深度バッファのクリア
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -131,7 +131,7 @@ void PostEffect::CreateVertBuff()
 	//頂点バッファ生成
 	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	CD3DX12_RESOURCE_DESC resDesc =
-		CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUV) * vertNum);
+		CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUV) * vertNum_);
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp,
@@ -142,7 +142,7 @@ void PostEffect::CreateVertBuff()
 			IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 	//頂点データ
-	VertexPosUV vertices[vertNum] = {
+	VertexPosUV vertices[vertNum_] = {
 		{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
 		{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
 		{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
@@ -193,21 +193,21 @@ void PostEffect::CreateibView()
 		&resDesc, // リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff));
+		IID_PPV_ARGS(&indexBuff_));
 	assert(SUCCEEDED(result));
 
 	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
 	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
 	for (uint32_t i = 0; i < indices_.size(); i++) {
 		indexMap[i] = indices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
-	indexBuff->Unmap(0, nullptr);
+	indexBuff_->Unmap(0, nullptr);
 	//インデックスバッファビューの作成
-	ibView_.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
 }
@@ -227,7 +227,7 @@ void PostEffect::CreateConstBuff()
 			&resDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&constBuffMaterial));
+			IID_PPV_ARGS(&constBuffMaterial_));
 	assert(SUCCEEDED(result));
 
 	// ヒーププロパティ
@@ -239,7 +239,7 @@ void PostEffect::CreateConstBuff()
 	// 定数バッファの生成
 	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr, IID_PPV_ARGS(&constBuffTransform));
+		nullptr, IID_PPV_ARGS(&constBuffTransform_));
 	assert(SUCCEEDED(result));
 }
 
@@ -250,8 +250,8 @@ void PostEffect::CreateTexBuff()
 	//テクスチャリソース設定
 	CD3DX12_RESOURCE_DESC texResDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-		WinAPI::win_width,
-		(UINT)WinAPI::win_height,
+		(UINT64)WinAPI::GetWindowSize().x,
+		(UINT)WinAPI::GetWindowSize().y,
 		1, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
 
@@ -259,7 +259,7 @@ void PostEffect::CreateTexBuff()
 		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK,
 			D3D12_MEMORY_POOL_L0);
 	CD3DX12_CLEAR_VALUE clear_Value =
-		CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
+		CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor_);
 	//テクスチャバッファの生成
 	result =
 		RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
@@ -272,11 +272,11 @@ void PostEffect::CreateTexBuff()
 	assert(SUCCEEDED(result));
 
 	//画素数
-	const auto pixelCount = WinAPI::win_width * WinAPI::win_height;
+	const size_t pixelCount = (size_t)WinAPI::GetWindowSize().x * (size_t)WinAPI::GetWindowSize().y;
 	//画像一行分のデータサイズ
-	const auto rowPitch = sizeof(UINT) * WinAPI::win_width;
+	const auto rowPitch = sizeof(UINT) * WinAPI::GetWindowSize().x;
 	//画像全体のデータサイズ
-	const auto depthPitch = rowPitch * WinAPI::win_height;
+	const auto depthPitch = rowPitch * WinAPI::GetWindowSize().y;
 	//画像イメージ
 	std::vector<UINT> img;
 	img.resize(pixelCount);
@@ -286,7 +286,7 @@ void PostEffect::CreateTexBuff()
 	}
 	//テクスチャバッファにデータ転送
 	result = texBuff_->WriteToSubresource(0, nullptr,
-		img.data(), rowPitch, depthPitch);
+		img.data(), (UINT)rowPitch, (UINT)depthPitch);
 	assert(SUCCEEDED(result));
 }
 
@@ -325,7 +325,7 @@ void PostEffect::CreateRTV()
 	rtvDescHeapDesc.NumDescriptors = 1;
 	//RTV用デスクリプタヒープを生成
 	result = RDirectX::GetInstance()->GetDevice()
-		->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+		->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV_));
 	assert(SUCCEEDED(result));
 	//レンダーターゲットビューの設定
 	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
@@ -336,7 +336,7 @@ void PostEffect::CreateRTV()
 	RDirectX::GetInstance()->GetDevice()
 		->CreateRenderTargetView(texBuff_.Get(),
 			&renderTargetViewDesc,
-			descHeapRTV->GetCPUDescriptorHandleForHeapStart()
+			descHeapRTV_->GetCPUDescriptorHandleForHeapStart()
 		);
 }
 
@@ -347,8 +347,8 @@ void PostEffect::CreateDepthBuff()
 		//深度バッファリソース設定
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_D32_FLOAT,
-			WinAPI::win_width,
-			WinAPI::win_height,
+			(UINT64)WinAPI::GetWindowSize().x,
+			(UINT)WinAPI::GetWindowSize().y,
 			1, 0,
 			1, 0,
 			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL
@@ -363,7 +363,7 @@ void PostEffect::CreateDepthBuff()
 			&depthResDesc,
 			D3D12_RESOURCE_STATE_DEPTH_WRITE,
 			&clearValue,
-			IID_PPV_ARGS(&depthBuff));
+			IID_PPV_ARGS(&depthBuff_));
 	assert(SUCCEEDED(result));
 }
 
@@ -376,14 +376,14 @@ void PostEffect::CreateDSV()
 	DescHeapDesc.NumDescriptors = 1;
 	//DSV用デスクリプタヒープを作成
 	result = RDirectX::GetInstance()->GetDevice()->
-		CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
+		CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV_));
 	assert(SUCCEEDED(result));
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	RDirectX::GetInstance()->GetDevice()->
-		CreateDepthStencilView(depthBuff.Get(),
+		CreateDepthStencilView(depthBuff_.Get(),
 			&dsvDesc,
-			descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+			descHeapDSV_->GetCPUDescriptorHandleForHeapStart());
 }

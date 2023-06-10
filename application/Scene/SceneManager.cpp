@@ -17,7 +17,7 @@ void SceneManager::Ini()
 
 void SceneManager::Update()
 {
-	currentScene->Update();
+	currentScene_->Update();
 
 	
 }
@@ -25,17 +25,8 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	//ƒQ[ƒ€•`‰æ
-	currentScene->Draw();
+	currentScene_->Draw();
 }
 
-std::unique_ptr<EmptyScene> SceneManager::currentScene = nullptr;
+std::unique_ptr<EmptyScene> SceneManager::currentScene_ = nullptr;
 
-Sprite SceneManager::sceneChangeSprite;
-Vector2  SceneManager::sceneChangePos;
-uint32_t SceneManager::sceneChangeGraph;
-uint32_t SceneManager::changeStartCount_;
-uint32_t SceneManager::sceneNum_;
-bool SceneManager::isNext_;
-uint32_t SceneManager::continueScene = SceneNum::STAGE1_;
-bool SceneManager::isDifferent = true;
-uint32_t SceneManager::different = 0;

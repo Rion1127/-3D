@@ -94,13 +94,13 @@ float Clamp(float value, float max, float min)
 
 void MoveTo(Vector3 goal, float speed, WorldTransform& WT)
 {
-	Vector3 dir = goal - WT.position;
+	Vector3 dir = goal - WT.position_;
 	float dirLength = dir.length2();
 	if (dirLength < speed * speed)
 	{
-		WT.position = goal;
+		WT.position_ = goal;
 		return;
 	}
-	WT.position =
-		WT.position + dir.SetLength(speed);
+	WT.position_ =
+		WT.position_ + dir.SetLength(speed);
 }

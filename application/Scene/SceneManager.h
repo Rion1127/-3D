@@ -15,42 +15,26 @@ public:
 	template <class NextScene>
 	//なぜかインラインで宣言しないとエラーが起こる
 	static inline void Transition() {
-		delete currentScene.release();
-		currentScene = std::unique_ptr<NextScene>(new NextScene());
-		currentScene->Ini();
+		delete currentScene_.release();
+		currentScene_ = std::unique_ptr<NextScene>(new NextScene());
+		currentScene_->Ini();
 	}
 	static void SetChangeStart(uint32_t sceneNum) {
 		if (isNext_ == false) {
-			changeStartCount_ = GetNowCount();
+			
 			sceneNum_ = sceneNum;
 			isNext_ = true;
 			isDifferent = true;
 		}
 	}
 
-	static std::unique_ptr<EmptyScene> currentScene;
+	static std::unique_ptr<EmptyScene> currentScene_;
 
-	static Sprite sceneChangeSprite;
-	static Vector2 sceneChangePos;
-	static uint32_t sceneChangeGraph;
-	static uint32_t changeStartCount_;
+	
 	static uint32_t sceneNum_;
 	static bool isNext_;
-	static uint32_t continueScene;
 	static bool isDifferent;
-	static uint32_t different;
 };
 
-enum SceneNum {
-	TITLE_,
-	TUTORIAL_,
-	STAGE1_,
-	STAGE2_,
-	STAGE3_,
-	STAGE4_,
-	STAGE5_,
-	RESULT_,
-	GAMEOVER_
-};
 
 
