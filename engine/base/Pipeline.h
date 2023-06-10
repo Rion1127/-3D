@@ -162,15 +162,18 @@ public:
 		FRONT = 2,
 		BACK = 3
 	};
+	enum ShaderType {
+		VS,
+		PS,
+		GS
+	};
 public:
 
 	void Init(int blendNum, CULL_MODE cullmode);
 
-	void SetVSshader(LPCWSTR fileName);
-	void SetPSshader(LPCWSTR fileName);
-	void SetGSshader(LPCWSTR fileName);
+	void Setshader(LPCWSTR fileName,ShaderType shadertype);
 
 	void AddrootParams(int num);
-	void AddInputLayout(const char* name, DXGI_FORMAT format);
+	void AddInputLayout(const char* semanticName, DXGI_FORMAT format);
 
 };

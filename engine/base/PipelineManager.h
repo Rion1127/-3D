@@ -30,4 +30,6 @@ private:
 	static std::array<ParticlePipeline, 4> particlePipeline_;
 	static std::array<Pipeline, 4> toonPipeline_;
 
+	static PipelineObject posteffectPipeline_;
+
 };
