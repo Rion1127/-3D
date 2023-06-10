@@ -109,9 +109,9 @@ void Vertices::Ini(ID3D12Device* device)
 	for (int i = 0; i < indices.size() / 3; i++) {
 		//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
-		unsigned short index0 = indices[i * 3 + 0];
-		unsigned short index1 = indices[i * 3 + 1];
-		unsigned short index2 = indices[i * 3 + 2];
+		unsigned short index0 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 0];
+		unsigned short index1 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 1];
+		unsigned short index2 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 2];
 		//三角形を構成する頂点座標をベクトルに代入
 		XMVECTOR p0 = XMLoadFloat3(&vertices[index0].pos);
 		XMVECTOR p1 = XMLoadFloat3(&vertices[index1].pos);
@@ -221,9 +221,9 @@ void Vertices::CreateBuffer()
 	for (int i = 0; i < indices.size() / 3; i++) {
 		//三角形1つごとに計算していく
 		//三角形のインデックスを取り出して、一時的な変数に入れる
-		unsigned short index0 = indices[i * 3 + 0];
-		unsigned short index1 = indices[i * 3 + 1];
-		unsigned short index2 = indices[i * 3 + 2];
+		unsigned short index0 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 0];
+		unsigned short index1 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 1];
+		unsigned short index2 = indices[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 2];
 		//三角形を構成する頂点座標をベクトルに代入
 		XMVECTOR p0 = XMLoadFloat3(&vertices[index0].pos);
 		XMVECTOR p1 = XMLoadFloat3(&vertices[index1].pos);
