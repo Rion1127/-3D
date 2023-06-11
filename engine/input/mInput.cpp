@@ -182,7 +182,7 @@ bool MouseInput::IsMouseReleas(BYTE button)
 	return false;
 }
 
-uint32_t MouseInput::IsMouseWheel()
+int32_t MouseInput::IsMouseWheel()
 {
 	return mouseState_.lZ;
 }
