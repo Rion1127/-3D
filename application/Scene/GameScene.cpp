@@ -33,9 +33,10 @@ void GameScene::Ini()
 	useVP->SetOriginalPos();
 
 	
-	lightGroup = std::make_unique<LightGroup>();
+	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
-	Model::SetLight(lightGroup.get());
+	Model::SetLight(lightGroup);
+	AssinpModel::SetLightGroup(lightGroup);
 
 	skyDome_ = std::move(std::make_unique<Object3d>());
 	skyDome_->SetModel(Model::CreateOBJ("uvSphere", true));
@@ -48,7 +49,7 @@ void GameScene::Ini()
 
 	
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
-	const wchar_t* modelFile = L"Resources/boneTest/boneTest.fbx";
+	const wchar_t* modelFile = L"Resources/boneTest/boneTeset/boneTest.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {
@@ -227,8 +228,8 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-	testSprite_.Draw();
-	testSprite_.DrawImGui();
+	//testSprite_.Draw();
+	//testSprite_.DrawImGui();
 	//testSprite_.DrawImGui();
 	Sprite::SetBlend(BlendNum::ALPHA);
 	//testSprite2_.Draw(uvtexture_);

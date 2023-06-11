@@ -17,7 +17,7 @@ const std::string kBaseDirectory = "Resources/";
 //コマンドリストを格納する
 static RDirectX* directX_ = nullptr;
 
-LightGroup* Model::lightGroup_ = nullptr;
+std::shared_ptr<LightGroup> Model::lightGroup_ = nullptr;
 
 Model::~Model()
 {

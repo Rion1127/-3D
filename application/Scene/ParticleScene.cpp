@@ -26,9 +26,10 @@ void ParticleScene::Ini()
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
 	
-	lightGroup = std::move(std::make_unique<LightGroup>());
+	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
-	Model::SetLight(lightGroup.get());
+	Model::SetLight(lightGroup);
+	AssinpModel::SetLightGroup(lightGroup);
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);

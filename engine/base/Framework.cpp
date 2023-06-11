@@ -88,14 +88,15 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	postEffect_->PreDrawScene();
-	SceneManager::Draw();
-	postEffect_->PostDrawScene();
+	//postEffect_->PreDrawScene();
+	//SceneManager::Draw();
+	//postEffect_->PostDrawScene();
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	postEffect_->Draw();
+	//postEffect_->Draw();
+	SceneManager::Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

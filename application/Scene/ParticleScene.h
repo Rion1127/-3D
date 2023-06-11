@@ -48,7 +48,7 @@ private:
 	uint32_t whiteTexture_;
 
 
-	std::unique_ptr<LightGroup> lightGroup = nullptr;
+	std::shared_ptr<LightGroup> lightGroup = nullptr;
 
 	
 	std::vector<Mesh> meshes;

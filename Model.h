@@ -2,6 +2,7 @@
 #include <wrl.h>
 #include <map>
 #include <string>
+#include <memory>
 #include "Vertices.h"
 #include "DirectX.h"
 #include "PipelineManager.h"
@@ -34,7 +35,7 @@ public:
 
 	void SetModel(const Model* model);
 
-	static void SetLight(LightGroup* lightGroup) { Model::lightGroup_ = lightGroup; }
+	static void SetLight(std::shared_ptr<LightGroup> lightGroup) { Model::lightGroup_ = lightGroup; }
 private:
 	//モデル初期化(CreateOBJ()に入っている)
 	void ModelIni(const std::string& modelname, bool smoothing);
@@ -79,7 +80,7 @@ public:
 	// マテリアルコンテナ
 	std::map<std::string, std::unique_ptr<Material>> materials_;
 	//ライト
-	static LightGroup* lightGroup_;
+	static std::shared_ptr<LightGroup> lightGroup_;
 
 };
 

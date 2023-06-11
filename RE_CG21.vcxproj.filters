@@ -228,9 +228,6 @@
     <ClCompile Include="application\Particle\ParticleManager.cpp">
       <Filter>application\ソースファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="engine\3d\assimp\AssimpLoader.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
@@ -245,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="application\LoadManager.cpp">
       <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
