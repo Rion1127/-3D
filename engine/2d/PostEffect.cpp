@@ -1,13 +1,13 @@
 #include "PostEffect.h"
 #include "WinAPI.h"
+#include <d3dcompiler.h>
+#pragma comment(lib,"d3dcompiler.lib")
 
 const float PostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
 const uint32_t PostEffect::vertNum_ = 4;
 
 PostEffect::PostEffect() /*:Sprite()*/
 {
-	texture_ = *TextureManager::GetInstance()->GetTexture("White");
-
 	//頂点バッファ生成
 	CreateVertBuff();
 	//ibView生成
@@ -24,8 +24,6 @@ PostEffect::PostEffect() /*:Sprite()*/
 	CreateDepthBuff();
 	//DSV作成
 	CreateDSV();
-
-
 }
 
 void PostEffect::PUpdate()
@@ -61,8 +59,7 @@ void PostEffect::Draw()
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = descHeapSRV_.Get()->GetGPUDescriptorHandleForHeapStart();
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	srvGpuHandle.ptr += texture_.textureHandle;
+	//SRVヒープの先頭にあるSRVをルートパラメータ0番に設定
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 
 	//定数バッファビュー(CBV)の設定コマンド

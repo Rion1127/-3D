@@ -44,7 +44,6 @@ private:
 private:
 	//画面クリアカラー
 	static const float clearColor_[4];
-	Texture texture_;
 public:
 	PostEffect();
 
@@ -65,7 +64,6 @@ private:
 	void CreateDepthBuff();
 	void CreateDSV();
 public:
-	void SetTexture(Texture texture) { texture_ = texture; }
 private:
 	static const uint32_t vertNum_;
 	struct VertexPosUV {

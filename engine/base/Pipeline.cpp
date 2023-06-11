@@ -89,11 +89,7 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;			//ピクセルシェーダからのみ使用可能
 
-	//ルートパラメータ設定
-	AddrootParams();
-
 	// ルートシグネチャ
-	// // ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	// ルートシグネチャのシリアライズ
 	ComPtr<ID3DBlob> rootSigBlob;
@@ -126,8 +122,6 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK(depthWriteMasc);//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
-
-	
 
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout_.data();
@@ -175,12 +169,12 @@ void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
 	}
 }
 
-void PipelineObject::AddrootParams()
+void PipelineObject::AddrootParams(size_t addNum)
 {
 	rootParams_.clear();
 	uint32_t size = 0;
 	//inputLayout + 1の数分rootParams_を作る
-	for (uint32_t i = 0; i < inputLayout_.size() + 1; i++) {
+	for (uint32_t i = 0; i < addNum; i++) {
 		D3D12_ROOT_PARAMETER rootParams{};
 		//配列の最初にテクスチャ
 		if (rootParams_.size() == 0) {

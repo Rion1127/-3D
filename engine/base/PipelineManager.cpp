@@ -12,6 +12,8 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("Object3D")->Setshader(L"Resources/shader/BasicVS.hlsl", PipelineObject::VS);
 	GetPipelineObjects("Object3D")->Setshader(L"Resources/shader/BasicPS.hlsl", PipelineObject::PS);
 
+	GetPipelineObjects("Object3D")->AddrootParams(4);
+
 	Create("Object3D", BACK,TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ALL);
 	//スプライト
 	AddPipeline("Sprite");
@@ -20,6 +22,8 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("Sprite")->Setshader(L"Resources/shader/SpriteVS.hlsl", PipelineObject::VS);
 	GetPipelineObjects("Sprite")->Setshader(L"Resources/shader/SpritePS.hlsl", PipelineObject::PS);
+
+	GetPipelineObjects("Sprite")->AddrootParams(3);
 
 	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO);
 	
@@ -32,6 +36,8 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("Toon")->Setshader(L"Resources/shader/ToonVS.hlsl", PipelineObject::VS);
 	GetPipelineObjects("Toon")->Setshader(L"Resources/shader/ToonPS.hlsl", PipelineObject::PS);
 
+	GetPipelineObjects("Toon")->AddrootParams(4);
+
 	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
 
 	//ポストエフェクト
@@ -41,6 +47,8 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectVS.hlsl", PipelineObject::VS);
 	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);
+
+	GetPipelineObjects("PostEffect")->AddrootParams(3);
 
 	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO);
 

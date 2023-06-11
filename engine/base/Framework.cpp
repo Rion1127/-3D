@@ -33,7 +33,6 @@ void Framework::Init()
 	loadManager_.LoadAllResources();
 
 	postEffect_ = std::move(std::make_unique<PostEffect>());
-	postEffect_->SetTexture(*TextureManager::GetInstance()->GetTexture("White"));
 }
 
 void Framework::Finalize()
