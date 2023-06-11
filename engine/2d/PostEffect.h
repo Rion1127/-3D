@@ -3,8 +3,7 @@
 #include "Vector3.h"
 #include "Vector2.h"
 
-class PostEffect/* :
-	public Sprite*/
+class PostEffect
 {
 private:
 	//エイリアステンプレート
@@ -30,17 +29,11 @@ private:
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	//定数バッファ用データ構造体
-	struct ConstBufferDataMaterial {
+	struct ConstBufferData {
 		XMFLOAT4 color;
-	};
-	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
-	
-
-	struct ConstBufferDataTransform {
 		XMMATRIX mat;
 	};
-	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
-	
+	ComPtr<ID3D12Resource> constBuff_ = nullptr;
 private:
 	//画面クリアカラー
 	static const float clearColor_[4];

@@ -1,9 +1,6 @@
-cbuffer ConstBufferDataMaterial : register(b0) {
-	float4 color;
-}
-
-cbuffer ConstBufferDataTransform : register(b1) {
-	matrix mat;
+cbuffer ConstBufferData : register(b0) {
+	//float4 color;
+ //   matrix mat;
 }
 
 //頂点シェーダの出力構造体

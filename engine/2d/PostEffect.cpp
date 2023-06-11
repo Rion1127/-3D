@@ -28,15 +28,13 @@ PostEffect::PostEffect() /*:Sprite()*/
 
 void PostEffect::PUpdate()
 {
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
-	HRESULT result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial);
-	 result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform);
+	ConstBufferData* constMap = nullptr;
+	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		XMFLOAT4 color_ = { 1,1,1,1 };
 		// 定数バッファにデータ転送
-		constMapMaterial->color = color_;
-		constMapTransform->mat = XMMatrixIdentity(); // 行列の合成
+		constMap->color = color_;
+		constMap->mat = XMMatrixIdentity(); // 行列の合成
 	}
 	
 }
@@ -64,14 +62,11 @@ void PostEffect::Draw()
 
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
+		SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
-	//定数バッファビュー(CBV)の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
 	//描画コマンド
 	RDirectX::GetInstance()->GetCommandList()->
@@ -140,10 +135,10 @@ void PostEffect::CreateVertBuff()
 	assert(SUCCEEDED(result));
 	//頂点データ
 	VertexPosUV vertices[vertNum_] = {
-		{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
-		{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
-		{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
-		{{+0.5f,+0.5f,0.0f},{1.f,0.f}},//右上
+		{{-1.f,-1.f,0.0f},{0.f,1.f}},//左下
+		{{-1.f,+1.f,0.0f},{0.f,0.f}},//左上
+		{{+1.f,-1.f,0.0f},{1.f,1.f}},//右下
+		{{+1.f,+1.f,0.0f},{1.f,0.f}},//右上
 	};
 	//頂点バッファへのデータ転送
 	VertexPosUV* vertMap = nullptr;
@@ -216,7 +211,7 @@ void PostEffect::CreateConstBuff()
 	D3D12_HEAP_PROPERTIES heapProp =
 		D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	CD3DX12_RESOURCE_DESC resDesc =
-		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateCommittedResource(
 			&heapProp,
@@ -224,19 +219,7 @@ void PostEffect::CreateConstBuff()
 			&resDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&constBuffMaterial_));
-	assert(SUCCEEDED(result));
-
-	// ヒーププロパティ
-	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	// リソース設定
-	CD3DX12_RESOURCE_DESC resourceDesc =
-		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransform) + 0xff) & ~0xff);
-
-	// 定数バッファの生成
-	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
-		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr, IID_PPV_ARGS(&constBuffTransform_));
+			IID_PPV_ARGS(&constBuff_));
 	assert(SUCCEEDED(result));
 }
 
