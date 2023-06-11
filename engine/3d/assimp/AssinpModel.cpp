@@ -18,7 +18,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 	};
 
 	importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
-
+	//assimpƒtƒ@ƒCƒ‹“Ç‚Ýž‚Ý
 	AssimpLoader::GetInstance()->Load(importSetting_.get());
 
 	texture_.resize(meshes_.size());
@@ -36,10 +36,6 @@ void AssinpModel::Create(const wchar_t* modelFile)
 		materials_[i].SetAmbient({ 0.8f,0.8f,0.8f });
 		materials_[i].SetDiffuse({ 0.3f,0.3f,0.3f });
 		materials_[i].SetSpecular({ 0.3f,0.3f,0.3f });
-
-		materials_[i] = *Material::Create(RDirectX::GetInstance()->GetDevice());
-		materials_[i].SetTexture(*TextureManager::GetInstance()->GetTexture(texturename));
-
 	}
 }
 
@@ -48,8 +44,6 @@ void AssinpModel::Draw(WorldTransform WT)
 	lightGroup_->Draw(3);
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)
 	{
-		/*TextureManager::GetInstance()->
-			SetGraphicsDescriptorTable(texture_[i].textureHandle);*/
 		materials_[i].Draw(texture_[i].textureHandle);
 
 		importSetting_->meshes[i].Vertices.Draw(&WT, 0);

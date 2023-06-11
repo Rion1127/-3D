@@ -14,7 +14,7 @@ void Framework::Init()
 	TextureManager::GetInstance()->Ini();
 	//インプット初期化
 	//キーボード
-	DirectXInput::GetInstance()->InputIni();
+	Key::InputIni();
 	//コントローラー
 	Controller::GetInstance()->Ini();
 	//マウス
@@ -54,7 +54,7 @@ void Framework::Update()
 	//imgui開始
 	ImGuiManager::Getinstance()->Begin();
 	//インプット関連更新
-	DirectXInput::GetInstance()->InputUpdata();
+	Key::InputUpdata();
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 

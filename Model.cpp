@@ -357,7 +357,6 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 
 	if (material)
 	{
-		material->Ini(RDirectX::GetInstance()->GetDevice());
 		// マテリアルを登録
 		AddMaterial(material);
 	}
@@ -420,22 +419,6 @@ void Model::PreDraw()
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-
-void Model::ObjChangeColor(float x, float y, float z, float w)
-{
-	for (auto& m : materials_)
-	{
-		m.second->ChangeColor(x, y, z, w);
-	}
-}
-
-void Model::ObjChangeColor(XMFLOAT4 color_)
-{
-	for (auto& m : materials_)
-	{
-		m.second->ChangeColor(color_);
-	}
 }
 
 void Model::DrawOBJ(WorldTransform* worldTransform)

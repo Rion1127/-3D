@@ -8,6 +8,7 @@ public:
 
 	void Update();
 
+	static void PreDraw();
 	void Draw();
 
 private:

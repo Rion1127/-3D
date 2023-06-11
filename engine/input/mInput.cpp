@@ -6,22 +6,21 @@
 //DirectInputの初期化
 static IDirectInput8* directInput = nullptr;
 
+IDirectInputDevice8* Key::keyboard_ = nullptr;
+//の入力状態を取得する
+BYTE Key::keys_[256] = {};
+//の入力状態を取得する
+BYTE Key::oldkeys_[256] = {};
+
 #pragma region キーボード
 
-DirectXInput* DirectXInput::GetInstance()
-{
-	static DirectXInput instance;
-	return &instance;
-}
-void DirectXInput::InputIni()	//初期化
+void Key::InputIni()	//初期化
 {
 	HRESULT result;
 
-	winapi_ = WinAPI::GetInstance();
-
 	//DirectInputの初期化
 	result = DirectInput8Create(
-		winapi_->w_.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
+		WinAPI::GetInstance()->w_.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
 		(void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
@@ -35,7 +34,7 @@ void DirectXInput::InputIni()	//初期化
 
 	//排他制御レベルのセット
 	result = keyboard_->SetCooperativeLevel(
-		winapi_->hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		WinAPI::GetInstance()->hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
 	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
@@ -46,7 +45,7 @@ void DirectXInput::InputIni()	//初期化
 	keyboard_->Acquire();
 }
 
-void DirectXInput::InputUpdata()	//アップデート
+void Key::InputUpdata()	//アップデート
 {
 	for (uint32_t i = 0; i < 256; ++i)
 	{
@@ -57,17 +56,17 @@ void DirectXInput::InputUpdata()	//アップデート
 	keyboard_->GetDeviceState(sizeof(keys_), keys_);
 }
 //押しっぱなし
-bool DirectXInput::PushKey(UINT8 key)
+bool Key::PushKey(UINT8 key)
 {
 	return keys_[key];
 }
 //押した瞬間
-bool DirectXInput::TriggerKey(UINT8 key)
+bool Key::TriggerKey(UINT8 key)
 {
 	return keys_[key] && !oldkeys_[key];
 }
 //離した瞬間
-bool DirectXInput::GetKeyReleased(UINT8 key)
+bool Key::GetKeyReleased(UINT8 key)
 {
 	return !keys_[key] && oldkeys_[key];
 }

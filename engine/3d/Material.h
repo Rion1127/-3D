@@ -14,24 +14,26 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
-	static Material* Create(ID3D12Device* device);
-	void Ini(ID3D12Device* device);
+
+	Material();
 
 	void LoadTexture(const std::string& directoryPath);
 	void SetTexture(const Texture texture) { texture_ = texture; }
 
 	inline void SetAmbient(XMFLOAT3 Ambient) {
 		ambient_ = Ambient;
+		constMapMat_->ambient = ambient_;
 	}
 	inline void SetDiffuse(XMFLOAT3 Diffuse) {
 		diffuse_ = Diffuse;
+		constMapMat_->diffuse = diffuse_;
 	}
 	inline void SetSpecular(XMFLOAT3 Specular) {
 		specular_ = Specular;
+		constMapMat_->specular = specular_;
 	}
 
-	void ChangeColor(float x, float y, float z, float w);
-	void ChangeColor(XMFLOAT4 color_);
+	
 
 	void Draw(UINT descriptorSize);
 
@@ -55,9 +57,9 @@ private:
 	//定数バッファのマッピング
 	ConstBuffMaterial* constMapMat_ = nullptr;
 
-	XMFLOAT3 ambient_ ;
-	XMFLOAT3 diffuse_ ;
-	XMFLOAT3 specular_ ;
+	XMFLOAT3 ambient_ = { 0.3f,0.3f,0.3f };
+	XMFLOAT3 diffuse_ = { 0.8f,0.8f,0.8f };
+	XMFLOAT3 specular_ = { 0.0f, 0.0f, 0.0f };
 	float alpha_ = 1.0f;
 };
 

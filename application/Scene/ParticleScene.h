@@ -29,9 +29,6 @@ public:
 
 	void Draw()override;
 private:
-	RDirectX* directX = nullptr;
-	WinAPI* winApi_ = nullptr;
-	DirectXInput* input_ = nullptr;
 	Controller* controller_ = nullptr;
 	TextureManager* textureM = nullptr;
 	SoundManager* sound_ = nullptr;

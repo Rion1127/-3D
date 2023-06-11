@@ -9,26 +9,23 @@
 #pragma comment(lib, "Xinput.lib")
 
 //キーボード
-class DirectXInput
+class Key
 {
 public:
-	static DirectXInput* GetInstance();
+	
+	static void InputIni();
+	static void InputUpdata();
 
-	void InputIni();
-	void InputUpdata();
-
-	bool PushKey(UINT8 key);		//押しっぱなし
-	bool TriggerKey(UINT8 key);		//押した瞬間
-	bool GetKeyReleased(UINT8 key);
+	static bool PushKey(UINT8 key);		//押しっぱなし
+	static bool TriggerKey(UINT8 key);		//押した瞬間
+	static bool GetKeyReleased(UINT8 key);
 
 private:
-	IDirectInputDevice8* keyboard_ = nullptr;
+	static IDirectInputDevice8* keyboard_;
 	//全キーの入力状態を取得する
-	BYTE keys_[256] = {};
+	static BYTE keys_[256];
 	//全キーの入力状態を取得する
-	BYTE oldkeys_[256] = {};
-
-	WinAPI* winapi_ = nullptr;
+	static BYTE oldkeys_[256];
 };
 //マウス
 class MouseInput {

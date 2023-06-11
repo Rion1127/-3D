@@ -11,27 +11,17 @@ GameScene::~GameScene()
 
 void GameScene::Ini()
 {
-	directX = RDirectX::GetInstance();
-	winApi_ = WinAPI::GetInstance();
-	input_ = DirectXInput::GetInstance();
 	controller_ = Controller::GetInstance();
-	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
 
 	Model::Ini();
-	//BoardObject::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
 	debugCamera.DebugCameraIni();
 
-
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
 	gameCamera.Update();
-	//useVP = &gameCamera;
-	useVP = debugCamera.GetViewProjection();
-	useVP->SetOriginalPos();
-
 	
 	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
@@ -47,7 +37,6 @@ void GameScene::Ini()
 	testObj = std::move(std::make_unique<Object3d>());
 	testObj->SetModel(Model::CreateOBJ("uvSphere", true));
 
-	
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
 	const wchar_t* modelFile = L"Resources/boneTest/boneTeset/boneTest.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
@@ -85,24 +74,9 @@ void GameScene::Ini()
 	//	lightGroup->SetSpotLightActive(0, true);
 	//}
 
-	//影
-	lightGroup->SetCircleShadowActive(0, true);
-
-	
-
 	testSprite_.Ini();
-	//testSprite_.SetPos({ 950,500 });
-	//testSprite_.SetScale({ 0.3f,0.3f });
 	testSprite_.SetAnchor({ 0,0 });
-	testSprite_.SetTexture(textureM->GetTexture("Test"));
-
-	testSprite2_.Ini();
-	testSprite2_.SetPos({ 950,300 });
-	testSprite2_.SetScale({ 0.3f,0.3f });
-
-	//gameBGM_ = sound_->LoadWave("gumishipBGM.wav","BGM");
-	//SoundManager::Stop(gameBGM_);
-	//SoundManager::Play(gameBGM_, true, 1.0f);
+	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
 }
 
 void GameScene::Update()
@@ -206,8 +180,8 @@ void GameScene::Draw()
 	Model::PreDraw();
 
 	
-	//testObj->Draw();
-
+	
+	AssimpObject3D::PreDraw();
 	assimpObj_.Draw();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
@@ -220,7 +194,7 @@ void GameScene::Draw()
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 	skyDome_->Draw();
-	//sphere_->Draw();
+	
 
 
 
@@ -231,9 +205,7 @@ void GameScene::Draw()
 	//testSprite_.Draw();
 	//testSprite_.DrawImGui();
 	//testSprite_.DrawImGui();
-	Sprite::SetBlend(BlendNum::ALPHA);
-	//testSprite2_.Draw(uvtexture_);
-	//testSprite2_.DrawImGui();
+	
 }
 
 void GameScene::CheckAllCollision()

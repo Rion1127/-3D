@@ -4,16 +4,7 @@ using namespace DirectX;
 #include "Material.h"
 #include "DirectX.h"
 
-Material* Material::Create(ID3D12Device* device)
-{
-	Material* instance = new Material;
-
-	instance->Ini(device);
-
-	return instance;
-}
-
-void Material::Ini(ID3D12Device* device)
+Material::Material()
 {
 	HRESULT result;
 
@@ -31,7 +22,7 @@ void Material::Ini(ID3D12Device* device)
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -46,36 +37,20 @@ void Material::Ini(ID3D12Device* device)
 	constMapMat_->diffuse = diffuse_;
 	constMapMat_->specular = specular_;
 	constMapMat_->alpha = alpha_;
-
-}
-
-void Material::ChangeColor(float x, float y, float z, float w)
-{
-	//値を書き込むと自動的に転送される
-	//constMapMaterial->color = XMFLOAT4(x,y,z,w);
 }
 
 void Material::LoadTexture(const std::string& directoryPath)
 {
-
 	HRESULT result = S_FALSE;
 
 	// WICテクスチャのロード
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-
 	// ファイルパスを結合
 	std::string filepath = directoryPath + textureFilename_;
-
 	// テクスチャ読み込み
 	TextureManager::GetInstance()->LoadGraph(filepath, filepath);
 	texture_ = *TextureManager::GetInstance()->GetTexture(filepath);
-}
-
-void Material::ChangeColor(XMFLOAT4 color_)
-{
-	//値を書き込むと自動的に転送される
-	//constMapMaterial->color = XMFLOAT4(color_);
 }
 
 void Material::Draw(UINT descriptorSize)

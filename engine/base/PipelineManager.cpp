@@ -40,6 +40,19 @@ void PipelineManager::Ini() {
 
 	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
 
+	//オブジェクト3D
+	AddPipeline("assimp");
+	GetPipelineObjects("assimp")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("assimp")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("assimp")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("assimp")->Setshader(L"Resources/shader/assimpVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("assimp")->Setshader(L"Resources/shader/assimpPS.hlsl", PipelineObject::PS);
+
+	GetPipelineObjects("assimp")->AddrootParams(4);
+
+	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
+
 	//ポストエフェクト
 	AddPipeline("PostEffect");
 	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);

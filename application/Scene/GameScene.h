@@ -32,11 +32,8 @@ public:
 
 	void Draw()override;
 private:
-	RDirectX* directX = nullptr;
-	WinAPI* winApi_ = nullptr;
-	DirectXInput* input_ = nullptr;
+	Key* input_ = nullptr;
 	Controller* controller_ = nullptr;
-	TextureManager* textureM = nullptr;
 	SoundManager* sound_ = nullptr;
 	DebugCamera debugCamera;
 	
@@ -44,8 +41,6 @@ private:
 
 	Camera gameCamera;
 	void cameraUpdate();
-	//égÇ§ÉJÉÅÉâç¿ïW
-	Camera* useVP = nullptr;
 
 	std::shared_ptr<LightGroup> lightGroup = nullptr;
 
@@ -111,8 +106,6 @@ private:
 	void SpotLightUpdate();
 
 	Sprite testSprite_;
-	Sprite testSprite2_;
-	uint32_t uvtexture_;
 
 	//PostEffect postEffect_;
 };

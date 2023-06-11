@@ -8,9 +8,6 @@ ParticleScene::~ParticleScene()
 
 void ParticleScene::Ini()
 {
-	directX = RDirectX::GetInstance();
-	winApi_ = WinAPI::GetInstance();
-	input_ = DirectXInput::GetInstance();
 	controller_ = Controller::GetInstance();
 	textureM = TextureManager::GetInstance();
 	sound_ = SoundManager::GetInstance();
@@ -74,7 +71,7 @@ void ParticleScene::Update()
 	Camera::current_.target_ = debugCamera.GetViewProjection()->target_;
 	Camera::current_.Update();
 	//ƒJƒƒ‰XV
-	if (input_->PushKey(DIK_LCONTROL)) {
+	if (Key::PushKey(DIK_LCONTROL)) {
 		debugCamera.Update();
 	}
 	gameCamera.Update();

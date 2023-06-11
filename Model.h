@@ -15,6 +15,30 @@ class Model
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+private:
+	struct VertexPosNormalUv {
+		XMFLOAT3 pos;		//xyz座標
+		XMFLOAT3 normal;	//法線ベクトル
+		XMFLOAT2 uv;		//uv座標
+	};
+
+	// 名前
+	std::string name_;
+
+	//頂点法線スムージング用データ
+	bool smoothing_ = false;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
+	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
+	//平滑化された頂点法線の計算
+	void CalculateSmoothedVertexNormals();
+public:
+	std::vector<std::unique_ptr<Vertices>> vert_;
+	std::vector<Texture> texture_;
+	// マテリアルコンテナ
+	std::map<std::string, std::unique_ptr<Material>> materials_;
+	//ライト
+	static std::shared_ptr<LightGroup> lightGroup_;
+
 
 	~Model();
 
@@ -51,36 +75,8 @@ private:
 public:
 	static void PreDraw();
 
-	//オブジェクトの色を変える
-	void ObjChangeColor(float x, float y, float z, float w);
-	void ObjChangeColor(XMFLOAT4 color_);
-
 	void DrawOBJ(WorldTransform* worldTransform);
 	void DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle);
-
-private:
-	struct VertexPosNormalUv {
-		XMFLOAT3 pos;		//xyz座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;		//uv座標
-	};
-
-	// 名前
-	std::string name_;
-
-	//頂点法線スムージング用データ
-	bool smoothing_ = false;
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
-	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
-	//平滑化された頂点法線の計算
-	void CalculateSmoothedVertexNormals();
-public:
-	std::vector<std::unique_ptr<Vertices>> vert_;
-	std::vector<Texture> texture_;
-	// マテリアルコンテナ
-	std::map<std::string, std::unique_ptr<Material>> materials_;
-	//ライト
-	static std::shared_ptr<LightGroup> lightGroup_;
 
 };
 

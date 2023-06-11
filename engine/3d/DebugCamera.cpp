@@ -18,7 +18,7 @@ void DebugCamera::DebugCameraIni()
 
 void DebugCamera::Update()
 {
-	if (DirectXInput::GetInstance()->PushKey(DIK_LCONTROL))
+	if (Key::PushKey(DIK_LCONTROL))
 	{
 		//マウスの情報の更新
 		CameraMove();
@@ -29,7 +29,10 @@ void DebugCamera::Update()
 void DebugCamera::CameraMove()
 {
 	Vector3 proviUpVec = { 0,1,0 };
-	float speed = 0.5f;
+	Vector2 speed = {
+		mInput_->GetCursorMoveX() * 0.3f,
+		mInput_->GetCursorMoveY() * 0.3f
+	};
 	//カメラが注視点座標より奥にいるとき
 	if (viewProjection_.up_.y <= 0) {
 		speed *= -1;
@@ -51,39 +54,20 @@ void DebugCamera::CameraMove()
 
 	//平行移動
 	if (mInput_->IsMouseDown(MOUSE_WHEEL)) {
-		//上下に動かしたとき
-		if (mInput_->GetCursorMoveY() > 0) {
-			cameraTrans_ -= upVec_ * speed;
-			viewProjection_.target_.x -= upVec_.x * speed;
-			viewProjection_.target_.y -= upVec_.y * speed;
-			viewProjection_.target_.z -= upVec_.z * speed;
-		}
-		else if (mInput_->GetCursorMoveY() < 0) {
-			cameraTrans_ += upVec_ * speed;
-			viewProjection_.target_.x += upVec_.x * speed;
-			viewProjection_.target_.y += upVec_.y * speed;
-			viewProjection_.target_.z += upVec_.z * speed;
-		}
 		//マウスカーソルを左右に動かしたとき
-		if (mInput_->GetCursorMoveX() > 0) {
-			cameraTrans_.x -= sideVec_.x * speed;
-			cameraTrans_.z -= sideVec_.z * speed;
-
-			viewProjection_.target_.x -= sideVec_.x * speed;
-			viewProjection_.target_.z -= sideVec_.z * speed;
-		}
-		else if (mInput_->GetCursorMoveX() < 0) {
-			cameraTrans_.x += sideVec_.x * speed;
-			cameraTrans_.z += sideVec_.z * speed;
-
-			viewProjection_.target_.x += sideVec_.x * speed;
-			viewProjection_.target_.z += sideVec_.z * speed;
-		}
-
+		cameraTrans_.x -= sideVec_.x * speed.x;
+		cameraTrans_.z -= sideVec_.z * speed.x;
+		viewProjection_.target_.x -= sideVec_.x * speed.x;
+		viewProjection_.target_.z -= sideVec_.z * speed.x;
+		//上下に動かしたとき
+		cameraTrans_ -= upVec_ * speed.y;
+		viewProjection_.target_.x -= upVec_.x * speed.y;
+		viewProjection_.target_.y -= upVec_.y * speed.y;
+		viewProjection_.target_.z -= upVec_.z * speed.y;
 	}
 	//拡大縮小
 	else if (!mInput_->IsMouseDown(MOUSE_WHEEL)) {
-		frontdist_ +=  -(float)mInput_->IsMouseWheel() * (frontdist_ * 0.001f);
+		frontdist_ += -(float)mInput_->IsMouseWheel() * (frontdist_ * 0.001f);
 	}
 	//球面座標移動
 	if (mInput_->IsMouseDown(MOUSE_LEFT)) {
