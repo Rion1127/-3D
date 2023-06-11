@@ -11,3 +11,4 @@ struct VSOutput {
 	//uvç¿ïW
 	float2 uv :TEXCOORD;
 };
+
