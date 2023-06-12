@@ -38,7 +38,7 @@ void GameScene::Ini()
 	testObj->SetModel(Model::CreateOBJ("uvSphere", true));
 
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
-	const wchar_t* modelFile = L"Resources/boneTest/boneTeset/boneTest.gltf";
+	const wchar_t* modelFile = L"Resources/boneTest/moveCube/moveCube.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
 	ImportSettings importSetting = {

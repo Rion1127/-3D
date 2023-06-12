@@ -131,7 +131,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		const auto pMaterial = scene->mMaterials[i];
 		LoadTexture(setting->filename, meshes[i], pMaterial);
 
-		//LoadBones(i, scene->mMeshes[i],setting);
+		LoadBones(i, scene->mMeshes[i],setting);
 		//if (scene->mMeshes[i]->mBones != nullptr)
 		//{
 		//	//É{Å[ÉìÇÃèÓïÒÇê∂ê¨
@@ -244,27 +244,7 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 			m.a3, m.b3, m.c3, m.d3,
 			m.a4, m.b4, m.c4, m.d4
 		};
-		/*if (m_BoneMapping.find(BoneName) == m_BoneMapping.end())
-		{
-			
-			
-			BoneInfo bi;
-			m_BoneInfo.push_back(bi);
-		}
-		else
-		{
-			BoneIndex = m_BoneMapping[BoneName];
-		}
-
-		m_BoneMapping[BoneName] = BoneIndex;
 		
-
-		for (uint32_t j = 0; j < pMesh->mBones[i]->mNumWeights; j++)
-		{
-			uint32_t VertexID = m_Entries[MeshIndex].BaseVertex + pMesh->mBones[i]->mWeights[j].mVertexId;
-			float Weight = pMesh->mBones[i]->mWeights[j].mWeight;
-			Bones[VertexID].AddBoneData(BoneIndex, Weight);
-		}*/
 	}
 	
 }
