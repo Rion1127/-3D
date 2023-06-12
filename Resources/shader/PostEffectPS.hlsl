@@ -29,7 +29,7 @@ float4 main(VSOutput input) : SV_TARGET
     //return col;
     
     //ガウシアンブラー
-    float totalWeight = 0, _Sigma = 0.025, _StepWidth = 0.1;
+    float totalWeight = 0, _Sigma = 0.015, _StepWidth = 0.001;
     float4 col = float4(0, 0, 0, 0);
 
     for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)

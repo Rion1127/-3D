@@ -14,7 +14,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("Object3D")->AddrootParams(4);
 
-	Create("Object3D", BACK,TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ALL);
+	Create("Object3D", BACK,TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ALL,MODE_WRAP);
 	//スプライト
 	AddPipeline("Sprite");
 	GetPipelineObjects("Sprite")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -25,7 +25,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("Sprite")->AddrootParams(3);
 
-	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO);
+	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
 	
 	//トゥーンオブジェクト3D
 	AddPipeline("Toon");
@@ -38,7 +38,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("Toon")->AddrootParams(4);
 
-	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
+	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 
 	//オブジェクト3D
 	AddPipeline("assimp");
@@ -51,7 +51,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("assimp")->AddrootParams(4);
 
-	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL);
+	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 
 	//ポストエフェクト
 	AddPipeline("PostEffect");
@@ -63,13 +63,17 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("PostEffect")->AddrootParams(3);
 
-	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO);
+	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO,MODE_BORDER);
 
 }
-void PipelineManager::Create(std::string pipelinename, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc)
+void PipelineManager::Create(
+	std::string pipelinename, CULL_MODE cullmode,
+	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
+	TEXTURE_ADDRESS_MODE uvMode)
 {
 	for (size_t i = 0; i < 4; i++) {
-		pipelineObjects_[pipelinename]->Create(BlendNum(i), cullmode, topologytype, depthWriteMasc);
+		pipelineObjects_[pipelinename]->
+			Create(BlendNum(i), cullmode, topologytype, depthWriteMasc, uvMode);
 	}
 }
 void PipelineManager::AddPipeline(std::string pipelinename)

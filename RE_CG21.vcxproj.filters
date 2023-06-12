@@ -118,6 +118,12 @@
     <Filter Include="engine\ソース ファイル\PostEffect">
       <UniqueIdentifier>{1aa0e441-a190-4a2c-a6af-9dce2d862a06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\Engine">
+      <UniqueIdentifier>{a8234e7f-040a-441e-aa1f-2b539dc63e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application">
+      <UniqueIdentifier>{73efd602-39ab-4be3-8b9a-dc3999c56683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -373,65 +379,65 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\shader\Sprite.hlsli">
-      <Filter>シェーダーファイル</Filter>
+    <None Include="packages.config" />
+    <None Include="Resources\shader\assimp.hlsli">
+      <Filter>シェーダーファイル\Engine</Filter>
     </None>
     <None Include="Resources\shader\Basic.hlsli">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\Engine</Filter>
     </None>
     <None Include="Resources\shader\Particle.hlsli">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\Engine</Filter>
     </None>
-    <None Include="packages.config" />
+    <None Include="Resources\shader\Sprite.hlsli">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </None>
     <None Include="Resources\shader\Toon.hlsli">
-      <Filter>シェーダーファイル</Filter>
-    </None>
-    <None Include="Resources\shader\assimp.hlsli">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\Engine</Filter>
     </None>
     <None Include="Resources\shader\PostEffect.hlsli">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\application</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\shader\SpritePS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\SpriteVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\BasicPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\BasicVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\ParticlePS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\ParticleVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\ParticleGS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\ToonPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\ToonVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+    <FxCompile Include="Resources\shader\assimpPS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\assimpVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\Engine</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\assimpPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+    <FxCompile Include="Resources\shader\BasicPS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BasicVS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticleGS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticlePS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ParticleVS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\SpritePS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\SpriteVS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ToonPS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\ToonVS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\PostEffectPS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\PostEffectVS.hlsl">
-      <Filter>シェーダーファイル</Filter>
+      <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

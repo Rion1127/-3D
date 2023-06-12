@@ -30,7 +30,7 @@ Particle::Particle() {
 	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticlePS.hlsl", PipelineObject::PS);
 	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleGS.hlsl", PipelineObject::GS);
 
-	PipelineManager::Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO);
+	PipelineManager::Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO,MODE_WRAP);
 }
 
 Particle* Particle::GetInstance()

@@ -2,8 +2,6 @@
 #include "Util.h"
 #include "Pipeline.h"
 
-RDirectX* Pipeline::directX_ = RDirectX::GetInstance();
-
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 {
 	//テクスチャサンプラーの設定
@@ -57,7 +55,9 @@ void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, uint32_t blend)
 	}
 }
 
-void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc)
+void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
+	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
+	TEXTURE_ADDRESS_MODE uvMode)
 {
 	HRESULT result;
 
@@ -79,9 +79,9 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode, TOPOLOGY_TYPE
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//横繰り返し（タイリング）
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//縦繰り返し（タイリング）
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;					//奥行繰り返し（タイリング）
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE(uvMode);					//横繰り返し（タイリング）
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE(uvMode);					//縦繰り返し（タイリング）
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE(uvMode);					//奥行繰り返し（タイリング）
 	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;	//ボーダーの時は黒
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;					//全てリニア保管
 	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;									//ミップマップ最大値

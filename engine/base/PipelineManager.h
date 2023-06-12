@@ -8,7 +8,10 @@ class PipelineManager {
 public:
 	static void Ini();
 
-	static void Create(std::string pipelinename, CULL_MODE cullmode, TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc);
+	static void Create(
+		std::string pipelinename, CULL_MODE cullmode,
+		TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
+		TEXTURE_ADDRESS_MODE uvMode);
 	static void AddPipeline(std::string pipelinename);
 public:
 	//ÉQÉbÉ^Å[
