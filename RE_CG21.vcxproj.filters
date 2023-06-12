@@ -383,6 +383,9 @@
     <ClInclude Include="engine\2d\MultipleRenderTarget.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="engine\REngine.h">
+      <Filter>engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

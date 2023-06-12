@@ -97,6 +97,7 @@
     <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
+    <ClInclude Include="engine\REngine.h" />
     <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
