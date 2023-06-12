@@ -53,6 +53,7 @@
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MultipleRenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\LoadManager.h" />
@@ -60,6 +61,7 @@
     <ClInclude Include="application\Scene\GameScene.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
+    <ClInclude Include="engine\2d\MultipleRenderTarget.h" />
     <ClInclude Include="engine\2d\PostEffect.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\3d\assimp\AssimpLoader.h" />

@@ -1,14 +1,15 @@
-#include "PostEffect.h"
+#include "MultipleRenderTarget.h"
 #include "WinAPI.h"
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 #include "DirectX.h"
 #include "PipelineManager.h"
 
-const float PostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
-const uint32_t PostEffect::vertNum_ = 4;
 
-PostEffect::PostEffect() /*:Sprite()*/
+const float MultipleRenderTarget::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
+const uint32_t MultipleRenderTarget::vertNum_ = 4;
+
+MultipleRenderTarget::MultipleRenderTarget() /*:Sprite()*/
 {
 	//頂点バッファ生成
 	CreateVertBuff();
@@ -28,7 +29,7 @@ PostEffect::PostEffect() /*:Sprite()*/
 	CreateDSV();
 }
 
-void PostEffect::PUpdate()
+void MultipleRenderTarget::PUpdate()
 {
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
@@ -38,10 +39,10 @@ void PostEffect::PUpdate()
 		constMap->color = color_;
 		constMap->mat = DirectX::XMMatrixIdentity(); // 行列の合成
 	}
-	
+
 }
 
-void PostEffect::Draw()
+void MultipleRenderTarget::Draw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
@@ -75,7 +76,7 @@ void PostEffect::Draw()
 		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
-void PostEffect::PreDrawScene()
+void MultipleRenderTarget::PreDrawScene()
 {
 	ID3D12GraphicsCommandList& cmdList = *RDirectX::GetInstance()->GetCommandList();
 
@@ -109,7 +110,7 @@ void PostEffect::PreDrawScene()
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
-void PostEffect::PostDrawScene()
+void MultipleRenderTarget::PostDrawScene()
 {
 	//リソースバリアを変更（描画可能→シェーダーリソース）
 	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_.Get(),
@@ -118,7 +119,7 @@ void PostEffect::PostDrawScene()
 		ResourceBarrier(1, &barrier);
 }
 
-void PostEffect::CreateVertBuff()
+void MultipleRenderTarget::CreateVertBuff()
 {
 	HRESULT result;
 
@@ -156,7 +157,7 @@ void PostEffect::CreateVertBuff()
 	vbView_.StrideInBytes = sizeof(VertexPosUV);
 }
 
-void PostEffect::CreateibView()
+void MultipleRenderTarget::CreateibView()
 {
 	HRESULT result;
 	indices_.push_back(0);
@@ -206,7 +207,7 @@ void PostEffect::CreateibView()
 	ibView_.SizeInBytes = sizeIB;
 }
 
-void PostEffect::CreateConstBuff()
+void MultipleRenderTarget::CreateConstBuff()
 {
 	HRESULT result;
 	//定数バッファの生成
@@ -225,7 +226,7 @@ void PostEffect::CreateConstBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateTexBuff()
+void MultipleRenderTarget::CreateTexBuff()
 {
 	HRESULT result;
 
@@ -272,7 +273,7 @@ void PostEffect::CreateTexBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateSRV()
+void MultipleRenderTarget::CreateSRV()
 {
 	HRESULT result;
 	//SRV用でスクリプタヒープ設定
@@ -298,7 +299,7 @@ void PostEffect::CreateSRV()
 		);
 }
 
-void PostEffect::CreateRTV()
+void MultipleRenderTarget::CreateRTV()
 {
 	HRESULT result;
 	//RTV用デスクリプタヒープ
@@ -322,7 +323,7 @@ void PostEffect::CreateRTV()
 		);
 }
 
-void PostEffect::CreateDepthBuff()
+void MultipleRenderTarget::CreateDepthBuff()
 {
 	HRESULT result;
 	CD3DX12_RESOURCE_DESC depthResDesc =
@@ -349,7 +350,7 @@ void PostEffect::CreateDepthBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateDSV()
+void MultipleRenderTarget::CreateDSV()
 {
 	HRESULT result;
 	//DSV用デスクリプタヒープ設定

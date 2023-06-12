@@ -252,6 +252,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
+    <ClCompile Include="MultipleRenderTarget.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -375,6 +378,9 @@
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="application\LoadManager.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\MultipleRenderTarget.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
