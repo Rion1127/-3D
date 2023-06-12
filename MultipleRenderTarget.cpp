@@ -79,33 +79,47 @@ void MultipleRenderTarget::Draw()
 void MultipleRenderTarget::PreDrawScene()
 {
 	ID3D12GraphicsCommandList& cmdList = *RDirectX::GetInstance()->GetCommandList();
-
-	CD3DX12_RESOURCE_BARRIER bariier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_.Get(),
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		D3D12_RESOURCE_STATE_RENDER_TARGET);
-	RDirectX::GetInstance()->GetCommandList()
-		->ResourceBarrier(1,
-			&bariier);
+	for (size_t i = 0; i < 2; i++) {
+		auto bariier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(),
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			D3D12_RESOURCE_STATE_RENDER_TARGET);
+		RDirectX::GetInstance()->GetCommandList()
+			->ResourceBarrier(1,
+				&bariier);
+	}
 
 	//レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvH =
-		descHeapRTV_->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2]{};
+	for (size_t i = 0; i < 2; i++) {
+		rtvHs[i] =
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(
+				descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), (INT)i,
+				RDirectX::GetInstance()->GetDevice()->
+				GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	}
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
 		descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 	//レンダーターゲットをセット
-	cmdList.OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	cmdList.OMSetRenderTargets(2, rtvHs, false, &dsvH);
 	//ビューポートの設定
-	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f,
-		WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
-	cmdList.RSSetViewports(1, &viewPort);
+	CD3DX12_VIEWPORT viewPorts[2]{};
 	//シザリング矩形の設定
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0,
-		(LONG)WinAPI::GetWindowSize().x, (LONG)WinAPI::GetWindowSize().y);
-	cmdList.RSSetScissorRects(1, &rect);
+	CD3DX12_RECT rects[2]{};
+	for (size_t i = 0; i < 2; i++) {
+		viewPorts[i] = CD3DX12_VIEWPORT(0.0f, 0.0f,
+			WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
+		rects[i] = CD3DX12_RECT(0, 0,
+			(LONG)WinAPI::GetWindowSize().x, (LONG)WinAPI::GetWindowSize().y);
+	}
+
+	cmdList.RSSetViewports(2, viewPorts);
+	cmdList.RSSetScissorRects(2, rects);
 
 	//全画面クリア
-	cmdList.ClearRenderTargetView(rtvH, clearColor_, 0, nullptr);
+	for (size_t i = 0; i < 2; i++) {
+		cmdList.ClearRenderTargetView(rtvHs[i], clearColor_, 0, nullptr);
+	}
 	//深度バッファのクリア
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -113,10 +127,13 @@ void MultipleRenderTarget::PreDrawScene()
 void MultipleRenderTarget::PostDrawScene()
 {
 	//リソースバリアを変更（描画可能→シェーダーリソース）
-	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_.Get(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	RDirectX::GetInstance()->GetCommandList()->
-		ResourceBarrier(1, &barrier);
+	for (size_t i = 0; i < 2; i++) {
+		auto barrier =
+			CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(),
+				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		RDirectX::GetInstance()->GetCommandList()->
+			ResourceBarrier(1, &barrier);
+	}
 }
 
 void MultipleRenderTarget::CreateVertBuff()
@@ -243,34 +260,36 @@ void MultipleRenderTarget::CreateTexBuff()
 			D3D12_MEMORY_POOL_L0);
 	CD3DX12_CLEAR_VALUE clear_Value =
 		CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor_);
-	//テクスチャバッファの生成
-	result =
-		RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
-			&prop,
-			D3D12_HEAP_FLAG_NONE,
-			&texResDesc,
-			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-			&clear_Value,
-			IID_PPV_ARGS(&texBuff_));
-	assert(SUCCEEDED(result));
+	for (size_t i = 0; i < 2; i++) {
+		//テクスチャバッファの生成
+		result =
+			RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
+				&prop,
+				D3D12_HEAP_FLAG_NONE,
+				&texResDesc,
+				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+				&clear_Value,
+				IID_PPV_ARGS(&texBuff_[i]));
+		assert(SUCCEEDED(result));
 
-	//画素数
-	const size_t pixelCount = (size_t)WinAPI::GetWindowSize().x * (size_t)WinAPI::GetWindowSize().y;
-	//画像一行分のデータサイズ
-	const auto rowPitch = sizeof(UINT) * WinAPI::GetWindowSize().x;
-	//画像全体のデータサイズ
-	const auto depthPitch = rowPitch * WinAPI::GetWindowSize().y;
-	//画像イメージ
-	std::vector<UINT> img;
-	img.resize(pixelCount);
-	for (uint32_t i = 0; i < pixelCount; i++)
-	{
-		img[i] = 0xff0000ff;
+		//画素数
+		const size_t pixelCount = (size_t)WinAPI::GetWindowSize().x * (size_t)WinAPI::GetWindowSize().y;
+		//画像一行分のデータサイズ
+		const auto rowPitch = sizeof(UINT) * WinAPI::GetWindowSize().x;
+		//画像全体のデータサイズ
+		const auto depthPitch = rowPitch * WinAPI::GetWindowSize().y;
+		//画像イメージ
+		std::vector<UINT> img;
+		img.resize(pixelCount);
+		for (uint32_t j = 0; j < pixelCount; j++)
+		{
+			img[j] = 0xff0000ff;
+		}
+		//テクスチャバッファにデータ転送
+		result = texBuff_[i]->WriteToSubresource(0, nullptr,
+			img.data(), (UINT)rowPitch, (UINT)depthPitch);
+		assert(SUCCEEDED(result));
 	}
-	//テクスチャバッファにデータ転送
-	result = texBuff_->WriteToSubresource(0, nullptr,
-		img.data(), (UINT)rowPitch, (UINT)depthPitch);
-	assert(SUCCEEDED(result));
 }
 
 void MultipleRenderTarget::CreateSRV()
@@ -293,7 +312,7 @@ void MultipleRenderTarget::CreateSRV()
 	srvDesc.Texture2D.MipLevels = 1;
 	//デスクリプタヒープにSRV作成
 	RDirectX::GetInstance()->GetDevice()->
-		CreateShaderResourceView(texBuff_.Get(),
+		CreateShaderResourceView(texBuff_[0].Get(),
 			&srvDesc,
 			descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
 		);
@@ -305,7 +324,7 @@ void MultipleRenderTarget::CreateRTV()
 	//RTV用デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDescHeapDesc.NumDescriptors = 1;
+	rtvDescHeapDesc.NumDescriptors = 2;
 	//RTV用デスクリプタヒープを生成
 	result = RDirectX::GetInstance()->GetDevice()
 		->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV_));
@@ -315,12 +334,18 @@ void MultipleRenderTarget::CreateRTV()
 	//シェーダーの計算結果をSRGBに変換して書き込む
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	//デスクリプタヒープにRTV作成
-	RDirectX::GetInstance()->GetDevice()
-		->CreateRenderTargetView(texBuff_.Get(),
-			&renderTargetViewDesc,
-			descHeapRTV_->GetCPUDescriptorHandleForHeapStart()
-		);
+	for (size_t i = 0; i < 2; i++) {
+		//デスクリプタヒープにRTV作成
+		RDirectX::GetInstance()->GetDevice()
+			->CreateRenderTargetView(texBuff_[i].Get(),
+				nullptr,
+				CD3DX12_CPU_DESCRIPTOR_HANDLE(
+					descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), (INT)i,
+					RDirectX::GetInstance()->GetDevice()->
+					GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV))
+			);
+	}
+
 }
 
 void MultipleRenderTarget::CreateDepthBuff()

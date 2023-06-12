@@ -11,7 +11,7 @@ class MultipleRenderTarget
 private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	ComPtr<ID3D12Resource> texBuff_;
+	ComPtr<ID3D12Resource> texBuff_[2];
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
 	//深度バッファ
