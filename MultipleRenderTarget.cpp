@@ -4,12 +4,13 @@
 #pragma comment(lib,"d3dcompiler.lib")
 #include "DirectX.h"
 #include "PipelineManager.h"
+#include "mInput.h"
 
 
-const float MultipleRenderTarget::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
-const uint32_t MultipleRenderTarget::vertNum_ = 4;
+const float MultiRenderTarget::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
+const uint32_t MultiRenderTarget::vertNum_ = 4;
 
-MultipleRenderTarget::MultipleRenderTarget() /*:Sprite()*/
+MultiRenderTarget::MultiRenderTarget() /*:Sprite()*/
 {
 	//頂点バッファ生成
 	CreateVertBuff();
@@ -29,7 +30,7 @@ MultipleRenderTarget::MultipleRenderTarget() /*:Sprite()*/
 	CreateDSV();
 }
 
-void MultipleRenderTarget::PUpdate()
+void MultiRenderTarget::PUpdate()
 {
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
@@ -42,7 +43,7 @@ void MultipleRenderTarget::PUpdate()
 
 }
 
-void MultipleRenderTarget::Draw()
+void MultiRenderTarget::Draw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
@@ -53,6 +54,25 @@ void MultipleRenderTarget::Draw()
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+	if (Key::TriggerKey(DIK_V)) {
+		//デスクリプタヒープにSRV作成
+		static size_t tex = 0;
+		//テクスチャ番号を0と1で切り替え
+		tex = (tex == 0) ? 1 : 0;
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		RDirectX::GetInstance()->GetDevice()->
+			CreateShaderResourceView(texBuff_[tex].Get(),
+				&srvDesc,
+				descHeapSRV_->GetCPUDescriptorHandleForHeapStart());
+	}
+
+
 
 	//SRVヒープの設定コマンド
 	std::vector<ID3D12DescriptorHeap*> heaps = { descHeapSRV_.Get() };
@@ -76,7 +96,7 @@ void MultipleRenderTarget::Draw()
 		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
-void MultipleRenderTarget::PreDrawScene()
+void MultiRenderTarget::PreDrawScene()
 {
 	ID3D12GraphicsCommandList& cmdList = *RDirectX::GetInstance()->GetCommandList();
 	for (size_t i = 0; i < 2; i++) {
@@ -124,7 +144,7 @@ void MultipleRenderTarget::PreDrawScene()
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
-void MultipleRenderTarget::PostDrawScene()
+void MultiRenderTarget::PostDrawScene()
 {
 	//リソースバリアを変更（描画可能→シェーダーリソース）
 	for (size_t i = 0; i < 2; i++) {
@@ -136,7 +156,7 @@ void MultipleRenderTarget::PostDrawScene()
 	}
 }
 
-void MultipleRenderTarget::CreateVertBuff()
+void MultiRenderTarget::CreateVertBuff()
 {
 	HRESULT result;
 
@@ -174,7 +194,7 @@ void MultipleRenderTarget::CreateVertBuff()
 	vbView_.StrideInBytes = sizeof(VertexPosUV);
 }
 
-void MultipleRenderTarget::CreateibView()
+void MultiRenderTarget::CreateibView()
 {
 	HRESULT result;
 	indices_.push_back(0);
@@ -224,7 +244,7 @@ void MultipleRenderTarget::CreateibView()
 	ibView_.SizeInBytes = sizeIB;
 }
 
-void MultipleRenderTarget::CreateConstBuff()
+void MultiRenderTarget::CreateConstBuff()
 {
 	HRESULT result;
 	//定数バッファの生成
@@ -243,7 +263,7 @@ void MultipleRenderTarget::CreateConstBuff()
 	assert(SUCCEEDED(result));
 }
 
-void MultipleRenderTarget::CreateTexBuff()
+void MultiRenderTarget::CreateTexBuff()
 {
 	HRESULT result;
 
@@ -292,7 +312,7 @@ void MultipleRenderTarget::CreateTexBuff()
 	}
 }
 
-void MultipleRenderTarget::CreateSRV()
+void MultiRenderTarget::CreateSRV()
 {
 	HRESULT result;
 	//SRV用でスクリプタヒープ設定
@@ -318,7 +338,7 @@ void MultipleRenderTarget::CreateSRV()
 		);
 }
 
-void MultipleRenderTarget::CreateRTV()
+void MultiRenderTarget::CreateRTV()
 {
 	HRESULT result;
 	//RTV用デスクリプタヒープ
@@ -348,7 +368,7 @@ void MultipleRenderTarget::CreateRTV()
 
 }
 
-void MultipleRenderTarget::CreateDepthBuff()
+void MultiRenderTarget::CreateDepthBuff()
 {
 	HRESULT result;
 	CD3DX12_RESOURCE_DESC depthResDesc =
@@ -375,7 +395,7 @@ void MultipleRenderTarget::CreateDepthBuff()
 	assert(SUCCEEDED(result));
 }
 
-void MultipleRenderTarget::CreateDSV()
+void MultiRenderTarget::CreateDSV()
 {
 	HRESULT result;
 	//DSV用デスクリプタヒープ設定

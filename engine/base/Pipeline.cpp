@@ -22,7 +22,7 @@ D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, uint32_t blend)
 {
 
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
+	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;// RBGA全てのチャンネルを描画
 	//共通設定（アルファ値）
 	blenddesc.BlendEnable = true;					//ブレンドを有効にする
@@ -53,6 +53,9 @@ void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, uint32_t blend)
 		blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
 		blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
 	}
+
+	pipelineDesc.BlendState.RenderTarget[0] = blenddesc;
+	pipelineDesc.BlendState.RenderTarget[1] = blenddesc;
 }
 
 void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
@@ -130,8 +133,9 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE(topologytype);
 	// その他の設定
-	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
+	pipelineDesc.NumRenderTargets = 2; // 描画対象は1つ
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
+	pipelineDesc.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0~255指定のRGBA
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// ブレンドステート

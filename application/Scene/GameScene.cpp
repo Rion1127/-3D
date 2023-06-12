@@ -169,7 +169,7 @@ void GameScene::Update()
 	lightGroup->SetCircleShadowDir(0, { circleShadowDir[0],circleShadowDir[1], circleShadowDir[2] });
 	lightGroup->SetCircleShadowAtten(0, { circleShadowAtten[0],circleShadowAtten[1], circleShadowAtten[2] });
 	lightGroup->SetCircleShadowFactorAngle(0, { circleShadowFactorAngle[0],circleShadowFactorAngle[1] });
-
+	int i = 0;
 }
 
 void GameScene::Draw()
@@ -179,7 +179,7 @@ void GameScene::Draw()
 	////////////////
 	Model::PreDraw();
 
-	
+	skyDome_->Draw();
 	
 	AssimpObject3D::PreDraw();
 	assimpObj_.Draw();
@@ -193,7 +193,7 @@ void GameScene::Draw()
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-	skyDome_->Draw();
+	
 	
 
 

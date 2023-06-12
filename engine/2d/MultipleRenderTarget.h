@@ -6,7 +6,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 
-class MultipleRenderTarget
+class MultiRenderTarget
 {
 private:
 	//エイリアステンプレート
@@ -41,7 +41,7 @@ private:
 	//画面クリアカラー
 	static const float clearColor_[4];
 public:
-	MultipleRenderTarget();
+	MultiRenderTarget();
 
 	void PUpdate();
 

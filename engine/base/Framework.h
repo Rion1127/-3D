@@ -14,6 +14,7 @@
 #include <imgui.h>
 #include "LoadManager.h"
 #include "PostEffect.h"
+#include "MultipleRenderTarget.h"
 class Framework
 {
 private:
@@ -50,5 +51,6 @@ private:
 	//ImGuiManager* imguiManeger_ = nullptr;
 	//LoadManager
 	std::unique_ptr<PostEffect> postEffect_;
+	std::unique_ptr<MultiRenderTarget> MLT_;
 };
 

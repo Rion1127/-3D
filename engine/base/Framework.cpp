@@ -33,6 +33,7 @@ void Framework::Init()
 	loadManager_.LoadAllResources();
 
 	postEffect_ = std::move(std::make_unique<PostEffect>());
+	MLT_ = std::move(std::make_unique<MultiRenderTarget>());
 }
 
 void Framework::Finalize()
@@ -59,6 +60,7 @@ void Framework::Update()
 	MouseInput::GetInstance()->Updata();
 
 	postEffect_->PUpdate();
+	MLT_->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
@@ -88,14 +90,19 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	postEffect_->PreDrawScene();
+	//postEffect_->PreDrawScene();
+	//SceneManager::Draw();
+	//postEffect_->PostDrawScene();
+
+	MLT_->PreDrawScene();
 	SceneManager::Draw();
-	postEffect_->PostDrawScene();
+	MLT_->PostDrawScene();
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	postEffect_->Draw();
+	//postEffect_->Draw();
+	MLT_->Draw();
 	//SceneManager::Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
