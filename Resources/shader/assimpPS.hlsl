@@ -133,8 +133,8 @@ PSOutput main(VSOutput input) : SV_TARGET
         }
     }
 		
-    output.target0 = shadecolor * texcolor;
-    output.target1 = float4(1 - (shadecolor * texcolor).rgb,1);
+    output.target0 = shadecolor * texcolor;     //通常
+    output.target1 = float4(1 - (shadecolor * texcolor).rgb,1); //色反転
 	//シェーディングによる色で描画
     return output;
 	
