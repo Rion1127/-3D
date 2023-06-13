@@ -35,8 +35,7 @@ void MultiTexture::PUpdate()
 {
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result))
-	{
+	if (SUCCEEDED(result)) {
 		DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 		// 定数バッファにデータ転送
 		constMap->color = color_;
@@ -47,70 +46,51 @@ void MultiTexture::PUpdate()
 
 void MultiTexture::Draw()
 {
+	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
+	auto& device = *RDirectX::GetInstance()->GetDevice();
 	// パイプラインステートとルートシグネチャの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
+	cmdList.SetPipelineState(
 		PipelineManager::GetPipelineObjects("MultiTexture")->GetPipelineStateAlpha());
 
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
+	cmdList.SetGraphicsRootSignature(
 		PipelineManager::GetPipelineObjects("MultiTexture")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	cmdList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	if (Key::TriggerKey(DIK_V))
-	{
-		//デスクリプタヒープにSRV作成
-		static size_t tex = 0;
-		//テクスチャ番号を0と1で切り替え
-		tex = (tex == 0) ? 1 : 0;
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		RDirectX::GetInstance()->GetDevice()->
-			CreateShaderResourceView(texBuff_[tex].Get(),
-				&srvDesc,
-				descHeapSRV_->GetCPUDescriptorHandleForHeapStart());
-	}
-
-
-
+	
 	//SRVヒープの設定コマンド
 	std::vector<ID3D12DescriptorHeap*> heaps = { descHeapSRV_.Get() };
-	RDirectX::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, heaps.data());
+	cmdList.SetDescriptorHeaps(1, heaps.data());
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
-	srvGpuHandle = descHeapSRV_.Get()->GetGPUDescriptorHandleForHeapStart();
+	srvGpuHandle = descHeapSRV_->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ0番に設定
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0,
+	cmdList.SetGraphicsRootDescriptorTable(0,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle,0,
-			RDirectX::GetInstance()->GetDevice()->
-			GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1,
+			device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+
+	cmdList.SetGraphicsRootDescriptorTable(1,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle, 1,
-		RDirectX::GetInstance()->GetDevice()->
-		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+		device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	//定数バッファビュー(CBV)の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->
+	cmdList.
 		SetGraphicsRootConstantBufferView(2, constBuff_->GetGPUVirtualAddress());
 	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(1, 1, &vbView_);
+	cmdList.IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
+	cmdList.IASetIndexBuffer(&ibView_);
 
 	//描画コマンド
-	RDirectX::GetInstance()->GetCommandList()->
+	cmdList.
 		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 void MultiTexture::PreDrawScene()
 {
 	ID3D12GraphicsCommandList& cmdList = *RDirectX::GetInstance()->GetCommandList();
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		auto bariier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(),
 			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 			D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -121,8 +101,7 @@ void MultiTexture::PreDrawScene()
 
 	//レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2]{};
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		rtvHs[i] =
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(
 				descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), (INT)i,
@@ -138,8 +117,7 @@ void MultiTexture::PreDrawScene()
 	CD3DX12_VIEWPORT viewPorts[2]{};
 	//シザリング矩形の設定
 	CD3DX12_RECT rects[2]{};
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		viewPorts[i] = CD3DX12_VIEWPORT(0.0f, 0.0f,
 			WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
 		rects[i] = CD3DX12_RECT(0, 0,
@@ -150,8 +128,7 @@ void MultiTexture::PreDrawScene()
 	cmdList.RSSetScissorRects(2, rects);
 
 	//全画面クリア
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		cmdList.ClearRenderTargetView(rtvHs[i], clearColor_, 0, nullptr);
 	}
 	//深度バッファのクリア
@@ -161,8 +138,7 @@ void MultiTexture::PreDrawScene()
 void MultiTexture::PostDrawScene()
 {
 	//リソースバリアを変更（描画可能→シェーダーリソース）
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		auto barrier =
 			CD3DX12_RESOURCE_BARRIER::Transition(texBuff_[i].Get(),
 				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -198,8 +174,7 @@ void MultiTexture::CreateVertBuff()
 	//頂点バッファへのデータ転送
 	VertexPosUV* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result))
-	{
+	if (SUCCEEDED(result)) {
 		memcpy(vertMap, vertices, sizeof(vertices));
 		vertBuff_->Unmap(0, nullptr);
 	}
@@ -249,8 +224,7 @@ void MultiTexture::CreateibView()
 	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
 	// 全頂点に対して
-	for (uint32_t i = 0; i < indices_.size(); i++)
-	{
+	for (uint32_t i = 0; i < indices_.size(); i++) {
 		indexMap[i] = indices_[i]; // 座標をコピー
 	}
 	// 繋がりを解除
@@ -297,8 +271,7 @@ void MultiTexture::CreateTexBuff()
 			D3D12_MEMORY_POOL_L0);
 	CD3DX12_CLEAR_VALUE clear_Value =
 		CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor_);
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		//テクスチャバッファの生成
 		result =
 			RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
@@ -332,6 +305,7 @@ void MultiTexture::CreateTexBuff()
 
 void MultiTexture::CreateSRV()
 {
+	auto& device = *RDirectX::GetInstance()->GetDevice();
 	HRESULT result;
 	//SRV用でスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
@@ -349,16 +323,14 @@ void MultiTexture::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	//デスクリプタヒープにSRV作成
-	for (size_t i = 0; i < 2; i++)
-	{
-		RDirectX::GetInstance()->GetDevice()->
+	for (size_t i = 0; i < 2; i++) {
+		device.
 			CreateShaderResourceView(texBuff_[i].Get(),
 				&srvDesc,
 				CD3DX12_CPU_DESCRIPTOR_HANDLE(
 				descHeapSRV_->GetCPUDescriptorHandleForHeapStart(),(INT)i,
-					RDirectX::GetInstance()->GetDevice()->
-					GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
-			));
+					device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+			);
 	}
 }
 
@@ -378,8 +350,7 @@ void MultiTexture::CreateRTV()
 	//シェーダーの計算結果をSRGBに変換して書き込む
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	for (size_t i = 0; i < 2; i++)
-	{
+	for (size_t i = 0; i < 2; i++) {
 		//デスクリプタヒープにRTV作成
 		RDirectX::GetInstance()->GetDevice()
 			->CreateRenderTargetView(texBuff_[i].Get(),
