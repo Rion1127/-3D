@@ -15,6 +15,7 @@
 #include "LoadManager.h"
 #include "PostEffect.h"
 #include "MultipleRenderTarget.h"
+#include "MultiTexture.h"
 class Framework
 {
 private:
@@ -52,5 +53,6 @@ private:
 	//LoadManager
 	std::unique_ptr<PostEffect> postEffect_;
 	std::unique_ptr<MultiRenderTarget> MLT_;
+	std::unique_ptr<MultiTexture> multiTexture_;
 };
 

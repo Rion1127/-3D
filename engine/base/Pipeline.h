@@ -88,6 +88,7 @@ public:
 	void Setshader(LPCWSTR fileName,ShaderType shadertype);
 
 	void AddrootParams(size_t addNum);
+	void AddrootParamsMultiTexture(size_t addTexnum,size_t addNum);
 	void AddInputLayout(const char* semanticName, DXGI_FORMAT format);
 public:
 	ID3D12RootSignature* GetRootSignature() { return rootSignature_.Get(); }

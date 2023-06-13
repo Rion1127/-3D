@@ -61,9 +61,21 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectVS.hlsl", PipelineObject::VS);
 	GetPipelineObjects("PostEffect")->Setshader(L"Resources/shader/PostEffectPS.hlsl", PipelineObject::PS);
 
-	GetPipelineObjects("PostEffect")->AddrootParams(3);
+	GetPipelineObjects("PostEffect")->AddrootParams(2);
 
 	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO,MODE_BORDER);
+
+	//ポストエフェクト
+	AddPipeline("MultiTexture");
+	GetPipelineObjects("MultiTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("MultiTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("MultiTexture")->Setshader(L"Resources/shader/MultiTextureVS.hlsl", PipelineObject::VS);
+	GetPipelineObjects("MultiTexture")->Setshader(L"Resources/shader/MultiTexturePS.hlsl", PipelineObject::PS);
+
+	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2,1);
+
+	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 
 }
 void PipelineManager::Create(

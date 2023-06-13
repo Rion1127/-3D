@@ -30,25 +30,29 @@ void SetBlend(D3D12_GRAPHICS_PIPELINE_STATE_DESC& pipelineDesc, uint32_t blend)
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を  0%使う
 	//加算合成
-	if (blend == BlendNum::ADD) {
+	if (blend == BlendNum::ADD)
+	{
 		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
 		blenddesc.SrcBlend = D3D12_BLEND_ONE;			//ソースの値を100%使う
 		blenddesc.DestBlend = D3D12_BLEND_ONE;			//デストの値を100%使う
 	}
 	//減算合成
-	else if (blend == BlendNum::SUB) {
+	else if (blend == BlendNum::SUB)
+	{
 		blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
 		blenddesc.SrcBlend = D3D12_BLEND_ONE;			//ソースの値を100%使う
 		blenddesc.DestBlend = D3D12_BLEND_ONE;			//デストの値を100%使う
 	}
 	//色反転
-	else if (blend == BlendNum::NEGA) {
+	else if (blend == BlendNum::NEGA)
+	{
 		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
 		blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
 		blenddesc.DestBlend = D3D12_BLEND_ZERO;			//使わない
 	}
 	//半透明合成
-	else if (blend == BlendNum::ALPHA) {
+	else if (blend == BlendNum::ALPHA)
+	{
 		blenddesc.BlendOp = D3D12_BLEND_OP_ADD;			//加算
 		blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;		//ソースのアルファ値
 		blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
@@ -67,15 +71,18 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 	// シェーダーの設定
-	if (vsBlob_ != nullptr) {
+	if (vsBlob_ != nullptr)
+	{
 		pipelineDesc.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
 		pipelineDesc.VS.BytecodeLength = vsBlob_->GetBufferSize();
 	}
-	if (psBlob_ != nullptr) {
+	if (psBlob_ != nullptr)
+	{
 		pipelineDesc.PS.pShaderBytecode = psBlob_->GetBufferPointer();
 		pipelineDesc.PS.BytecodeLength = psBlob_->GetBufferSize();
 	}
-	if (gsBlob_ != nullptr) {
+	if (gsBlob_ != nullptr)
+	{
 		pipelineDesc.GS.pShaderBytecode = gsBlob_->GetBufferPointer();
 		pipelineDesc.GS.BytecodeLength = gsBlob_->GetBufferSize();
 	}
@@ -108,7 +115,7 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 	assert(SUCCEEDED(result));
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature_));
+			IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(result));
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature_.Get();
@@ -141,18 +148,23 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 	// ブレンドステート
 	SetBlend(pipelineDesc, blendNum);
 	// パイプランステートの生成
-	if (blendNum == BlendNum::ADD) {
+	if (blendNum == BlendNum::ADD)
+	{
 		result = RDirectX::GetInstance()->GetDevice()->
 			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAdd_));
-	}else if (blendNum == BlendNum::NEGA) {
+	}
+	else if (blendNum == BlendNum::NEGA)
+	{
 		result = RDirectX::GetInstance()->GetDevice()->
 			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateNega_));
 	}
-	else if (blendNum == BlendNum::SUB) {
+	else if (blendNum == BlendNum::SUB)
+	{
 		result = RDirectX::GetInstance()->GetDevice()->
 			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateSub_));
 	}
-	else if (blendNum == BlendNum::ALPHA) {
+	else if (blendNum == BlendNum::ALPHA)
+	{
 		result = RDirectX::GetInstance()->GetDevice()->
 			CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineStateAlpha_));
 	}
@@ -162,13 +174,16 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
 {
 	// 頂点シェーダの読み込みとコンパイル
-	if (shadertype == ShaderType::VS) {
+	if (shadertype == ShaderType::VS)
+	{
 		ShaderCompileFromFile(fileName, "main", "vs_5_0", &vsBlob_, errorBlob_.Get());
 	}
-	else if (shadertype == ShaderType::PS) {
+	else if (shadertype == ShaderType::PS)
+	{
 		ShaderCompileFromFile(fileName, "main", "ps_5_0", &psBlob_, errorBlob_.Get());
 	}
-	else if (shadertype == ShaderType::GS) {
+	else if (shadertype == ShaderType::GS)
+	{
 		ShaderCompileFromFile(fileName, "main", "gs_5_0", &gsBlob_, errorBlob_.Get());
 	}
 }
@@ -178,12 +193,14 @@ void PipelineObject::AddrootParams(size_t addNum)
 	rootParams_.clear();
 	uint32_t size = 0;
 	//inputLayout + 1の数分rootParams_を作る
-	for (uint32_t i = 0; i < addNum; i++) {
+	for (uint32_t i = 0; i < addNum; i++)
+	{
 		D3D12_ROOT_PARAMETER rootParams{};
 		//配列の最初にテクスチャ
-		if (rootParams_.size() == 0) {
+		if (rootParams_.size() == 0)
+		{
 			//デスクリプタレンジの設定
-			D3D12_DESCRIPTOR_RANGE* descriptorRange = 
+			D3D12_DESCRIPTOR_RANGE* descriptorRange =
 				new D3D12_DESCRIPTOR_RANGE{};
 
 			//デスクリプタレンジの設定
@@ -197,7 +214,8 @@ void PipelineObject::AddrootParams(size_t addNum)
 			rootParams.DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
 			rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
 		}
-		else {
+		else
+		{
 			//定数バッファ
 			rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
 			rootParams.Descriptor.ShaderRegister = size;					//定数バッファ番号
@@ -207,6 +225,44 @@ void PipelineObject::AddrootParams(size_t addNum)
 		}
 
 		rootParams_.emplace_back(rootParams);
+	}
+}
+
+void PipelineObject::AddrootParamsMultiTexture(size_t addTexnum, size_t addNum)
+{
+	rootParams_.clear();
+	uint32_t size = 0;
+
+	
+	for (uint32_t i = 0; i < addTexnum; i++)
+	{
+		D3D12_ROOT_PARAMETER rootParams{};
+		//デスクリプタレンジの設定
+		CD3DX12_DESCRIPTOR_RANGE* descriptorRange =
+			new CD3DX12_DESCRIPTOR_RANGE{};
+
+		descriptorRange->Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, i);
+
+		rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+		rootParams.DescriptorTable.pDescriptorRanges = descriptorRange;//デスクリプタレンジ
+		rootParams.DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+		rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+
+		rootParams_.emplace_back(rootParams);
+	}
+
+	for (uint32_t i = 0; i < addNum; i++)
+	{
+		D3D12_ROOT_PARAMETER rootParams{};
+		//定数バッファ
+		rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+		rootParams.Descriptor.ShaderRegister = size;					//定数バッファ番号
+		rootParams.Descriptor.RegisterSpace = 0;						//デフォルト値
+		rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+		size++;
+
+		rootParams_.emplace_back(rootParams);
+
 	}
 }
 

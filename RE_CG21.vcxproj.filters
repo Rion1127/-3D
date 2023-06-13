@@ -253,7 +253,10 @@
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
     <ClCompile Include="MultipleRenderTarget.cpp">
-      <Filter>engine\ソース ファイル</Filter>
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\MultiTexture.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,11 +383,14 @@
     <ClInclude Include="application\LoadManager.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="engine\2d\MultipleRenderTarget.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="engine\REngine.h">
       <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\MultipleRenderTarget.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\MultiTexture.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +411,9 @@
       <Filter>シェーダーファイル\Engine</Filter>
     </None>
     <None Include="Resources\shader\PostEffect.hlsli">
+      <Filter>シェーダーファイル\application</Filter>
+    </None>
+    <None Include="Resources\shader\MultiTexture.hlsli">
       <Filter>シェーダーファイル\application</Filter>
     </None>
   </ItemGroup>
@@ -446,6 +455,12 @@
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\PostEffectVS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\MultiTextureVS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\MultiTexturePS.hlsl">
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
   </ItemGroup>

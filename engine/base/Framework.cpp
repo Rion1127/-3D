@@ -34,6 +34,7 @@ void Framework::Init()
 
 	postEffect_ = std::move(std::make_unique<PostEffect>());
 	MLT_ = std::move(std::make_unique<MultiRenderTarget>());
+	multiTexture_ = std::move(std::make_unique<MultiTexture>());
 }
 
 void Framework::Finalize()
@@ -60,7 +61,7 @@ void Framework::Update()
 	MouseInput::GetInstance()->Updata();
 
 	postEffect_->PUpdate();
-	MLT_->PUpdate();
+	multiTexture_->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	ImGui::ShowDemoWindow();
@@ -94,15 +95,15 @@ void Framework::Draw()
 	//SceneManager::Draw();
 	//postEffect_->PostDrawScene();
 
-	MLT_->PreDrawScene();
+	multiTexture_->PreDrawScene();
 	SceneManager::Draw();
-	MLT_->PostDrawScene();
+	multiTexture_->PostDrawScene();
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
 	//postEffect_->Draw();
-	MLT_->Draw();
+	multiTexture_->Draw();
 	//SceneManager::Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
