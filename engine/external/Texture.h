@@ -5,7 +5,9 @@
 #include <memory>
 #include <d3d12.h>
 #pragma comment(lib, "d3d12.lib")
+#include "DirectXTex/d3dx12.h"
 #include <cassert>
+#include <vector>
 #include <DirectXTex.h>
 #include "Vector2.h"
 using namespace DirectX;
@@ -38,6 +40,8 @@ public:
 	void SetGraphicsDescriptorTable(UINT descriptorSize);
 
 	Texture* GetTexture(std::string name);
+
+	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 	//設定をもとにSRV用でスクリプタヒープを生成
 	ComPtr<ID3D12DescriptorHeap> srvHeap{};

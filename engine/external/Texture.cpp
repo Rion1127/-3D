@@ -12,6 +12,7 @@ TextureManager* TextureManager::GetInstance()
 
 void TextureManager::Ini()
 {
+	auto& device = *RDirectX::GetInstance()->GetDevice();
 	HRESULT result;
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
@@ -21,7 +22,7 @@ void TextureManager::Ini()
 	srvHeapDesc.NumDescriptors = (UINT)kMaxSRVCount;
 
 	//設定をもとにSRV用でスクリプタヒープを生成
-	result = RDirectX::GetInstance()->GetDevice()->
+	result = device.
 		CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 	//SRVヒープの先頭ハンドルを取得
@@ -33,6 +34,7 @@ void TextureManager::Ini()
 
 void TextureManager::LoadGraph(const std::string& fileName, const std::string& name)
 {
+	auto& device = *RDirectX::GetInstance()->GetDevice();
 	HRESULT result = E_FAIL;
 	uint32_t graphHandle{};
 	//画像を格納するアドレスを代入
@@ -62,13 +64,11 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	ScratchImage scratchImg{};
 	ScratchImage mipChain{};
 
-	UINT descriptorSize = RDirectX::GetInstance()->GetDevice()->
+	UINT descriptorSize = device.
 		GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//画像の名前を保存する
 	texture_->fileName_ = fileName;
 	//同じ画像があった場合その画像と同じ数値を返す
-
-
 	for (uint32_t i = 0; i < texData.size(); i++) {
 		if (name == "") {
 			continue;
@@ -131,15 +131,15 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	//ヒープ設定
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	//テクスチャバッファの生成
-	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = device.CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
+		D3D12_RESOURCE_STATE_COPY_DEST,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
 		nullptr,
 		IID_PPV_ARGS(&texture_->texBuff));
 	//全ミップマップについて
@@ -163,7 +163,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 	//ハンドルのさす位置にシェーダーリソースビュー作成
-	RDirectX::GetInstance()->GetDevice()->
+	device.
 		CreateShaderResourceView(texture_->texBuff.Get(), &srvDesc, srvHandle);
 	//次に格納する場所のアドレスを示す
 	textureHandle += descriptorSize;
@@ -198,6 +198,16 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 Texture* TextureManager::GetTexture(std::string name)
 {
 	return texData[name].get();
+}
+
+ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages)
+{
+	auto& device = *RDirectX::GetInstance()->GetDevice();
+	std::vector<D3D12_SUBRESOURCE_DATA> subresources;
+	DirectX::PrepareUpload(&device, mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresources);
+	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subresources.size()));
+	//ID3D12Resource* intermediateResource = 
+	return nullptr;
 }
 
 
