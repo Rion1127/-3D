@@ -16,6 +16,7 @@
     <ClCompile Include="application\Scene\GameScene.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
+    <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
     <ClCompile Include="engine\2d\PostEffect.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
@@ -23,6 +24,7 @@
     <ClCompile Include="engine\3d\assimp\AssimpObject3D.cpp" />
     <ClCompile Include="engine\3d\assimp\AssinpModel.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
+    <ClCompile Include="engine\3d\Model.cpp" />
     <ClCompile Include="engine\3d\Particle.cpp" />
     <ClCompile Include="engine\math\Collision.cpp" />
     <ClCompile Include="engine\3d\DebugCamera.cpp" />
@@ -53,8 +55,6 @@
     <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="MultipleRenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\LoadManager.h" />
@@ -70,6 +70,7 @@
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h" />
     <ClInclude Include="engine\3d\assimp\AssinpModel.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
+    <ClInclude Include="engine\3d\Model.h" />
     <ClInclude Include="engine\3d\Particle.h" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
@@ -100,7 +101,6 @@
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
     <ClInclude Include="engine\REngine.h" />
-    <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

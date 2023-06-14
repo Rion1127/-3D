@@ -249,14 +249,14 @@
     <ClCompile Include="application\LoadManager.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>engine\ソース ファイル\Object3D</Filter>
-    </ClCompile>
-    <ClCompile Include="MultipleRenderTarget.cpp">
-      <Filter>engine\ソース ファイル\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="engine\2d\MultiTexture.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\MultipleRenderTarget.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Model.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +365,6 @@
     <ClInclude Include="application\Particle\ParticleManager.h">
       <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssinpModel.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
     </ClInclude>
@@ -391,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="engine\2d\MultiTexture.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Model.h">
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
