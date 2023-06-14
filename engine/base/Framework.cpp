@@ -64,7 +64,7 @@ void Framework::Update()
 	multiTexture_->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 #endif // DEBUG
 }
 
@@ -91,9 +91,9 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	multiTexture_->PreDrawScene();
-	SceneManager::Draw();
-	multiTexture_->PostDrawScene();
+	//multiTexture_->PreDrawScene();
+	//SceneManager::Draw();
+	//multiTexture_->PostDrawScene();
 
 	//multiTexture_->PreDrawScene();
 	//SceneManager::Draw();
@@ -102,9 +102,9 @@ void Framework::Draw()
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	multiTexture_->Draw();
 	//multiTexture_->Draw();
-	//SceneManager::Draw();
+	//multiTexture_->Draw();
+	SceneManager::Draw();
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画
