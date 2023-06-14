@@ -131,7 +131,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	//ヒープ設定
-	textureHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	//テクスチャバッファの生成
@@ -139,7 +139,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_COPY_DEST,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
+		D3D12_RESOURCE_STATE_GENERIC_READ,//D3D12_RESOURCE_STATE_COPY_DESTに直せ！！
 		nullptr,
 		IID_PPV_ARGS(&texture_->texBuff));
 	//全ミップマップについて
