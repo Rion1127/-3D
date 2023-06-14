@@ -13,8 +13,8 @@ SoundManager::~SoundManager()
 
 SoundManager* SoundManager::GetInstance()
 {
-	static SoundManager obj;
-	return &obj;
+	static SoundManager instance;
+	return &instance;
 }
 
 void SoundManager::Init()
@@ -34,7 +34,7 @@ SoundKey SoundManager::LoadWave(const std::string& path, const SoundKey& key)
 
 	assert(file.is_open());
 
-	RiffHeader riff;
+	RiffHeader riff{};
 	file.read((char*)&riff, sizeof(riff));
 
 	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
@@ -47,7 +47,7 @@ SoundKey SoundManager::LoadWave(const std::string& path, const SoundKey& key)
 		assert(0);
 	}
 
-	FormatChunk format = {};
+	FormatChunk format{};
 
 	file.read((char*)&format, sizeof(ChunkHeader));
 	if (strncmp(format.chunk.id, "fmt ", 4) != 0)

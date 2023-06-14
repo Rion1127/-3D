@@ -55,6 +55,8 @@ void GameScene::Ini()
 	testSprite_.Ini();
 	testSprite_.SetAnchor({ 0,0 });
 	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
+
+	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
 }
 
 void GameScene::Update()
@@ -90,6 +92,11 @@ void GameScene::Update()
 	testSprite_.Update();
 
 	lightManager_->DebugUpdate();
+
+	if (Key::TriggerKey(DIK_A))
+	{
+		SoundManager::Play(testSound_, false, 0.3f);
+	}
 }
 
 void GameScene::Draw()
