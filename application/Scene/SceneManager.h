@@ -15,7 +15,7 @@ public:
 	template <class NextScene>
 	//なぜかインラインで宣言しないとエラーが起こる
 	static inline void Transition() {
-		delete currentScene_.release();
+		/*deletee*/ currentScene_.release();
 		currentScene_ = std::unique_ptr<NextScene>(new NextScene());
 		currentScene_->Ini();
 	}

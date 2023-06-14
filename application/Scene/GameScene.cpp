@@ -29,13 +29,13 @@ void GameScene::Ini()
 	AssinpModel::SetLightGroup(lightGroup);
 
 	skyDome_ = std::move(std::make_unique<Object3d>());
-	skyDome_->SetModel(Model::CreateOBJ("uvSphere", true));
+	skyDome_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
 
 	sphere_ = std::move(std::make_unique<Object3d>());
-	sphere_->SetModel(Model::CreateOBJ("uvSphere", true));
+	sphere_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
 
 	testObj = std::move(std::make_unique<Object3d>());
-	testObj->SetModel(Model::CreateOBJ("uvSphere", true));
+	testObj->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
 
 	//const wchar_t* modelFile = L"Resources/Alica/Alicia_solid_Unity.FBX";
 	const wchar_t* modelFile = L"Resources/boneTest/moveCube/moveCube.gltf";

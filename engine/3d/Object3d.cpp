@@ -5,11 +5,11 @@ Object3d::Object3d()
 	pos_ = { 0,0,0 };
 	scale_ = { 1,1,1 };
 	rot_ = {0,0,0};
+
 }
 
 Object3d::~Object3d()
 {
-	delete model_;
 }
 
 void Object3d::Init()

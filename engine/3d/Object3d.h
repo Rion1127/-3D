@@ -13,7 +13,7 @@ using namespace Microsoft::WRL;
 class Object3d
 {
 private:
-	Model* model_ = nullptr;
+	std::unique_ptr<Model> model_ = nullptr;
 
 	Vector3 pos_;
 	Vector3 rot_;
@@ -33,7 +33,7 @@ public:
 
 public:
 	//セッター
-	void SetModel(Model* model) { model_ = model; }
+	void SetModel(std::unique_ptr<Model> model) { model_ = std::move(model); }
 	void SetPos(Vector3 pos) { pos_ = pos; }
 	void SetScale(Vector3 scale) { scale_ = scale; }
 	void SetRot(Vector3 rot) { rot_ = rot; }
