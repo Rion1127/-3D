@@ -34,9 +34,9 @@ public:
 public:
 	//セッター
 	void SetModel(std::unique_ptr<Model> model) { model_ = std::move(model); }
-	void SetPos(Vector3 pos) { pos_ = pos; }
-	void SetScale(Vector3 scale) { scale_ = scale; }
-	void SetRot(Vector3 rot) { rot_ = rot; }
+	void SetPos(const Vector3& pos) { pos_ = pos; }
+	void SetScale(const Vector3& scale) { scale_ = scale; }
+	void SetRot(const Vector3& rot) { rot_ = rot; }
 
 public:
 	//ゲッター

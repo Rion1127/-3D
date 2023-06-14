@@ -49,7 +49,7 @@ void ShaderCompileFromFile(
 	}
 }
 
-wchar_t* ConvertStrToWchar(const std::string string)
+wchar_t* ConvertStrToWchar(const std::string& string)
 {
 	// SJIS Å® wstring	std::stringå^ÇÃÉTÉCÉYÇéÊìæ
 	uint32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, string.c_str(), -1, (wchar_t*)NULL, 0);
@@ -92,7 +92,7 @@ float Clamp(float value, float max, float min)
 	return value;
 }
 
-void MoveTo(Vector3 goal, float speed, WorldTransform& WT)
+void MoveTo(const Vector3& goal, float speed, WorldTransform& WT)
 {
 	Vector3 dir = goal - WT.position_;
 	float dirLength = dir.length2();

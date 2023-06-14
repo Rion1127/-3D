@@ -65,13 +65,13 @@ public:
 	/// <param name="path">ファイル名</param>
 	/// <param name="key">キーワード
 	/// </param>
-	static SoundKey LoadWave(std::string path, SoundKey key);
+	static SoundKey LoadWave(const std::string& path, const SoundKey& key);
 	/// <summary>
 	/// 音声再生中かどうか
 	/// </summary>
 	/// <param name="key">設定したキーワード</param>
 	/// <returns>音声再生中かどうか</returns>
-	static bool IsPlaying(SoundKey key);
+	static bool IsPlaying(const SoundKey& key);
 	/// <summary>
 	/// 再生
 	/// </summary>
@@ -79,14 +79,14 @@ public:
 	/// <param name="loopFlag">ループ</param>
 	/// <param name="volum">音量
 	/// </param>
-	static void Play(SoundKey key, bool loopFlag = false, float volum = 1.0f);
+	static void Play(const SoundKey& key, bool loopFlag = false, float volum = 1.0f);
 	/// <summary>
 	/// すでに読み込んだ音源を返す
 	/// </summary>
 	/// <param name="key">キーワード</param>
-	static SoundData* GetSoundData(SoundKey key);
+	static SoundData* GetSoundData(const SoundKey& key);
 
-	static void Stop(SoundKey key);
+	static void Stop(const SoundKey& key);
 	
 	static void ReleaseAllSounds();
 

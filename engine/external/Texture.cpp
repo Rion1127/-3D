@@ -195,7 +195,7 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 }
 
-Texture* TextureManager::GetTexture(std::string name)
+Texture* TextureManager::GetTexture(const std::string& name)
 {
 	return texData[name].get();
 }

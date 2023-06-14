@@ -421,7 +421,7 @@ void Model::PreDraw()
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
-void Model::DrawOBJ(WorldTransform* worldTransform)
+void Model::DrawOBJ(const WorldTransform& worldTransform)
 {
 	lightGroup_->Draw(3);
 	for (auto& m : materials_)
@@ -435,7 +435,7 @@ void Model::DrawOBJ(WorldTransform* worldTransform)
 	}
 }
 
-void Model::DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle)
+void Model::DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle)
 {
 	for (auto& m : materials_)
 	{

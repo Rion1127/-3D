@@ -19,7 +19,7 @@ void Sprite::StaticIni()
 {
 }
 
-void Sprite::Ini(std::string guiname)
+void Sprite::Ini(const std::string& guiname)
 {
 	spriteNum_ = SAllNum;
 	Sprite::AddAllNum();
@@ -202,21 +202,6 @@ void Sprite::Ini(std::string guiname)
 	color_ = { 1,1,1,1 };
 	anchorPoint_ = { 0.5f,0.5f };
 #pragma endregion
-}
-
-void Sprite::SetPos(Vector2 pos)
-{
-	pos_ = pos;
-}
-
-void Sprite::SetRot(float rot)
-{
-	rot_ = rot;
-}
-
-void Sprite::SetScale(Vector2 scale)
-{
-	Scale_ = scale;
 }
 
 void Sprite::DrawImGui()

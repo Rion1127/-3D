@@ -24,7 +24,7 @@ void SoundManager::Init()
 	sndMap_.clear();
 }
 
-SoundKey SoundManager::LoadWave(std::string path, SoundKey key)
+SoundKey SoundManager::LoadWave(const std::string& path, const SoundKey& key)
 {
 	std::ifstream file;
 	
@@ -90,7 +90,7 @@ SoundKey SoundManager::LoadWave(std::string path, SoundKey key)
 	return key;
 }
 
-bool SoundManager::IsPlaying(SoundKey key) {
+bool SoundManager::IsPlaying(const SoundKey& key) {
 	IXAudio2SourceVoice* pSourceVoice = nullptr;//‚±‚ê•Û‘¶‚µ‚Æ‚­‚ÆŽ~‚ß‚ç‚ê‚é
 	SoundData* pSnd = &sndMap_[key];
 
@@ -100,7 +100,7 @@ bool SoundManager::IsPlaying(SoundKey key) {
 	return false;
 }
 
-void SoundManager::Play(SoundKey key, bool loopFlag, float volum)
+void SoundManager::Play(const SoundKey& key, bool loopFlag, float volum)
 {
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 	SoundData* pSnd = &sndMap_[key];
@@ -126,13 +126,13 @@ void SoundManager::Play(SoundKey key, bool loopFlag, float volum)
 	pSnd->sound_ = pSourceVoice;
 }
 
-SoundData* SoundManager::GetSoundData(SoundKey key)
+SoundData* SoundManager::GetSoundData(const SoundKey& key)
 {
 	
 	return &sndMap_.at(key);
 }
 
-void SoundManager::Stop(SoundKey key)
+void SoundManager::Stop(const SoundKey& key)
 {
 	SoundData* pSnd = &sndMap_[key];
 	if (pSnd->sound_ != nullptr) {

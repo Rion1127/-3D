@@ -18,7 +18,7 @@ void ShaderCompileFromFile(
 #pragma endregion
 
 //std::stringŒ^‚©‚çwchara_tŒ^‚É•ÏŠ·‚·‚é
-wchar_t* ConvertStrToWchar(const std::string string);
+wchar_t* ConvertStrToWchar(const std::string& string);
 
 // Œ»İ‚Ì‚ğƒ~ƒŠ•b’PˆÊ‚Åæ“¾
 uint32_t GetNowCount(void);
@@ -40,12 +40,12 @@ float GetNowTime(uint32_t startCount);
 	/// <returns></returns>
 float Clamp(float value, float max, float min);
 
-void MoveTo(Vector3 goal, float speed,WorldTransform& WT);
+void MoveTo(const Vector3& goal, float speed,WorldTransform& WT);
 
 
 
 template <class MapClass>
-inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(MapClass& map) 
+inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(const MapClass& map) 
 {
 	HRESULT result;
 	Microsoft::WRL::ComPtr<ID3D12Resource> buff;

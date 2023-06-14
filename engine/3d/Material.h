@@ -20,15 +20,15 @@ public:
 	void LoadTexture(const std::string& directoryPath);
 	void SetTexture(const Texture texture) { texture_ = texture; }
 
-	inline void SetAmbient(XMFLOAT3 Ambient) {
+	inline void SetAmbient(const XMFLOAT3& Ambient) {
 		ambient_ = Ambient;
 		constMapMat_->ambient = ambient_;
 	}
-	inline void SetDiffuse(XMFLOAT3 Diffuse) {
+	inline void SetDiffuse(const XMFLOAT3& Diffuse) {
 		diffuse_ = Diffuse;
 		constMapMat_->diffuse = diffuse_;
 	}
-	inline void SetSpecular(XMFLOAT3 Specular) {
+	inline void SetSpecular(const XMFLOAT3& Specular) {
 		specular_ = Specular;
 		constMapMat_->specular = specular_;
 	}

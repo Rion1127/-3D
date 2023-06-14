@@ -283,7 +283,7 @@ const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startInde
 }
 
 // 始点/終点の座標と ベクトルから、曲線の軌道上の座標を返す
-Vector3 GetPoint(Vector3 p0, Vector3 p1, Vector3 v0, Vector3 v1, float t)
+Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const Vector3& v1, float t)
 {
     Vector3 c0 = 2.0f * p0 + -2.0f * p1 + v0 + v1;
     Vector3 c1 = -3.0f * p0 + 3.0f * p1 + -2.0f * v0 - v1;

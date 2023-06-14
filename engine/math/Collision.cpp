@@ -6,7 +6,7 @@
 
 
 
-bool RayCollision(WorldTransform ray, WorldTransform obj)
+bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)
 {
 	//ƒŒƒC‚Ì“–‚½‚è”»’è
 

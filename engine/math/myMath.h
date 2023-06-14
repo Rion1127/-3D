@@ -78,7 +78,7 @@ float ConvertAngleToRadian(float angle);
 
 const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startIndex, const float t);
 // 始点/終点の座標と ベクトルから、曲線の軌道上の座標を返す
-Vector3 GetPoint(Vector3 p0, Vector3 p1, Vector3 v0, Vector3 v1, float t);
+Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const Vector3& v1, float t);
 
 float UpAndDown(float oneRoundTime, float range);
 

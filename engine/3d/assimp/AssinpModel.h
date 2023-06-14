@@ -9,10 +9,10 @@ class AssinpModel
 {
 public:
 	AssinpModel();
-	static void SetLightGroup(std::shared_ptr<LightGroup> lightGroup) { lightGroup_ = lightGroup; }
+	static void SetLightGroup(const std::shared_ptr<LightGroup>& lightGroup) { lightGroup_ = lightGroup; }
 	void Create(const wchar_t* modelFile);
 
-	void Draw(WorldTransform WT);
+	void Draw(const WorldTransform& WT);
 private:
 	std::vector<Mesh> meshes_;
 	std::vector<Material> materials_;

@@ -139,7 +139,7 @@ void Particle::ChangeColor(float x, float y, float z, float w)
 	//bVertices_.ChangeColor(x, y, z, w);
 }
 
-void Particle::ChangeColor(XMFLOAT4 color_)
+void Particle::ChangeColor(const XMFLOAT4& color)
 {
 	//bVertices_.ChangeColor(color_);
 }

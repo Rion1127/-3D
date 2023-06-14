@@ -39,7 +39,7 @@ public:
 
 	void SetGraphicsDescriptorTable(UINT descriptorSize);
 
-	Texture* GetTexture(std::string name);
+	Texture* GetTexture(const std::string& name);
 
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 

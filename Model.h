@@ -75,8 +75,8 @@ private:
 public:
 	static void PreDraw();
 
-	void DrawOBJ(WorldTransform* worldTransform);
-	void DrawOBJ(WorldTransform* worldTransform, uint32_t textureHandle);
+	void DrawOBJ(const WorldTransform& worldTransform);
+	void DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle);
 
 };
 

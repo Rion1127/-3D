@@ -29,7 +29,7 @@ public:
 
 
 	void ChangeColor(float x, float y, float z, float w);
-	void ChangeColor(XMFLOAT4 color_);
+	void ChangeColor(const XMFLOAT4& color_);
 
 	void Draw(uint32_t descriptorSize);
 

@@ -79,7 +79,7 @@ void PipelineManager::Ini() {
 
 }
 void PipelineManager::Create(
-	std::string pipelinename, CULL_MODE cullmode,
+	const std::string& pipelinename, CULL_MODE cullmode,
 	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
 	TEXTURE_ADDRESS_MODE uvMode)
 {
@@ -88,7 +88,7 @@ void PipelineManager::Create(
 			Create(BlendNum(i), cullmode, topologytype, depthWriteMasc, uvMode);
 	}
 }
-void PipelineManager::AddPipeline(std::string pipelinename)
+void PipelineManager::AddPipeline(const std::string& pipelinename)
 {
 	std::unique_ptr<PipelineObject> obj = std::move(std::make_unique<PipelineObject>());
 	obj->name_ = pipelinename;

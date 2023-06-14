@@ -21,34 +21,32 @@ public:
 
 	
 	static void StaticIni();
-	void Ini(std::string guiname = "");
+	void Ini(const std::string& guiname = "");
 	//座標を代入する
 	void SetPos(float x, float y) {
 		pos_.x = x;
 		pos_.y = y;
 	};
-	void SetPos(Vector2 pos);
+	void SetPos(const Vector2& pos) { pos_ = pos; }
 	//回転させる
-	void SetRot(float rot);
+	void SetRot(float rot) { rot_ = rot; }
 	//スケール設定
 	void SetScale(float x, float y) {
 		Scale_.x = x;
 		Scale_.y = y;
 	};
-	void SetScale(Vector2 scale);
+	void SetScale(const Vector2& scale) { Scale_ = scale; }
 	//画像の中心を決める
 	void SetAnchor(float x, float y) {
 		anchorPoint_.x = x;
 		anchorPoint_.y = y;
 	};
-	void SetAnchor(Vector2 pos) {
-		anchorPoint_ = pos;
-	};
+	void SetAnchor(const Vector2& anchorPoint) { anchorPoint_ = anchorPoint;}
 	//色変更
 	void ChangeColor(float x, float y, float z, float w) {
 		color_ = {x, y, z, w};
 	};
-	void ChangeColor(DirectX::XMFLOAT4 color) {
+	void ChangeColor(const XMFLOAT4& color) {
 		color_ = color;
 	};
 	//左右反転
@@ -58,9 +56,9 @@ public:
 	//表示フラグ
 	void SetInvisivle(bool invisivle) { isInvisible_ = invisivle; }
 	//画像左上変更
-	void SetTex_LeftTop(Vector2 pos) { textureLeftTop_ = pos; }
+	void SetTex_LeftTop(const Vector2& pos) { textureLeftTop_ = pos; }
 	//画像UV座標変更
-	void SetTex_Size(Vector2 pos) { textureSize_ = pos; }
+	void SetTex_Size(const Vector2& pos) { textureSize_ = pos; }
 	//テクスチャ
 	void SetTexture(Texture* texture) { texture_ = *texture; }
 

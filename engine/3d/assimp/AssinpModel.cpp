@@ -39,14 +39,14 @@ void AssinpModel::Create(const wchar_t* modelFile)
 	}
 }
 
-void AssinpModel::Draw(WorldTransform WT)
+void AssinpModel::Draw(const WorldTransform& WT)
 {
 	lightGroup_->Draw(3);
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		materials_[i].Draw(texture_[i].textureHandle);
 
-		importSetting_->meshes[i].Vertices.Draw(&WT, 0);
+		importSetting_->meshes[i].Vertices.Draw(WT, 0);
 	}
 }
 
