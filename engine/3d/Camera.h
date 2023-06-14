@@ -61,7 +61,7 @@ public:
 private:
 
 	// ビューポートのアスペクト比
-	const float aspectRatio_ = (float)16 / 9;
+	float aspectRatio_ = (float)16 / 9;
 
 	RDirectX* directX_ = nullptr;
 

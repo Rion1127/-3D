@@ -2,7 +2,7 @@
 #include "Texture.h"
 #include "DirectX.h"
 
-std::shared_ptr<LightGroup> AssinpModel::lightGroup_ = nullptr;
+LightGroup* AssinpModel::lightGroup_ = nullptr;
 
 AssinpModel::AssinpModel()
 {

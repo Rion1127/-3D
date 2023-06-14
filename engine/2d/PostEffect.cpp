@@ -275,12 +275,12 @@ void PostEffect::CreateTexBuff()
 void PostEffect::CreateSRV()
 {
 	HRESULT result;
-	//SRV用でスクリプタヒープ設定
+	//SRV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;;
 	srvDescHeapDesc.NumDescriptors = 1;
-	//SRV用でスクリプタヒープを生成
+	//SRV用デスクリプタヒープを生成
 	result = RDirectX::GetInstance()->GetDevice()->
 		CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
 	assert(SUCCEEDED(result));

@@ -9,7 +9,7 @@ class AssinpModel
 {
 public:
 	AssinpModel();
-	static void SetLightGroup(const std::shared_ptr<LightGroup>& lightGroup) { lightGroup_ = lightGroup; }
+	static void SetLightGroup(LightGroup* lightGroup) { lightGroup_ = lightGroup; }
 	void Create(const wchar_t* modelFile);
 
 	void Draw(const WorldTransform& WT);
@@ -21,7 +21,7 @@ private:
 
 	WorldTransform WorldTransform_;
 
-	static std::shared_ptr<LightGroup> lightGroup_;
+	static LightGroup* lightGroup_;
 public:
 	static const uint32_t MAX_BONES = 32;
 

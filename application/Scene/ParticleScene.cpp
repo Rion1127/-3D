@@ -26,7 +26,7 @@ void ParticleScene::Ini()
 	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
 	Model::SetLight(lightGroup);
-	AssinpModel::SetLightGroup(lightGroup);
+	AssinpModel::SetLightGroup(lightGroup.get());
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);

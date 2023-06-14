@@ -32,7 +32,6 @@ public:
 
 	void Draw()override;
 private:
-	Key* input_ = nullptr;
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
 	DebugCamera debugCamera;
@@ -51,10 +50,6 @@ private:
 
 
 	std::unique_ptr<Object3d> testObj;
-
-	std::vector<Mesh> meshes;
-	std::vector <uint32_t> texHandle_;
-	std::unique_ptr<ImportSettings> importSetting_;
 
 	WorldTransform testWT_;
 

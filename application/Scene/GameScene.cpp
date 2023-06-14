@@ -26,7 +26,7 @@ void GameScene::Ini()
 	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
 	Model::SetLight(lightGroup);
-	AssinpModel::SetLightGroup(lightGroup);
+	AssinpModel::SetLightGroup(lightGroup.get());
 
 	skyDome_ = std::move(std::make_unique<Object3d>());
 	skyDome_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
@@ -41,6 +41,7 @@ void GameScene::Ini()
 	const wchar_t* modelFile = L"Resources/boneTest/moveCube/moveCube.gltf";
 	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
 	//  L"Resources/FBX/untitled.glb"
+	std::vector<Mesh> meshes;
 	ImportSettings importSetting = {
 		modelFile,
 		meshes,
@@ -111,7 +112,7 @@ void GameScene::Update()
 
 	testSprite_.Update();
 
-	if (input_->TriggerKey(DIK_RETURN))
+	if (Key::TriggerKey(DIK_RETURN))
 	{
 		lightType_++;
 		if (lightType_ >= LIGHTTYPE::NUMEND_)lightType_ = 0;

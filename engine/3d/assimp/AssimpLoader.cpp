@@ -238,6 +238,12 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 		
 		aiMatrix4x4& m = pMesh->mBones[i]->mOffsetMatrix;
 		aiBone& bone = *pMesh->mBones[i];
+		
+		for (size_t j = 0; j < bone.mNumWeights; j++)
+		{
+			auto& weight = bone.mWeights[j];
+			int a = 0;
+		}
 		setting->boneData[BoneIndex].boneMatrix_ = {
 			m.a1, m.b1, m.c1, m.d1,	// “]’u
 			m.a2, m.b2, m.c2, m.d2,
@@ -248,3 +254,4 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 	}
 	
 }
+

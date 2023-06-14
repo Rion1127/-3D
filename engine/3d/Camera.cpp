@@ -7,7 +7,7 @@ Camera Camera::current_{};
 
 Camera::Camera()
 {
-
+	aspectRatio_ = WinAPI::GetWindowSize().x / WinAPI::GetWindowSize().y;
 	directX_ = RDirectX::GetInstance();
 
 	eye_ = { 0,0,-10 };
