@@ -12,10 +12,10 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	static const uint32_t SDirLightNum = 3;
-	static const uint32_t SPointLightNum = 3;
-	static const uint32_t SSpotLightNum = 3;
-	static const uint32_t SCircleShadowNum = 1;
+	static const uint32_t sDirLightNum = 3;
+	static const uint32_t sPointLightNum = 3;
+	static const uint32_t sSpotLightNum = 3;
+	static const uint32_t sCircleShadowNum = 1;
 
 	static void StaticInit();
 	//インスタンス生成
@@ -115,8 +115,7 @@ private:
 		//丸影
 		CircleShadow::ConstBufferData circleShadows[SCircleShadowNum];
 	};
-	static RDirectX* directX_;
-
+	
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuff_;
 	//環境光の色

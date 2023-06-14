@@ -91,8 +91,8 @@ public:
 	static void ReleaseAllSounds();
 
 private:
-	static ComPtr<IXAudio2> xAudio2_;
-	static IXAudio2MasteringVoice* masterVoice_;
-	static std::map<SoundKey, SoundData> sndMap_;
+	static ComPtr<IXAudio2> sxAudio2_;
+	static IXAudio2MasteringVoice* smasterVoice_;
+	static std::map<SoundKey, SoundData> ssndMap_;
 
 };

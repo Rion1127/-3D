@@ -1,7 +1,6 @@
 #include "DirectionalLight.h"
 #include <cassert>
 
-RDirectX* DirectionalLight::directX_ = nullptr;
 
 DirectionalLight* DirectionalLight::Create()
 {
@@ -14,7 +13,6 @@ DirectionalLight* DirectionalLight::Create()
 
 void DirectionalLight::StaticInit()
 {
-	DirectionalLight::directX_ = RDirectX::GetInstance();
 }
 
 void DirectionalLight::Init()
@@ -27,7 +25,8 @@ void DirectionalLight::Init()
 
 	HRESULT result;
 	// 定数バッファの生成
-	result = directX_->GetDevice()->CreateCommittedResource(
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuff_));
 	assert(SUCCEEDED(result));
@@ -48,7 +47,8 @@ void DirectionalLight::Update()
 
 void DirectionalLight::Draw(UINT rootParameterIndex)
 {
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(3, constBuff_->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(3, constBuff_->GetGPUVirtualAddress());
 }
 
 void DirectionalLight::TransferConstBuffer()

@@ -4,13 +4,13 @@
 #include "mInput.h"
 
 //DirectInputの初期化
-static IDirectInput8* directInput = nullptr;
+static IDirectInput8* sdirectInput = nullptr;
 
-IDirectInputDevice8* Key::keyboard_ = nullptr;
+IDirectInputDevice8* Key::skeyboard_ = nullptr;
 //の入力状態を取得する
-BYTE Key::keys_[256] = {};
+BYTE Key::skeys_[256] = {};
 //の入力状態を取得する
-BYTE Key::oldkeys_[256] = {};
+BYTE Key::soldkeys_[256] = {};
 
 #pragma region キーボード
 
@@ -21,19 +21,19 @@ void Key::InputIni()	//初期化
 	//DirectInputの初期化
 	result = DirectInput8Create(
 		WinAPI::GetInstance()->w_.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8,
-		(void**)&directInput, nullptr);
+		(void**)&sdirectInput, nullptr);
 	assert(SUCCEEDED(result));
 
 	//キーボードデバイスの生成
-	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard_, NULL);
+	result = sdirectInput->CreateDevice(GUID_SysKeyboard, &skeyboard_, NULL);
 	assert(SUCCEEDED(result));
 
 	//入力データ形式のセット
-	result = keyboard_->SetDataFormat(&c_dfDIKeyboard);	//標準形式
+	result = skeyboard_->SetDataFormat(&c_dfDIKeyboard);	//標準形式
 	assert(SUCCEEDED(result));
 
 	//排他制御レベルのセット
-	result = keyboard_->SetCooperativeLevel(
+	result = skeyboard_->SetCooperativeLevel(
 		WinAPI::GetInstance()->hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
@@ -42,33 +42,33 @@ void Key::InputIni()	//初期化
 	//DISCL_NOWINKEY		Windowsキーを無効化する 
 	
 	//キーボード情報の取得開始
-	keyboard_->Acquire();
+	skeyboard_->Acquire();
 }
 
 void Key::InputUpdata()	//アップデート
 {
 	for (uint32_t i = 0; i < 256; ++i)
 	{
-		oldkeys_[i] = keys_[i];
+		soldkeys_[i] = skeys_[i];
 	}
 	//キーボード情報の取得開始
-	keyboard_->Acquire();
-	keyboard_->GetDeviceState(sizeof(keys_), keys_);
+	skeyboard_->Acquire();
+	skeyboard_->GetDeviceState(sizeof(skeys_), skeys_);
 }
 //押しっぱなし
 bool Key::PushKey(UINT8 key)
 {
-	return keys_[key];
+	return skeys_[key];
 }
 //押した瞬間
 bool Key::TriggerKey(UINT8 key)
 {
-	return keys_[key] && !oldkeys_[key];
+	return skeys_[key] && !soldkeys_[key];
 }
 //離した瞬間
 bool Key::GetKeyReleased(UINT8 key)
 {
-	return !keys_[key] && oldkeys_[key];
+	return !skeys_[key] && soldkeys_[key];
 }
 #pragma endregion
 
@@ -87,7 +87,7 @@ void MouseInput::MouseIni()
 	winapi_ = WinAPI::GetInstance();
 	
 	//キーボードデバイスの生成
-	result = directInput->CreateDevice(GUID_SysMouse, &mouse_, NULL);
+	result = sdirectInput->CreateDevice(GUID_SysMouse, &mouse_, NULL);
 	assert(SUCCEEDED(result));
 	//入力データ形式のセット
 	result = mouse_->SetDataFormat(&c_dfDIMouse);	//標準形式

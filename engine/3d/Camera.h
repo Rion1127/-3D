@@ -47,7 +47,7 @@ public:
 	//Y軸周りのビルボード
 	XMMATRIX matBillboardY_;
 
-	static Camera current_;
+	static Camera scurrent_;
 
 	/// <summary>
 	/// カメラシェイク

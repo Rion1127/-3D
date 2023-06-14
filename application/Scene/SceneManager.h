@@ -15,25 +15,25 @@ public:
 	template <class NextScene>
 	//なぜかインラインで宣言しないとエラーが起こる
 	static inline void Transition() {
-		/*deletee*/ currentScene_.release();
-		currentScene_ = std::unique_ptr<NextScene>(new NextScene());
-		currentScene_->Ini();
+		/*deletee*/ scurrentScene_.release();
+		scurrentScene_ = std::unique_ptr<NextScene>(new NextScene());
+		scurrentScene_->Ini();
 	}
-	static void SetChangeStart(uint32_t sceneNum) {
-		if (isNext_ == false) {
+	static inline void SetChangeStart(uint32_t sceneNum) {
+		if (sisNext_ == false) {
 			
-			sceneNum_ = sceneNum;
-			isNext_ = true;
-			isDifferent = true;
+			ssceneNum_ = sceneNum;
+			sisNext_ = true;
+			sisDifferent = true;
 		}
 	}
 
-	static std::unique_ptr<EmptyScene> currentScene_;
+	static std::unique_ptr<EmptyScene> scurrentScene_;
 
 	
-	static uint32_t sceneNum_;
-	static bool isNext_;
-	static bool isDifferent;
+	static uint32_t ssceneNum_;
+	static bool sisNext_;
+	static bool sisDifferent;
 };
 
 

@@ -17,7 +17,7 @@ void SceneManager::Ini()
 
 void SceneManager::Update()
 {
-	currentScene_->Update();
+	scurrentScene_->Update();
 
 	
 }
@@ -25,8 +25,8 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	//ƒQ[ƒ€•`‰æ
-	currentScene_->Draw();
+	scurrentScene_->Draw();
 }
 
-std::unique_ptr<EmptyScene> SceneManager::currentScene_ = nullptr;
+std::unique_ptr<EmptyScene> SceneManager::scurrentScene_ = nullptr;
 

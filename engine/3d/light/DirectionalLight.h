@@ -40,9 +40,6 @@ public:
 		bool active;
 	};
 private:
-
-	static RDirectX* directX_;
-
 	ComPtr<ID3D12Resource> constBuff_;
 	ConstBufferData* constMap_;
 	//ライト光線方向（単位ベクトル）

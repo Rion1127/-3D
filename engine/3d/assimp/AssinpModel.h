@@ -21,7 +21,7 @@ private:
 
 	WorldTransform WorldTransform_;
 
-	static LightGroup* lightGroup_;
+	static LightGroup* slightGroup_;
 public:
 	static const uint32_t MAX_BONES = 32;
 

@@ -3,7 +3,7 @@
 #include "Util.h"
 #include "Camera.h"
 
-Camera Camera::current_{};
+Camera Camera::scurrent_{};
 
 Camera::Camera()
 {

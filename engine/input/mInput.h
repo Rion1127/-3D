@@ -21,11 +21,11 @@ public:
 	static bool GetKeyReleased(UINT8 key);
 
 private:
-	static IDirectInputDevice8* keyboard_;
+	static IDirectInputDevice8* skeyboard_;
 	//全キーの入力状態を取得する
-	static BYTE keys_[256];
+	static BYTE skeys_[256];
 	//全キーの入力状態を取得する
-	static BYTE oldkeys_[256];
+	static BYTE soldkeys_[256];
 };
 //マウス
 class MouseInput {
