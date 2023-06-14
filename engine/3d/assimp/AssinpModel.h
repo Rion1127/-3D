@@ -9,7 +9,7 @@ class AssinpModel
 {
 public:
 	AssinpModel();
-	static void SetLightGroup(LightGroup* lightGroup) { lightGroup_ = lightGroup; }
+	static void SetLightGroup(LightGroup* lightGroup) { slightGroup_ = lightGroup; }
 	void Create(const wchar_t* modelFile);
 
 	void Draw(const WorldTransform& WT);

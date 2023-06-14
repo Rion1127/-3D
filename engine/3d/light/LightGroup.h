@@ -107,13 +107,13 @@ private:
 		Vector3 ambientColor;
 		float pad1;
 		//平行光源用
-		DirectionalLight::ConstBufferData dirLights[SDirLightNum];
+		DirectionalLight::ConstBufferData dirLights[sDirLightNum];
 		//点光源用
-		PointLight::ConstBufferData pointLights_[SPointLightNum];
+		PointLight::ConstBufferData pointLights_[sPointLightNum];
 		//点光源用
-		SpotLight::ConstBufferData spotLights[SSpotLightNum];
+		SpotLight::ConstBufferData spotLights[sSpotLightNum];
 		//丸影
-		CircleShadow::ConstBufferData circleShadows[SCircleShadowNum];
+		CircleShadow::ConstBufferData circleShadows[sCircleShadowNum];
 	};
 	
 	//定数バッファ
@@ -121,13 +121,13 @@ private:
 	//環境光の色
 	Vector3 ambientColor_ = { 1,1,1 };
 	//平行光源の配列
-	DirectionalLight dirLights_[SDirLightNum];
+	DirectionalLight dirLights_[sDirLightNum];
 	//点光源の配列
-	PointLight pointLights_[SPointLightNum];
+	PointLight pointLights_[sPointLightNum];
 	//スポットライト
-	SpotLight spotLights_[SSpotLightNum];
+	SpotLight spotLights_[sSpotLightNum];
 	//丸影
-	CircleShadow circleShadows_[SCircleShadowNum];
+	CircleShadow circleShadows_[sCircleShadowNum];
 
 	//ダーティフラグ
 	bool dirty_ = false;

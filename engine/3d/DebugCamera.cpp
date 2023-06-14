@@ -29,9 +29,11 @@ void DebugCamera::Update()
 void DebugCamera::CameraMove()
 {
 	Vector3 proviUpVec = { 0,1,0 };
+	float speedRate =
+		viewProjection_.target_.z - viewProjection_.eye_.z * 0.001f;
 	Vector2 speed = {
-		mInput_->GetCursorMoveX() * 0.3f,
-		mInput_->GetCursorMoveY() * 0.3f
+		mInput_->GetCursorMoveX() * speedRate,
+		mInput_->GetCursorMoveY() * speedRate
 	};
 	//ƒJƒƒ‰‚ª’‹“_À•W‚æ‚è‰œ‚É‚¢‚é‚Æ‚«
 	if (viewProjection_.up_.y <= 0) {

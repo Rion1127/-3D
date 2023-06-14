@@ -2,7 +2,7 @@
 #include "Texture.h"
 #include "DirectX.h"
 
-LightGroup* AssinpModel::lightGroup_ = nullptr;
+LightGroup* AssinpModel::slightGroup_ = nullptr;
 
 AssinpModel::AssinpModel()
 {
@@ -41,7 +41,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 
 void AssinpModel::Draw(const WorldTransform& WT)
 {
-	lightGroup_->Draw(3);
+	slightGroup_->Draw(3);
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		materials_[i].Draw(texture_[i].textureHandle);

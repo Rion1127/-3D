@@ -1,9 +1,9 @@
 #include <cassert>
 #include "mSound.h"
 
-Microsoft::WRL::ComPtr<IXAudio2> SoundManager::xAudio2_;
-IXAudio2MasteringVoice* SoundManager::masterVoice_;
-std::map<SoundKey, SoundData> SoundManager::sndMap_;
+Microsoft::WRL::ComPtr<IXAudio2> SoundManager::sxAudio2_;
+IXAudio2MasteringVoice* SoundManager::smasterVoice_;
+std::map<SoundKey, SoundData> SoundManager::ssndMap_;
 
 std::string directoryPath_ = "Resources/BGM_SE/";
 
@@ -19,9 +19,9 @@ SoundManager* SoundManager::GetInstance()
 
 void SoundManager::Init()
 {
-	XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
-	xAudio2_->CreateMasteringVoice(&masterVoice_);
-	sndMap_.clear();
+	XAudio2Create(&sxAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	sxAudio2_->CreateMasteringVoice(&smasterVoice_);
+	ssndMap_.clear();
 }
 
 SoundKey SoundManager::LoadWave(const std::string& path, const SoundKey& key)
@@ -85,16 +85,16 @@ SoundKey SoundManager::LoadWave(const std::string& path, const SoundKey& key)
 	soundData.pBuffer_ = pBuffer_;
 	soundData.bufferSize_ = data.size;
 
-	sndMap_.emplace(key, soundData);
+	ssndMap_.emplace(key, soundData);
 
 	return key;
 }
 
 bool SoundManager::IsPlaying(const SoundKey& key) {
 	IXAudio2SourceVoice* pSourceVoice = nullptr;//‚±‚ê•Û‘¶‚µ‚Æ‚­‚ÆŽ~‚ß‚ç‚ê‚é
-	SoundData* pSnd = &sndMap_[key];
+	SoundData* pSnd = &ssndMap_[key];
 
-	xAudio2_->CreateSourceVoice(&pSourceVoice, &pSnd->wfex_);
+	sxAudio2_->CreateSourceVoice(&pSourceVoice, &pSnd->wfex_);
 	XAUDIO2_VOICE_STATE state{};
 	pSourceVoice->GetState(&state);
 	return false;
@@ -103,14 +103,14 @@ bool SoundManager::IsPlaying(const SoundKey& key) {
 void SoundManager::Play(const SoundKey& key, bool loopFlag, float volum)
 {
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	SoundData* pSnd = &sndMap_[key];
+	SoundData* pSnd = &ssndMap_[key];
 
 	if (pSnd->sound_ != nullptr)
 	{
 		pSnd->sound_->Stop();
 	}
 
-	xAudio2_->CreateSourceVoice(&pSourceVoice, &pSnd->wfex_);
+	sxAudio2_->CreateSourceVoice(&pSourceVoice, &pSnd->wfex_);
 
 	XAUDIO2_BUFFER buf{};
 
@@ -129,12 +129,12 @@ void SoundManager::Play(const SoundKey& key, bool loopFlag, float volum)
 SoundData* SoundManager::GetSoundData(const SoundKey& key)
 {
 	
-	return &sndMap_.at(key);
+	return &ssndMap_.at(key);
 }
 
 void SoundManager::Stop(const SoundKey& key)
 {
-	SoundData* pSnd = &sndMap_[key];
+	SoundData* pSnd = &ssndMap_[key];
 	if (pSnd->sound_ != nullptr) {
 		pSnd->sound_->Stop();
 	}
@@ -142,7 +142,7 @@ void SoundManager::Stop(const SoundKey& key)
 
 void SoundManager::ReleaseAllSounds()
 {
-	for (auto itr = sndMap_.begin(); itr != sndMap_.end(); itr++)
+	for (auto itr = ssndMap_.begin(); itr != ssndMap_.end(); itr++)
 	{
 		//’†g‚ª“ü‚Á‚Ä‚¢‚½‚ç‚·‚×‚ÄŽ~‚ß‚é
 		if (itr->second.sound_ != nullptr) {
@@ -150,6 +150,6 @@ void SoundManager::ReleaseAllSounds()
 		}
 		itr->second.Release();
 	}
-	sndMap_.clear();
+	ssndMap_.clear();
 }
 
