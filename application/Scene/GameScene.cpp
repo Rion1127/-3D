@@ -91,11 +91,6 @@ void GameScene::Update()
 	testSprite_.Update();
 
 	lightManager_->DebugUpdate();
-
-	if (Key::TriggerKey(DIK_A))
-	{
-		SoundManager::Play(testSound_, false, 0.3f);
-	}
 }
 
 void GameScene::Draw()
