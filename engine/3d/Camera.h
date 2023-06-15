@@ -61,10 +61,7 @@ public:
 private:
 
 	// ビューポートのアスペクト比
-	float aspectRatio_ = (float)16 / 9;
-
-	RDirectX* directX_ = nullptr;
-
+	float aspectRatio_;
 
 	//シェイクする前の場所
 	XMFLOAT3 originalPos_;

@@ -26,6 +26,7 @@ private:
 	static BYTE skeys_[256];
 	//全キーの入力状態を取得する
 	static BYTE soldkeys_[256];
+
 };
 //マウス
 class MouseInput {
@@ -72,8 +73,6 @@ private:
 
 	DIMOUSESTATE mouseState_;
 	DIMOUSESTATE prevmouseState_;
-	//HWND* hwnd_ = nullptr;
-	WinAPI* winapi_ = nullptr;
 };
 enum {
 	MOUSE_LEFT,

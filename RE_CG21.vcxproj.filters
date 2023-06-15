@@ -261,6 +261,9 @@
     <ClCompile Include="engine\3d\light\LightManager.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="engine\util\RRandom.cpp">
+      <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="engine\3d\light\LightManager.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\RRandom.h">
+      <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

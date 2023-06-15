@@ -44,24 +44,6 @@ void ParticleScene::Ini()
 	};
 	testModel_.Create(modelFile);
 	assimpObj_.SetModel(&testModel_);
-
-	//importSetting_ = std::move(std::make_unique<ImportSettings>(importSetting));
-
-	////AssimpLoader loader;
-	//AssimpLoader::GetInstance()->Load(*importSetting_);
-
-	//texHandle_.resize(meshes.size());
-	//for (int i = 0; i < importSetting_->meshes.size(); i++)
-	//{
-	//	importSetting_->meshes[i].Vertices.CreateBuffer();
-
-	//	std::string texturename = WStringToString(meshes[i].diffuseMap);
-	//	texHandle_[i] = textureM->LoadGraph(texturename);
-	//}
-
-	//testModel_.Create(modelFile);
-	//assimpObj_.SetModel(&testModel_);
-	
 }
 
 void ParticleScene::Update()

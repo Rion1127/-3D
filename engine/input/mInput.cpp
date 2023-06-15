@@ -84,7 +84,6 @@ MouseInput* MouseInput::GetInstance()
 void MouseInput::MouseIni()
 {
 	HRESULT result;
-	winapi_ = WinAPI::GetInstance();
 	
 	//キーボードデバイスの生成
 	result = sdirectInput->CreateDevice(GUID_SysMouse, &mouse_, NULL);
@@ -95,7 +94,7 @@ void MouseInput::MouseIni()
 
 	//排他制御レベルのセット
 	result = mouse_->SetCooperativeLevel(
-		winapi_->hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+		WinAPI::GetInstance()->hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 	//使っているフラグについて
 	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
@@ -111,7 +110,7 @@ void MouseInput::GetCursorPosition()
 	//スクリーンから見たマウスの座標を取得する
 	GetCursorPos(&p_);
 	//ウィンドウから見たマウスの座標を取得する
-	ScreenToClient(winapi_->hwnd_, &p_);
+	ScreenToClient(WinAPI::GetInstance()->hwnd_, &p_);
 	//前フレームの状態を代入する
 	prevmPos_ = mPos_;
 	//現フレームの座標を代入する

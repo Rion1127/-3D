@@ -44,7 +44,7 @@ struct SpotLight
 //丸影
 struct CircleShadow
 {
-    float3 dir;                 //東映方向の逆ベクトル
+    float3 dir;                 //投影方向の逆ベクトル
     float3 casterPos;           //キャスター座標
     float distanceCasterLight;  //キャスターとライトの距離
     float3 atten;               //距離減衰係数
