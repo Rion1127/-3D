@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "Collision.h"
 
+
 GameScene::~GameScene()
 {
 	
@@ -56,6 +57,8 @@ void GameScene::Ini()
 	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
 
 	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
+
+
 }
 
 void GameScene::Update()
