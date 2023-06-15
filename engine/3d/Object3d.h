@@ -37,9 +37,10 @@ public:
 	void SetPos(const Vector3& pos) { pos_ = pos; }
 	void SetScale(const Vector3& scale) { scale_ = scale; }
 	void SetRot(const Vector3& rot) { rot_ = rot; }
-
+	void SetParent(WorldTransform* p) { WT_.parent_ = p; }
 public:
 	//ÉQÉbÉ^Å[
-	WorldTransform GetTransform() { return WT_; }
+	WorldTransform* GetTransform() { return &WT_; }
+	WorldTransform* Getparent() { return WT_.parent_; }
 };
 

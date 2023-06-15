@@ -124,6 +124,12 @@
     <Filter Include="シェーダーファイル\application">
       <UniqueIdentifier>{73efd602-39ab-4be3-8b9a-dc3999c56683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\ソース ファイル\Loader">
+      <UniqueIdentifier>{55ee2df3-d631-4cfc-984e-85bfcf13f804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\ヘッダー ファイル\Loader">
+      <UniqueIdentifier>{33d8ce6c-e3ec-4b86-9b23-c62c56c15c43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -264,6 +270,9 @@
     <ClCompile Include="engine\util\RRandom.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
     </ClCompile>
+    <ClCompile Include="engine\external\JsonLoader.cpp">
+      <Filter>engine\ソース ファイル\Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -403,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="engine\util\RRandom.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\external\json.hpp">
+      <Filter>engine\ヘッダー ファイル\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\external\JsonLoader.h">
+      <Filter>engine\ヘッダー ファイル\Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
