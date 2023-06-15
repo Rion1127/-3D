@@ -14,6 +14,7 @@ Object3d::~Object3d()
 
 void Object3d::Init()
 {
+
 }
 
 void Object3d::Update()

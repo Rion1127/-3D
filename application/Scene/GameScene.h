@@ -61,5 +61,7 @@ private:
 	Sprite testSprite_;
 
 	SoundKey testSound_;
+
+	std::vector<Object3d*>objects_;
 };
 

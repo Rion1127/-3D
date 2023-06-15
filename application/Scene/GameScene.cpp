@@ -2,7 +2,7 @@
 #include "Easing.h"
 #include "SceneManager.h"
 #include "Collision.h"
-
+#include "JsonLoader.h"
 
 GameScene::~GameScene()
 {
@@ -58,7 +58,13 @@ void GameScene::Ini()
 
 	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
 
+	JsonLoader::GetInstance()->LoadFile("test.json");
 
+	JsonLoader::GetInstance()->SetObjects(&objects_, 0);
+	for (auto& obj : objects_)
+	{
+		obj->Init();
+	}
 }
 
 void GameScene::Update()
