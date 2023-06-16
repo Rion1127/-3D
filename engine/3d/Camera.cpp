@@ -121,10 +121,22 @@ void Camera::Update()
 	//カメラ回転行列
 	Matrix4 matCameraRot{};
 	//カメラ座標系→ワールド座標系の返還行列
-	matCameraRot.m[0][0] = cameraAxisX.x; matCameraRot.m[0][1] = cameraAxisX.y; matCameraRot.m[0][2] = cameraAxisX.z;
-	matCameraRot.m[1][0] = cameraAxisY.x; matCameraRot.m[1][1] = cameraAxisY.y; matCameraRot.m[1][2] = cameraAxisY.z;
-	matCameraRot.m[2][0] = cameraAxisZ.x; matCameraRot.m[2][1] = cameraAxisZ.y; matCameraRot.m[2][2] = cameraAxisZ.z;
-	matCameraRot.m[3][0] = 0; matCameraRot.m[3][1] = 0; matCameraRot.m[3][1] = 0; matCameraRot.m[3][3] = 1;
+	matCameraRot.m[0][0] = cameraAxisX.x;
+	matCameraRot.m[0][1] = cameraAxisX.y;
+	matCameraRot.m[0][2] = cameraAxisX.z;
+
+	matCameraRot.m[1][0] = cameraAxisY.x;
+	matCameraRot.m[1][1] = cameraAxisY.y;
+	matCameraRot.m[1][2] = cameraAxisY.z;
+
+	matCameraRot.m[2][0] = cameraAxisZ.x;
+	matCameraRot.m[2][1] = cameraAxisZ.y;
+	matCameraRot.m[2][2] = cameraAxisZ.z;
+
+	matCameraRot.m[3][0] = 0;
+	matCameraRot.m[3][1] = 0;
+	matCameraRot.m[3][2] = 0;
+	matCameraRot.m[3][3] = 1.f;
 	//転置により逆用列（逆回転）を計算
 	matView_.m[0][0] = matCameraRot.m[0][0];
 	matView_.m[0][1] = matCameraRot.m[1][0];
@@ -154,7 +166,9 @@ void Camera::Update()
 	//一つのベクトルにまとめる
 	Vector3 translation = { tX, tY, tZ };
 	//ビュー行列に平行移動成分を設定
-	matView_.m[3][0] = translation.x; matView_.m[3][1] = translation.y; matView_.m[3][2] = translation.z;
+	matView_.m[3][0] = translation.x;
+	matView_.m[3][1] = translation.y;
+	matView_.m[3][2] = translation.z;
 	matView_.m[3][3] = 1.f;
 	//全方向ビルボード行列
 	/*matBillboard_.m[0] = cameraAxisX;
