@@ -92,49 +92,48 @@ void Camera::Update()
 
 #pragma region ビュー行列
 			//視点座標
-	XMVECTOR eyePosition = XMLoadFloat3(&eye_);
+	Vector3 eyePosition = eye_;
 	//注視点座標
-	XMVECTOR targetPosition = XMLoadFloat3(&target_);
+	Vector3 targetPosition = target_;
 	//（仮の）上方向
-	XMVECTOR upVector = XMLoadFloat3(&up_);
+	Vector3 upVector = up_;
 
 	//カメラZ軸（視線方向）
-	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+	Vector3 cameraAxisZ = targetPosition- eyePosition;
 	//0ベクトルだと向きが定まらないので除外
-	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+	/*assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
 	assert(!XMVector3IsInfinite(cameraAxisZ));
 	assert(!XMVector3Equal(upVector, XMVectorZero()));
-	assert(!XMVector3IsInfinite(upVector));
+	assert(!XMVector3IsInfinite(upVector));*/
 	//ベクトルを正規化
-	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	cameraAxisZ = cameraAxisZ.normalize();
 	//カメラのX軸（右方向）
-	XMVECTOR cameraAxisX;
+	Vector3 cameraAxisX;
 	//X軸は上方向→Z軸の外積で求まる
-	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+	cameraAxisX = upVector.cross(cameraAxisZ);
 	//ベクトルを正規化
-	cameraAxisX = XMVector3Normalize(cameraAxisX);
+	cameraAxisX = cameraAxisX.normalize();
 	//カメラのY座標（上方向）
-	XMVECTOR cameraAxisY;
+	Vector3 cameraAxisY;
 	//Y軸はZ軸→X軸の外積で求まる
-	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
-	//cameraAxisY = XMVector3Normalize(cameraAxisY);
+	cameraAxisY = cameraAxisZ.cross(cameraAxisX);
 	//カメラ回転行列
-	XMMATRIX matCameraRot{};
+	Matrix4 matCameraRot{};
 	//カメラ座標系→ワールド座標系の返還行列
-	matCameraRot.r[0] = cameraAxisX;
-	matCameraRot.r[1] = cameraAxisY;
-	matCameraRot.r[2] = cameraAxisZ;
-	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
+	matCameraRot.m[0] = cameraAxisX;
+	matCameraRot.m[1] = cameraAxisY;
+	matCameraRot.m[2] = cameraAxisZ;
+	matCameraRot.m[3] = {0,0,0,1};
 	//転置により逆用列（逆回転）を計算
 	matView_ = XMMatrixTranspose(matCameraRot);
 	//視点座標に-1を賭けた座標
-	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+	Vector3 reverseEyePosition = XMVectorNegate(eyePosition);
 	//カメラの位置からワールド原点へのベクトル（カメラ座標系）
-	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
-	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
-	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
+	Vector3 tX = cameraAxisX.dot(reverseEyePosition);
+	Vector3 tY = cameraAxisY.dot(reverseEyePosition);
+	Vector3 tZ = cameraAxisZ.dot(reverseEyePosition);
 	//一つのベクトルにまとめる
-	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
+	FLOAT4 translation = { tX.x, tY.y, tZ.z, 1.0f };
 	//ビュー行列に平行移動成分を設定
 	matView_.r[3] = translation;
 

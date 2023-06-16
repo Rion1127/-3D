@@ -7,14 +7,16 @@
 #include "Material.h"
 #include "WorldTransform.h"
 #include <array>
+#include "Vector2.h"
+#include "Vector3.h"
 
 class Vertices
 {
 public:
 	struct VertexPosNormalUv {
-		XMFLOAT3 pos;		//xyz座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;		//uv座標
+		Vector3 pos;		//xyz座標
+		Vector3 normal;	//法線ベクトル
+		Vector2 uv;		//uv座標
 		std::array<uint32_t, 4> m_BoneIDs;
 		std::array<float,4> m_Weights;
 	};
@@ -29,9 +31,6 @@ public:
 	void AddIndex(const uint16_t& vertex) { indices_.push_back(vertex); }
 
 	size_t GetVertexCount() { return vertices_.size(); }
-
-	//void ChangeColor(float x, float y, float z, float w);
-	//void ChangeColor(XMFLOAT4 color_);
 
 	inline const std::vector<uint16_t>& GetIndices() { return indices_; }
 

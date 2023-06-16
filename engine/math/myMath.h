@@ -53,9 +53,43 @@ struct FLOAT3 {
 	
 };
 
+struct FLOAT4 {
+	float x;
+	float y;
+	float z;
+	float w;
+
+	FLOAT4();
+	FLOAT4(float x, float y, float z, float w);
+
+	//単項演算子オーバーロード
+	FLOAT4 operator+() const;
+	FLOAT4 operator-() const;
+	FLOAT4 operator=(const float v);
+	
+	FLOAT4 operator*(FLOAT4 v);
+
+	//代入演算子オーバーロード
+	FLOAT4& operator+=(const FLOAT4& v);
+	FLOAT4& operator-=(const FLOAT4& v);
+	FLOAT4& operator*=(float s);
+	FLOAT4& operator/=(float s);
+
+	FLOAT4& operator+=(const FLOAT2& v);
+	FLOAT4& operator-=(const FLOAT2& v);
+
+	//代入演算子オーバーロード
+	FLOAT4& operator+=(const Vector3& v);
+	FLOAT4& operator-=(const Vector3& v);
+	FLOAT4& operator*=(const Vector3& v);
+	FLOAT4& operator/=(const Vector3& v);
+	FLOAT4 operator=(const Vector3& v);
+
+};
+
 struct Matrix4 {
 	// 行x列
-	float m[4][4];
+	FLOAT4 m[4];
 
 	// コンストラクタ
 	Matrix4();

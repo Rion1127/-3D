@@ -26,7 +26,7 @@ public:
 	static const uint32_t MAX_BONES = 32;
 
 	struct ConstBufferDataSkin {
-		DirectX::XMMATRIX bones[MAX_BONES];
+		Matrix4 bones[MAX_BONES];
 	};
 };
 
