@@ -44,24 +44,6 @@ private:
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
-
-	std::unique_ptr<Object3d> skyDome_;
-
-	std::unique_ptr<Object3d> sphere_;
-
-
-	std::unique_ptr<Object3d> testObj;
-
-	WorldTransform testWT_;
-
-	AssinpModel testModel_;
-
-	AssimpObject3D assimpObj_;
-
-	Sprite testSprite_;
-
-	SoundKey testSound_;
-
 	std::vector<Object3d*>objects_;
 };
 

@@ -14,7 +14,7 @@ Object3d::~Object3d()
 
 void Object3d::Init()
 {
-
+	model_ = Model::CreateOBJ_uniptr("cube",true);
 }
 
 void Object3d::Update()
