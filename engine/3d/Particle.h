@@ -48,8 +48,8 @@ private:
 	Vertex* vertMap_ = nullptr;
 
 	struct ConstBufferData {
-		Matrix4 mat;
-		Matrix4 billBoardMat;
+		DirectX::XMMATRIX mat;
+		DirectX::XMMATRIX billBoardMat;
 	};
 
 	ComPtr<ID3D12Resource> constBuff_ = nullptr;

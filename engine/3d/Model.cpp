@@ -124,9 +124,9 @@ void Model::LoadOBJ(const std::string& modelname)
 
 	std::string line;	//ファイルの1行を入れる変数
 
-	std::vector<Vector3> positions; //頂点座標
-	std::vector<Vector3> normals;   // 法線ベクトル
-	std::vector<Vector2> texcoords; // テクスチャUV
+	std::vector<XMFLOAT3> positions; //頂点座標
+	std::vector<XMFLOAT3> normals;   // 法線ベクトル
+	std::vector<XMFLOAT2> texcoords; // テクスチャUV
 
 	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
 	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
@@ -155,7 +155,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "v")
 		{
 			// X,Y,Z座標読み込み
-			Vector3 position{};
+			XMFLOAT3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
@@ -165,7 +165,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "vn")
 		{
 			// X,Y,Z成分読み込み
-			Vector3 normal{};
+			XMFLOAT3 normal{};
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
@@ -177,7 +177,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "vt")
 		{
 			// U,V成分読み込み
-			Vector2 texcoord{};
+			XMFLOAT2 texcoord{};
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			// V方向反転
@@ -296,7 +296,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 
 		if (key == "Ka")
 		{
-			Vector3 ambient{};
+			XMFLOAT3 ambient{};
 
 			line_stream >> ambient.x;
 			line_stream >> ambient.y;
@@ -309,7 +309,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 		if (key == "Kd")
 		{
 			/*line_stream >> material->textureFilename_;*/
-			Vector3 diffuse{};
+			XMFLOAT3 diffuse{};
 			line_stream >> diffuse.x;
 			line_stream >> diffuse.y;
 			line_stream >> diffuse.z;
@@ -320,7 +320,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 		if (key == "Ks")
 		{
 			/*line_stream >> material->textureFilename_;*/
-			Vector3 specular{};
+			XMFLOAT3 specular{};
 			line_stream >> specular.x;
 			line_stream >> specular.y;
 			line_stream >> specular.z;
@@ -460,22 +460,22 @@ void Model::CalculateSmoothedVertexNormals()
 		//各面用の共通頂点コレクション
 		std::vector<unsigned short>& v = itr->second;
 		//前兆店の法線を平均する
-		Vector3 normal = {};
+		DirectX::XMVECTOR normal = {};
 		for (unsigned short index : v)
 		{
 			float x = vert_[0]->vertices_[index].normal.x;
 			float y = vert_[0]->vertices_[index].normal.y;
 			float z = vert_[0]->vertices_[index].normal.z;
 
-			normal += {x, y, z, };
+			normal += XMVectorSet(x, y, z, 0);
 		}
-		normal = normal.normalize() / (float)v.size();
+		normal = XMVector3Normalize(normal / (float)v.size());
 		//共通法線を使用するすべての頂点データに書き込む
 		for (unsigned short index : v)
 		{
-			float x = normal.x;
-			float y = normal.y;
-			float z = normal.z;
+			float x = normal.m128_f32[0];
+			float y = normal.m128_f32[1];
+			float z = normal.m128_f32[2];
 
 			vert_[0]->vertices_[index].normal = { x,y,z };
 			uint32_t a = 0;

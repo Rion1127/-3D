@@ -92,113 +92,93 @@ void Camera::Update()
 
 #pragma region ビュー行列
 			//視点座標
-	Vector3 eyePosition = eye_;
+	XMVECTOR eyePosition = XMLoadFloat3(&eye_);
 	//注視点座標
-	Vector3 targetPosition = target_;
+	XMVECTOR targetPosition = XMLoadFloat3(&target_);
 	//（仮の）上方向
-	Vector3 upVector = up_;
+	XMVECTOR upVector = XMLoadFloat3(&up_);
 
 	//カメラZ軸（視線方向）
-	Vector3 cameraAxisZ = targetPosition- eyePosition;
+	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
 	//0ベクトルだと向きが定まらないので除外
-	/*assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
 	assert(!XMVector3IsInfinite(cameraAxisZ));
 	assert(!XMVector3Equal(upVector, XMVectorZero()));
-	assert(!XMVector3IsInfinite(upVector));*/
+	assert(!XMVector3IsInfinite(upVector));
 	//ベクトルを正規化
-	cameraAxisZ = cameraAxisZ.normalize();
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
 	//カメラのX軸（右方向）
-	Vector3 cameraAxisX;
+	XMVECTOR cameraAxisX;
 	//X軸は上方向→Z軸の外積で求まる
-	cameraAxisX = upVector.cross(cameraAxisZ);
+	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
 	//ベクトルを正規化
-	cameraAxisX = cameraAxisX.normalize();
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
 	//カメラのY座標（上方向）
-	Vector3 cameraAxisY;
+	XMVECTOR cameraAxisY;
 	//Y軸はZ軸→X軸の外積で求まる
-	cameraAxisY = cameraAxisZ.cross(cameraAxisX);
+	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+	//cameraAxisY = XMVector3Normalize(cameraAxisY);
 	//カメラ回転行列
-	Matrix4 matCameraRot{};
+	XMMATRIX matCameraRot{};
 	//カメラ座標系→ワールド座標系の返還行列
-	matCameraRot.m[0] = cameraAxisX;
-	matCameraRot.m[1] = cameraAxisY;
-	matCameraRot.m[2] = cameraAxisZ;
-	matCameraRot.m[3] = {0,0,0,1};
+	matCameraRot.r[0] = cameraAxisX;
+	matCameraRot.r[1] = cameraAxisY;
+	matCameraRot.r[2] = cameraAxisZ;
+	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
 	//転置により逆用列（逆回転）を計算
-	matView_.m[0].x = matCameraRot.m[0].x;
-	matView_.m[0].y = matCameraRot.m[1].x;
-	matView_.m[0].z = matCameraRot.m[2].x;
-
-	matView_.m[1].x = matCameraRot.m[0].y;
-	matView_.m[1].y = matCameraRot.m[1].y;
-	matView_.m[1].z = matCameraRot.m[2].y;
-
-	matView_.m[2].x = matCameraRot.m[0].z;
-	matView_.m[2].y = matCameraRot.m[1].z;
-	matView_.m[2].z = matCameraRot.m[2].z;
+	matView_ = XMMatrixTranspose(matCameraRot);
 	//視点座標に-1を賭けた座標
-	Vector3 reverseEyePosition = eyePosition * -1;
+	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
 	//カメラの位置からワールド原点へのベクトル（カメラ座標系）
-	Vector3 tX = reverseEyePosition;
-	Vector3 tY = reverseEyePosition;
-	Vector3 tZ = reverseEyePosition;
+	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
+	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
+	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
 	//一つのベクトルにまとめる
-	FLOAT4 translation = { tX.x, tY.y, tZ.z, 1.0f };
+	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
 	//ビュー行列に平行移動成分を設定
-	matView_.m[3] = translation;
-	matView_.m[3].w = 1.f;
+	matView_.r[3] = translation;
 
 	//全方向ビルボード行列
-	matBillboard_.m[0] = cameraAxisX;
-	matBillboard_.m[1] = cameraAxisY;
-	matBillboard_.m[2] = cameraAxisZ;
-	matBillboard_.m[3] = {0,0,0,1};
+	matBillboard_.r[0] = cameraAxisX;
+	matBillboard_.r[1] = cameraAxisY;
+	matBillboard_.r[2] = cameraAxisZ;
+	matBillboard_.r[3] = XMVectorSet(0, 0, 0, 1);
 
 	//Y軸周りビルボード行列
 	//カメラXYZ軸
-	Vector3 ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
+	XMVECTOR ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
 	//X軸は共通
 	ybillCameraAxisX = cameraAxisX;
 	//Y軸はワールド座標系のY軸
-	ybillCameraAxisY = upVector.normalize();
+	ybillCameraAxisY = XMVector3Normalize(upVector);
 	//Z軸はX軸→Y軸の外積で求まる
-	ybillCameraAxisZ = cameraAxisX.cross(cameraAxisY);
+	ybillCameraAxisZ = XMVector3Cross(cameraAxisX, cameraAxisY);
 
 	////Y軸回りビルボード行列
-	matBillboardY_.m[0] = ybillCameraAxisX;
-	matBillboardY_.m[1] = ybillCameraAxisY;
-	matBillboardY_.m[2] = ybillCameraAxisZ;
-	matBillboardY_.m[3] = {0,0,0,1};
+	matBillboardY_.r[0] = ybillCameraAxisX;
+	matBillboardY_.r[1] = ybillCameraAxisY;
+	matBillboardY_.r[2] = ybillCameraAxisZ;
+	matBillboardY_.r[3] = XMVectorSet(0, 0, 0, 1);
 #pragma endregion
 	//カメラシェイクアップデート
 	ShakeUpdate();
 
 	//透視投影行列の計算
-	// 単位行列で初期化
+	matProjection_ = XMMatrixPerspectiveFovLH(
+		XMConvertToRadians(45.0f),
+		aspectRatio_,
+		0.1f, 1000.0f
+	);
 
-	float aspect = WinAPI::GetWindowSize().x / WinAPI::GetWindowSize().y;
-	float nearZ = 0.1f;
-	float farZ = 1000.f;
-
-	float scaleY = 1 / tanf(ConvertAngleToRadian(45) / 2);
-	float scaleX = 1 / tanf(ConvertAngleToRadian(45) / 2) / aspect;
-	float scaleZ = 1 / (farZ - nearZ) * farZ;
-	float TransZ = -nearZ / (farZ - nearZ) * farZ;
-
-	matProjection_.m[1].y = scaleY;
-	matProjection_.m[0].x = scaleX;
-	matProjection_.m[2].z = scaleZ;
-	matProjection_.m[3].z = TransZ;
-	matProjection_.m[2].w = 1;
 	
 }
 
-Matrix4 Camera::GetMatView()
+XMMATRIX Camera::GetMatView()
 {
 	return matView_;
 }
 
-Matrix4 Camera::GetMatProjection()
+XMMATRIX Camera::GetMatProjection()
 {
 	return matProjection_;
 }

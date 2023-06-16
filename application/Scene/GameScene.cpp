@@ -55,7 +55,7 @@ void GameScene::Ini()
 	testSprite_.SetAnchor({ 0,0 });
 	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
 
-	//testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
+	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
 }
 
 void GameScene::Update()
@@ -68,7 +68,7 @@ void GameScene::Update()
 	//ƒJƒƒ‰XV
 	debugCamera.Update();
 
-	//gameCamera.Update();
+	gameCamera.Update();
 	cameraUpdate();
 
 	assimpObj_.SetPos({ 0,0,0 });

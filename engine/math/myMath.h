@@ -53,43 +53,9 @@ struct FLOAT3 {
 	
 };
 
-struct FLOAT4 {
-	float x;
-	float y;
-	float z;
-	float w;
-
-	FLOAT4();
-	FLOAT4(float x, float y, float z, float w);
-
-	//単項演算子オーバーロード
-	FLOAT4 operator+() const;
-	FLOAT4 operator-() const;
-	FLOAT4 operator=(const float v);
-	
-	FLOAT4 operator*(FLOAT4 v);
-
-	//代入演算子オーバーロード
-	FLOAT4& operator+=(const FLOAT4& v);
-	FLOAT4& operator-=(const FLOAT4& v);
-	FLOAT4& operator*=(float s);
-	FLOAT4& operator/=(float s);
-
-	FLOAT4& operator+=(const FLOAT2& v);
-	FLOAT4& operator-=(const FLOAT2& v);
-
-	//代入演算子オーバーロード
-	FLOAT4& operator+=(const Vector3& v);
-	FLOAT4& operator-=(const Vector3& v);
-	FLOAT4& operator*=(const Vector3& v);
-	FLOAT4& operator/=(const Vector3& v);
-	FLOAT4 operator=(const Vector3& v);
-
-};
-
 struct Matrix4 {
 	// 行x列
-	FLOAT4 m[4];
+	float m[4][4];
 
 	// コンストラクタ
 	Matrix4();
@@ -102,20 +68,9 @@ struct Matrix4 {
 
 	void UnitMatrix();
 
-	
-
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
-	Matrix4& operator*(const Matrix4& m2);
 };
-Matrix4 ConvertScalingMat(const Vector3& scale);
-
-Matrix4 ConvertRotationXAxisMat(float angle);
-Matrix4 ConvertRotationYAxisMat(float angle);
-Matrix4 ConvertRotationZAxisMat(float angle);
-
-Matrix4 ConvertTranslationMat(const Vector3& pos);
-
 //ラジアンから角度
 float ConvertRadianToAngle(float radian);
 //角度からラジアン

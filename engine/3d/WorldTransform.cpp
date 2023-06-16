@@ -53,16 +53,16 @@ void WorldTransform::AddPosition(float x, float y, float z)
 
 void WorldTransform::Update(uint32_t isBillboard)
 {
-	Matrix4 matScale, matRot, matTrans;
+	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale = ConvertScalingMat({ scale_.x, scale_.y, scale_.z });
-	matRot.UnitMatrix();
-	matRot = ConvertRotationZAxisMat(rotation_.z);
-	matRot = ConvertRotationXAxisMat(rotation_.x);
-	matRot = ConvertRotationYAxisMat(rotation_.y);
-	matTrans = ConvertTranslationMat({
-		position_.x, position_.y, position_.z });
+	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(rotation_.z);
+	matRot *= XMMatrixRotationX(rotation_.x);
+	matRot *= XMMatrixRotationY(rotation_.y);
+	matTrans = XMMatrixTranslation(
+		position_.x, position_.y, position_.z);
 
 	
 	//クォータニオン
@@ -71,7 +71,7 @@ void WorldTransform::Update(uint32_t isBillboard)
 	matRot = q.UpdateMatrix();*/
 
 	//ワールド行列の合成
-	matWorld_.UnitMatrix();	//変形をリセット
+	matWorld_ = XMMatrixIdentity();	//変形をリセット
 	//ビルボード
 	if (isBillboard == 1) {
 		matWorld_ *= Camera::scurrent_.matBillboard_;
@@ -79,8 +79,9 @@ void WorldTransform::Update(uint32_t isBillboard)
 	else if (isBillboard == 2) {
 		matWorld_ *= Camera::scurrent_.matBillboardY_;
 	}
+
 	matWorld_ *= matScale;			//ワールド行列にスケーリングを反映
-	matWorld_ *= matRot;				//ワールド行列に回転を反映
+	matWorld_ *= matRot;				//ワールド行列に開店を反映
 	matWorld_ *= matTrans;			//ワールド行列に平行移動を反映
 
 	//親オブジェクトがあれば

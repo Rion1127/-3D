@@ -4,15 +4,14 @@ using namespace DirectX;
 #include "math.h"
 #include <d3d12.h>
 #include <wrl.h>
-#include "myMath.h"
 
 #include "DirectX.h"
 #include "Quaternion.h"
 
 //定数バッファ用データ構造体（３D変換行列）
 struct ConstBufferDataTransform {
-	Matrix4 mat; //3D変換行列
-	Matrix4 viewProj;	//ビューとプロジェクション合成行列
+	XMMATRIX mat; //3D変換行列
+	XMMATRIX viewProj;	//ビューとプロジェクション合成行列
 	Vector3 cameraPos;
 };
 
@@ -51,7 +50,7 @@ public:
 	Vector3 position_ = { 0,0,0 };
 private:
 	//ワールド変換行列
-	Matrix4 matWorld_;
+	XMMATRIX matWorld_;
 
 	//クォータニオン
 	Quaternion quaternion_ = { 0,1,0,0 };

@@ -8,9 +8,9 @@ using namespace DirectX;
 
 // 定数バッファ用データ構造体
 struct ConstVPBuff {
-	Matrix4 view;       // ワールド → ビュー変換行列
-	Matrix4 projection; // ビュー → プロジェクション変換行列
-	Vector3 cameraPos;  // カメラ座標（ワールド座標）
+	DirectX::XMMATRIX view;       // ワールド → ビュー変換行列
+	DirectX::XMMATRIX projection; // ビュー → プロジェクション変換行列
+	DirectX::XMFLOAT3 cameraPos;  // カメラ座標（ワールド座標）
 };
 
 class Camera {
@@ -32,20 +32,20 @@ public:
 	//初期化
 	void Update();
 
-	Matrix4 GetMatView();
-	Matrix4 GetMatProjection();
-	Vector3 eye_;
-	Vector3 target_;
-	Vector3 up_;
+	XMMATRIX GetMatView();
+	XMMATRIX GetMatProjection();
+	XMFLOAT3 eye_;
+	XMFLOAT3 target_;
+	XMFLOAT3 up_;
 
-	Matrix4 matView_{};
+	XMMATRIX matView_{};
 	//透視投影行列の計算
-	Matrix4 matProjection_{};
+	XMMATRIX matProjection_{};
 
 	//ビルボード行列
-	Matrix4 matBillboard_;
+	XMMATRIX matBillboard_;
 	//Y軸周りのビルボード
-	Matrix4 matBillboardY_;
+	XMMATRIX matBillboardY_;
 
 	static Camera scurrent_;
 
@@ -64,7 +64,7 @@ private:
 	float aspectRatio_;
 
 	//シェイクする前の場所
-	Vector3 originalPos_;
+	XMFLOAT3 originalPos_;
 	bool isShake_ = false;
 	uint32_t maxShakeTime_;
 	uint32_t shakeTime_ = 0;

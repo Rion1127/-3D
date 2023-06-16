@@ -16,6 +16,12 @@ public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
+	struct VertexPosNormalUv {
+		XMFLOAT3 pos;		//xyz座標
+		XMFLOAT3 normal;	//法線ベクトル
+		XMFLOAT2 uv;		//uv座標
+	};
+
 	// 名前
 	std::string name_;
 

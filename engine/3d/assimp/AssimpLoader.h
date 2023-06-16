@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "myMath.h"
 
 #include "Vertices.h"
 
@@ -20,7 +19,7 @@ struct BoneData {
 
 	uint32_t IDs[NUM_BONES_PER_VERTEX];
 	float Weights[NUM_BONES_PER_VERTEX];
-	Matrix4 boneMatrix_;
+	DirectX::XMMATRIX boneMatrix_;
 };
 
 struct ImportSettings // インポートするときのパラメータ
