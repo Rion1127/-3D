@@ -106,7 +106,7 @@ void Particle::Update(Camera VP)
 	HRESULT result;
 
 	constMatMap_->mat = VP.GetMatView() * VP.GetMatProjection();
-	constMatMap_->billBoardMat = /*VP.matBillboard*/ DirectX::XMMatrixIdentity();
+	constMatMap_->billBoardMat.UnitMatrix() /*= VP.matBillboard DirectX::XMMatrixIdentity()*/;
 
 
 	//頂点バッファへデータ送信

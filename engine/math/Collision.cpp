@@ -3,7 +3,8 @@
 #include <memory>
 #include "WorldTransform.h"
 #include "Collision.h"
-
+#include <DirectXMath.h>
+using namespace DirectX;
 
 
 bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)

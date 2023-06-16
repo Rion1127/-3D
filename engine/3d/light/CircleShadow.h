@@ -25,8 +25,8 @@ public:
 	void SetDistanceCasterLight(const float& distance) { ditanveCasterLight_ = distance; }
 	void SetAtten(const Vector3& atten) { this->atten_ = atten; }
 	void SetFactorAngle(const Vector2& angle) {
-		this->factorAngleCos_.x = cosf(ConvertAngleToRadian(angle.x));
-		this->factorAngleCos_.y = cosf(ConvertAngleToRadian(angle.y));
+		this->factorAngleCos_.x = cosf(Radian(angle.x));
+		this->factorAngleCos_.y = cosf(Radian(angle.y));
 	}
 	void SetActive(bool active) {this->active_ = active;}
 

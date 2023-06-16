@@ -53,16 +53,15 @@ void WorldTransform::AddPosition(float x, float y, float z)
 
 void WorldTransform::Update(uint32_t isBillboard)
 {
-	XMMATRIX matScale, matRot, matTrans;
+	Matrix4 matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation_.z);
-	matRot *= XMMatrixRotationX(rotation_.x);
-	matRot *= XMMatrixRotationY(rotation_.y);
-	matTrans = XMMatrixTranslation(
-		position_.x, position_.y, position_.z);
+	matScale = ConvertScalingMat(scale_);
+	matRot.UnitMatrix();
+	matRot *= ConvertRotationZAxisMat(rotation_.z);
+	matRot *= ConvertRotationXAxisMat(rotation_.x);
+	matRot *= ConvertRotationYAxisMat(rotation_.y);
+	matTrans = ConvertTranslationMat(position_);
 
 	
 	//クォータニオン
@@ -71,7 +70,7 @@ void WorldTransform::Update(uint32_t isBillboard)
 	matRot = q.UpdateMatrix();*/
 
 	//ワールド行列の合成
-	matWorld_ = XMMatrixIdentity();	//変形をリセット
+	matWorld_.UnitMatrix();//変形をリセット
 	//ビルボード
 	if (isBillboard == 1) {
 		matWorld_ *= Camera::scurrent_.matBillboard_;

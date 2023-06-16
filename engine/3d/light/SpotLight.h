@@ -24,8 +24,8 @@ public:
 	void SetLightColor(const Vector3& lightcolor) { this->lightColor_ = lightcolor; }
 	void SetLightAtten(const Vector3& lightAtten) { this->lightAtten_ = lightAtten; }
 	void SetLightFactorAngle(const Vector2& lightFactorAngle) {
-		this->lightFactorAngleCos_.x = cosf(ConvertAngleToRadian(lightFactorAngle.x));
-		this->lightFactorAngleCos_.y = cosf(ConvertAngleToRadian(lightFactorAngle.y));
+		this->lightFactorAngleCos_.x = cosf(Radian(lightFactorAngle.x));
+		this->lightFactorAngleCos_.y = cosf(Radian(lightFactorAngle.y));
 	}
 	void SetActive(bool active) { this->active_ = active; }
 	bool GetActive() { return active_; }

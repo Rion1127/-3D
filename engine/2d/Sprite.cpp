@@ -248,7 +248,7 @@ void Sprite::DrawImGui()
 	if (ImGui::CollapsingHeader("Rotation"))
 	{
 		float rot = rot_;
-		ImGui::SliderFloat("Rot", &rot, 0.0f, ConvertAngleToRadian(360), "x = %.3f");
+		ImGui::SliderFloat("Rot", &rot, 0.0f, Radian(360), "x = %.3f");
 		rot_ = rot;
 	}
 

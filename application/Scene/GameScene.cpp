@@ -68,7 +68,7 @@ void GameScene::Update()
 	//ƒJƒƒ‰XV
 	debugCamera_.Update();
 
-	gameCamera_.Update();
+	//gameCamera_.Update();
 	cameraUpdate();
 
 	assimpObj_.SetPos({ 0,0,0 });

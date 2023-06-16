@@ -70,11 +70,21 @@ struct Matrix4 {
 
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
+	Matrix4 operator*(const Matrix4& m2);
 };
+
+Matrix4 ConvertScalingMat(Vector3 scale);		// スケーリング行列を返す関数
+Matrix4 ConvertRotationXAxisMat(float angle);	// 回転行列ｘ軸を返す関数
+Matrix4 ConvertRotationYAxisMat(float angle);	// 回転行列ｙ軸を返す関数
+Matrix4 ConvertRotationZAxisMat(float angle);	// 回転行列ｚ軸を返す関数
+Matrix4 ConvertTranslationMat(const Vector3& pos);	// 平行移動を返す関数
+
+
+
 //ラジアンから角度
-float ConvertRadianToAngle(float radian);
+float Angle(float radian);
 //角度からラジアン
-float ConvertAngleToRadian(float angle);
+float Radian(float angle);
 
 const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startIndex, const float t);
 // 始点/終点の座標と ベクトルから、曲線の軌道上の座標を返す
