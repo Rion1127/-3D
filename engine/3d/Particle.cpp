@@ -13,12 +13,8 @@
 #include "PipelineManager.h"
 #include "PipelineManager.h"
 
-//コマンドリストを格納する
-RDirectX* Particle::directX_ = nullptr;
 
 Particle::Particle() {
-	directX_ = RDirectX::GetInstance();
-
 	Ini();
 
 	PipelineManager::AddPipeline("Particle");
@@ -41,7 +37,7 @@ Particle* Particle::GetInstance()
 
 void Particle::Ini()
 {
-	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * CvertexCount);
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * CVERTEX_COUNT);
 
 	////頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapprop{};
@@ -56,7 +52,7 @@ void Particle::Ini()
 	resdesc.SampleDesc.Count = 1;
 	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	directX_->GetDevice()->CreateCommittedResource(
+	RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapprop,
 		D3D12_HEAP_FLAG_NONE,
 		&resdesc,
@@ -84,13 +80,13 @@ void Particle::PreDraw()
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	//パイプラインに設定した内容で描画を始める
-	directX_->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetPipelineState(PipelineManager::GetPipelineObjects("Particle")->GetPipelineStateAlpha());
-	directX_->GetCommandList()->
+	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootSignature(PipelineManager::GetPipelineObjects("Particle")->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	directX_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
+	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
 }
 
 void Particle::SetBlend(uint32_t blend)
@@ -150,11 +146,11 @@ void Particle::Draw(uint32_t descriptorSize)
 		SetGraphicsDescriptorTable(descriptorSize);
 
 	// 頂点バッファビューの設定コマンド
-	directX_ ->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
+	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
 	//commandList->IASetIndexBuffer(&ibView);
 	//定数バッファビュー(CBV)の設定コマンド
-	directX_->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());
 	//描画コマンド
-	directX_->GetCommandList()->DrawInstanced((UINT)activeCount_, 1, 0, 0);
+	RDirectX::GetInstance()->GetCommandList()->DrawInstanced((UINT)activeCount_, 1, 0, 0);
 }
