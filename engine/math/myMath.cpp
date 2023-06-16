@@ -237,6 +237,81 @@ Matrix4 Matrix4::operator*(const Matrix4& m2)
 	};
 }
 
+Matrix4 Matrix4::Inverse()
+{
+	float sweepMat[4][8] = {};
+	float tmepNum = 0;
+
+	// 掃き出し行列の初期化
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			// 引数でもらった行列（左 4 * 4）
+			sweepMat[i][j] = m[i][j];
+
+			// 単位行列（右 4 * 4）
+			sweepMat[i][j + 4] = (i == j) ? 1.0f : 0.0f;
+		}
+	}
+
+	// 掃き出し法
+	for (int i = 0; i < 4; i++)
+	{
+		// 最大成分を探索する
+		float max = fabsf(sweepMat[i][i]);
+		int maxIndex = i;
+		for (int j = i + 1; j < 4; j++)
+		{
+			if (max < fabsf(sweepMat[i][i]))
+			{
+				max = fabsf(sweepMat[i][i]);
+				maxIndex = j;
+			}
+		}
+		// 逆行列求めるかどうか
+		if (fabsf(sweepMat[maxIndex][i]) <= 1.e-50)
+		{
+			// 求めれない場合は単位行列を返す
+			Matrix4 identity;
+			identity.UnitMatrix();
+			return identity;
+		}
+
+		// 対象となる行列の対角成分を1にする
+		tmepNum = 1 / sweepMat[i][i];
+		for (int j = 0; j < 8; j++)
+		{
+			sweepMat[i][j] *= tmepNum;
+		}
+
+		// 対象となる行列の対角成分以外を0にするため
+		for (int j = 0; j < 4; j++)
+		{
+			if (i == j) continue;
+
+			tmepNum = -sweepMat[j][i];
+			for (int k = 0; k < 8; k++)
+			{
+				sweepMat[j][k] += sweepMat[i][k] * tmepNum;
+			}
+		}
+	}
+
+	// 逆行列を返す
+	Matrix4 inverseMat;
+	inverseMat.UnitMatrix();
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			inverseMat.m[i][j] = sweepMat[i][j + 4];
+		}
+	}
+
+	return inverseMat;
+}
+
 Matrix4 ConvertScalingMat(Vector3 scale)
 {
 	return

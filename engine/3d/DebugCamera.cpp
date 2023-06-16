@@ -1,6 +1,7 @@
 #include "DebugCamera.h"
 #include <DirectXMath.h>
 #include <WinUser.h>
+#include <imgui.h>
 
 void DebugCamera::DebugCameraIni()
 {
@@ -24,6 +25,30 @@ void DebugCamera::Update()
 		CameraMove();
 		viewProjection_.Update();
 	}
+	/*ImGui::Begin("debugCamera");
+	static float pos[3] = {
+		viewProjection_.eye_.x,
+		viewProjection_.eye_.y,
+		viewProjection_.eye_.z,
+	};
+	static float target[3] = {
+		viewProjection_.target_.x,
+		viewProjection_.target_.y,
+		viewProjection_.target_.z,
+	};
+	ImGui::SliderFloat3("pos", pos, -200.f, 200.f);
+	ImGui::SliderFloat3("target", target, -200.f, 200.f);
+
+
+	ImGui::End();
+
+	viewProjection_.eye_.x = pos[0];
+	viewProjection_.eye_.y = pos[1];
+	viewProjection_.eye_.z = pos[2];
+
+	viewProjection_.target_.x = target[0];
+	viewProjection_.target_.y = target[1];
+	viewProjection_.target_.z = target[2];*/
 }
 
 void DebugCamera::CameraMove()

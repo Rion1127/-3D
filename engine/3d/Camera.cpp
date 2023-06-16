@@ -120,41 +120,57 @@ void Camera::Update()
 	//cameraAxisY = XMVector3Normalize(cameraAxisY);
 	//カメラ回転行列
 	Matrix4 matCameraRot{};
-	//カメラ座標系→ワールド座標系の返還行列
-	matCameraRot.m[0][0] = cameraAxisX.x; matCameraRot.m[0][1] = cameraAxisX.y; matCameraRot.m[0][2] = cameraAxisX.z;
-	matCameraRot.m[1][0] = cameraAxisY.x; matCameraRot.m[1][1] = cameraAxisY.y; matCameraRot.m[1][2] = cameraAxisY.z;
-	matCameraRot.m[2][0] = cameraAxisZ.x; matCameraRot.m[2][1] = cameraAxisZ.y; matCameraRot.m[2][2] = cameraAxisZ.z;
-	matCameraRot.m[3][0] = 0; matCameraRot.m[3][1] = 0; matCameraRot.m[3][1] = 0; matCameraRot.m[3][3] = 1;
-	//転置により逆用列（逆回転）を計算
+	//カメラ座標系→ワールド座標系の変換行列
+	matCameraRot.m[0][0] = cameraAxisX.x;
+	matCameraRot.m[0][1] = cameraAxisX.y;
+	matCameraRot.m[0][2] = cameraAxisX.z;
+
+	matCameraRot.m[1][0] = cameraAxisY.x;
+	matCameraRot.m[1][1] = cameraAxisY.y;
+	matCameraRot.m[1][2] = cameraAxisY.z;
+
+	matCameraRot.m[2][0] = cameraAxisZ.x;
+	matCameraRot.m[2][1] = cameraAxisZ.y;
+	matCameraRot.m[2][2] = cameraAxisZ.z;
+
+	matCameraRot.m[3][0] = 0;
+	matCameraRot.m[3][1] = 0;
+	matCameraRot.m[3][2] = 0;
+	matCameraRot.m[3][3] = 1;
+	//転置して代入
+
 	matView_.m[0][0] = matCameraRot.m[0][0];
-	matView_.m[0][1] = matCameraRot.m[1][0];
-	matView_.m[0][2] = matCameraRot.m[2][0];
-	matView_.m[0][3] = matCameraRot.m[3][0];
-
 	matView_.m[1][0] = matCameraRot.m[0][1];
-	matView_.m[1][1] = matCameraRot.m[1][1];
-	matView_.m[1][2] = matCameraRot.m[2][1];
-	matView_.m[1][3] = matCameraRot.m[3][1];
-
 	matView_.m[2][0] = matCameraRot.m[0][2];
-	matView_.m[2][1] = matCameraRot.m[1][2];
-	matView_.m[2][2] = matCameraRot.m[2][2];
-	matView_.m[2][3] = matCameraRot.m[3][2];
-
 	matView_.m[3][0] = matCameraRot.m[0][3];
+
+	matView_.m[0][1] = matCameraRot.m[1][0];
+	matView_.m[1][1] = matCameraRot.m[1][1];
+	matView_.m[2][1] = matCameraRot.m[1][2];
 	matView_.m[3][1] = matCameraRot.m[1][3];
+
+	matView_.m[0][2] = matCameraRot.m[2][0];
+	matView_.m[1][2] = matCameraRot.m[2][1];
+	matView_.m[2][2] = matCameraRot.m[2][2];
 	matView_.m[3][2] = matCameraRot.m[2][3];
+
+	matView_.m[0][3] = matCameraRot.m[3][0];
+	matView_.m[1][3] = matCameraRot.m[3][1];
+	matView_.m[2][3] = matCameraRot.m[3][2];
 	matView_.m[3][3] = matCameraRot.m[3][3];
+	
 	//視点座標に-1を賭けた座標
 	Vector3 reverseEyePosition = eyePosition * -1;
 	//カメラの位置からワールド原点へのベクトル（カメラ座標系）
-	float tX = reverseEyePosition.x;
-	float tY = reverseEyePosition.y;
-	float tZ = reverseEyePosition.z;
+	float tX = cameraAxisX.dot(reverseEyePosition);
+	float tY = cameraAxisY.dot(reverseEyePosition);
+	float tZ = cameraAxisZ.dot(reverseEyePosition);
 	//一つのベクトルにまとめる
 	Vector3 translation = { tX, tY, tZ };
 	//ビュー行列に平行移動成分を設定
-	matView_.m[3][0] = translation.x; matView_.m[3][1] = translation.y; matView_.m[3][2] = translation.z;
+	matView_.m[3][0] = translation.x;
+	matView_.m[3][1] = translation.y;
+	matView_.m[3][2] = translation.z;
 	matView_.m[3][3] = 1.f;
 	//全方向ビルボード行列
 	/*matBillboard_.m[0] = cameraAxisX;
@@ -180,17 +196,10 @@ void Camera::Update()
 #pragma endregion
 	//カメラシェイクアップデート
 	ShakeUpdate();
-
-	////透視投影行列の計算
-	//matProjection_ = XMMatrixPerspectiveFovLH(
-	//	XMConvertToRadians(45.0f),
-	//	aspectRatio_,
-	//	0.1f, 1000.0f
-	//);
 	
-	float scaleY = 1 / tanf(Radian(45) / 2);
-	float scaleX = 1 / tanf(Radian(45) / 2) / aspectRatio_;
-	float scaleZ = 1 / (1000.0f - 0.1f) * 1000.0f;
+	float scaleY = 1.f / tanf(Radian(45) / 2);
+	float scaleX = 1.f / tanf(Radian(45) / 2) / aspectRatio_;
+	float scaleZ = 1.f / (1000.0f - 0.1f) * 1000.0f;
 	float TransZ = -0.1f / (1000.0f - 0.1f) * 1000.0f;
 
 	matProjection_.m[1][1] = scaleY;
