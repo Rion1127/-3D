@@ -16,11 +16,11 @@ void GameScene::Ini()
 	Model::Ini();
 	Sprite::StaticIni();
 	//デバッグカメラ初期化
-	debugCamera.DebugCameraIni();
+	debugCamera_.DebugCameraIni();
 
-	gameCamera.SetEyePos(Vector3(0, 8, -20));
-	gameCamera.SetTarget(Vector3(0, 0, 0));
-	gameCamera.Update();
+	gameCamera_.SetEyePos(Vector3(0, 8, -20));
+	gameCamera_.SetTarget(Vector3(0, 0, 0));
+	gameCamera_.Update();
 	
 	lightManager_ = std::make_shared<LightManager>();
 	Model::SetLight(lightManager_->GetLightGroup());
@@ -60,15 +60,15 @@ void GameScene::Ini()
 
 void GameScene::Update()
 {
-	Camera::scurrent_.eye_ = debugCamera.GetViewProjection()->eye_;
-	Camera::scurrent_.up_ = debugCamera.GetViewProjection()->up_;
-	Camera::scurrent_.target_ = debugCamera.GetViewProjection()->target_;
+	Camera::scurrent_.eye_ = debugCamera_.GetViewProjection()->eye_;
+	Camera::scurrent_.up_ = debugCamera_.GetViewProjection()->up_;
+	Camera::scurrent_.target_ = debugCamera_.GetViewProjection()->target_;
 	Camera::scurrent_.Update();
 
 	//カメラ更新
-	debugCamera.Update();
+	debugCamera_.Update();
 
-	gameCamera.Update();
+	gameCamera_.Update();
 	cameraUpdate();
 
 	assimpObj_.SetPos({ 0,0,0 });

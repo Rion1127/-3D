@@ -35,11 +35,11 @@ public:
 private:
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
-	DebugCamera debugCamera;
+	DebugCamera debugCamera_;
 	
 	void CheckAllCollision();	//‚·‚×‚Ä‚Ì“–‚½‚è”»’è
 
-	Camera gameCamera;
+	Camera gameCamera_;
 	void cameraUpdate();
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
