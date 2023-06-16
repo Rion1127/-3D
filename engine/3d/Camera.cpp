@@ -127,21 +127,21 @@ void Camera::Update()
 	//転置により逆用列（逆回転）を計算
 	matView_ = XMMatrixTranspose(matCameraRot);
 	//視点座標に-1を賭けた座標
-	Vector3 reverseEyePosition = XMVectorNegate(eyePosition);
+	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
 	//カメラの位置からワールド原点へのベクトル（カメラ座標系）
-	Vector3 tX = cameraAxisX.dot(reverseEyePosition);
-	Vector3 tY = cameraAxisY.dot(reverseEyePosition);
-	Vector3 tZ = cameraAxisZ.dot(reverseEyePosition);
+	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
+	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
+	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
 	//一つのベクトルにまとめる
-	FLOAT4 translation = { tX.x, tY.y, tZ.z, 1.0f };
+	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
 	//ビュー行列に平行移動成分を設定
 	matView_.r[3] = translation;
 
 	//全方向ビルボード行列
-	matBillboard_.r[0] = cameraAxisX;
-	matBillboard_.r[1] = cameraAxisY;
-	matBillboard_.r[2] = cameraAxisZ;
-	matBillboard_.r[3] = XMVectorSet(0, 0, 0, 1);
+	matBillboard_.m[0] = cameraAxisX;
+	matBillboard_.m[1] = cameraAxisY;
+	matBillboard_.m[2] = cameraAxisZ;
+	matBillboard_.m[3] = {0,0,0,1};
 
 	//Y軸周りビルボード行列
 	//カメラXYZ軸
