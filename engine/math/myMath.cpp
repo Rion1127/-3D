@@ -192,34 +192,94 @@ Matrix4::Matrix4(
 
 void Matrix4::UnitMatrix()
 {
-	for (uint32_t i = 0; i < 4; i++) {
-		m[i] = 0.0f;
-	}
+
+	m[0] = { 1,0,0,0 };
+	m[1] = { 0,1,0,0 };
+	m[2] = { 0,0,1,0 };
+	m[3] = { 0,0,0,1 };
 }
 
 Matrix4& Matrix4::operator*=(const Matrix4& m2)
 {
-	m[0].x = m[0].x* m2.m[0].x + m[0].y * m2.m[1].x + m[0].z * m2.m[2].x + m[0].w * m2.m[3].x;
-	m[0].y = m[0].x* m2.m[0].y + m[0].y * m2.m[1].y + m[0].z * m2.m[2].y + m[0].w * m2.m[3].y;
-	m[0].z = m[0].x* m2.m[0].z + m[0].y * m2.m[1].z + m[0].z * m2.m[2].z + m[0].w * m2.m[3].z;
-	m[0].w = m[0].x* m2.m[0].w + m[0].y * m2.m[1].w + m[0].z * m2.m[2].w + m[0].w * m2.m[3].w;
+	*this = *this * m2;
+	return *this;
+}
+Matrix4& Matrix4::operator*(const Matrix4& m2)
+{
+	m[0].x = m[0].x * m2.m[0].x + m[0].y * m2.m[1].x + m[0].z * m2.m[2].x + m[0].w * m2.m[3].x;
+	m[0].y = m[0].x * m2.m[0].y + m[0].y * m2.m[1].y + m[0].z * m2.m[2].y + m[0].w * m2.m[3].y;
+	m[0].z = m[0].x * m2.m[0].z + m[0].y * m2.m[1].z + m[0].z * m2.m[2].z + m[0].w * m2.m[3].z;
+	m[0].w = m[0].x * m2.m[0].w + m[0].y * m2.m[1].w + m[0].z * m2.m[2].w + m[0].w * m2.m[3].w;
 
-	m[1].x = m[1].x* m2.m[0].x + m[1].y * m2.m[1].x + m[1].z * m2.m[2].x + m[1].w * m2.m[3].x;
-	m[1].y = m[1].x* m2.m[0].y + m[1].y * m2.m[1].y + m[1].z * m2.m[2].y + m[1].w * m2.m[3].y;
-	m[1].z = m[1].x* m2.m[0].z + m[1].y * m2.m[1].z + m[1].z * m2.m[2].z + m[1].w * m2.m[3].z;
-	m[1].w = m[1].x* m2.m[0].w + m[1].y * m2.m[1].w + m[1].z * m2.m[2].w + m[1].w * m2.m[3].w;
+	m[1].x = m[1].x * m2.m[0].x + m[1].y * m2.m[1].x + m[1].z * m2.m[2].x + m[1].w * m2.m[3].x;
+	m[1].y = m[1].x * m2.m[0].y + m[1].y * m2.m[1].y + m[1].z * m2.m[2].y + m[1].w * m2.m[3].y;
+	m[1].z = m[1].x * m2.m[0].z + m[1].y * m2.m[1].z + m[1].z * m2.m[2].z + m[1].w * m2.m[3].z;
+	m[1].w = m[1].x * m2.m[0].w + m[1].y * m2.m[1].w + m[1].z * m2.m[2].w + m[1].w * m2.m[3].w;
 
-	m[2].x = m[2].x* m2.m[0].x + m[2].y * m2.m[1].x + m[2].z * m2.m[2].x + m[2].w * m2.m[3].x;
-	m[2].y = m[2].x* m2.m[0].y + m[2].y * m2.m[1].y + m[2].z * m2.m[2].y + m[2].w * m2.m[3].y;
-	m[2].z = m[2].x* m2.m[0].z + m[2].y * m2.m[1].z + m[2].z * m2.m[2].z + m[2].w * m2.m[3].z;
-	m[2].w = m[2].x* m2.m[0].w + m[2].y * m2.m[1].w + m[2].z * m2.m[2].w + m[2].w * m2.m[3].w;
+	m[2].x = m[2].x * m2.m[0].x + m[2].y * m2.m[1].x + m[2].z * m2.m[2].x + m[2].w * m2.m[3].x;
+	m[2].y = m[2].x * m2.m[0].y + m[2].y * m2.m[1].y + m[2].z * m2.m[2].y + m[2].w * m2.m[3].y;
+	m[2].z = m[2].x * m2.m[0].z + m[2].y * m2.m[1].z + m[2].z * m2.m[2].z + m[2].w * m2.m[3].z;
+	m[2].w = m[2].x * m2.m[0].w + m[2].y * m2.m[1].w + m[2].z * m2.m[2].w + m[2].w * m2.m[3].w;
 
-	m[3].x = m[3].x* m2.m[0].x + m[3].y * m2.m[1].x + m[3].z * m2.m[2].x + m[3].w * m2.m[3].x;
-	m[3].y = m[3].x* m2.m[0].y + m[3].y * m2.m[1].y + m[3].z * m2.m[2].y + m[3].w * m2.m[3].y;
-	m[3].z = m[3].x* m2.m[0].z + m[3].y * m2.m[1].z + m[3].z * m2.m[2].z + m[3].w * m2.m[3].z;
-	m[3].w = m[3].x* m2.m[0].w + m[3].y * m2.m[1].w + m[3].z * m2.m[2].w + m[3].w * m2.m[3].w;
+	m[3].x = m[3].x * m2.m[0].x + m[3].y * m2.m[1].x + m[3].z * m2.m[2].x + m[3].w * m2.m[3].x;
+	m[3].y = m[3].x * m2.m[0].y + m[3].y * m2.m[1].y + m[3].z * m2.m[2].y + m[3].w * m2.m[3].y;
+	m[3].z = m[3].x * m2.m[0].z + m[3].y * m2.m[1].z + m[3].z * m2.m[2].z + m[3].w * m2.m[3].z;
+	m[3].w = m[3].x * m2.m[0].w + m[3].y * m2.m[1].w + m[3].z * m2.m[2].w + m[3].w * m2.m[3].w;
 
 	return *this;
+}
+
+Matrix4 ConvertScalingMat(const Vector3& scale)
+{
+	return
+	{
+		scale.x,0,0,0,
+		0,scale.y,0,0,
+		0,0,scale.z,0,
+		0,0,0,1
+	};
+}
+
+Matrix4 ConvertRotationXAxisMat(float angle)
+{
+	return
+	{
+		1,0,0,0,
+		0, cosf(angle),sinf(angle),0,
+		0,-sinf(angle),cosf(angle),0,
+		0,0,0,1
+	};
+}
+Matrix4 ConvertRotationYAxisMat(float angle)
+{
+	return
+	{
+		cosf(angle),0,-sinf(angle),0,
+		0,1,0,0,
+		sinf(angle),0, cosf(angle),0,
+		0,0,0,1
+	};
+}
+Matrix4 ConvertRotationZAxisMat(float angle)
+{
+	return
+	{
+		 cosf(angle),sinf(angle),0,0,
+		-sinf(angle),cosf(angle),0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+}
+
+Matrix4 ConvertTranslationMat(const Vector3& pos)
+{
+	return
+	{
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		pos.x,pos.y,pos.z,1
+	};
 }
 #pragma endregion
 

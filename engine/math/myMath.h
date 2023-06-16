@@ -102,9 +102,20 @@ struct Matrix4 {
 
 	void UnitMatrix();
 
+	
+
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
+	Matrix4& operator*(const Matrix4& m2);
 };
+Matrix4 ConvertScalingMat(const Vector3& scale);
+
+Matrix4 ConvertRotationXAxisMat(float angle);
+Matrix4 ConvertRotationYAxisMat(float angle);
+Matrix4 ConvertRotationZAxisMat(float angle);
+
+Matrix4 ConvertTranslationMat(const Vector3& pos);
+
 //ラジアンから角度
 float ConvertRadianToAngle(float radian);
 //角度からラジアン
