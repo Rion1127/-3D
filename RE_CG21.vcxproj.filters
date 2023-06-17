@@ -240,7 +240,7 @@
     <ClCompile Include="engine\3d\assimp\AssimpObject3D.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\assimp\AssinpModel.cpp">
+    <ClCompile Include="engine\3d\assimp\AssimpModel.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\PostEffect.cpp">
@@ -371,7 +371,7 @@
     <ClInclude Include="application\Particle\ParticleManager.h">
       <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="engine\3d\assimp\AssinpModel.h">
+    <ClInclude Include="engine\3d\assimp\AssimpModel.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpLoader.h">

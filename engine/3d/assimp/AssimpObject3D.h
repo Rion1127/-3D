@@ -1,10 +1,10 @@
 #pragma once
-#include "AssinpModel.h"
+#include "AssimpModel.h"
 #include "WorldTransform.h"
 class AssimpObject3D
 {
 public:
-	void SetModel(AssinpModel* model) { model_ = model; }
+	void SetModel(AssimpModel* model) { model_ = model; }
 
 	void Update();
 
@@ -12,7 +12,7 @@ public:
 	void Draw();
 
 private:
-	AssinpModel* model_ = nullptr;
+	AssimpModel* model_ = nullptr;
 	WorldTransform worldTransform_;
 
 public:

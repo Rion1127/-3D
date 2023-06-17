@@ -54,7 +54,7 @@ private:
 
 	WorldTransform testWT_;
 
-	AssinpModel testModel_;
+	AssimpModel testModel_;
 
 	AssimpObject3D assimpObj_;
 };

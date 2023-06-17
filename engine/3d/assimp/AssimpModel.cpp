@@ -1,14 +1,14 @@
-#include "AssinpModel.h"
+#include "AssimpModel.h"
 #include "Texture.h"
 #include "DirectX.h"
 
-LightGroup* AssinpModel::slightGroup_ = nullptr;
+LightGroup* AssimpModel::slightGroup_ = nullptr;
 
-AssinpModel::AssinpModel()
+AssimpModel::AssimpModel()
 {
 }
 
-void AssinpModel::Create(const wchar_t* modelFile)
+void AssimpModel::Create(const wchar_t* modelFile)
 {
 	ImportSettings importSetting = {
 		modelFile,
@@ -39,7 +39,7 @@ void AssinpModel::Create(const wchar_t* modelFile)
 	}
 }
 
-void AssinpModel::Draw(const WorldTransform& WT)
+void AssimpModel::Draw(const WorldTransform& WT)
 {
 	slightGroup_->Draw(3);
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)

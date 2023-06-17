@@ -92,15 +92,15 @@ bool AssimpLoader::Load(ImportSettings* setting)
 	//ˆÈ‰º‚Ìƒtƒ‰ƒO‚Ì”’l‚ð‘ã“ü‚µ‚Ä‚¢‚­
 	uint32_t flag = 0;
 	/*flag |= aiProcess_Triangulate;
-	flag |= aiProcess_PreTransformVertices;
+	
 	flag |= aiProcess_CalcTangentSpace;
 	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_GenUVCoords;
 	flag |= aiProcess_RemoveRedundantMaterials;
-	flag |= aiProcess_OptimizeMeshes;
-	flag |= aiProcess_LimitBoneWeights;*/
+	flag |= aiProcess_OptimizeMeshes;*/
 
 	flag |= aiProcess_Triangulate;
+	flag |= aiProcess_PreTransformVertices;
 	flag |= aiProcess_JoinIdenticalVertices;
 	flag |= aiProcess_CalcTangentSpace;
 	flag |= aiProcess_GenSmoothNormals;
@@ -129,8 +129,9 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		const auto pMesh = scene->mMeshes[i];
 		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
 		const auto pMaterial = scene->mMaterials[i];
-		LoadTexture(setting->filename, meshes[i], pMaterial);
-
+		if (scene->mNumMaterials > i) {
+			LoadTexture(setting->filename, meshes[i], pMaterial);
+		}
 		LoadBones(i, scene->mMeshes[i],setting);
 		//if (scene->mMeshes[i]->mBones != nullptr)
 		//{
@@ -212,10 +213,10 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 		auto dir = GetDirectoryPath(filename);
 		auto file = std::string(path.C_Str());
 		
-		std::wstring filename = dir + ToWideString(file);
+		std::wstring filename_ = dir + ToWideString(file);
 
-		filename = ReplaceExtension(filename,"tga");
-		dst.diffuseMap = filename;
+		filename_ = ReplaceExtension(filename_,"tga");
+		dst.diffuseMap = filename_;
 	}
 	else
 	{

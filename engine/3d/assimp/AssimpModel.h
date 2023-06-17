@@ -5,10 +5,10 @@
 #include "LightGroup.h"
 #include <memory>
 #include "Material.h"
-class AssinpModel
+class AssimpModel
 {
 public:
-	AssinpModel();
+	AssimpModel();
 	static void SetLightGroup(LightGroup* lightGroup) { slightGroup_ = lightGroup; }
 	void Create(const wchar_t* modelFile);
 
