@@ -43,7 +43,7 @@ void GameScene::Update()
 {
 	Camera::scurrent_ = debugCamera.GetViewProjection();
 
-	//Camera::scurrent_= &gameCamera;
+	Camera::scurrent_= &gameCamera;
 	Camera::scurrent_->UpdateLookTo();
 
 	//ƒJƒƒ‰XV

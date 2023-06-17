@@ -29,8 +29,9 @@ public:
 	void SetUpVec(float x, float y, float z);
 	void SetUpVec(Vector3 upVec);
 	void MoveTo(Vector3 goal, float speed);
-	
+	//座標と注視点座標で行列計算
 	void UpdateLookAt();
+	//座標とオイラー角で行列計算(こっちはデバッグカメラが対応していないため、バグる)
 	void UpdateLookTo();
 
 	
