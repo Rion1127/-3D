@@ -1,5 +1,3 @@
-#include <DirectXMath.h>
-using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3d12.h>
@@ -169,7 +167,7 @@ void Sprite::Ini(const std::string& guiname)
 	result = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial_);
 	assert(SUCCEEDED(result));
 	//値を書き込むと自動的に転送される
-	constMapMaterial_->color = XMFLOAT4(1, 1, 1, 1.0f);
+	constMapMaterial_->color = Color(1, 1, 1, 1.0f);
 #pragma endregion
 
 #pragma region トランスフォーム
@@ -191,12 +189,15 @@ void Sprite::Ini(const std::string& guiname)
 	result = constBuffTransform_->Map(0, nullptr, (void**)&constMapTransform_);
 	assert(SUCCEEDED(result));
 	//単位行列を代入
-	constMapTransform_->mat = XMMatrixIdentity();
+	constMapTransform_->mat.UnitMatrix();
 
 	// 射影行列計算
-	matProjection_ = XMMatrixOrthographicOffCenterLH(
-		0.0f, WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y, 0.0f, 0.0f, 1.0f);
-
+	matProjection_ = {
+		2 / WinAPI::GetWindowSize().x,0,0,0,
+		0,-2 / WinAPI::GetWindowSize().y,0,0,
+		0,0,1,0,
+		-1,1,0,1
+	};
 	//スケール
 	Scale_ = { 1.f,1.f };
 	color_ = { 1,1,1,1 };
@@ -263,10 +264,10 @@ void Sprite::Update()
 	}
 
 	// ワールド行列の更新
-	matWorld_ = XMMatrixIdentity();
-	matWorld_ *= XMMatrixScaling(Scale_.x, Scale_.y, 0);
-	matWorld_ *= XMMatrixRotationZ(rot_);
-	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
+	matWorld_.UnitMatrix();
+	matWorld_ *= ConvertScalingMat({ Scale_.x, Scale_.y, 0 });
+	matWorld_ *= ConvertRotationZAxisMat(rot_);
+	matWorld_ *= ConvertTranslationMat({ pos_.x, pos_.y, 0.0f });
 
 	// 定数バッファにデータ転送
 	constMapMaterial_->color = color_;
@@ -330,10 +331,10 @@ void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float L
 	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
 
 	// ワールド行列の更新
-	matWorld_ = XMMatrixIdentity();
-	matWorld_ *= XMMatrixScaling(Scale_.x, Scale_.y, 0);
-	matWorld_ *= XMMatrixRotationZ(rot_);
-	matWorld_ *= XMMatrixTranslation(pos_.x, pos_.y, 0.0f);
+	matWorld_.UnitMatrix();
+	matWorld_ *= ConvertScalingMat({ Scale_.x, Scale_.y, 0 });
+	matWorld_ *= ConvertRotationZAxisMat(rot_);
+	matWorld_ *= ConvertTranslationMat({ pos_.x, pos_.y, 0.0f });
 
 	// 定数バッファにデータ転送
 	constMapMaterial_->color = color_;

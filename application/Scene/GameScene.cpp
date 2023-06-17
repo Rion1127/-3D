@@ -56,6 +56,8 @@ void GameScene::Ini()
 	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
 
 	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
+
+	
 }
 
 void GameScene::Update()
@@ -123,10 +125,8 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	Sprite::PreDraw();
-	//testSprite_.Draw();
-	//testSprite_.DrawImGui();
-	//testSprite_.DrawImGui();
-	
+	testSprite_.Draw();
+	testSprite_.DrawImGui();
 }
 
 void GameScene::CheckAllCollision()

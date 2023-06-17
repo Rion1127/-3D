@@ -5,17 +5,13 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 #include <imgui.h>
-#include <DirectXMath.h>
 #include "Vector2.h"
 #include "Texture.h"
+#include "Color.h"
+#include "myMath.h"
 class Sprite
 {
 public:
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -46,7 +42,7 @@ public:
 	void ChangeColor(float x, float y, float z, float w) {
 		color_ = {x, y, z, w};
 	};
-	void ChangeColor(const XMFLOAT4& color) {
+	void ChangeColor(const Color& color) {
 		color_ = color;
 	};
 	//左右反転
@@ -93,8 +89,8 @@ protected:
 
 #pragma region 頂点データ
 	struct Vertex {
-		XMFLOAT3 pos;
-		XMFLOAT2 uv;
+		Vector3 pos;
+		Vector2 uv;
 	};
 	enum VertNum {
 		LB,	//左下
@@ -123,22 +119,22 @@ protected:
 	ComPtr<ID3D12GraphicsCommandList> commandList_;
 	//定数バッファ用データ構造体
 	struct ConstBufferDataMaterial {
-		XMFLOAT4 color;
+		Color color;
 	};
 	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 
 	struct ConstBufferDataTransform {
-		XMMATRIX mat;
+		Matrix4 mat;
 	};
 	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
-	XMMATRIX matProjection_;
+	Matrix4 matProjection_;
 
 	
-	DirectX::XMMATRIX matWorld_{};// ワールド行列
+	Matrix4 matWorld_{};// ワールド行列
 	
-	DirectX::XMFLOAT4 color_;//色
+	Color color_;//色
 	
 	float rot_;				//回転
 	Vector2 pos_;			//座標

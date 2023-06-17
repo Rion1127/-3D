@@ -61,5 +61,6 @@ private:
 	Sprite testSprite_;
 
 	SoundKey testSound_;
+
 };
 

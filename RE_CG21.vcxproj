@@ -56,6 +56,7 @@
     <ClCompile Include="engine\3d\Camera.cpp" />
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
+    <ClCompile Include="engine\util\Color.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,7 @@
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
     <ClInclude Include="engine\REngine.h" />
+    <ClInclude Include="engine\util\Color.h" />
     <ClInclude Include="engine\util\RRandom.h" />
   </ItemGroup>
   <ItemGroup>
