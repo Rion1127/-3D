@@ -18,7 +18,7 @@ void ParticleScene::Ini()
 
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
-	gameCamera.Update();
+	gameCamera.UpdateLookAt();
 	//useVP = &gameCamera;
 	useVP = debugCamera.GetViewProjection();
 	useVP->SetOriginalPos();
@@ -48,15 +48,15 @@ void ParticleScene::Ini()
 
 void ParticleScene::Update()
 {
-	Camera::scurrent_.eye_ = debugCamera.GetViewProjection()->eye_;
-	Camera::scurrent_.up_ = debugCamera.GetViewProjection()->up_;
-	Camera::scurrent_.target_ = debugCamera.GetViewProjection()->target_;
-	Camera::scurrent_.Update();
+	Camera::scurrent_->eye_ = debugCamera.GetViewProjection()->eye_;
+	Camera::scurrent_->up_ = debugCamera.GetViewProjection()->up_;
+	Camera::scurrent_->target_ = debugCamera.GetViewProjection()->target_;
+	Camera::scurrent_->UpdateLookAt();
 	//ƒJƒƒ‰XV
 	if (Key::PushKey(DIK_LCONTROL)) {
 		debugCamera.Update();
 	}
-	gameCamera.Update();
+	gameCamera.UpdateLookAt();
 
 
 	WT_.Update();

@@ -416,6 +416,9 @@
     <ClInclude Include="engine\external\JsonLoader.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="engine\external\json.hpp">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

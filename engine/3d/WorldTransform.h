@@ -36,6 +36,8 @@ public:
 	/// <param name="isBillboard">0 = 無し; 1 = ビルボードあり; 2 = Y軸ビルボード</param>
 	void Update(uint32_t isBillboard = 0);
 
+	Matrix4 GetMatWorld() { return matWorld_; }
+
 	//定数バッファ（行列用）
 	ComPtr<ID3D12Resource> constBuffTransform_;
 	//定数バッファマップ（行列用）

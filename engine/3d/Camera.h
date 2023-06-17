@@ -4,6 +4,7 @@
 #pragma comment(lib, "d3d12.lib")
 #include "DirectX.h"
 #include "myMath.h"
+#include "WorldTransform.h"
 
 // 定数バッファ用データ構造体
 struct ConstVPBuff {
@@ -28,26 +29,28 @@ public:
 	void SetUpVec(float x, float y, float z);
 	void SetUpVec(Vector3 upVec);
 	void MoveTo(Vector3 goal, float speed);
-	//初期化
-	void Update();
+	
+	void UpdateLookAt();
+	void UpdateLookTo();
 
-	Matrix4 GetMatView();
-	Matrix4 GetMatProjection();
+	
 	Vector3 eye_;
 	Vector3 target_;
 	Vector3 up_;
+	Vector3 rot_;
+
+	WorldTransform WT_;
 
 	Matrix4 matView_{};
 	//透視投影行列の計算
 	Matrix4 matProjection_{};
-
 	//ビルボード行列
 	Matrix4 matBillboard_;
 	//Y軸周りのビルボード
 	Matrix4 matBillboardY_;
 
-	static Camera scurrent_;
-
+	static Camera* scurrent_;
+public:
 	/// <summary>
 	/// カメラシェイク
 	/// </summary>
@@ -57,7 +60,12 @@ public:
 	void ShakeUpdate();
 	void SetOriginalPos();
 	bool GetIsShake() { return isShake_; }
+public:
+	Matrix4 GetMatView();
+	Matrix4 GetMatProjection();
+	
 private:
+	void UpdateMatProjection();
 	// ビューポートのアスペクト比
 	float aspectRatio_;
 

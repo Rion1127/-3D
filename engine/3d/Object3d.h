@@ -35,5 +35,9 @@ public:
 public:
 	//ÉQÉbÉ^Å[
 	WorldTransform GetTransform() { return WT_; }
+	Vector3 GetPos() { return pos_; }
+	Vector3 GetRot() { return rot_; }
+	Vector3 GetScale() { return scale_; }
+	Model* GetModel() { return model_.get(); }
 };
 

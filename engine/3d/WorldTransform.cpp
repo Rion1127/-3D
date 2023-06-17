@@ -73,10 +73,10 @@ void WorldTransform::Update(uint32_t isBillboard)
 	matWorld_.UnitMatrix();//変形をリセット
 	//ビルボード
 	if (isBillboard == 1) {
-		matWorld_ *= Camera::scurrent_.matBillboard_;
+		matWorld_ *= Camera::scurrent_->matBillboard_;
 	}
 	else if (isBillboard == 2) {
-		matWorld_ *= Camera::scurrent_.matBillboardY_;
+		matWorld_ *= Camera::scurrent_->matBillboardY_;
 	}
 
 	matWorld_ *= matScale;			//ワールド行列にスケーリングを反映
@@ -90,12 +90,14 @@ void WorldTransform::Update(uint32_t isBillboard)
 	}
 
 	//定数バッファへデータ転送
-	constMapTransform_->mat = matWorld_;
-	constMapTransform_->viewProj = Camera::scurrent_.GetMatView() * Camera::scurrent_.GetMatProjection();
-	constMapTransform_->cameraPos = {
-		Camera::scurrent_.eye_.x,
-		Camera::scurrent_.eye_.y,
-		Camera::scurrent_.eye_.z
-	};
+	if (Camera::scurrent_ != nullptr) {
+		constMapTransform_->mat = matWorld_;
+		constMapTransform_->viewProj = Camera::scurrent_->GetMatView() * Camera::scurrent_->GetMatProjection();
+		constMapTransform_->cameraPos = {
+			Camera::scurrent_->eye_.x,
+			Camera::scurrent_->eye_.y,
+			Camera::scurrent_->eye_.z
+		};
+	}
 }
 

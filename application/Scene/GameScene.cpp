@@ -21,7 +21,7 @@ void GameScene::Ini()
 
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
-	gameCamera.Update();
+	gameCamera.UpdateLookAt();
 	
 	lightManager_ = std::make_shared<LightManager>();
 	Model::SetLight(lightManager_->GetLightGroup());
@@ -32,6 +32,7 @@ void GameScene::Ini()
 	JsonLoader::GetInstance()->LoadFile("test2.json","Test");
 
 	JsonLoader::GetInstance()->SetObjects(&objects_,"Test");
+	JsonLoader::GetInstance()->SetCamera(&gameCamera, "Test");
 	for (auto& obj : objects_)
 	{
 		obj->Init();
@@ -40,15 +41,15 @@ void GameScene::Ini()
 
 void GameScene::Update()
 {
-	Camera::scurrent_.eye_ = debugCamera.GetViewProjection()->eye_;
-	Camera::scurrent_.up_ = debugCamera.GetViewProjection()->up_;
-	Camera::scurrent_.target_ = debugCamera.GetViewProjection()->target_;
-	Camera::scurrent_.Update();
+	Camera::scurrent_ = debugCamera.GetViewProjection();
+
+	//Camera::scurrent_= &gameCamera;
+	Camera::scurrent_->UpdateLookTo();
 
 	//ƒJƒƒ‰XV
 	debugCamera.Update();
 
-	gameCamera.Update();
+	gameCamera.UpdateLookAt();
 	cameraUpdate();
 
 	lightManager_->DebugUpdate();

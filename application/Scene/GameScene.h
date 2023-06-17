@@ -35,6 +35,7 @@ public:
 private:
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
+
 	DebugCamera debugCamera;
 	
 	void CheckAllCollision();	//‚·‚×‚Ä‚Ì“–‚½‚è”»’è

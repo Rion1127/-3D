@@ -143,5 +143,5 @@ void JsonLoader::SetCamera(Camera* camera, std::string levelDataName)
 {
 	LevelData* data = levelData_.at(levelDataName).get();
 	camera->eye_ = data->cameraInfo.pos;
-	//camera-> = data->cameraInfo.pos;
+	camera->target_ = {0,0,0};
 }

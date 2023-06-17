@@ -22,7 +22,7 @@ void DebugCamera::Update()
 	{
 		//マウスの情報の更新
 		CameraMove();
-		viewProjection_.Update();
+		viewProjection_.UpdateLookAt();
 	}
 	/*ImGui::Begin("debugCamera");
 	static float pos[3] = {
