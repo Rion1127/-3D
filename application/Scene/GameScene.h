@@ -35,32 +35,15 @@ public:
 private:
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
-	DebugCamera debugCamera_;
+	DebugCamera debugCamera;
 	
 	void CheckAllCollision();	//‚·‚×‚Ä‚Ì“–‚½‚è”»’è
 
-	Camera gameCamera_;
+	Camera gameCamera;
 	void cameraUpdate();
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
-
-	std::unique_ptr<Object3d> skyDome_;
-
-	std::unique_ptr<Object3d> sphere_;
-
-
-	std::unique_ptr<Object3d> testObj;
-
-	WorldTransform testWT_;
-
-	AssimpModel testModel_;
-
-	AssimpObject3D assimpObj_;
-
-	Sprite testSprite_;
-
-	SoundKey testSound_;
-
+	std::vector<std::unique_ptr<Object3d>> objects_;
 };
 
