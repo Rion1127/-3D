@@ -13,6 +13,11 @@ struct ConstVPBuff {
 	Vector3 cameraPos;  // カメラ座標（ワールド座標）
 };
 
+enum CameraMode {
+	LookAT,	//座標と注視点座標
+	LookTo	//座標とオイラー角
+};
+
 class Camera {
 public:
 	//エイリアステンプレート
@@ -34,6 +39,7 @@ public:
 	//座標とオイラー角で行列計算(こっちはデバッグカメラが対応していないため、バグる)
 	void UpdateLookTo();
 
+	void Update(CameraMode mode);
 	
 	Vector3 eye_;
 	Vector3 target_;

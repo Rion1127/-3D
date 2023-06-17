@@ -88,7 +88,7 @@ void Camera::MoveTo(Vector3 goal, float speed)
 
 void Camera::UpdateLookAt()
 {
-			//視点座標
+	//視点座標
 	Vector3 eyePosition = eye_;
 	//注視点座標
 	Vector3 targetPosition = target_;
@@ -198,7 +198,7 @@ void Camera::UpdateLookTo()
 	//Z軸とY軸を取得
 	Vector3 xAxisVec = axisY.cross(axisZ).normalize();
 	Vector3 yAxisVec = axisZ.cross(xAxisVec).normalize();
-
+	//平行移動成分を設定
 	Vector3 transPos = {
 		-pos.dot(xAxisVec.normalize()),
 		-pos.dot(yAxisVec.normalize()),
@@ -206,10 +206,10 @@ void Camera::UpdateLookTo()
 	};
 
 	matView_ = {
-		xAxisVec.x,yAxisVec.x,axisZ.x,0.f,
-		xAxisVec.y,yAxisVec.y,axisZ.y,0.f,
-		xAxisVec.z,yAxisVec.z,axisZ.z,0.f,
-		transPos.x,transPos.y,transPos.z,1,
+		xAxisVec.x,yAxisVec.x,axisZ.x	,0.f,
+		xAxisVec.y,yAxisVec.y,axisZ.y	,0.f,
+		xAxisVec.z,yAxisVec.z,axisZ.z	,0.f,
+		transPos.x,transPos.y,transPos.z,1.f,
 	};
 	
 	/*ImGui::Begin("camera");
@@ -226,6 +226,16 @@ void Camera::UpdateLookTo()
 	ImGui::End();*/
 	
 
+}
+
+void Camera::Update(CameraMode mode)
+{
+	if (CameraMode::LookAT == mode) {
+		UpdateLookAt();
+	}
+	else if (CameraMode::LookTo == mode) {
+		UpdateLookTo();
+	}
 }
 
 Matrix4 Camera::GetMatView()
