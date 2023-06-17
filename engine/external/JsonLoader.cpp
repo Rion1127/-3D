@@ -46,7 +46,7 @@ void JsonLoader::LoadFile(std::string fileName)
 	assert(name.compare("scene") == 0);
 
 	//レベルデータ格納用インスタンスを生成
-	LevelData* levelData = new LevelData();
+	std::unique_ptr<LevelData> levelData = std::move(std::make_unique<LevelData>());
 	
 	//"object"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
@@ -58,9 +58,7 @@ void JsonLoader::LoadFile(std::string fileName)
 
 		if (type.compare("MESH") == 0)
 		{
-			levelData->object.emplace_back(new Object3d);
-			Object3d* newobj = levelData->object.back();
-
+			std::unique_ptr<Object3d> newobj = std::move(std::make_unique<Object3d>());
 			//トランスフォームのパラメータ読み込み
 			nlohmann::json& transform = object["transform"];
 			//平行移動
@@ -85,19 +83,20 @@ void JsonLoader::LoadFile(std::string fileName)
 			};
 			newobj->SetScale(scale);
 
-			if (object.contains("children"))
+			levelData->object.push_back(std::move(newobj));
+
+			/*if (object.contains("children"))
 			{
-				levelData->object.emplace_back(new Object3d);
-				Object3d& newobj = *levelData->object.back();
+				levelData->object.emplace_back();
+				Object3d& newobj = levelData->object.back();
 
-				Object3d* parent = levelData->object.at(levelData->object.size() - 2);
+				Object3d& parent = levelData->object.at(levelData->object.size() - 2);
 
-				newobj.SetParent(parent->GetTransform());
+				newobj.SetParent(parent.GetTransform());
 
-			}
+			}*/
 		}
 	}
 
-	levelData_.push_back(*levelData);
-	delete levelData;
+	levelData_.push_back(std::move(levelData));
 }

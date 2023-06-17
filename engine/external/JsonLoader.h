@@ -4,7 +4,7 @@
 #include "json.hpp"
 
 struct LevelData {
-	std::vector<Object3d*> object;
+	std::vector<std::unique_ptr<Object3d>> object;
 	std::vector<std::string> fileName;
 };
 class JsonLoader
@@ -12,28 +12,33 @@ class JsonLoader
 private:
 	std::string kDefaultBaseDirectory;
 
-	std::vector<LevelData> levelData_;
+	std::vector<std::unique_ptr<LevelData>> levelData_;
 public:
 	static JsonLoader* GetInstance();
 	JsonLoader();
 
 
 	void LoadFile(std::string fileName);
-	void SetObjects(std::vector<Object3d*>* objects, int dataNum) {
+	void SetObjects(std::vector<std::unique_ptr<Object3d>>* objects, int dataNum) {
 
-		LevelData& data = levelData_.at(dataNum);
-		size_t num = data.object.size();
+		LevelData* data = levelData_.at(dataNum).get();
+		size_t num = data->object.size();
 
 		for (size_t i = 0; i < num; i++)
 		{
-			objects->emplace_back(data.object.at(i));
+			//“Ç‚İ‚ñ‚¾î•ñ‚ğ‘ã“ü‚µ‚Ä‚­
+			std::unique_ptr<Object3d> newObj = std::move(std::make_unique<Object3d>());
+			newObj->SetPos(data->object.at(i)->GetPos());
+			newObj->SetRot(data->object.at(i)->GetRot());
+			newObj->SetScale(data->object.at(i)->GetScale());
+			objects->push_back(std::move(newObj));
 		}
 	}
 private:
 	
 private:
 	//ƒQƒbƒ^[
-	std::vector<LevelData> GetLevelData() { return levelData_; }
+	//std::vector<std::unique_ptr<LevelData>> GetLevelData() { return levelData_; }
 
 };
 

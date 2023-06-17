@@ -44,6 +44,6 @@ private:
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
-	std::vector<Object3d*>objects_;
+	std::vector<std::unique_ptr<Object3d>> objects_;
 };
 
