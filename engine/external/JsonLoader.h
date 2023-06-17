@@ -2,38 +2,30 @@
 #include <string>
 #include "Object3D.h"
 #include "json.hpp"
+#include "Camera.h"
+struct CameraInfo {
+	Vector3 pos;
+	Vector3 rot;
+};
 
 struct LevelData {
 	std::vector<std::unique_ptr<Object3d>> object;
-	std::vector<std::string> fileName;
+	CameraInfo cameraInfo;
 };
 class JsonLoader
 {
 private:
 	std::string kDefaultBaseDirectory;
 
-	std::vector<std::unique_ptr<LevelData>> levelData_;
+	std::map<std::string ,std::unique_ptr<LevelData>> levelData_;
 public:
 	static JsonLoader* GetInstance();
 	JsonLoader();
 
-
-	void LoadFile(std::string fileName);
-	void SetObjects(std::vector<std::unique_ptr<Object3d>>* objects, int dataNum) {
-
-		LevelData* data = levelData_.at(dataNum).get();
-		size_t num = data->object.size();
-
-		for (size_t i = 0; i < num; i++)
-		{
-			//読み込んだ情報を代入してく
-			std::unique_ptr<Object3d> newObj = std::move(std::make_unique<Object3d>());
-			newObj->SetPos(data->object.at(i)->GetPos());
-			newObj->SetRot(data->object.at(i)->GetRot());
-			newObj->SetScale(data->object.at(i)->GetScale());
-			objects->push_back(std::move(newObj));
-		}
-	}
+	//JSONファイル読み込み dataNameで名前をつける
+	void LoadFile(std::string fileName, std::string dataName);
+	void SetObjects(std::vector<std::unique_ptr<Object3d>>* objects, std::string levelDataName);
+	void SetCamera(Camera* camera, std::string levelDataName);
 private:
 	
 private:

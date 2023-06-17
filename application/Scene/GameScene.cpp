@@ -29,9 +29,9 @@ void GameScene::Ini()
 
 
 
-	JsonLoader::GetInstance()->LoadFile("test.json");
+	JsonLoader::GetInstance()->LoadFile("test2.json","Test");
 
-	JsonLoader::GetInstance()->SetObjects(&objects_, 0);
+	JsonLoader::GetInstance()->SetObjects(&objects_,"Test");
 	for (auto& obj : objects_)
 	{
 		obj->Init();

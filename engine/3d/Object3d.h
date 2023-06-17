@@ -21,6 +21,8 @@ private:
 
 	WorldTransform WT_;
 
+	bool isVisible_ = false;
+
 public:
 	Object3d();
 	~Object3d();
@@ -45,5 +47,6 @@ public:
 	Vector3 GetPos() { return pos_; }
 	Vector3 GetRot() { return rot_; }
 	Vector3 GetScale() { return scale_; }
+	Model* GetModel() { return model_.get(); }
 };
 
