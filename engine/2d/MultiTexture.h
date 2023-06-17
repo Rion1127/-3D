@@ -1,9 +1,10 @@
 #pragma once
 #include "Vector3.h"
 #include "Vector2.h"
+#include "Color.h"
+#include "myMath.h"
 #include <vector>
 #include <wrl.h>
-#include <DirectXMath.h>
 #include <d3dx12.h>
 
 class MultiTexture
@@ -33,8 +34,8 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	//定数バッファ用データ構造体
 	struct ConstBufferData {
-		DirectX::XMFLOAT4 color;
-		DirectX::XMMATRIX mat;
+		Color color;
+		Matrix4 mat;
 	};
 	ComPtr<ID3D12Resource> constBuff_ = nullptr;
 private:

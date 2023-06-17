@@ -7,14 +7,15 @@
 #include "Material.h"
 #include "WorldTransform.h"
 #include <array>
+#include "myMath.h"
 
 class Vertices
 {
 public:
 	struct VertexPosNormalUv {
-		XMFLOAT3 pos;		//xyz座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;		//uv座標
+		Vector3 pos;		//xyz座標
+		Vector3 normal;	//法線ベクトル
+		Vector2 uv;		//uv座標
 		std::array<uint32_t, 4> m_BoneIDs;
 		std::array<float,4> m_Weights;
 	};

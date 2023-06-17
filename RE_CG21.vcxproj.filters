@@ -389,9 +389,6 @@
     <ClInclude Include="application\LoadManager.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="engine\REngine.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="engine\2d\MultipleRenderTarget.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
@@ -408,6 +405,9 @@
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="engine\util\Color.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\REngine.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

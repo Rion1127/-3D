@@ -76,6 +76,7 @@
     <ClInclude Include="engine\3d\light\LightManager.h" />
     <ClInclude Include="engine\3d\Model.h" />
     <ClInclude Include="engine\3d\Particle.h" />
+    <ClInclude Include="engine\base\REngine.h" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
     <ClInclude Include="engine\base\DirectX.h" />
@@ -104,7 +105,6 @@
     <ClInclude Include="engine\3d\Camera.h" />
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
-    <ClInclude Include="engine\REngine.h" />
     <ClInclude Include="engine\util\Color.h" />
     <ClInclude Include="engine\util\RRandom.h" />
   </ItemGroup>

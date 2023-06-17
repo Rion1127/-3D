@@ -3,12 +3,17 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "Vertices.h"
 #include "DirectX.h"
 #include "PipelineManager.h"
-#include <unordered_map>
 #include "LightGroup.h"
 #include "Texture.h"
+#include "myMath.h"
+#include "Vector3.h"
+#include "Vector2.h"
+#include "Material.h"
+#include "WorldTransform.h"
 
 class Model
 {
@@ -17,9 +22,9 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 private:
 	struct VertexPosNormalUv {
-		XMFLOAT3 pos;		//xyz座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;		//uv座標
+		Vector3 pos;		//xyz座標
+		Vector3 normal;	//法線ベクトル
+		Vector2 uv;		//uv座標
 	};
 
 	// 名前

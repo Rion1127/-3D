@@ -5,13 +5,9 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <cassert>
 #include <string>
-#include "WorldTransform.h"
-#include "Material.h"
-#include "Texture.h"
 #include <fstream>
 #include <sstream>
 #include "Util.h"
-
 const std::string kBaseDirectory = "Resources/";
 
 //コマンドリストを格納する
@@ -124,9 +120,9 @@ void Model::LoadOBJ(const std::string& modelname)
 
 	std::string line;	//ファイルの1行を入れる変数
 
-	std::vector<XMFLOAT3> positions; //頂点座標
-	std::vector<XMFLOAT3> normals;   // 法線ベクトル
-	std::vector<XMFLOAT2> texcoords; // テクスチャUV
+	std::vector<Vector3> positions{}; //頂点座標
+	std::vector<Vector3> normals{};   // 法線ベクトル
+	std::vector<Vector2> texcoords{}; // テクスチャUV
 
 	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
 	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
@@ -155,7 +151,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "v")
 		{
 			// X,Y,Z座標読み込み
-			XMFLOAT3 position{};
+			Vector3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
@@ -165,7 +161,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "vn")
 		{
 			// X,Y,Z成分読み込み
-			XMFLOAT3 normal{};
+			Vector3 normal{};
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
@@ -177,7 +173,7 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "vt")
 		{
 			// U,V成分読み込み
-			XMFLOAT2 texcoord{};
+			Vector2 texcoord{};
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 			// V方向反転
@@ -203,9 +199,12 @@ void Model::LoadOBJ(const std::string& modelname)
 				index_stream.seekg(1, std::ios_base::cur); // スラッシュを飛ばす
 				index_stream >> indexNormal;
 				Vertices::VertexPosNormalUv vertex{};
-				vertex.pos = positions[indexPosition - 1];
-				vertex.normal = normals[indexNormal - 1];
-				vertex.uv = texcoords[indexTexcoord - 1];
+				const int indexPos = indexPosition - 1;
+				const int indexNorm = indexNormal - 1;
+				const int indexTex = indexTexcoord - 1;
+				vertex.pos = positions[indexPos];
+				vertex.normal = normals[indexNorm];
+				vertex.uv = texcoords[indexTex];
 
 				vert.AddVertices(vertex);
 				//エッジ平滑化用のデータを追加
@@ -296,7 +295,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 
 		if (key == "Ka")
 		{
-			XMFLOAT3 ambient{};
+			Vector3 ambient{};
 
 			line_stream >> ambient.x;
 			line_stream >> ambient.y;
@@ -309,7 +308,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 		if (key == "Kd")
 		{
 			/*line_stream >> material->textureFilename_;*/
-			XMFLOAT3 diffuse{};
+			Vector3 diffuse{};
 			line_stream >> diffuse.x;
 			line_stream >> diffuse.y;
 			line_stream >> diffuse.z;
@@ -319,8 +318,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 
 		if (key == "Ks")
 		{
-			/*line_stream >> material->textureFilename_;*/
-			XMFLOAT3 specular{};
+			Vector3 specular{};
 			line_stream >> specular.x;
 			line_stream >> specular.y;
 			line_stream >> specular.z;
@@ -459,23 +457,25 @@ void Model::CalculateSmoothedVertexNormals()
 	{
 		//各面用の共通頂点コレクション
 		std::vector<unsigned short>& v = itr->second;
-		//前兆店の法線を平均する
-		DirectX::XMVECTOR normal = {};
+		//全頂点の法線を平均する
+		Vector3 normal = {};
 		for (unsigned short index : v)
 		{
 			float x = vert_[0]->vertices_[index].normal.x;
 			float y = vert_[0]->vertices_[index].normal.y;
 			float z = vert_[0]->vertices_[index].normal.z;
 
-			normal += XMVectorSet(x, y, z, 0);
+			normal.x += x;
+			normal.y += y;
+			normal.z += z;
 		}
-		normal = XMVector3Normalize(normal / (float)v.size());
+		normal = normal.normalize() / (float)v.size();
 		//共通法線を使用するすべての頂点データに書き込む
 		for (unsigned short index : v)
 		{
-			float x = normal.m128_f32[0];
-			float y = normal.m128_f32[1];
-			float z = normal.m128_f32[2];
+			float x = normal.x;
+			float y = normal.y;
+			float z = normal.z;
 
 			vert_[0]->vertices_[index].normal = { x,y,z };
 			uint32_t a = 0;

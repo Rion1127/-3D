@@ -36,10 +36,10 @@ void MultiTexture::PUpdate()
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
+		Color color_(1, 1, 1, 1);
 		// 定数バッファにデータ転送
 		constMap->color = color_;
-		constMap->mat = DirectX::XMMatrixIdentity(); // 行列の合成
+		constMap->mat.UnitMatrix(); // 行列の合成
 	}
 
 }

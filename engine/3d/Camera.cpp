@@ -84,12 +84,6 @@ void Camera::MoveTo(Vector3 goal, float speed)
 
 void Camera::Update()
 {
-	/*matView =
-		XMMatrixLookAtLH(
-			XMLoadFloat3(&eye),
-			XMLoadFloat3(&target),
-			XMLoadFloat3(&up));*/
-
 #pragma region ビュー行列
 			//視点座標
 	Vector3 eyePosition = eye_;

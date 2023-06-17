@@ -113,20 +113,20 @@ void Vertices::Ini(ID3D12Device* device)
 		unsigned short index1 = indices_[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 1];
 		unsigned short index2 = indices_[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 2];
 		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices_[index0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices_[index1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices_[index2].pos);
+		Vector3 p0 = vertices_[index0].pos;
+		Vector3 p1 = vertices_[index1].pos;
+		Vector3 p2 = vertices_[index2].pos;
 		//p0→p1ベクトル、p0→p2ベクトルを計算（ベクトルの減算）
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+		Vector3 v1 = p1-p0;
+		Vector3 v2 = p2-p0;
 		//外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
+		Vector3 normal = v1.cross(v2);
 		//正規化（長さを1にする）
-		normal = XMVector3Normalize(normal);
+		normal = normal.normalize();
 		//求めた法線を頂点データに代入
-		XMStoreFloat3(&vertices_[index0].normal, normal);
-		XMStoreFloat3(&vertices_[index1].normal, normal);
-		XMStoreFloat3(&vertices_[index2].normal, normal);
+		vertices_[index0].normal = normal;
+		vertices_[index1].normal = normal;
+		vertices_[index2].normal = normal;
 
 	}
 
@@ -225,21 +225,20 @@ void Vertices::CreateBuffer()
 		unsigned short index1 = indices_[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 1];
 		unsigned short index2 = indices_[static_cast<std::vector<uint16_t, std::allocator<uint16_t>>::size_type>(i) * 3 + 2];
 		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices_[index0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices_[index1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices_[index2].pos);
+		Vector3 p0 = vertices_[index0].pos;
+		Vector3 p1 = vertices_[index1].pos;
+		Vector3 p2 = vertices_[index2].pos;
 		//p0→p1ベクトル、p0→p2ベクトルを計算（ベクトルの減算）
-		XMVECTOR v1 = XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+		Vector3 v1 = p1 - p0;
+		Vector3 v2 = p2 - p0;
 		//外積は両方から垂直なベクトル
-		XMVECTOR normal = XMVector3Cross(v1, v2);
+		Vector3 normal = v1.cross(v2);
 		//正規化（長さを1にする）
-		normal = XMVector3Normalize(normal);
+		normal = normal.normalize();
 		//求めた法線を頂点データに代入
-		XMStoreFloat3(&vertices_[index0].normal, normal);
-		XMStoreFloat3(&vertices_[index1].normal, normal);
-		XMStoreFloat3(&vertices_[index2].normal, normal);
-
+		vertices_[index0].normal = normal;
+		vertices_[index1].normal = normal;
+		vertices_[index2].normal = normal;
 	}
 
 	// 頂点バッファの生成

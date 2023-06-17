@@ -1,5 +1,4 @@
 #include "DebugCamera.h"
-#include <DirectXMath.h>
 #include <WinUser.h>
 #include <imgui.h>
 

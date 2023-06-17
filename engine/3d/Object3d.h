@@ -1,11 +1,5 @@
 #pragma once
-#include <wrl.h>
-#include <map>
-#include <string>
-#include "Vertices.h"
-#include "DirectX.h"
-#include "PipelineManager.h"
-#include <unordered_map>
+#include "REngine.h"
 #include "LightGroup.h"
 #include "Model.h"
 

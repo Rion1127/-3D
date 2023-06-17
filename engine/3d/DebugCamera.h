@@ -2,8 +2,6 @@
 #include "Vector3.h"
 #include "mInput.h"
 #include "Camera.h"
-#include <DirectXMath.h>
-using namespace DirectX;
 class DebugCamera
 {
 public:

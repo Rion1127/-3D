@@ -1,8 +1,5 @@
 #pragma once
-#include <string>
-#include <vector>
-
-#include "Vertices.h"
+#include "REngine.h"
 
 struct aiMesh;
 struct aiMaterial;
@@ -19,7 +16,7 @@ struct BoneData {
 
 	uint32_t IDs[NUM_BONES_PER_VERTEX];
 	float Weights[NUM_BONES_PER_VERTEX];
-	DirectX::XMMATRIX boneMatrix_;
+	Matrix4 boneMatrix_;
 };
 
 struct ImportSettings // インポートするときのパラメータ
