@@ -82,10 +82,14 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 				(float)transform["scaling"][0],
 			};
 			newobj->SetScale(scale);
-
+			//モデルを読み込む
 			std::string modelName_ = object["name"].get<std::string>();
 			newobj->SetModel(Model::CreateOBJ_uniptr(modelName_, true));
-
+			//表示フラグを代入
+			nlohmann::json& visible = object["isvisible"];
+			bool isVisible = visible.get<uint32_t>();
+			
+			newobj->SetIsVisible(isVisible);
 			levelData->object.push_back(std::move(newobj));
 
 			/*if (object.contains("children"))
@@ -98,7 +102,8 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 				newobj.SetParent(parent.GetTransform());
 
 			}*/
-		}if (type.compare("CAMERA") == 0)
+		}
+		else if (type.compare("CAMERA") == 0)
 		{
 			nlohmann::json& transform = object["transform"];
 			Vector3 pos = {
@@ -135,6 +140,7 @@ void JsonLoader::SetObjects(std::vector<std::unique_ptr<Object3d>>* objects, std
 		newObj->SetScale(data->object.at(i)->GetScale());
 		std::string modelName_ = data->object.at(i)->GetModel()->GetName();
 		newObj->SetModel(Model::CreateOBJ_uniptr(modelName_, true));
+		newObj->SetIsVisible(data->object.at(i)->GetIsVisible());
 		objects->push_back(std::move(newObj));
 	}
 }

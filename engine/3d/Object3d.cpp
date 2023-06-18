@@ -26,5 +26,7 @@ void Object3d::Update()
 
 void Object3d::Draw()
 {
-	model_->DrawOBJ(WT_);
+	if (isVisble_ == false) {
+		model_->DrawOBJ(WT_);
+	}
 }
