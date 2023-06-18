@@ -49,7 +49,12 @@ void GameScene::Update()
 	//ƒJƒƒ‰XV
 	debugCamera.Update();
 
-	gameCamera.UpdateLookAt();
+	if (Key::TriggerKey(DIK_R)) {
+		JsonLoader::GetInstance()->LoadFile("test2.json", "Test");
+
+		JsonLoader::GetInstance()->SetObjects(&objects_, "Test");
+		JsonLoader::GetInstance()->SetCamera(&gameCamera, "Test");
+	}
 	cameraUpdate();
 
 	lightManager_->DebugUpdate();

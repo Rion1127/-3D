@@ -11,6 +11,7 @@ struct CameraInfo {
 struct LevelData {
 	std::vector<std::unique_ptr<Object3d>> object;
 	CameraInfo cameraInfo;
+	std::string fileName;
 };
 class JsonLoader
 {

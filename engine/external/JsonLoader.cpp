@@ -47,6 +47,7 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 
 	//レベルデータ格納用インスタンスを生成
 	std::unique_ptr<LevelData> levelData = std::move(std::make_unique<LevelData>());
+	levelData->fileName = fileName;
 	//"object"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
 	{
@@ -113,14 +114,21 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 			};
 			//回転角
 			Vector3 rot = {
-				-(float)transform["rotation"][1],
-				-(float)transform["rotation"][2],
-				(float)transform["rotation"][0],
+				Radian(-(float)transform["rotation"][0] + 90.f),
+				Radian(-(float)transform["rotation"][2] + 90.f),
+				Radian((float)transform["rotation"][1]),
 			};
 			levelData->cameraInfo.pos = pos;
 			levelData->cameraInfo.rot = rot;
 		}
 		
+	}
+
+	if (levelData_.size() > 0) {
+		//同じファイルを読み込んだ場合、新しい情報に入れ替える
+		if (levelData_.find(dataName)->second->fileName == fileName) {
+			levelData_.erase(dataName);
+		}
 	}
 
 	levelData_.insert(std::make_pair(dataName, std::move(levelData)));
@@ -131,6 +139,7 @@ void JsonLoader::SetObjects(std::vector<std::unique_ptr<Object3d>>* objects, std
 	LevelData* data = levelData_.at(levelDataName).get();
 	size_t num = data->object.size();
 
+	objects->clear();
 	for (size_t i = 0; i < num; i++)
 	{
 		//読み込んだ情報を代入してく
