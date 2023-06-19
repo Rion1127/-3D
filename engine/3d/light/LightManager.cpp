@@ -112,14 +112,14 @@ void LightManager::DirectionalLightUpdate()
 	lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1], lightDir2[2] });
 	lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 
-	ImGui::Begin("DirectionalLight");
+	//ImGui::Begin("DirectionalLight");
 
 	//ImGui::SetWindowPos(ImVec2(0, 0));
 	//ImGui::SetWindowSize(ImVec2(500, 200));
 
 	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
 
-	static uint32_t num0clicked = 1;
+	/*static uint32_t num0clicked = 1;
 	if (ImGui::Button("Num 0 Light"))num0clicked++;
 	if (num0clicked & 1)
 	{
@@ -155,7 +155,7 @@ void LightManager::DirectionalLightUpdate()
 	ImGui::SliderFloat3("lightDir2", lightDir2, -1.f, 1.0f);
 	ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void LightManager::PointLightUpdate()
