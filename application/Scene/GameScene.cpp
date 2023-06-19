@@ -29,7 +29,7 @@ void GameScene::Ini()
 
 
 
-	JsonLoader::GetInstance()->LoadFile("test2.json","Test");
+	JsonLoader::GetInstance()->LoadFile("level_editor.json","Test");
 
 	JsonLoader::GetInstance()->SetObjects(&objects_,"Test");
 	JsonLoader::GetInstance()->SetCamera(&gameCamera, "Test");
@@ -50,7 +50,7 @@ void GameScene::Update()
 	debugCamera.Update();
 
 	if (Key::TriggerKey(DIK_R)) {
-		JsonLoader::GetInstance()->LoadFile("test2.json", "Test");
+		JsonLoader::GetInstance()->LoadFile("level_editor.json", "Test");
 
 		JsonLoader::GetInstance()->SetObjects(&objects_, "Test");
 		JsonLoader::GetInstance()->SetCamera(&gameCamera, "Test");
