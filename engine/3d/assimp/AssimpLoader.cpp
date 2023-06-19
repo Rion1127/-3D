@@ -91,16 +91,19 @@ bool AssimpLoader::Load(ImportSettings* setting)
 	Assimp::Importer importer;
 	//ˆÈ‰º‚Ìƒtƒ‰ƒO‚Ì”’l‚ğ‘ã“ü‚µ‚Ä‚¢‚­
 	uint32_t flag = 0;
-	/*flag |= aiProcess_Triangulate;
 	
+	/*flag |= aiProcess_Triangulate;
+	flag |= aiProcess_PreTransformVertices;
+	flag |= aiProcess_JoinIdenticalVertices;
 	flag |= aiProcess_CalcTangentSpace;
 	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_GenUVCoords;
+	flag |= aiProcess_TransformUVCoords;
 	flag |= aiProcess_RemoveRedundantMaterials;
-	flag |= aiProcess_OptimizeMeshes;*/
+	flag |= aiProcess_OptimizeMeshes;
+	flag |= aiProcess_LimitBoneWeights;*/
 
 	flag |= aiProcess_Triangulate;
-	flag |= aiProcess_PreTransformVertices;
 	flag |= aiProcess_JoinIdenticalVertices;
 	flag |= aiProcess_CalcTangentSpace;
 	flag |= aiProcess_GenSmoothNormals;
