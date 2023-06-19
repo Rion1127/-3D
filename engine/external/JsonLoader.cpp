@@ -84,7 +84,7 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 			};
 			newobj->SetScale(scale);
 			//モデルを読み込む
-			std::string modelName_ = object["name"].get<std::string>();
+			std::string modelName_ = object["model_name"].get<std::string>();
 			newobj->SetModel(Model::CreateOBJ_uniptr(modelName_, true));
 			//表示フラグを代入
 			nlohmann::json& visible = object["isvisible"];
