@@ -71,9 +71,9 @@ void JsonLoader::LoadFile(std::string fileName, std::string dataName)
 			newobj->SetPos(pos);
 			//回転角
 			Vector3 rot = {
-				-(float)transform["rotation"][1],
-				-(float)transform["rotation"][2],
-				(float)transform["rotation"][0],
+				Radian(-(float)transform["rotation"][1]),
+				Radian(-(float)transform["rotation"][2]),
+				Radian((float)transform["rotation"][0]),
 			};
 			newobj->SetRot(rot);
 			//スケーリング
