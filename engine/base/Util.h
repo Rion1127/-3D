@@ -20,16 +20,6 @@ void ShaderCompileFromFile(
 //std::string型からwchara_t型に変換する
 wchar_t* ConvertStrToWchar(const std::string& string);
 
-// 現在の時刻をミリ秒単位で取得
-uint32_t GetNowCount(void);
-
-/// <summary>
-/// 引数にいれた時間からの経過時間を返す
-/// </summary>
-/// <param name="startCount"> 開始時間 </param>
-/// <returns></returns>
-float GetNowTime(uint32_t startCount);
-
 /// <summary>
 	/// 入れた値が最大値を上回っていたら最大値を返し、最小値を下回っていたら最小値を返す。
 	/// どちらにも当てはまらない場合は、値をそのまま返す
@@ -82,3 +72,4 @@ inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(const MapClass& map)
 
 	return buff;
 }
+

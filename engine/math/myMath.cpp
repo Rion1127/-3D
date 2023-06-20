@@ -428,10 +428,10 @@ Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const 
 	return c0 * t3 + c1 * t2 + c2 * t + c3;
 }
 
-float UpAndDown(float oneRoundTime, float range)
-{
-	return (float)(sin(PI * 2 / oneRoundTime * GetNowCount()) * range);
-}
+//float UpAndDown(float oneRoundTime, float range)
+//{
+//	return (float)(sin(PI * 2 / oneRoundTime * GetNowCount()) * range);
+//}
 
 const Vector3 operator-(const DirectX::XMFLOAT3 v1, const Vector3 v2)
 {
@@ -469,5 +469,16 @@ const Vector3 operator+(const DirectX::XMFLOAT3 v1, const Vector3 v2)
 	return result;
 }
 
+float Min(float value, float min)
+{
+	return 0.0f;
+}
+float Max(float value, float max)
+{
+	return 0.0f;
+}
 
+float Clamp(float value, float min, float max)
+{
 
+}

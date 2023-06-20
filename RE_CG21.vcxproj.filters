@@ -267,6 +267,9 @@
     <ClCompile Include="engine\util\Color.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="engine\util\Timer.cpp">
+      <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="engine\base\REngine.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\Timer.h">
+      <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

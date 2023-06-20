@@ -80,7 +80,9 @@ Matrix4 ConvertRotationYAxisMat(float angle);	// 回転行列ｙ軸を返す関数
 Matrix4 ConvertRotationZAxisMat(float angle);	// 回転行列ｚ軸を返す関数
 Matrix4 ConvertTranslationMat(const Vector3& pos);	// 平行移動を返す関数
 
-
+float Min(float value, float min);
+float Max(float value, float max);
+float Clamp(float value, float min, float max);
 
 //ラジアンから角度
 float Angle(float radian);

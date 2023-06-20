@@ -62,23 +62,6 @@ wchar_t* ConvertStrToWchar(const std::string& string)
 	return result;
 }
 
-using namespace std::chrono;
-
-uint32_t GetNowCount(void) {
-	return static_cast<uint32_t>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
-}
-
-float GetNowTime(uint32_t startCount)
-{
-	// Œo‰ßŠÔ
-	float nowTime = 0.0f;
-
-	// Œ»İ‚ÌŠÔ
-	uint32_t nowCount = GetNowCount();
-
-	// Œo‰ßŠÔ
-	return nowTime = (nowCount - startCount) / 1000.0f;
-}
 
 float Clamp(float value, float max, float min)
 {

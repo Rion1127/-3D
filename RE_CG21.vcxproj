@@ -58,6 +58,7 @@
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
     <ClCompile Include="engine\util\Color.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
+    <ClCompile Include="engine\util\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\LoadManager.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="engine\3d\WorldTransform.h" />
     <ClInclude Include="engine\util\Color.h" />
     <ClInclude Include="engine\util\RRandom.h" />
+    <ClInclude Include="engine\util\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
