@@ -124,6 +124,9 @@
     <Filter Include="シェーダーファイル\application">
       <UniqueIdentifier>{73efd602-39ab-4be3-8b9a-dc3999c56683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect">
+      <UniqueIdentifier>{400a5ff4-6532-44aa-ae09-556e6e7ef4b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -434,14 +437,14 @@
     <None Include="Resources\shader\Toon.hlsli">
       <Filter>シェーダーファイル\Engine</Filter>
     </None>
-    <None Include="Resources\shader\PostEffect.hlsli">
-      <Filter>シェーダーファイル\application</Filter>
-    </None>
     <None Include="Resources\shader\MultiTexture.hlsli">
       <Filter>シェーダーファイル\application</Filter>
     </None>
     <None Include="Resources\shader\Bloom.hlsli">
-      <Filter>シェーダーファイル\application</Filter>
+      <Filter>シェーダーファイル\application\postEffect</Filter>
+    </None>
+    <None Include="Resources\shader\PostEffect.hlsli">
+      <Filter>シェーダーファイル\application\postEffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -478,12 +481,6 @@
     <FxCompile Include="Resources\shader\ToonVS.hlsl">
       <Filter>シェーダーファイル\Engine</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\PostEffectPS.hlsl">
-      <Filter>シェーダーファイル\application</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\PostEffectVS.hlsl">
-      <Filter>シェーダーファイル\application</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shader\MultiTextureVS.hlsl">
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
@@ -491,10 +488,16 @@
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\BloomPS.hlsl">
-      <Filter>シェーダーファイル\application</Filter>
+      <Filter>シェーダーファイル\application\postEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\BloomVS.hlsl">
-      <Filter>シェーダーファイル\application</Filter>
+      <Filter>シェーダーファイル\application\postEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\PostEffectPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\PostEffectVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
