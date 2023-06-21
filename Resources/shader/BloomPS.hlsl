@@ -4,9 +4,6 @@ Texture2D<float4> tex0 : register(t0);
 Texture2D<float4> tex1 : register(t1);
 SamplerState smp : register(s0);
 
-float Gaussian(float2 drawUV, float2 pickUV, float sigma);
-float4 GaussianBlur(VSOutput input);
-
 float4 main(VSOutput input) : SV_TARGET
 {
     float4 col = tex0.Sample(smp, input.uv);
@@ -35,10 +32,4 @@ float4 main(VSOutput input) : SV_TARGET
     ////‚‹P“x•”‚ğ’Šo
     return highLumi;
     
-}
-
-float Gaussian(float2 drawUV, float2 pickUV, float sigma)
-{
-    float d = distance(drawUV, pickUV);
-    return exp(-(d * d) / (2 * sigma * sigma));
 }
