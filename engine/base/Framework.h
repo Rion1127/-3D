@@ -25,6 +25,8 @@ private:
 	std::unique_ptr<PostEffect> postEffect_;
 	std::unique_ptr<MultiRenderTarget> MLT_;
 	std::unique_ptr<MultiTexture> multiTexture_;
+	std::unique_ptr<MultiTexture> bloom_;
+
 public:
 	virtual ~Framework() = default;
 

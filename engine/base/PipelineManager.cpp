@@ -86,6 +86,18 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2, 1);
 
 	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+
+	//ポストエフェクト
+	AddPipeline("Bloom");
+	GetPipelineObjects("Bloom")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Bloom")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
+
+	Create("Bloom", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 }
 
 void PipelineManager::Create(

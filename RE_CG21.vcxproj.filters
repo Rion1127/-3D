@@ -440,6 +440,9 @@
     <None Include="Resources\shader\MultiTexture.hlsli">
       <Filter>シェーダーファイル\application</Filter>
     </None>
+    <None Include="Resources\shader\Bloom.hlsli">
+      <Filter>シェーダーファイル\application</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shader\assimpPS.hlsl">
@@ -485,6 +488,12 @@
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\MultiTexturePS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BloomPS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BloomVS.hlsl">
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
   </ItemGroup>

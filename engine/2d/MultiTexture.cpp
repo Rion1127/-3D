@@ -44,16 +44,16 @@ void MultiTexture::PUpdate()
 
 }
 
-void MultiTexture::Draw()
+void MultiTexture::Draw(std::string pipelineName)
 {
 	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
 	auto& device = *RDirectX::GetInstance()->GetDevice();
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList.SetPipelineState(
-		PipelineManager::GetPipelineObjects("MultiTexture")->GetPipelineStateAlpha());
+		PipelineManager::GetPipelineObjects(pipelineName)->GetPipelineStateAlpha());
 
 	cmdList.SetGraphicsRootSignature(
-		PipelineManager::GetPipelineObjects("MultiTexture")->GetRootSignature());
+		PipelineManager::GetPipelineObjects(pipelineName)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	cmdList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト

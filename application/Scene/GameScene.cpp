@@ -98,6 +98,6 @@ void GameScene::Draw()
 	//スプライト//
 	////////////
 	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
-	testSprite_.Draw();
-	testSprite_.DrawImGui();
+	//testSprite_.Draw();
+	//testSprite_.DrawImGui();
 }
