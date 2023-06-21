@@ -165,11 +165,18 @@ void MultiTexture::CreateVertBuff()
 			IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 	//頂点データ
+	//VertexPosUV vertices[vertNum_] = {
+	//	{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
+	//	{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
+	//	{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
+	//	{{+0.5f,+0.5f,0.0f},{1.f,0.f}},//右上
+	//};
+
 	VertexPosUV vertices[vertNum_] = {
-		{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
-		{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
-		{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
-		{{+0.5f,+0.5f,0.0f},{1.f,0.f}},//右上
+		{{-1.0f,-1.0f,0.0f},{0.f,1.f}},//左下
+		{{-1.0f,+1.0f,0.0f},{0.f,0.f}},//左上
+		{{+1.0f,-1.0f,0.0f},{1.f,1.f}},//右下
+		{{+1.0f,+1.0f,0.0f},{1.f,0.f}},//右上
 	};
 	//頂点バッファへのデータ転送
 	VertexPosUV* vertMap = nullptr;

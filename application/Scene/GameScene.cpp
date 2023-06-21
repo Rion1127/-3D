@@ -44,7 +44,8 @@ void GameScene::Ini()
 
 	testSprite_.Ini();
 	testSprite_.SetAnchor({ 0,0 });
-	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
+	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("White1280x720"));
+	testSprite_.SetColor({ 0,0,0,1 });
 
 	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
 }
@@ -85,6 +86,9 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	testSprite_.Draw();
+	testSprite_.DrawImGui();
 	////////////////
 	//3Dオブジェクト//
 	////////////////
@@ -97,7 +101,5 @@ void GameScene::Draw()
 	////////////
 	//スプライト//
 	////////////
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
-	//testSprite_.Draw();
-	//testSprite_.DrawImGui();
+	
 }
