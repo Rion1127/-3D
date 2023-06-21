@@ -98,7 +98,7 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("Bloom")->AddrootParams(2);
+	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
 
 	Create("Bloom",NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
@@ -114,6 +114,19 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("HighLumi")->AddrootParams(2);
 
 	Create("HighLumi", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
+
+#pragma region ガウシアンブラー
+	AddPipeline("Gaussian");
+	GetPipelineObjects("Gaussian")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Gaussian")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Gaussian")->Setshader(L"Resources/shader/GaussianVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Gaussian")->Setshader(L"Resources/shader/GaussianPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Gaussian")->AddrootParams(2);
+
+	Create("Gaussian", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 }
 

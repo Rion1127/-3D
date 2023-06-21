@@ -51,6 +51,11 @@ public:
 	void PreDrawScene();
 	//シーン描画後処理
 	void PostDrawScene();
+
+	//シーン前処理(texBuffを指定)
+	void PreDrawSceneAssin(uint32_t texbuffNum);
+	//シーン描画後処理(texBuffを指定)
+	void PostDrawSceneAssin(uint32_t texbuffNum);
 private:
 	void CreateVertBuff();
 	void CreateibView();

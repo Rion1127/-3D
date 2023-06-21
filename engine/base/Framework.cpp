@@ -96,8 +96,8 @@ void Framework::Draw()
 	//•`‰æƒRƒ}ƒ“ƒh
 	RDirectX::GetInstance()->PreDraw();
 	//ƒQ[ƒ€ƒV[ƒ“•`‰æ
-	//SceneManager::Draw();
-	bloom_->Draw();
+	SceneManager::Draw();
+	//bloom_->Draw();
 	//imguiI—¹
 	ImGuiManager::Getinstance()->End();
 	//imgui•`‰æ

@@ -470,6 +470,9 @@
     <None Include="Resources\shader\HighLumi.hlsli">
       <Filter>シェーダーファイル\application\postEffect\HighLumi</Filter>
     </None>
+    <None Include="Resources\shader\Gaussian.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\GaussianBlur</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shader\assimpPS.hlsl">
@@ -528,6 +531,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shader\HighLumiVS.hlsl">
       <Filter>シェーダーファイル\application\postEffect\HighLumi</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\GaussianPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\GaussianVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\GaussianBlur</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

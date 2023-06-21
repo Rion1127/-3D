@@ -6,7 +6,7 @@ Bloom::Bloom()
 {
 	highLumi_= std::move(std::make_unique<PostEffect>());
 	gaussianBlur_ = std::move(std::make_unique<PostEffect>());
-	compo_ = std::move(std::make_unique<PostEffect>());
+	compo_ = std::move(std::make_unique<MultiTexture>());
 }
 
 void Bloom::Update() {
@@ -25,9 +25,13 @@ void Bloom::PreDraw()
 	highLumi_->Draw("HighLumi");
 	gaussianBlur_->PostDrawScene();
 
-	compo_->PreDrawScene();
-	gaussianBlur_->Draw("Bloom");
-	compo_->PostDrawScene();
+	compo_->PreDrawSceneAssin(0);
+	gaussianBlur_->Draw("Gaussian");
+	compo_->PostDrawSceneAssin(0);
+
+	compo_->PreDrawSceneAssin(1);
+	SceneManager::Draw();
+	compo_->PostDrawSceneAssin(1);
 }
 
 void Bloom::Draw()
