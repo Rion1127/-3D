@@ -41,14 +41,14 @@ void PostEffect::PUpdate()
 	
 }
 
-void PostEffect::Draw()
+void PostEffect::Draw(std::string pipelineName)
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetPipelineObjects("PostEffect")->GetPipelineStateAlpha());
+		PipelineManager::GetPipelineObjects(pipelineName)->GetPipelineStateAlpha());
 
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetPipelineObjects("PostEffect")->GetRootSignature());
+		PipelineManager::GetPipelineObjects(pipelineName)->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
@@ -136,12 +136,6 @@ void PostEffect::CreateVertBuff()
 			IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 	//頂点データ
-	//VertexPosUV vertices[vertNum_] = {
-	//	{{-0.5f,-0.5f,0.0f},{0.f,1.f}},//左下
-	//	{{-0.5f,+0.5f,0.0f},{0.f,0.f}},//左上
-	//	{{+0.5f,-0.5f,0.0f},{1.f,1.f}},//右下
-	//	{{+0.5f,+0.5f,0.0f},{1.f,0.f}},//右上
-	//};
 	VertexPosUV vertices[vertNum_] = {
 		{{-1.f,-1.f,0.0f},{0.f,1.f}},//左下
 		{{-1.f,+1.f,0.0f},{0.f,0.f}},//左上

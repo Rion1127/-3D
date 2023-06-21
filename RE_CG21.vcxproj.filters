@@ -127,6 +127,21 @@
     <Filter Include="シェーダーファイル\application\postEffect">
       <UniqueIdentifier>{400a5ff4-6532-44aa-ae09-556e6e7ef4b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="application\ソースファイル\Shader">
+      <UniqueIdentifier>{8f31775d-555a-400f-a18e-ca9b3962b2d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\Shader">
+      <UniqueIdentifier>{e985b8aa-5b84-4960-81c7-3d4211ae93cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\Bloom">
+      <UniqueIdentifier>{5283aeb3-0a3b-4a93-bcdb-4da7c402d2a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\HighLumi">
+      <UniqueIdentifier>{ac2b1a84-b5d8-494c-a703-af0e46cb752f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\GaussianBlur">
+      <UniqueIdentifier>{be1f59c9-c0bc-41bb-95a6-1ec832e10bdb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -272,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="engine\util\Timer.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Shader\Bloom.cpp">
+      <Filter>application\ソースファイル\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,6 +437,9 @@
     <ClInclude Include="engine\util\Timer.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
+    <ClInclude Include="application\Shader\Bloom.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -440,11 +461,14 @@
     <None Include="Resources\shader\MultiTexture.hlsli">
       <Filter>シェーダーファイル\application</Filter>
     </None>
-    <None Include="Resources\shader\Bloom.hlsli">
-      <Filter>シェーダーファイル\application\postEffect</Filter>
-    </None>
     <None Include="Resources\shader\PostEffect.hlsli">
       <Filter>シェーダーファイル\application\postEffect</Filter>
+    </None>
+    <None Include="Resources\shader\Bloom.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\Bloom</Filter>
+    </None>
+    <None Include="Resources\shader\HighLumi.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\HighLumi</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -487,17 +511,23 @@
     <FxCompile Include="Resources\shader\MultiTexturePS.hlsl">
       <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shader\BloomPS.hlsl">
-      <Filter>シェーダーファイル\application\postEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shader\BloomVS.hlsl">
-      <Filter>シェーダーファイル\application\postEffect</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shader\PostEffectPS.hlsl">
       <Filter>シェーダーファイル\application\postEffect</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shader\PostEffectVS.hlsl">
       <Filter>シェーダーファイル\application\postEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BloomPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\BloomVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\HighLumiPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\HighLumi</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\HighLumiVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\HighLumi</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

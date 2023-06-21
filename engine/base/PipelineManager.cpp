@@ -63,6 +63,7 @@ void PipelineManager::ObjShaderIni()
 }
 void PipelineManager::PostEffectIni()
 {
+#pragma region ポストエフェクト
 	//ポストエフェクト
 	AddPipeline("PostEffect");
 	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -74,8 +75,9 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("PostEffect")->AddrootParams(2);
 
 	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
 
-	//ポストエフェクト
+#pragma region マルチテクスチャ
 	AddPipeline("MultiTexture");
 	GetPipelineObjects("MultiTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("MultiTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -86,8 +88,9 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2, 1);
 
 	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
 
-	//ポストエフェクト
+#pragma region ブルーム
 	AddPipeline("Bloom");
 	GetPipelineObjects("Bloom")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Bloom")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -95,9 +98,23 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("Bloom")->Setshader(L"Resources/shader/BloomPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
+	GetPipelineObjects("Bloom")->AddrootParams(2);
 
-	Create("Bloom", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+	Create("Bloom",NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
+
+#pragma region ルミライト
+	AddPipeline("HighLumi");
+	GetPipelineObjects("HighLumi")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("HighLumi")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("HighLumi")->Setshader(L"Resources/shader/HighLumiVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("HighLumi")->Setshader(L"Resources/shader/HighLumiPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("HighLumi")->AddrootParams(2);
+
+	Create("HighLumi", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
 }
 
 void PipelineManager::Create(

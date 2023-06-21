@@ -16,17 +16,15 @@
 #include "PostEffect.h"
 #include "MultipleRenderTarget.h"
 #include "MultiTexture.h"
+#include "Bloom.h"
 class Framework
 {
 private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	LoadManager loadManager_;
-	std::unique_ptr<PostEffect> postEffect_;
-	std::unique_ptr<MultiRenderTarget> MLT_;
-	std::unique_ptr<MultiTexture> multiTexture_;
-	std::unique_ptr<MultiTexture> bloom_;
-
+	
+	std::unique_ptr<Bloom> bloom_;
 public:
 	virtual ~Framework() = default;
 
