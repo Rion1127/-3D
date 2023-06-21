@@ -26,5 +26,5 @@ void Object3d::Update()
 
 void Object3d::Draw()
 {
-	model_->DrawOBJ(WT_,0);
+	model_->DrawOBJ(WT_);
 }
