@@ -13,7 +13,6 @@ void ParticleScene::Ini()
 	sound_ = SoundManager::GetInstance();
 
 	//デバッグカメラ初期化
-	debugCamera.DebugCameraIni();
 	debugCamera.Update();
 
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
@@ -79,7 +78,7 @@ void ParticleScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Model ::PreDraw();
+	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
 	lightGroup->Draw(3);
 	
 	//assimpObj_.Draw();

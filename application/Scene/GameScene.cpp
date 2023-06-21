@@ -14,13 +14,6 @@ void GameScene::Ini()
 	sound_ = SoundManager::GetInstance();
 
 	Model::Ini();
-	Sprite::StaticIni();
-	//デバッグカメラ初期化
-	debugCamera_.DebugCameraIni();
-
-	gameCamera_.SetEyePos(Vector3(0, 8, -20));
-	gameCamera_.SetTarget(Vector3(0, 0, 0));
-	gameCamera_.Update();
 	
 	lightManager_ = std::make_shared<LightManager>();
 	Model::SetLight(lightManager_->GetLightGroup());
@@ -49,15 +42,11 @@ void GameScene::Ini()
 	testModel_.Create(modelFile);
 	assimpObj_.SetModel(&testModel_);
 
-	
-
 	testSprite_.Ini();
 	testSprite_.SetAnchor({ 0,0 });
 	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("Test"));
 
 	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
-
-	
 }
 
 void GameScene::Update()
@@ -71,7 +60,6 @@ void GameScene::Update()
 	debugCamera_.Update();
 
 	//gameCamera_.Update();
-	cameraUpdate();
 
 	assimpObj_.SetPos({ 0,0,0 });
 	assimpObj_.Update();
@@ -112,14 +100,4 @@ void GameScene::Draw()
 	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
 	testSprite_.Draw();
 	testSprite_.DrawImGui();
-}
-
-void GameScene::CheckAllCollision()
-{
-
-}
-
-void GameScene::cameraUpdate()
-{
-
 }

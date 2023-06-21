@@ -50,6 +50,11 @@ enum TEXTURE_ADDRESS_MODE {	//https://learn.microsoft.com/ja-jp/windows/win32/ap
 	MODE_MIRROR_ONCE = 5//
 };
 
+enum ShaderType {
+	VS,
+	PS,
+	GS
+};
 class PipelineObject {
 private:
 	//エイリアステンプレート
@@ -69,15 +74,8 @@ private:
 	ComPtr<ID3DBlob> psBlob_ = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> gsBlob_ = nullptr; // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob_ = nullptr; // エラーオブジェクト
-	
-	
 public:
-	
-	enum ShaderType {
-		VS,
-		PS,
-		GS
-	};
+
 public:
 	std::string name_;
 

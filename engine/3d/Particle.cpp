@@ -22,9 +22,9 @@ Particle::Particle() {
 	PipelineManager::GetPipelineObjects("Particle")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32_FLOAT);
 	PipelineManager::GetPipelineObjects("Particle")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleVS.hlsl", PipelineObject::VS);
-	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticlePS.hlsl", PipelineObject::PS);
-	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleGS.hlsl", PipelineObject::GS);
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleVS.hlsl", ShaderType::VS);
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticlePS.hlsl", ShaderType::PS);
+	PipelineManager::GetPipelineObjects("Particle")->Setshader(L"Resources/shader/ParticleGS.hlsl", ShaderType::GS);
 
 	PipelineManager::Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO,MODE_WRAP);
 }

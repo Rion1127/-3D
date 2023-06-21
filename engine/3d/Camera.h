@@ -13,10 +13,35 @@ struct ConstVPBuff {
 };
 
 class Camera {
+private:
+	// ビューポートのアスペクト比
+	float aspectRatio_;
+
+	//シェイクする前の場所
+	Vector3 originalPos_;
+	bool isShake_ = false;
+	uint32_t maxShakeTime_;
+	uint32_t shakeTime_ = 0;
+	float power_;
 public:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+	Vector3 eye_;
+	Vector3 target_;
+	Vector3 up_;
+
+	Matrix4 matView_{};
+	//透視投影行列の計算
+	Matrix4 matProjection_{};
+
+	//ビルボード行列
+	Matrix4 matBillboard_;
+	//Y軸周りのビルボード
+	Matrix4 matBillboardY_;
+
+	static Camera scurrent_;
+public:
 	Camera();
 	//カメラ座標
 	void SetEyePos(float x,float y,float z);
@@ -33,20 +58,6 @@ public:
 
 	Matrix4 GetMatView();
 	Matrix4 GetMatProjection();
-	Vector3 eye_;
-	Vector3 target_;
-	Vector3 up_;
-
-	Matrix4 matView_{};
-	//透視投影行列の計算
-	Matrix4 matProjection_{};
-
-	//ビルボード行列
-	Matrix4 matBillboard_;
-	//Y軸周りのビルボード
-	Matrix4 matBillboardY_;
-
-	static Camera scurrent_;
 
 	/// <summary>
 	/// カメラシェイク
@@ -57,16 +68,6 @@ public:
 	void ShakeUpdate();
 	void SetOriginalPos();
 	bool GetIsShake() { return isShake_; }
-private:
-	// ビューポートのアスペクト比
-	float aspectRatio_;
-
-	//シェイクする前の場所
-	Vector3 originalPos_;
-	bool isShake_ = false;
-	uint32_t maxShakeTime_;
-	uint32_t shakeTime_ = 0;
-	float power_;
 };
 
 const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2);

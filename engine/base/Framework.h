@@ -21,6 +21,10 @@ class Framework
 private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	LoadManager loadManager_;
+	std::unique_ptr<PostEffect> postEffect_;
+	std::unique_ptr<MultiRenderTarget> MLT_;
+	std::unique_ptr<MultiTexture> multiTexture_;
 public:
 	virtual ~Framework() = default;
 
@@ -34,25 +38,5 @@ public:
 
 	//実行
 	void Run();
-private:
-	LoadManager loadManager_;
-	//std::unique_ptr<WinAPI> winApi = nullptr;
-	////DirectX初期化
-	//RDirectX* directX = nullptr;
-	////インプット初期化
-	////キーボード
-	//DirectXInput* input_ = nullptr;
-	////コントローラー
-	//Controller* controller = nullptr;
-	////マウス
-	//MouseInput* mouse = nullptr;
-	////サウンド初期化
-	//SoundManager* sound_ = nullptr;
-	////imgui初期化
-	//ImGuiManager* imguiManeger_ = nullptr;
-	//LoadManager
-	std::unique_ptr<PostEffect> postEffect_;
-	std::unique_ptr<MultiRenderTarget> MLT_;
-	std::unique_ptr<MultiTexture> multiTexture_;
 };
 

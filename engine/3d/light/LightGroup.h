@@ -8,7 +8,7 @@
 #include <d3d12.h>
 class LightGroup
 {
-public:
+private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -16,7 +16,37 @@ public:
 	static const uint32_t sPointLightNum = 3;
 	static const uint32_t sSpotLightNum = 3;
 	static const uint32_t sCircleShadowNum = 1;
+	//定数バッファ用データ構造体
+	struct ConstBufferData {
+		//環境光の色
+		Vector3 ambientColor;
+		float pad1;
+		//平行光源用
+		DirectionalLight::ConstBufferData dirLights[sDirLightNum];
+		//点光源用
+		PointLight::ConstBufferData pointLights_[sPointLightNum];
+		//点光源用
+		SpotLight::ConstBufferData spotLights[sSpotLightNum];
+		//丸影
+		CircleShadow::ConstBufferData circleShadows[sCircleShadowNum];
+	};
 
+	//定数バッファ
+	ComPtr<ID3D12Resource> constBuff_;
+	//環境光の色
+	Vector3 ambientColor_ = { 1,1,1 };
+	//平行光源の配列
+	DirectionalLight dirLights_[sDirLightNum];
+	//点光源の配列
+	PointLight pointLights_[sPointLightNum];
+	//スポットライト
+	SpotLight spotLights_[sSpotLightNum];
+	//丸影
+	CircleShadow circleShadows_[sCircleShadowNum];
+
+	//ダーティフラグ
+	bool dirty_ = false;
+public:
 	static void StaticInit();
 	//インスタンス生成
 	static LightGroup* Create();
@@ -99,37 +129,5 @@ public:
 	void Update();
 
 	void Draw(UINT rootParameterIndex);
-
-private:
-	//定数バッファ用データ構造体
-	struct ConstBufferData {
-		//環境光の色
-		Vector3 ambientColor;
-		float pad1;
-		//平行光源用
-		DirectionalLight::ConstBufferData dirLights[sDirLightNum];
-		//点光源用
-		PointLight::ConstBufferData pointLights_[sPointLightNum];
-		//点光源用
-		SpotLight::ConstBufferData spotLights[sSpotLightNum];
-		//丸影
-		CircleShadow::ConstBufferData circleShadows[sCircleShadowNum];
-	};
-	
-	//定数バッファ
-	ComPtr<ID3D12Resource> constBuff_;
-	//環境光の色
-	Vector3 ambientColor_ = { 1,1,1 };
-	//平行光源の配列
-	DirectionalLight dirLights_[sDirLightNum];
-	//点光源の配列
-	PointLight pointLights_[sPointLightNum];
-	//スポットライト
-	SpotLight spotLights_[sSpotLightNum];
-	//丸影
-	CircleShadow circleShadows_[sCircleShadowNum];
-
-	//ダーティフラグ
-	bool dirty_ = false;
 };
 

@@ -17,10 +17,9 @@
 
 class Model
 {
-public:
+private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-private:
 	struct VertexPosNormalUv {
 		Vector3 pos;		//xyz座標
 		Vector3 normal;	//法線ベクトル
@@ -33,9 +32,6 @@ private:
 	//頂点法線スムージング用データ
 	bool smoothing_ = false;
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
-	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
-	//平滑化された頂点法線の計算
-	void CalculateSmoothedVertexNormals();
 public:
 	std::vector<std::unique_ptr<Vertices>> vert_;
 	std::vector<Texture> texture_;
@@ -43,8 +39,7 @@ public:
 	std::map<std::string, std::unique_ptr<Material>> materials_;
 	//ライト
 	static std::shared_ptr<LightGroup> lightGroup_;
-
-
+public:
 	~Model();
 
 	static Model* GetInstance();
@@ -77,6 +72,9 @@ private:
 
 	void AddMaterial(Material* material);
 
+	void AddSmoothData(unsigned short indexPositon, unsigned short indexVertex);
+	//平滑化された頂点法線の計算
+	void CalculateSmoothedVertexNormals();
 public:
 	void DrawOBJ(const WorldTransform& worldTransform);
 	void DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle);

@@ -27,10 +27,22 @@ struct Texture {
 
 class TextureManager
 {
-public:
+private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	//テクスチャの情報を格納
+	std::map < std::string , std::unique_ptr<Texture>> texData{};
+	//次に格納する場所のアドレス
+	uint32_t textureHandle;
 
+	//SRVの最大個数
+	const size_t kMaxSRVCount = 2056;
+	
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle{};
+	//設定をもとにSRV用でスクリプタヒープを生成
+	ComPtr<ID3D12DescriptorHeap> srvHeap{};
+public:
 	static TextureManager* GetInstance();
 
 	void Ini();
@@ -42,21 +54,6 @@ public:
 	Texture* GetTexture(const std::string& name);
 
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
-
-	//設定をもとにSRV用でスクリプタヒープを生成
-	ComPtr<ID3D12DescriptorHeap> srvHeap{};
-private:
-	//テクスチャの情報を格納
-	std::map < std::string , std::unique_ptr<Texture>> texData{};
-	//次に格納する場所のアドレス
-	uint32_t textureHandle;
-
-//SRVの最大個数
-	const size_t kMaxSRVCount = 2056;
-	
-	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle{};
-
 };
 
 std::string FileExtension(const std::string& path);

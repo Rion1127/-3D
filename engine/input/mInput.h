@@ -11,25 +11,41 @@
 //キーボード
 class Key
 {
-public:
-	
-	static void InputIni();
-	static void InputUpdata();
-
-	static bool PushKey(UINT8 key);		//押しっぱなし
-	static bool TriggerKey(UINT8 key);		//押した瞬間
-	static bool GetKeyReleased(UINT8 key);
-
 private:
 	static IDirectInputDevice8* skeyboard_;
 	//全キーの入力状態を取得する
 	static BYTE skeys_[256];
 	//全キーの入力状態を取得する
 	static BYTE soldkeys_[256];
+public:
+	static void InputIni();
+	static void InputUpdata();
 
+	static bool PushKey(UINT8 key);		//押しっぱなし
+	static bool TriggerKey(UINT8 key);		//押した瞬間
+	static bool GetKeyReleased(UINT8 key);
 };
 //マウス
+enum {
+	MOUSE_LEFT,
+	MOUSE_RIGHT,
+	MOUSE_WHEEL
+};
+
 class MouseInput {
+private:
+	IDirectInputDevice8* mouse_ = nullptr;
+
+	DIMOUSESTATE mouseState_;
+	DIMOUSESTATE prevmouseState_;
+public:
+	POINT p_;
+	//現フレームのマウスの位置
+	Vector3 mPos_;
+	//前フレームのマウスの位置
+	Vector3 prevmPos_;
+	//マウスが動いた方向のベクトル
+	Vector3 mouseVec_;
 public:
 	static MouseInput* GetInstance();
 
@@ -57,49 +73,12 @@ public:
 	float GetCursorMoveX();
 	float GetCursorMoveY();
 	float GetCursorMoveZ();
-	
-	POINT p_;
-	//現フレームのマウスの位置
-	Vector3 mPos_;
-	//前フレームのマウスの位置
-	Vector3 prevmPos_;
-	//マウスが動いた方向のベクトル
-	Vector3 mouseVec_;
 private:
 	//マウスの座標を取得する
 	void GetCursorPosition();
-
-	IDirectInputDevice8* mouse_ = nullptr;
-
-	DIMOUSESTATE mouseState_;
-	DIMOUSESTATE prevmouseState_;
-};
-enum {
-	MOUSE_LEFT,
-	MOUSE_RIGHT,
-	MOUSE_WHEEL
 };
 //コントローラ
 class Controller {
-public:
-	static Controller* GetInstance();
-
-	void Ini();
-
-	void Update();
-
-	bool GetActive() { return isConnect_; }
-
-	WORD GetButtons(WORD button);
-	WORD GetTriggerButtons(WORD button);
-	WORD GetReleasButtons(WORD button);
-	//false	右スティック
-	//true	左スティック
-	Vector2 GetLStick();
-	Vector2 GetRStick();
-
-	BYTE GetRTrigger();
-	BYTE GetLTrigger();
 private:
 #define PAD_UP				0x0001
 #define PAD_DOWN			0x0002
@@ -123,5 +102,24 @@ private:
 	//バイブレーション
 	XINPUT_VIBRATION vibration_;
 
+public:
+	static Controller* GetInstance();
+
+	void Ini();
+
+	void Update();
+
+	bool GetActive() { return isConnect_; }
+
+	WORD GetButtons(WORD button);
+	WORD GetTriggerButtons(WORD button);
+	WORD GetReleasButtons(WORD button);
+	//false	右スティック
+	//true	左スティック
+	Vector2 GetLStick();
+	Vector2 GetRStick();
+
+	BYTE GetRTrigger();
+	BYTE GetLTrigger();
 };
 

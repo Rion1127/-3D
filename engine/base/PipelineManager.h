@@ -13,6 +13,8 @@ enum TopologyName {
 };
 
 class PipelineManager {
+private:
+	static std::map<std::string, std::unique_ptr<PipelineObject>> pipelineObjects_;
 public:
 	static void Ini();
 
@@ -26,7 +28,4 @@ public:
 public:
 	//ÉQÉbÉ^Å[
 	static PipelineObject* GetPipelineObjects(const std::string& name) { return pipelineObjects_[name].get(); }
-	
-private:
-	static std::map<std::string, std::unique_ptr<PipelineObject>> pipelineObjects_;
 };

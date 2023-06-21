@@ -24,23 +24,12 @@
 class GameScene :
 	public EmptyScene
 {
-public:
-	~GameScene();
-
-	void Ini()override;
-
-	void Update()override;
-
-	void Draw()override;
 private:
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
 	DebugCamera debugCamera_;
 	
-	void CheckAllCollision();	//‚·‚×‚Ä‚Ì“–‚½‚è”»’è
-
 	Camera gameCamera_;
-	void cameraUpdate();
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
@@ -62,5 +51,13 @@ private:
 
 	SoundKey testSound_;
 
+public:
+	~GameScene();
+
+	void Ini()override;
+
+	void Update()override;
+
+	void Draw()override;
 };
 

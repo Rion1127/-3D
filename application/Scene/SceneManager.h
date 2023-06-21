@@ -8,6 +8,12 @@
 class SceneManager
 {
 public:
+	static std::unique_ptr<EmptyScene> scurrentScene_;
+
+	static uint32_t ssceneNum_;
+	static bool sisNext_;
+	static bool sisDifferent;
+public:
 	static void Ini();
 	static void Update();
 	static void Draw();
@@ -27,13 +33,6 @@ public:
 			sisDifferent = true;
 		}
 	}
-
-	static std::unique_ptr<EmptyScene> scurrentScene_;
-
-	
-	static uint32_t ssceneNum_;
-	static bool sisNext_;
-	static bool sisDifferent;
 };
 
 

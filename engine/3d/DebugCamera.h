@@ -4,17 +4,8 @@
 #include "Camera.h"
 class DebugCamera
 {
-public:
-	void DebugCameraIni();
-	void Update();
-
-
-	Camera* GetViewProjection();
-
 private:
 	MouseInput* mInput_ = nullptr;
-
-	void CameraMove();
 
 	Camera viewProjection_;
 
@@ -27,9 +18,14 @@ private:
 	Vector3 sideVec_{};
 	Vector3 upVec_{};
 
-	
-
 	float frontdist_;
+public:
+	DebugCamera();
 
+	void Update();
+private:
+	void CameraMove();
+public:
+	Camera* GetViewProjection();
 };
 

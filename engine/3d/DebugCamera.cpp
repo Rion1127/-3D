@@ -2,7 +2,7 @@
 #include <WinUser.h>
 #include <imgui.h>
 
-void DebugCamera::DebugCameraIni()
+DebugCamera::DebugCamera()
 {
 	mInput_ = MouseInput::GetInstance();
 

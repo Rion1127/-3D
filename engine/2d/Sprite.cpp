@@ -13,10 +13,6 @@
 
 uint32_t Sprite::SAllNum = 0;
 
-void Sprite::StaticIni()
-{
-}
-
 void Sprite::Ini(const std::string& guiname)
 {
 	spriteNum_ = SAllNum;
