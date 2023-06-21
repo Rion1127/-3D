@@ -3,6 +3,14 @@
 std::map<std::string, std::unique_ptr<PipelineObject>> PipelineManager::pipelineObjects_;
 
 void PipelineManager::Ini() {
+	//モデル、スプライトのパイプライン初期化
+	ObjShaderIni();
+	//ポストエフェクトのパイプライン初期化
+	PostEffectIni();
+}
+
+void PipelineManager::ObjShaderIni()
+{
 	//オブジェクト3D
 	AddPipeline("Object3D");
 	GetPipelineObjects("Object3D")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -14,7 +22,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("Object3D")->AddrootParams(4);
 
-	Create("Object3D", BACK,TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ALL,MODE_WRAP);
+	Create("Object3D", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 	//スプライト
 	AddPipeline("Sprite");
 	GetPipelineObjects("Sprite")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -26,7 +34,7 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("Sprite")->AddrootParams(3);
 
 	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
-	
+
 	//トゥーンオブジェクト3D
 	AddPipeline("Toon");
 	GetPipelineObjects("Toon")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -52,7 +60,9 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("assimp")->AddrootParams(4);
 
 	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
-
+}
+void PipelineManager::PostEffectIni()
+{
 	//ポストエフェクト
 	AddPipeline("PostEffect");
 	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -63,7 +73,7 @@ void PipelineManager::Ini() {
 
 	GetPipelineObjects("PostEffect")->AddrootParams(2);
 
-	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO,MODE_BORDER);
+	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 
 	//ポストエフェクト
 	AddPipeline("MultiTexture");
@@ -73,17 +83,18 @@ void PipelineManager::Ini() {
 	GetPipelineObjects("MultiTexture")->Setshader(L"Resources/shader/MultiTextureVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("MultiTexture")->Setshader(L"Resources/shader/MultiTexturePS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2,1);
+	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2, 1);
 
 	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
-
 }
+
 void PipelineManager::Create(
 	const std::string& pipelinename, CULL_MODE cullmode,
 	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
 	TEXTURE_ADDRESS_MODE uvMode)
 {
-	for (size_t i = 0; i < 4; i++) {
+	for (size_t i = 0; i < 4; i++)
+	{
 		pipelineObjects_[pipelinename]->
 			Create(BlendNum(i), cullmode, topologytype, depthWriteMasc, uvMode);
 	}
@@ -107,5 +118,3 @@ void PipelineManager::PreDraw(std::string pipelinename, TopologyName topologyNam
 	// プリミティブ形状の設定コマンド
 	cmdList.IASetPrimitiveTopology((D3D_PRIMITIVE_TOPOLOGY)topologyName); // 三角形リスト
 }
-
-

@@ -25,6 +25,9 @@ public:
 	static void AddPipeline(const std::string& pipelinename);
 
 	static void PreDraw(std::string pipelinename, TopologyName topologyName);
+private:
+	static void ObjShaderIni();
+	static void PostEffectIni();
 public:
 	//ÉQÉbÉ^Å[
 	static PipelineObject* GetPipelineObjects(const std::string& name) { return pipelineObjects_[name].get(); }
