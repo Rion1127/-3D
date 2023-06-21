@@ -20,19 +20,7 @@ void ShaderCompileFromFile(
 //std::string型からwchara_t型に変換する
 wchar_t* ConvertStrToWchar(const std::string& string);
 
-/// <summary>
-	/// 入れた値が最大値を上回っていたら最大値を返し、最小値を下回っていたら最小値を返す。
-	/// どちらにも当てはまらない場合は、値をそのまま返す
-	/// </summary>
-	/// <param name="value"> 値 </param>
-	/// <param name="max"> 最大値 </param>
-	/// <param name="min"> 最小値 </param>
-	/// <returns></returns>
-float Clamp(float value, float max, float min);
-
 void MoveTo(const Vector3& goal, float speed,WorldTransform& WT);
-
-
 
 template <class MapClass>
 inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(const MapClass& map) 

@@ -469,16 +469,3 @@ const Vector3 operator+(const DirectX::XMFLOAT3 v1, const Vector3 v2)
 	return result;
 }
 
-float Min(float value, float min)
-{
-	return 0.0f;
-}
-float Max(float value, float max)
-{
-	return 0.0f;
-}
-
-float Clamp(float value, float min, float max)
-{
-
-}
