@@ -66,7 +66,6 @@ public:
 
 	void Update();
 
-	static void PreDraw();
 	//画像サイズ自動取得(描画座標は中心)
 	void Draw();
 	//画像の頂点データを自分で指定

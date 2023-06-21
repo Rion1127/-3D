@@ -22,9 +22,6 @@ void Sprite::Ini(const std::string& guiname)
 	spriteNum_ = SAllNum;
 	Sprite::AddAllNum();
 
-
-
-
 	std::string noneString = "";
 	//何も入っていない場合
 	if (guiname == noneString) {
@@ -276,19 +273,6 @@ void Sprite::Update()
 #pragma endregion
 
 	TransferVertex();
-}
-
-void Sprite::PreDraw()
-{
-	// パイプラインステートとルートシグネチャの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetPipelineObjects("Sprite")->GetPipelineStateAlpha());
-
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetPipelineObjects("Sprite")->GetRootSignature());
-
-	// プリミティブ形状の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 }
 
 void Sprite::Draw()

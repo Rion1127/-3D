@@ -406,19 +406,6 @@ void Model::ModelIni(const std::string& modelname, bool smoothing)
 	}
 }
 
-void Model::PreDraw()
-{
-	// パイプラインステートとルートシグネチャの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetPipelineObjects("Object3D")->GetPipelineStateAlpha());
-
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetPipelineObjects("Object3D")->GetRootSignature());
-
-	// プリミティブ形状の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-}
-
 void Model::DrawOBJ(const WorldTransform& worldTransform)
 {
 	lightGroup_->Draw(3);

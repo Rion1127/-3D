@@ -78,10 +78,7 @@ private:
 	void AddMaterial(Material* material);
 
 public:
-	static void PreDraw();
-
 	void DrawOBJ(const WorldTransform& worldTransform);
 	void DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle);
-
 };
 

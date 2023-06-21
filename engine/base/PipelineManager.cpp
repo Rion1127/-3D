@@ -93,5 +93,19 @@ void PipelineManager::AddPipeline(const std::string& pipelinename)
 	std::unique_ptr<PipelineObject> obj = std::move(std::make_unique<PipelineObject>());
 	obj->name_ = pipelinename;
 	pipelineObjects_.insert(std::make_pair(pipelinename, std::move(obj)));
-};
+}
+void PipelineManager::PreDraw(std::string pipelinename, TopologyName topologyName)
+{
+	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
+	// パイプラインステートとルートシグネチャの設定コマンド
+	cmdList.SetPipelineState(
+		PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateAlpha());
+
+	cmdList.SetGraphicsRootSignature(
+		PipelineManager::GetPipelineObjects(pipelinename)->GetRootSignature());
+
+	// プリミティブ形状の設定コマンド
+	cmdList.IASetPrimitiveTopology((D3D_PRIMITIVE_TOPOLOGY)topologyName); // 三角形リスト
+}
+
 

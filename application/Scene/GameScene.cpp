@@ -100,31 +100,16 @@ void GameScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	Model::PreDraw();
-
+	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
 	skyDome_->Draw();
 	
-	AssimpObject3D::PreDraw();
+	PipelineManager::PreDraw("assimp", TRIANGLELIST);
 	assimpObj_.Draw();
-
-	// パイプラインステートとルートシグネチャの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
-		PipelineManager::GetPipelineObjects("Toon")->GetPipelineStateAlpha());
-
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootSignature(
-		PipelineManager::GetPipelineObjects("Toon")->GetRootSignature());
-
-	// プリミティブ形状の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-	
-	
-
-
 
 	////////////
 	//スプライト//
 	////////////
-	Sprite::PreDraw();
+	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
 	testSprite_.Draw();
 	testSprite_.DrawImGui();
 }
