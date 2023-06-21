@@ -5,78 +5,16 @@
 #include <cassert>
 #include "AssimpLoader.h"
 #include "Util.h"
-#include <filesystem>
 
-namespace fs = std::filesystem;
 
-std::wstring GetDirectoryPath(const std::wstring& origin)
-{
-	std::wstring name = origin;
-
-	fs::path p = origin.c_str();
-	return p.remove_filename().c_str();
-}
 
 AssimpLoader* AssimpLoader::GetInstance()
 {
 	static AssimpLoader instance;
 	return &instance;
 }
-//拡張子を入れ替える
-std::wstring ReplaceExtension(const std::wstring& origin, const char* ext)
-{
-	fs::path p = origin.c_str();
-	return p.replace_extension(ext).c_str();
-}
-//wstringをstd::string(マルチバイト文字列)に変換
-std::string ToUTF8(const std::wstring& value)
-{
-	auto length = WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, nullptr, 0, nullptr, nullptr);
-	std::vector<char> buffer;
-	buffer.resize(length);
-	WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, buffer.data(), length, nullptr, nullptr);
 
-	std::string result(buffer.data());
 
-	return result;
-}
-
-// std::string(マルチバイト文字列)からstd::wstring(ワイド文字列)を得る
-std::wstring ToWideString(const std::string& str)
-{
-	auto num1 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0);
-
-	std::wstring wstr;
-	wstr.resize(num1);
-
-	auto num2 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, &wstr[0], num1);
-
-	assert(num1 == num2);
-	return wstr;
-}
-// std::wstring(ワイド文字列)からstd::string(マルチバイト文字列)を得る
-std::string WStringToString(std::wstring oWString)
-{
-	// wstring → SJIS
-	uint32_t iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str()
-		, -1, (char*)NULL, 0, NULL, NULL);
-
-	// バッファの取得
-	std::vector<CHAR> cpMultiByte;
-	cpMultiByte.resize(iBufferSize);
-	// wstring → SJIS
-	WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str(), -1, cpMultiByte.data()
-		, iBufferSize, NULL, NULL);
-
-	// stringの生成
-	std::string oRet(cpMultiByte.data(), cpMultiByte.data() + iBufferSize - 1);
-
-	// バッファの破棄
-	
-
-	// 変換結果を返す
-	return(oRet);
-}
 
 bool AssimpLoader::Load(ImportSettings* setting)
 {

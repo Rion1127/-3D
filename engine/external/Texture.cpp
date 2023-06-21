@@ -47,7 +47,6 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	std::string find_Name = "Resources/";
 	size_t strPos = fileName.find(find_Name);
 	//"Resources/"　が文字列の最初になければ文字列を足す
-
 	if (strPos == 0)
 	{
 		allFileName = fileName;
@@ -58,7 +57,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	}
 #pragma region 画像読み込み
 	//stringをwchar_tに変換
-	wchar_t* allFileName_w = ConvertStrToWchar(allFileName);
+	std::wstring allFileName_w = ToWideString(allFileName);
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
@@ -87,7 +86,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	{
 		//WICテクスチャダウンロード
 		result = LoadFromWICFile(
-			allFileName_w,
+			allFileName_w.c_str(),
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}
@@ -95,7 +94,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	{
 		//WICテクスチャダウンロード
 		result = LoadFromTGAFile(
-			allFileName_w,
+			allFileName_w.c_str(),
 			&metadata, scratchImg);
 	}
 	

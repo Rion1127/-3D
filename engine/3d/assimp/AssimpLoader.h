@@ -5,7 +5,6 @@ struct aiMesh;
 struct aiMaterial;
 struct aiBone;
 
-
 struct Mesh {
 	Vertices Vertices; // 頂点データの配列
 	std::wstring diffuseMap; // テクスチャのファイルパス
@@ -49,5 +48,3 @@ private:
 private:
 	
 };
-
-std::string WStringToString(std::wstring oWString);

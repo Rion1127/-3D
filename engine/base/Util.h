@@ -10,18 +10,14 @@
 //WARNINGの詳細表示
 void DisplayWarningInfo(ID3D12Device* device);
 
-#pragma region シェーダー読み込み
+//シェーダー読み込み
 void ShaderCompileFromFile(
 	LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target,
 	ID3DBlob** blob, ID3DBlob* errorBlob);
 
-#pragma endregion
-
-//std::string型からwchara_t型に変換する
-wchar_t* ConvertStrToWchar(const std::string& string);
-
 void MoveTo(const Vector3& goal, float speed,WorldTransform& WT);
 
+//定数バッファ
 template <class MapClass>
 inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(const MapClass& map) 
 {
@@ -61,3 +57,14 @@ inline Microsoft::WRL::ComPtr<ID3D12Resource> CreateBuff(const MapClass& map)
 	return buff;
 }
 
+namespace fs = std::filesystem;
+
+std::wstring GetDirectoryPath(const std::wstring& origin);
+//拡張子を入れ替える
+std::wstring ReplaceExtension(const std::wstring& origin, const char* ext);
+//wstringをstd::string(マルチバイト文字列)に変換
+std::string ToUTF8(const std::wstring& value);
+// std::string(マルチバイト文字列)からstd::wstring(ワイド文字列)を得る
+std::wstring ToWideString(const std::string& str);
+// std::wstring(ワイド文字列)からstd::string(マルチバイト文字列)を得る
+std::string WStringToString(std::wstring oWString);
