@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 
-class PostEffect
+class IPostEffect
 {
 private:
 	//エイリアステンプレート
@@ -42,16 +42,27 @@ private:
 private:
 	//画面クリアカラー
 	static const float clearColor_[4];
+	static const uint32_t vertNum_;
+	struct VertexPosUV {
+		Vector3 pos;
+		Vector2 uv;
+	};
 public:
-	PostEffect();
+	IPostEffect();
+	//更新
+	virtual void PUpdate();
 
-	void PUpdate();
-
-	void Draw(std::string pipelineName);
+	virtual void Draw(std::string pipelineName);
 	//シーン前処理
-	void PreDrawScene();
+	virtual void PreDrawScene();
 	//シーン描画後処理
-	void PostDrawScene();
+	virtual void PostDrawScene();
+protected:
+	//シェーダーへ値を渡す
+	virtual void TransferBuff() = 0;
+	virtual void SendToShader() = 0;
+	//コマンドリストにBuffのアドレスを積む
+	virtual void SetBuff(uint32_t index, ID3D12Resource* constBuff);
 private:
 	void CreateVertBuff();
 	void CreateibView();
@@ -61,12 +72,5 @@ private:
 	void CreateRTV();
 	void CreateDepthBuff();
 	void CreateDSV();
-public:
-private:
-	static const uint32_t vertNum_;
-	struct VertexPosUV {
-		Vector3 pos;
-		Vector2 uv;
-	};
 };
 

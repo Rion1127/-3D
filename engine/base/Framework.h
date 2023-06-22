@@ -17,6 +17,7 @@
 #include "MultipleRenderTarget.h"
 #include "MultiTexture.h"
 #include "Bloom.h"
+#include "Noise.h"
 class Framework
 {
 private:
@@ -25,6 +26,7 @@ private:
 	LoadManager loadManager_;
 	
 	std::unique_ptr<Bloom> bloom_;
+	std::unique_ptr<Noise> noise_;
 public:
 	virtual ~Framework() = default;
 

@@ -33,6 +33,7 @@ void Framework::Init()
 	loadManager_.LoadAllResources();
 
 	bloom_ = std::move(std::make_unique<Bloom>());
+	noise_ = std::move(std::make_unique<Noise>());
 }
 
 void Framework::Finalize()
@@ -58,6 +59,7 @@ void Framework::Update()
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 
+	//noise_->PUpdate();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	//ImGui::ShowDemoWindow();
@@ -87,17 +89,18 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	//multiTexture_->PreDrawScene();
+	//noise_->PreDrawScene();
 	//SceneManager::Draw();
-	//multiTexture_->PostDrawScene();
+	//noise_->PostDrawScene();
 
-	bloom_->PreDraw();
+	//bloom_->PreDraw();
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	//SceneManager::Draw();
-	bloom_->Draw();
+	SceneManager::Draw();
+	//bloom_->Draw();
+	//noise_->Draw("Noise");
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

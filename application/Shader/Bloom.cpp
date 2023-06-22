@@ -4,8 +4,8 @@
 
 Bloom::Bloom()
 {
-	highLumi_= std::move(std::make_unique<PostEffect>());
-	gaussianBlur_ = std::move(std::make_unique<PostEffect>());
+	highLumi_ = std::move(std::make_unique<HighLumi>());
+	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
 	compo_ = std::move(std::make_unique<MultiTexture>());
 }
 

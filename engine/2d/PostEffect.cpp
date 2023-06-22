@@ -5,10 +5,10 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 
-const float PostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
-const uint32_t PostEffect::vertNum_ = 4;
+const float IPostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
+const uint32_t IPostEffect::vertNum_ = 4;
 
-PostEffect::PostEffect() /*:Sprite()*/
+IPostEffect::IPostEffect() /*:Sprite()*/
 {
 	//頂点バッファ生成
 	CreateVertBuff();
@@ -28,20 +28,12 @@ PostEffect::PostEffect() /*:Sprite()*/
 	CreateDSV();
 }
 
-void PostEffect::PUpdate()
+void IPostEffect::PUpdate()
 {
-	ConstBufferData* constMap = nullptr;
-	HRESULT result = constBuff_->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result)) {
-		Color color_ = { 1,1,1,1 };
-		// 定数バッファにデータ転送
-		constMap->color = color_;
-		constMap->mat.UnitMatrix(); // 行列の合成
-	}
-	
+	TransferBuff();
 }
 
-void PostEffect::Draw(std::string pipelineName)
+void IPostEffect::Draw(std::string pipelineName)
 {
 	// パイプラインステートとルートシグネチャの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->SetPipelineState(
@@ -63,8 +55,10 @@ void PostEffect::Draw(std::string pipelineName)
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 
 	//定数バッファビュー(CBV)の設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());
+	/*RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());*/
+	//定数バッファをセットする
+	SendToShader();
 	// 頂点バッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
@@ -75,7 +69,7 @@ void PostEffect::Draw(std::string pipelineName)
 		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
-void PostEffect::PreDrawScene()
+void IPostEffect::PreDrawScene()
 {
 	ID3D12GraphicsCommandList& cmdList = *RDirectX::GetInstance()->GetCommandList();
 
@@ -109,7 +103,7 @@ void PostEffect::PreDrawScene()
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
-void PostEffect::PostDrawScene()
+void IPostEffect::PostDrawScene()
 {
 	//リソースバリアを変更（描画可能→シェーダーリソース）
 	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff_.Get(),
@@ -118,7 +112,7 @@ void PostEffect::PostDrawScene()
 		ResourceBarrier(1, &barrier);
 }
 
-void PostEffect::CreateVertBuff()
+void IPostEffect::CreateVertBuff()
 {
 	HRESULT result;
 
@@ -156,7 +150,7 @@ void PostEffect::CreateVertBuff()
 	vbView_.StrideInBytes = sizeof(VertexPosUV);
 }
 
-void PostEffect::CreateibView()
+void IPostEffect::CreateibView()
 {
 	HRESULT result;
 	indices_.push_back(0);
@@ -206,7 +200,7 @@ void PostEffect::CreateibView()
 	ibView_.SizeInBytes = sizeIB;
 }
 
-void PostEffect::CreateConstBuff()
+void IPostEffect::CreateConstBuff()
 {
 	HRESULT result;
 	//定数バッファの生成
@@ -225,7 +219,7 @@ void PostEffect::CreateConstBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateTexBuff()
+void IPostEffect::CreateTexBuff()
 {
 	HRESULT result;
 
@@ -272,7 +266,7 @@ void PostEffect::CreateTexBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateSRV()
+void IPostEffect::CreateSRV()
 {
 	HRESULT result;
 	//SRV用デスクリプタヒープ設定
@@ -298,7 +292,7 @@ void PostEffect::CreateSRV()
 		);
 }
 
-void PostEffect::CreateRTV()
+void IPostEffect::CreateRTV()
 {
 	HRESULT result;
 	//RTV用デスクリプタヒープ
@@ -322,7 +316,7 @@ void PostEffect::CreateRTV()
 		);
 }
 
-void PostEffect::CreateDepthBuff()
+void IPostEffect::CreateDepthBuff()
 {
 	HRESULT result;
 	CD3DX12_RESOURCE_DESC depthResDesc =
@@ -349,7 +343,7 @@ void PostEffect::CreateDepthBuff()
 	assert(SUCCEEDED(result));
 }
 
-void PostEffect::CreateDSV()
+void IPostEffect::CreateDSV()
 {
 	HRESULT result;
 	//DSV用デスクリプタヒープ設定
@@ -368,4 +362,9 @@ void PostEffect::CreateDSV()
 		CreateDepthStencilView(depthBuff_.Get(),
 			&dsvDesc,
 			descHeapDSV_->GetCPUDescriptorHandleForHeapStart());
+}
+
+void IPostEffect::SetBuff(uint32_t index, ID3D12Resource* constBuff) {
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(index, constBuff->GetGPUVirtualAddress());
 }
