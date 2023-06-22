@@ -41,13 +41,6 @@ void GameScene::Ini()
 	};
 	testModel_.Create(modelFile);
 	assimpObj_.SetModel(&testModel_);
-
-	testSprite_.Ini();
-	testSprite_.SetAnchor({ 0,0 });
-	testSprite_.SetTexture(TextureManager::GetInstance()->GetTexture("White1280x720"));
-	testSprite_.SetColor({ 0,0,0,1 });
-
-	testSound_ = SoundManager::LoadWave("selectSE.wav", "TestSE");
 }
 
 void GameScene::Update()
@@ -79,16 +72,13 @@ void GameScene::Update()
 	sphere_->Update();
 	testObj->Update();
 
-	testSprite_.Update();
-
 	lightManager_->DebugUpdate();
 }
 
 void GameScene::Draw()
 {
 	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
-	testSprite_.Draw();
-	testSprite_.DrawImGui();
+	
 	////////////////
 	//3Dオブジェクト//
 	////////////////

@@ -35,9 +35,9 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	//定数バッファ用データ構造体
 	struct ConstBufferData {
-		Color color;
-		Matrix4 mat;
+		size_t timer;
 	};
+protected:
 	ComPtr<ID3D12Resource> constBuff_ = nullptr;
 private:
 	//画面クリアカラー
@@ -50,23 +50,22 @@ private:
 public:
 	IPostEffect();
 	//更新
-	virtual void PUpdate();
+	 void PUpdate();
 
-	virtual void Draw(std::string pipelineName);
+	 void Draw(std::string pipelineName);
 	//シーン前処理
-	virtual void PreDrawScene();
+	 void PreDrawScene();
 	//シーン描画後処理
-	virtual void PostDrawScene();
+	 void PostDrawScene();
 protected:
 	//シェーダーへ値を渡す
 	virtual void TransferBuff() = 0;
 	virtual void SendToShader() = 0;
 	//コマンドリストにBuffのアドレスを積む
-	virtual void SetBuff(uint32_t index, ID3D12Resource* constBuff);
+	 void SetBuff(uint32_t index, ID3D12Resource* constBuff);
 private:
 	void CreateVertBuff();
 	void CreateibView();
-	void CreateConstBuff();
 	void CreateTexBuff();
 	void CreateSRV();
 	void CreateRTV();

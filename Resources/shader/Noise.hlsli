@@ -1,5 +1,7 @@
 cbuffer ConstBufferTime : register(b0) {
-    float timer;
+    int timer;
+    float power; //ノイズがかかる幅
+    float width; //揺らめき具合
 }
 
 //頂点シェーダの出力構造体

@@ -46,11 +46,6 @@ private:
 	AssimpModel testModel_;
 
 	AssimpObject3D assimpObj_;
-
-	Sprite testSprite_;
-
-	SoundKey testSound_;
-
 public:
 	~GameScene();
 

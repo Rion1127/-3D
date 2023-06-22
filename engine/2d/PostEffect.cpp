@@ -5,7 +5,7 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 
-const float IPostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
+const float IPostEffect::clearColor_[4] = { 0.1f, 0.25f, 0.5f, 0.0f };
 const uint32_t IPostEffect::vertNum_ = 4;
 
 IPostEffect::IPostEffect()
@@ -14,8 +14,6 @@ IPostEffect::IPostEffect()
 	CreateVertBuff();
 	//ibView生成
 	CreateibView();
-	//定数バッファ生成
-	CreateConstBuff();
 	//テクスチャ生成
 	CreateTexBuff();
 	//SRV生成
@@ -30,13 +28,14 @@ IPostEffect::IPostEffect()
 
 void IPostEffect::PUpdate()
 {
+	//static size_t time = 0;
+	//time += 1;
 	////定数バッファのマッピング
 	//ConstBufferData* map{};
 	//HRESULT result = constBuff_->Map(0, nullptr, (void**)&map);
 	//assert(SUCCEEDED(result));
 
-	//map->color.r += 1;
-	//map->mat.UnitMatrix();
+	//map->timer = time;
 
 	//constBuff_->Unmap(0, nullptr);
 
@@ -65,11 +64,9 @@ void IPostEffect::Draw(std::string pipelineName)
 	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
 
 	//定数バッファビュー(CBV)の設定コマンド
-	/*RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());*/
-	//SetBuff(1,constBuff_.Get());
 	//定数バッファをセットする
 	SendToShader();
+	//SetBuff(1, constBuff_.Get());
 	// 頂点バッファビューの設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
@@ -209,25 +206,6 @@ void IPostEffect::CreateibView()
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
-}
-
-void IPostEffect::CreateConstBuff()
-{
-	HRESULT result;
-	//定数バッファの生成
-	D3D12_HEAP_PROPERTIES heapProp =
-		D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	CD3DX12_RESOURCE_DESC resDesc =
-		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
-	result = RDirectX::GetInstance()->GetDevice()->
-		CreateCommittedResource(
-			&heapProp,
-			D3D12_HEAP_FLAG_NONE,
-			&resDesc,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&constBuff_));
-	assert(SUCCEEDED(result));
 }
 
 void IPostEffect::CreateTexBuff()

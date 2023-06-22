@@ -1,22 +1,25 @@
 #pragma once
 #include "DirectX.h"
 #include "PostEffect.h"
-class Noise : 
-	public IPostEffect{
+class Noise :
+	public IPostEffect {
 private:
-	struct ConstBuffTime{
+	struct ConstBuffTime {
 		int32_t time = 0;
+		float power;
+		float width;
 	};
-	
+
 	int32_t time_;
 private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//定数バッファ用データ構造体
-	ComPtr<ID3D12Resource> constBuffT_ = nullptr; 
+	ComPtr<ID3D12Resource> constBuffT_ = nullptr;
 	ConstBuffTime* constMap_;
-private:
-	
+public:
+protected:
+	//シェーダーへ値を渡す
 	void TransferBuff() override;
 	void SendToShader() override;
 public:
