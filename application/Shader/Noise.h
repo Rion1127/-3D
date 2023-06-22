@@ -13,7 +13,8 @@ private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//定数バッファ用データ構造体
-	ComPtr<ID3D12Resource> constBuff_ = nullptr;
+	ComPtr<ID3D12Resource> constBuff_ = nullptr; 
+	ConstBuffTime* constMap_;
 private:
 	
 	void TransferBuff() override;

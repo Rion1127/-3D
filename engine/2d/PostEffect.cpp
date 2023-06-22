@@ -202,21 +202,21 @@ void IPostEffect::CreateibView()
 
 void IPostEffect::CreateConstBuff()
 {
-	HRESULT result;
-	//定数バッファの生成
-	D3D12_HEAP_PROPERTIES heapProp =
-		D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	CD3DX12_RESOURCE_DESC resDesc =
-		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
-	result = RDirectX::GetInstance()->GetDevice()->
-		CreateCommittedResource(
-			&heapProp,
-			D3D12_HEAP_FLAG_NONE,
-			&resDesc,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&constBuff_));
-	assert(SUCCEEDED(result));
+	//HRESULT result;
+	////定数バッファの生成
+	//D3D12_HEAP_PROPERTIES heapProp =
+	//	D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	//CD3DX12_RESOURCE_DESC resDesc =
+	//	CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
+	//result = RDirectX::GetInstance()->GetDevice()->
+	//	CreateCommittedResource(
+	//		&heapProp,
+	//		D3D12_HEAP_FLAG_NONE,
+	//		&resDesc,
+	//		D3D12_RESOURCE_STATE_GENERIC_READ,
+	//		nullptr,
+	//		IID_PPV_ARGS(&constBuff_));
+	//assert(SUCCEEDED(result));
 }
 
 void IPostEffect::CreateTexBuff()

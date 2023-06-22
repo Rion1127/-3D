@@ -1,6 +1,5 @@
-cbuffer ConstBufferData : register(b0) {
-	//float4 color;
- //   matrix mat;
+cbuffer ConstBufferTime : register(b0) {
+    float timer;
 }
 
 //頂点シェーダの出力構造体
