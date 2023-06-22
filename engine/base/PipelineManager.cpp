@@ -134,8 +134,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Noise")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Noise")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/GaussianVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/GaussianPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/NoiseVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/NoisePS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Noise")->AddrootParams(2);
 

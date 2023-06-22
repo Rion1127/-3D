@@ -17,6 +17,7 @@
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="application\Shader\Bloom.cpp" />
+    <ClCompile Include="application\Shader\Noise.cpp" />
     <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
     <ClCompile Include="engine\2d\PostEffect.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="application\Shader\Bloom.h" />
+    <ClInclude Include="application\Shader\Noise.h" />
     <ClInclude Include="engine\2d\MultipleRenderTarget.h" />
     <ClInclude Include="engine\2d\MultiTexture.h" />
     <ClInclude Include="engine\2d\PostEffect.h" />
