@@ -8,7 +8,7 @@
 const float IPostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
 const uint32_t IPostEffect::vertNum_ = 4;
 
-IPostEffect::IPostEffect() /*:Sprite()*/
+IPostEffect::IPostEffect()
 {
 	//頂点バッファ生成
 	CreateVertBuff();
@@ -30,6 +30,16 @@ IPostEffect::IPostEffect() /*:Sprite()*/
 
 void IPostEffect::PUpdate()
 {
+	////定数バッファのマッピング
+	//ConstBufferData* map{};
+	//HRESULT result = constBuff_->Map(0, nullptr, (void**)&map);
+	//assert(SUCCEEDED(result));
+
+	//map->color.r += 1;
+	//map->mat.UnitMatrix();
+
+	//constBuff_->Unmap(0, nullptr);
+
 	TransferBuff();
 }
 
@@ -57,6 +67,7 @@ void IPostEffect::Draw(std::string pipelineName)
 	//定数バッファビュー(CBV)の設定コマンド
 	/*RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(1, constBuff_->GetGPUVirtualAddress());*/
+	//SetBuff(1,constBuff_.Get());
 	//定数バッファをセットする
 	SendToShader();
 	// 頂点バッファビューの設定コマンド
@@ -202,21 +213,21 @@ void IPostEffect::CreateibView()
 
 void IPostEffect::CreateConstBuff()
 {
-	//HRESULT result;
-	////定数バッファの生成
-	//D3D12_HEAP_PROPERTIES heapProp =
-	//	D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	//CD3DX12_RESOURCE_DESC resDesc =
-	//	CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
-	//result = RDirectX::GetInstance()->GetDevice()->
-	//	CreateCommittedResource(
-	//		&heapProp,
-	//		D3D12_HEAP_FLAG_NONE,
-	//		&resDesc,
-	//		D3D12_RESOURCE_STATE_GENERIC_READ,
-	//		nullptr,
-	//		IID_PPV_ARGS(&constBuff_));
-	//assert(SUCCEEDED(result));
+	HRESULT result;
+	//定数バッファの生成
+	D3D12_HEAP_PROPERTIES heapProp =
+		D3D12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC resDesc =
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
+	result = RDirectX::GetInstance()->GetDevice()->
+		CreateCommittedResource(
+			&heapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constBuff_));
+	assert(SUCCEEDED(result));
 }
 
 void IPostEffect::CreateTexBuff()

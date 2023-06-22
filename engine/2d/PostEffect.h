@@ -33,12 +33,12 @@ private:
 	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
-	////定数バッファ用データ構造体
-	//struct ConstBufferData {
-	//	Color color;
-	//	Matrix4 mat;
-	//};
-	//ComPtr<ID3D12Resource> constBuff_ = nullptr;
+	//定数バッファ用データ構造体
+	struct ConstBufferData {
+		Color color;
+		Matrix4 mat;
+	};
+	ComPtr<ID3D12Resource> constBuff_ = nullptr;
 private:
 	//画面クリアカラー
 	static const float clearColor_[4];

@@ -8,7 +8,7 @@ float Gaussian(float2 drawUV, float2 pickUV, float sigma);
 float4 main(VSOutput input) : SV_TARGET
 {
     //スキャンノイズ
-    float _Speed = 0.4f; //ノイズのスクロール速度
+    float _Speed = 0.01f; //ノイズのスクロール速度
     float _Width = 0.1f; //ノイズがかかる幅
     float _Power = 0.5f; //揺らめき具合
     float sbTime = frac(timer * _Speed);
