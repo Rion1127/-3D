@@ -128,6 +128,19 @@ void PipelineManager::PostEffectIni()
 
 	Create("Gaussian", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
+
+#pragma region ƒmƒCƒY
+	AddPipeline("Noise");
+	GetPipelineObjects("Noise")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Noise")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/GaussianVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Noise")->Setshader(L"Resources/shader/GaussianPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Noise")->AddrootParams(2);
+
+	Create("Noise", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
 }
 
 void PipelineManager::Create(

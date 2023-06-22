@@ -127,12 +127,6 @@
     <Filter Include="シェーダーファイル\application\postEffect">
       <UniqueIdentifier>{400a5ff4-6532-44aa-ae09-556e6e7ef4b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="application\ソースファイル\Shader">
-      <UniqueIdentifier>{8f31775d-555a-400f-a18e-ca9b3962b2d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="application\ヘッダーファイル\Shader">
-      <UniqueIdentifier>{e985b8aa-5b84-4960-81c7-3d4211ae93cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="シェーダーファイル\application\postEffect\Bloom">
       <UniqueIdentifier>{5283aeb3-0a3b-4a93-bcdb-4da7c402d2a8}</UniqueIdentifier>
     </Filter>
@@ -141,6 +135,9 @@
     </Filter>
     <Filter Include="シェーダーファイル\application\postEffect\GaussianBlur">
       <UniqueIdentifier>{be1f59c9-c0bc-41bb-95a6-1ec832e10bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\Noise">
+      <UniqueIdentifier>{8f2ea94b-8a4c-4b65-b32b-10c4f314b96a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -289,7 +286,7 @@
       <Filter>engine\ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="application\Shader\Bloom.cpp">
-      <Filter>application\ソースファイル\Shader</Filter>
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,7 +435,7 @@
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="application\Shader\Bloom.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -472,6 +469,9 @@
     </None>
     <None Include="Resources\shader\Gaussian.hlsli">
       <Filter>シェーダーファイル\application\postEffect\GaussianBlur</Filter>
+    </None>
+    <None Include="Resources\shader\Noise.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\Noise</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -537,6 +537,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shader\GaussianVS.hlsl">
       <Filter>シェーダーファイル\application\postEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\NoiseVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\Noise</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\NoisePS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\Noise</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

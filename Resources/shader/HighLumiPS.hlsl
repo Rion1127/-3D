@@ -9,7 +9,7 @@ float4 main(VSOutput input) : SV_TARGET
     
     //1.‚‹P“x•”‚ğ’Šo
     float grayScale = col.r * 0.299 + col.g * 0.587 + col.b * 0.114;
-    float extract = smoothstep(0.4, 0.9, grayScale);
+    float extract = smoothstep(0.6, 0.9, grayScale);
     float4 highLumi = col * extract;
     
     highLumi.a = 1;
