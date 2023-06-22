@@ -49,20 +49,22 @@ private:
 	};
 public:
 	IPostEffect();
+	
 	//更新
-	 void PUpdate();
+	void PUpdate();
 
-	 void Draw(std::string pipelineName);
+	void Draw(std::string pipelineName);
 	//シーン前処理
-	 void PreDrawScene();
+	void PreDrawScene();
 	//シーン描画後処理
-	 void PostDrawScene();
+	void PostDrawScene();
 protected:
+	//継承先でoverrideする関数は下の二つだけ
 	//シェーダーへ値を渡す
 	virtual void TransferBuff() = 0;
 	virtual void SendToShader() = 0;
 	//コマンドリストにBuffのアドレスを積む
-	 void SetBuff(uint32_t index, ID3D12Resource* constBuff);
+	void SetBuff(uint32_t index, ID3D12Resource* constBuff);
 private:
 	void CreateVertBuff();
 	void CreateibView();

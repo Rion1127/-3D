@@ -28,17 +28,6 @@ IPostEffect::IPostEffect()
 
 void IPostEffect::PUpdate()
 {
-	//static size_t time = 0;
-	//time += 1;
-	////定数バッファのマッピング
-	//ConstBufferData* map{};
-	//HRESULT result = constBuff_->Map(0, nullptr, (void**)&map);
-	//assert(SUCCEEDED(result));
-
-	//map->timer = time;
-
-	//constBuff_->Unmap(0, nullptr);
-
 	TransferBuff();
 }
 
