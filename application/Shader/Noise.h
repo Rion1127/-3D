@@ -15,7 +15,7 @@ private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//定数バッファ用データ構造体
-	ComPtr<ID3D12Resource> constBuffT_ = nullptr;
+	
 	ConstBuffTime* constMap_;
 public:
 protected:

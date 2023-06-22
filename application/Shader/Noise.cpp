@@ -3,7 +3,7 @@
 #include "RRandom.h"
 Noise::Noise()
 {
-	constBuffT_ = CreateBuff(constMap_);
+	constBuff_ = CreateBuff(constMap_);
 }
 
 void Noise::TransferBuff()
@@ -12,17 +12,17 @@ void Noise::TransferBuff()
 	
 	//定数バッファのマッピング
 	ConstBuffTime* map{};
-	HRESULT result = constBuffT_->Map(0, nullptr, (void**)&map);
+	HRESULT result = constBuff_->Map(0, nullptr, (void**)&map);
 	assert(SUCCEEDED(result));
 
 	map->time = time_;
 	map->power = RRandom::RandF(0.3f, 0.5f);
 	map->width = RRandom::RandF(0.01f, 0.1f);
 
-	constBuffT_->Unmap(0, nullptr);
+	constBuff_->Unmap(0, nullptr);
 }
 
 void Noise::SendToShader()
 {
-	SetBuff(1, constBuffT_.Get());
+	SetBuff(1, constBuff_.Get());
 }
