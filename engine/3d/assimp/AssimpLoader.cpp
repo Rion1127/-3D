@@ -29,7 +29,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 	Assimp::Importer importer;
 	//以下のフラグの数値を代入していく
 	uint32_t flag = 0;
-	
+
 	/*flag |= aiProcess_Triangulate;
 	flag |= aiProcess_PreTransformVertices;
 	flag |= aiProcess_JoinIdenticalVertices;
@@ -73,7 +73,7 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		if (scene->mNumMaterials > i) {
 			LoadTexture(setting->filename, meshes[i], pMaterial);
 		}
-		LoadBones(i, scene->mMeshes[i],setting);
+		LoadBones(i, scene->mMeshes[i], setting);
 		//if (scene->mMeshes[i]->mBones != nullptr)
 		//{
 		//	//ボーンの情報を生成
@@ -90,10 +90,10 @@ bool AssimpLoader::Load(ImportSettings* setting)
 		//	};
 		//	
 		//}
-		
+
 	}
 
-	
+
 
 	scene = nullptr;
 
@@ -107,12 +107,15 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 
 	dst.Vertices.vertices_.resize(src->mNumVertices);
 
+	std::array<float, 4> bWeightList;
+	std::vector<std::array<uint32_t, 4>> bIndexList;
+
 	for (auto i = 0u; i < src->mNumVertices; ++i)
 	{
 		auto position = &(src->mVertices[i]);
 		auto normal = &(src->mNormals[i]);
 		auto uv = (src->HasTextureCoords(0)) ? &(src->mTextureCoords[0][i]) : &zero3D;
-		
+
 
 		// 反転オプションがあったらUVを反転させる
 		if (inverseU)
@@ -128,8 +131,76 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 		vertex.pos = Vector3(position->x, position->y, position->z);
 		vertex.normal = Vector3(normal->x, normal->y, normal->z);
 		vertex.uv = Vector2(uv->x, uv->y);
-		
 
+		//Bone
+		if (src->HasBones() || !src->mNumBones)
+		{
+			struct BoneData {
+				int32_t index;
+				float weight;
+			};
+
+			std::vector<BoneData> bdlist;
+
+			for (uint32_t j = 0; j < src->mNumBones; j++)
+			{
+				BoneData bd;
+
+				bd.index = j;
+
+				for (uint32_t h = 0; h < src->mBones[j]->mNumWeights; h++)
+				{
+					if (src->mBones[j]->mWeights[h].mVertexId == i)
+					{
+						bd.weight = src->mBones[j]->mWeights[h].mWeight;
+					}
+				}
+
+				bdlist.push_back(bd);
+			}
+
+			sort(bdlist.begin(), bdlist.end(), [](const auto& lhs, const auto& rhs) {
+				return lhs.weight > rhs.weight;
+				});
+
+			std::array<uint32_t, 4> bInd;
+			std::array<float, 4> bWeight;
+
+			for (size_t j = 0; j < 4; j++)
+			{
+				if (j < bdlist.size())
+				{
+					bInd[j] = bdlist.at(j).index;
+					bWeight[j] = bdlist.at(j).weight;
+				}
+				else
+				{
+					bInd[j] = 0;
+					bWeight[j] = 0.f;
+				}
+			}
+			bIndexList.push_back({ bInd[0], bInd[1], bInd[2], bInd[3] });
+			bWeightList.at(0) = bWeight[0];
+			bWeightList.at(1) = bWeight[1];
+			bWeightList.at(2) = bWeight[2];
+			bWeightList.at(3) = bWeight[3];
+		}
+		else
+		{
+			bIndexList.push_back({ 0, 0, 0, 0 });
+			bWeightList.at(0) = 0.f;
+			bWeightList.at(1) = 0.f;
+			bWeightList.at(2) = 0.f;
+			bWeightList.at(3) = 0.f;
+		}
+
+		//vertices.emplace_back(Vertex{ posList.back(), normalList.back(), tcList.back(), bIndexList.back(), bWeightList.back() });
+		for (uint32_t j = 0; j < bIndexList.size(); j++) {
+			for (uint32_t i = 0; i < 4; i++) {
+				vertex.m_BoneIDs.at(i) = bIndexList.at(j).at(i);
+				vertex.m_Weights.at(i) = bWeightList.at(i);
+			}
+		}
 		dst.Vertices.vertices_[i] = vertex;
 	}
 
@@ -153,17 +224,17 @@ void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMater
 		// テクスチャパスは相対パスで入っているので、ファイルの場所とくっつける
 		auto dir = GetDirectoryPath(filename);
 		auto file = std::string(path.C_Str());
-		
+
 		std::wstring filename_ = dir + ToWideString(file);
 
-		filename_ = ReplaceExtension(filename_,"tga");
+		filename_ = ReplaceExtension(filename_, "tga");
 		dst.diffuseMap = filename_;
 	}
 	else
 	{
 		dst.diffuseMap.clear();
 	}
-	
+
 }
 
 void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting)
@@ -177,10 +248,10 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 		setting->boneData.emplace_back();
 		BoneIndex = m_NumBones;
 		m_NumBones++;
-		
+
 		aiMatrix4x4& m = pMesh->mBones[i]->mOffsetMatrix;
 		aiBone& bone = *pMesh->mBones[i];
-		
+
 		for (size_t j = 0; j < bone.mNumWeights; j++)
 		{
 			auto& weight = bone.mWeights[j];
@@ -191,8 +262,8 @@ void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSett
 			m.a3, m.b3, m.c3, m.d3,
 			m.a4, m.b4, m.c4, m.d4
 		};
-		
+
 	}
-	
+
 }
 
