@@ -66,8 +66,12 @@ cbuffer Light : register(b2)
     CircleShadow circleShadows[CIRCLESHADOW_NUM];   //丸影
 }
 
-
-
+static const int BONE_MATRIX_NUM = 32;
+//3D変換行列
+cbuffer bMatrix : register(b3)
+{
+    matrix bmatrix[BONE_MATRIX_NUM];
+}
 
 //頂点シェーダの出力構造体
 //（頂点シェーダーからピクセルシェーダーへのやり取りに使用する）
@@ -75,10 +79,11 @@ struct VSOutput
 {
 	//システム用頂点座標
     float4 svpos : SV_POSITION; //システム用頂点座標
-    //float4 color : COLOR;//色
     float4 worldpos : POSITION;//ワールド座標
     float3 normal : NORMAL; //法線ベクトル
-    float2 uv : TEXCOORD; //uv座標
+    float2 uv : TEXCOORD0; //uv座標
+    int4 bIndex : TEXCOORD1;
+    float4 bWeight : TEXCOORD2;
 };
 
 struct PSOutput

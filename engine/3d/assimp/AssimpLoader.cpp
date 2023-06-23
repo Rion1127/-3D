@@ -128,7 +128,7 @@ void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool in
 		vertex.pos = Vector3(position->x, position->y, position->z);
 		vertex.normal = Vector3(normal->x, normal->y, normal->z);
 		vertex.uv = Vector2(uv->x, uv->y);
-
+		
 
 		dst.Vertices.vertices_[i] = vertex;
 	}

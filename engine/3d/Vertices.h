@@ -12,12 +12,13 @@
 class Vertices
 {
 public:
+	const static int MAX_BONES_VERTICES = 4;
 	struct VertexPosNormalUv {
 		Vector3 pos;		//xyz座標
 		Vector3 normal;	//法線ベクトル
 		Vector2 uv;		//uv座標
-		std::array<uint32_t, 4> m_BoneIDs;
-		std::array<float,4> m_Weights;
+		std::array<uint32_t, MAX_BONES_VERTICES> m_BoneIDs;
+		std::array<float, MAX_BONES_VERTICES> m_Weights;
 	};
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;

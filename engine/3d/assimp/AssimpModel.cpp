@@ -6,6 +6,17 @@ LightGroup* AssimpModel::slightGroup_ = nullptr;
 
 AssimpModel::AssimpModel()
 {
+	constBuff_ = CreateBuff(constMap_);
+}
+
+void AssimpModel::Update()
+{
+	//定数バッファのマッピング
+	
+	for (uint32_t i = 0; i < MAX_BONES; i++) {
+		constMap_->bonesMatrix[i].UnitMatrix();
+		constMap_->bonesMatrix[i].m[3][0] = -10.f + i;
+	}
 }
 
 void AssimpModel::Create(const wchar_t* modelFile)
@@ -42,11 +53,16 @@ void AssimpModel::Create(const wchar_t* modelFile)
 void AssimpModel::Draw(const WorldTransform& WT)
 {
 	slightGroup_->Draw(3);
+	//定数バッファビュー(CBV)の設定コマンド
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(4, constBuff_->GetGPUVirtualAddress());
 	for (uint32_t i = 0; i < importSetting_->meshes.size(); i++)
 	{
 		materials_[i].Draw(texture_[i].textureHandle);
 
 		importSetting_->meshes[i].Vertices.Draw(WT, 0);
 	}
+
+
 }
 

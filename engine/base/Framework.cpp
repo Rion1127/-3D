@@ -89,9 +89,9 @@ void Framework::Run()
 void Framework::Draw()
 {
 	//レンダーテクスチャへの描画
-	noise_->PreDrawScene();
-	SceneManager::Draw();
-	noise_->PostDrawScene();
+	//noise_->PreDrawScene();
+	//SceneManager::Draw();
+	//noise_->PostDrawScene();
 
 	//bloom_->PreDraw();
 
@@ -100,7 +100,7 @@ void Framework::Draw()
 	//ゲームシーン描画
 	SceneManager::Draw();
 	//bloom_->Draw();
-	noise_->Draw("Noise");
+	//noise_->Draw("Noise");
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

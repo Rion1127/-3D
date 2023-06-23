@@ -52,12 +52,14 @@ void PipelineManager::ObjShaderIni()
 	AddPipeline("assimp");
 	GetPipelineObjects("assimp")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("assimp")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
-	GetPipelineObjects("assimp")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("assimp")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT, 0);
+	GetPipelineObjects("assimp")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32B32A32_UINT, 1);
+	GetPipelineObjects("assimp")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32B32A32_FLOAT,2);
 
 	GetPipelineObjects("assimp")->Setshader(L"Resources/shader/assimpVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("assimp")->Setshader(L"Resources/shader/assimpPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("assimp")->AddrootParams(4);
+	GetPipelineObjects("assimp")->AddrootParams(5);
 
 	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 }

@@ -266,11 +266,11 @@ void PipelineObject::AddrootParamsMultiTexture(size_t addTexnum, size_t addNum)
 	}
 }
 
-void PipelineObject::AddInputLayout(const char* semanticName, DXGI_FORMAT format)
+void PipelineObject::AddInputLayout(const char* semanticName, DXGI_FORMAT format, uint32_t index)
 {
 	inputLayout_.push_back(
 		{
-		semanticName, 0, format, 0,
+		semanticName, index, format, 0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		});
