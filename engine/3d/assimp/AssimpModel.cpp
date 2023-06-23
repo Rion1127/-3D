@@ -13,9 +13,8 @@ void AssimpModel::Update()
 {
 	//定数バッファのマッピング
 	
-	for (uint32_t i = 0; i < MAX_BONES; i++) {
-		constMap_->bonesMatrix[i].UnitMatrix();
-		constMap_->bonesMatrix[i].m[3][0] = -10.f + i;
+	for (uint32_t i = 0; i < importSetting_->boneData.size(); i++) {
+		constMap_->bonesMatrix[i] = importSetting_->boneData[i].boneMatrix_;
 	}
 }
 
