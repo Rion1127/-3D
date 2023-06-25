@@ -15,7 +15,6 @@
 #include <fstream>
 #include "LightManager.h"
 #include "Object3d.h"
-#include "PostEffect.h"
 #include "RRandom.h"
 
 #include "AssimpObject3D.h"

@@ -59,7 +59,16 @@ void Framework::Update()
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 
-	noise_->PUpdate();
+
+	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
+
+	}
+	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
+		bloom_->Update();
+	}
+	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
+		noise_->PUpdate();
+	}
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	//ImGui::ShowDemoWindow();
@@ -94,13 +103,34 @@ void Framework::Draw()
 	//noise_->PostDrawScene();
 
 	//bloom_->PreDraw();
+	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
+
+	}
+	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
+		bloom_->PreDraw();
+	}
+	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
+		noise_->PreDraw();
+	}
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	SceneManager::Draw();
+	
 	//bloom_->Draw();
 	//noise_->Draw("Noise");
+	if (PostEffectName::None == PostEffectName(postEffectnum)) {
+		SceneManager::Draw();
+	}
+	else if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
+
+	}
+	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
+		bloom_->Draw();
+	}
+	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
+		noise_->Draw("Noise");
+	}
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
 	//imgui描画

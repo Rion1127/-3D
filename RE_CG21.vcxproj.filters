@@ -258,9 +258,6 @@
     <ClCompile Include="engine\3d\assimp\AssimpModel.cpp">
       <Filter>engine\ソース ファイル\assimp</Filter>
     </ClCompile>
-    <ClCompile Include="engine\2d\PostEffect.cpp">
-      <Filter>engine\ソース ファイル\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="application\LoadManager.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
@@ -289,6 +286,9 @@
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="application\Shader\Noise.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\IPostEffect.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
@@ -407,9 +407,6 @@
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h">
       <Filter>engine\ヘッダー ファイル\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="engine\2d\PostEffect.h">
-      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="application\LoadManager.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -441,6 +438,9 @@
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="application\Shader\Noise.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\IPostEffect.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

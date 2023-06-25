@@ -1,5 +1,5 @@
 #pragma once
-#include "PostEffect.h"
+#include "IPostEffect.h"
 #include "MultiTexture.h"
 #include <array>
 

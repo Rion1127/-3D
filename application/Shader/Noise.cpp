@@ -1,9 +1,18 @@
 #include "Noise.h"
 #include "Util.h"
 #include "RRandom.h"
+#include "SceneManager.h"
 Noise::Noise()
 {
 	constBuff_ = CreateBuff(constMap_);
+}
+
+void Noise::PreDraw()
+{
+	//レンダーテクスチャへの描画
+	PreDrawScene();
+	SceneManager::Draw();
+	PostDrawScene();
 }
 
 void Noise::TransferBuff()

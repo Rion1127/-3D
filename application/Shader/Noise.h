@@ -1,6 +1,6 @@
 #pragma once
 #include "DirectX.h"
-#include "PostEffect.h"
+#include "IPostEffect.h"
 class Noise :
 	public IPostEffect {
 private:
@@ -17,11 +17,11 @@ private:
 	//定数バッファ用データ構造体
 	
 	ConstBuffTime* constMap_;
-public:
 protected:
 	//シェーダーへ値を渡す
 	void TransferBuff() override;
 	void SendToShader() override;
 public:
 	Noise();
+	void PreDraw();
 };

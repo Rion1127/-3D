@@ -13,11 +13,18 @@
 #include "ImGuiManager.h"
 #include <imgui.h>
 #include "LoadManager.h"
-#include "PostEffect.h"
 #include "MultipleRenderTarget.h"
 #include "MultiTexture.h"
 #include "Bloom.h"
 #include "Noise.h"
+
+enum class PostEffectName {
+	None,
+	Gaussian,
+	Bloom,
+	Noise,
+};
+
 class Framework
 {
 private:
@@ -27,6 +34,7 @@ private:
 	
 	std::unique_ptr<Bloom> bloom_;
 	std::unique_ptr<Noise> noise_;
+	size_t postEffectnum = 0;
 public:
 	virtual ~Framework() = default;
 
