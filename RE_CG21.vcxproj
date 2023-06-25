@@ -17,9 +17,11 @@
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
     <ClCompile Include="application\Shader\Bloom.cpp" />
+    <ClCompile Include="application\Shader\CrossFilter.cpp" />
     <ClCompile Include="application\Shader\GaussianBlur.cpp" />
+    <ClCompile Include="application\Shader\HighLumi.cpp" />
+    <ClCompile Include="application\Shader\LineBlur.cpp" />
     <ClCompile Include="application\Shader\Noise.cpp" />
-    <ClCompile Include="CrossFilter.cpp" />
     <ClCompile Include="engine\2d\IPostEffect.cpp" />
     <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
@@ -63,8 +65,6 @@
     <ClCompile Include="engine\util\Color.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
     <ClCompile Include="engine\util\Timer.cpp" />
-    <ClCompile Include="HighLumi.cpp" />
-    <ClCompile Include="LineBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\LoadManager.h" />

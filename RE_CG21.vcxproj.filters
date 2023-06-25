@@ -300,13 +300,13 @@
     <ClCompile Include="application\Shader\GaussianBlur.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="LineBlur.cpp">
+    <ClCompile Include="application\Shader\CrossFilter.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="CrossFilter.cpp">
+    <ClCompile Include="application\Shader\LineBlur.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="HighLumi.cpp">
+    <ClCompile Include="application\Shader\HighLumi.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
