@@ -143,6 +143,33 @@ void PipelineManager::PostEffectIni()
 
 	Create("Noise", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
+
+#pragma region ラインブラー
+	//ポストエフェクト
+	AddPipeline("LineBlur");
+	GetPipelineObjects("LineBlur")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("LineBlur")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("LineBlur")->Setshader(L"Resources/shader/LineBlurVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("LineBlur")->Setshader(L"Resources/shader/LineBlurPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("LineBlur")->AddrootParams(2);
+
+	Create("LineBlur", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
+
+#pragma region クロスフィルター
+	AddPipeline("CrossFilter");
+	GetPipelineObjects("CrossFilter")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("CrossFilter")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("CrossFilter")->Setshader(L"Resources/shader/CrossFilterVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("CrossFilter")->Setshader(L"Resources/shader/CrossFilterPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("CrossFilter")->AddrootParamsMultiTexture(3, 1);
+
+	Create("CrossFilter", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion 
 }
 
 void PipelineManager::Create(

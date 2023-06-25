@@ -139,6 +139,12 @@
     <Filter Include="シェーダーファイル\application\postEffect\Noise">
       <UniqueIdentifier>{8f2ea94b-8a4c-4b65-b32b-10c4f314b96a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\LineBlur">
+      <UniqueIdentifier>{efa5e8c6-02f0-46a2-9fee-a0321ebfd425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\CrossFilter">
+      <UniqueIdentifier>{1fee2866-7a6c-4eaf-a197-5caf786e6086}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -292,6 +298,15 @@
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="application\Shader\GaussianBlur.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="LineBlur.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossFilter.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="HighLumi.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
@@ -449,6 +464,15 @@
     <ClInclude Include="application\Shader\GaussianBlur.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="application\Shader\CrossFilter.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Shader\HighLumi.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Shader\LineBlur.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -484,6 +508,12 @@
     </None>
     <None Include="Resources\shader\Noise.hlsli">
       <Filter>シェーダーファイル\application\postEffect\Noise</Filter>
+    </None>
+    <None Include="Resources\shader\LineBlur.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\LineBlur</Filter>
+    </None>
+    <None Include="Resources\shader\CrossFilter.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\CrossFilter</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -555,6 +585,18 @@
     </FxCompile>
     <FxCompile Include="Resources\shader\NoisePS.hlsl">
       <Filter>シェーダーファイル\application\postEffect\Noise</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\LineBlurPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\LineBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\LineBlurVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\LineBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\CrossFilterPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\CrossFilter</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\CrossFilterVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\CrossFilter</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

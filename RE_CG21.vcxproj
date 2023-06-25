@@ -19,6 +19,7 @@
     <ClCompile Include="application\Shader\Bloom.cpp" />
     <ClCompile Include="application\Shader\GaussianBlur.cpp" />
     <ClCompile Include="application\Shader\Noise.cpp" />
+    <ClCompile Include="CrossFilter.cpp" />
     <ClCompile Include="engine\2d\IPostEffect.cpp" />
     <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
@@ -62,6 +63,8 @@
     <ClCompile Include="engine\util\Color.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
     <ClCompile Include="engine\util\Timer.cpp" />
+    <ClCompile Include="HighLumi.cpp" />
+    <ClCompile Include="LineBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\LoadManager.h" />
@@ -70,7 +73,10 @@
     <ClInclude Include="application\Scene\ParticleScene.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
     <ClInclude Include="application\Shader\Bloom.h" />
+    <ClInclude Include="application\Shader\CrossFilter.h" />
     <ClInclude Include="application\Shader\GaussianBlur.h" />
+    <ClInclude Include="application\Shader\HighLumi.h" />
+    <ClInclude Include="application\Shader\LineBlur.h" />
     <ClInclude Include="application\Shader\Noise.h" />
     <ClInclude Include="engine\2d\IPostEffect.h" />
     <ClInclude Include="engine\2d\MultipleRenderTarget.h" />
@@ -120,8 +126,10 @@
     <None Include="packages.config" />
     <None Include="Resources\shader\assimp.hlsli" />
     <None Include="Resources\shader\Bloom.hlsli" />
+    <None Include="Resources\shader\CrossFilter.hlsli" />
     <None Include="Resources\shader\Gaussian.hlsli" />
     <None Include="Resources\shader\HighLumi.hlsli" />
+    <None Include="Resources\shader\LineBlur.hlsli" />
     <None Include="Resources\shader\MultiTexture.hlsli" />
     <None Include="Resources\shader\Noise.hlsli" />
     <None Include="Resources\shader\PostEffect.hlsli" />
@@ -155,6 +163,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resources\shader\CrossFilterPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\CrossFilterVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\shader\GaussianPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -174,6 +194,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shader\HighLumiVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\LineBlurPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shader\LineBlurVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

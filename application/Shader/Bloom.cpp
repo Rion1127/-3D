@@ -6,7 +6,7 @@ Bloom::Bloom()
 {
 	highLumi_ = std::move(std::make_unique<HighLumi>());
 	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
-	compo_ = std::move(std::make_unique<MultiTexture>());
+	compo_ = std::move(std::make_unique<MultiTexture>(2));
 }
 
 void Bloom::Update() {

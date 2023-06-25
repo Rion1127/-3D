@@ -18,12 +18,14 @@
 #include "Bloom.h"
 #include "Noise.h"
 #include "GaussianBlur.h"
+#include "CrossFilter.h"
 
 enum class PostEffectName {
 	None,
 	Gaussian,
 	Bloom,
 	Noise,
+	CrossFilter,
 	END
 };
 
@@ -37,6 +39,7 @@ private:
 	std::unique_ptr<Bloom> bloom_;
 	std::unique_ptr<Noise> noise_;
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
+	std::unique_ptr<CrossFilter> crossFilter_;
 	size_t postEffectnum = 0;
 public:
 	virtual ~Framework() = default;

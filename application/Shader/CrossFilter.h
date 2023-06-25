@@ -1,16 +1,16 @@
 #pragma once
-#include "IPostEffect.h"
-#include "GaussianBlur.h"
-#include "MultiTexture.h"
 #include "HighLumi.h"
-
-class Bloom {
+#include "MultiTexture.h"
+#include "LineBlur.h"
+#include <array>
+class CrossFilter
+{
 private:
 	std::unique_ptr<HighLumi> highLumi_;
-	std::unique_ptr<GaussianBlur> gaussianBlur_;
+	std::array<std::unique_ptr<LineBlur>,2> lineBlurs_;
 	std::unique_ptr<MultiTexture> compo_;
 public:
-	Bloom();
+	CrossFilter();
 	void Update();
 	void PreDraw();
 	void Draw();

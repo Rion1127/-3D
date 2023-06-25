@@ -35,6 +35,7 @@ void Framework::Init()
 	bloom_ = std::move(std::make_unique<Bloom>());
 	noise_ = std::move(std::make_unique<Noise>());
 	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
+	crossFilter_ = std::move(std::make_unique<CrossFilter>());
 }
 
 void Framework::Finalize()
@@ -72,6 +73,10 @@ void Framework::Update()
 	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
 		noise_->PUpdate();
 		postEffectName = "Noise";
+	}
+	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
+		crossFilter_->Update();
+		postEffectName = "Crossfilter";
 	}
 
 	ImGui::Begin("postEffect");
@@ -115,6 +120,9 @@ void Framework::Draw()
 	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
 		noise_->PreDraw();
 	}
+	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
+		crossFilter_->PreDraw();
+	}
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
@@ -130,6 +138,9 @@ void Framework::Draw()
 	}
 	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
 		noise_->Draw("Noise");
+	}
+	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
+		crossFilter_->Draw();
 	}
 	//imgui終了
 	ImGuiManager::Getinstance()->End();
