@@ -38,7 +38,7 @@ private:
 	std::unique_ptr<Object3d> sphere_;
 
 
-	std::unique_ptr<Object3d> testObj;
+	std::unique_ptr<Object3d> cube_;
 
 	WorldTransform testWT_;
 

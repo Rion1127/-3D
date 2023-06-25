@@ -1,5 +1,6 @@
 #pragma once
 #include "IPostEffect.h"
+#include "GaussianBlur.h"
 #include "MultiTexture.h"
 #include <array>
 
@@ -10,12 +11,7 @@ private:
 	void SendToShader() override {};
 };
 
-class GaussianBlur :
-	public IPostEffect {
-private:
-	void TransferBuff() override {};
-	void SendToShader() override {};
-};
+
 
 class Bloom {
 private:

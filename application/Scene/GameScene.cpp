@@ -25,8 +25,8 @@ void GameScene::Ini()
 	sphere_ = std::move(std::make_unique<Object3d>());
 	sphere_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
 
-	testObj = std::move(std::make_unique<Object3d>());
-	testObj->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
+	cube_ = std::move(std::make_unique<Object3d>());
+	cube_->SetModel(Model::CreateOBJ_uniptr("cube", true));
 
 	//const wchar_t* modelFile = L"Resources/Alicia/FBX/Alicia_solid_Unity.FBX";
 	const wchar_t* modelFile = L"Resources/boneTest/moveCube/moveCube.gltf";
@@ -65,12 +65,12 @@ void GameScene::Update()
 	skyDome_->SetRot({ 0,rotY,0 });
 	sphere_->SetPos({ 2,0,0 });
 	sphere_->SetRot({ 0,rotY,0 });
-	testObj->SetPos({ 0,0,-2 });
-	testObj->SetRot({ 0,rotY,0 });
+	cube_->SetPos({ 2,0,0 });
+	cube_->SetRot({ 0,rotY,0 });
 
 	skyDome_->Update();
 	sphere_->Update();
-	testObj->Update();
+	cube_->Update();
 
 	lightManager_->DebugUpdate();
 }
@@ -84,9 +84,10 @@ void GameScene::Draw()
 	////////////////
 	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
 	skyDome_->Draw();
+	cube_->Draw();
 	
 	PipelineManager::PreDraw("assimp", TRIANGLELIST);
-	assimpObj_.Draw();
+	//assimpObj_.Draw();
 
 	////////////
 	//スプライト//

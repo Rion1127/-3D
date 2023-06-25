@@ -291,6 +291,9 @@
     <ClCompile Include="engine\2d\IPostEffect.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="application\Shader\GaussianBlur.cpp">
+      <Filter>engine\ソース ファイル\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -441,6 +444,9 @@
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="engine\2d\IPostEffect.h">
+      <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Shader\GaussianBlur.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>

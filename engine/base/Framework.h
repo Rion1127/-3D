@@ -17,12 +17,14 @@
 #include "MultiTexture.h"
 #include "Bloom.h"
 #include "Noise.h"
+#include "GaussianBlur.h"
 
 enum class PostEffectName {
 	None,
 	Gaussian,
 	Bloom,
 	Noise,
+	END
 };
 
 class Framework
@@ -34,6 +36,7 @@ private:
 	
 	std::unique_ptr<Bloom> bloom_;
 	std::unique_ptr<Noise> noise_;
+	std::unique_ptr<GaussianBlur> gaussianBlur_;
 	size_t postEffectnum = 0;
 public:
 	virtual ~Framework() = default;

@@ -5,7 +5,7 @@
 #include "DirectX.h"
 #include "PipelineManager.h"
 
-const float IPostEffect::clearColor_[4] = { 0.3f, 0.25f, 0.5f, 0.0f };
+const float IPostEffect::clearColor_[4] = { 0.25f,0.5f,0.1f,0.0f };
 const uint32_t IPostEffect::vertNum_ = 4;
 
 IPostEffect::IPostEffect()

@@ -34,6 +34,7 @@ void Framework::Init()
 
 	bloom_ = std::move(std::make_unique<Bloom>());
 	noise_ = std::move(std::make_unique<Noise>());
+	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
 }
 
 void Framework::Finalize()
@@ -44,14 +45,11 @@ void Framework::Finalize()
 	SoundManager::GetInstance()->ReleaseAllSounds();
 	//imgui解放
 	ImGuiManager::Getinstance()->Finalize();
-
-	
 }
 
 void Framework::Update()
 {
 	// ゲームループ
-
 	//imgui開始
 	ImGuiManager::Getinstance()->Begin();
 	//インプット関連更新
@@ -59,16 +57,27 @@ void Framework::Update()
 	Controller::GetInstance()->Update();
 	MouseInput::GetInstance()->Updata();
 
+	const char* postEffectName = "None";
+
+	if (postEffectnum >= (size_t)PostEffectName::END)postEffectnum = 0;
 
 	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-
+		gaussianBlur_->PUpdate();
+		postEffectName = "Gaussian";
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->Update();
+		postEffectName = "Bloom";
 	}
 	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
 		noise_->PUpdate();
+		postEffectName = "Noise";
 	}
+
+	ImGui::Begin("postEffect");
+	if (ImGui::Button("Change PostEffect"))postEffectnum++;
+	ImGui::Text(postEffectName);
+	ImGui::End();
 #ifdef _DEBUG
 	//デモウィンドウの表示オン
 	//ImGui::ShowDemoWindow();
@@ -87,7 +96,7 @@ void Framework::Run()
 
 		//毎フレーム処理
 		Update();
-		
+
 		//描画
 		Draw();
 	}
@@ -97,14 +106,8 @@ void Framework::Run()
 
 void Framework::Draw()
 {
-	//レンダーテクスチャへの描画
-	//noise_->PreDrawScene();
-	//SceneManager::Draw();
-	//noise_->PostDrawScene();
-
-	//bloom_->PreDraw();
 	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-
+		gaussianBlur_->PreDraw();
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->PreDraw();
@@ -116,14 +119,11 @@ void Framework::Draw()
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
 	//ゲームシーン描画
-	
-	//bloom_->Draw();
-	//noise_->Draw("Noise");
 	if (PostEffectName::None == PostEffectName(postEffectnum)) {
 		SceneManager::Draw();
 	}
 	else if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-
+		gaussianBlur_->Draw("Gaussian");
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->Draw();

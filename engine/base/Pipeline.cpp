@@ -202,6 +202,7 @@ void PipelineObject::AddrootParams(size_t addNum)
 			//デスクリプタレンジの設定
 			D3D12_DESCRIPTOR_RANGE* descriptorRange =
 				new D3D12_DESCRIPTOR_RANGE{};
+			std::vector<CD3DX12_DESCRIPTOR_RANGE> cDescRangeSRVs;
 
 			//デスクリプタレンジの設定
 			descriptorRange->NumDescriptors = 1;					//一度の描画に好かうテクスチャが1枚なので1
