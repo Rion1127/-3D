@@ -2,7 +2,7 @@
 #include "Util.h"
 #include "Pipeline.h"
 
-std::string directoryName = "application/Resources/shader/";
+const std::string kBaseDirectory = "application/Resources/shader/";
 
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 {
@@ -175,7 +175,7 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 
 void PipelineObject::Setshader(std::string fileName, ShaderType shadertype)
 {
-	std::wstring allFileName = ToWideString(directoryName + fileName);
+	std::wstring allFileName = ToWideString(kBaseDirectory + fileName);
 	// 頂点シェーダの読み込みとコンパイル
 	if (shadertype == ShaderType::VS)
 	{
