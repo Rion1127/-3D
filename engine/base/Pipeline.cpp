@@ -173,6 +173,7 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 
 void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
 {
+
 	// 頂点シェーダの読み込みとコンパイル
 	if (shadertype == ShaderType::VS)
 	{

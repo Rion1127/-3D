@@ -44,7 +44,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//最終的なファイル名
 	std::string allFileName;
 
-	std::string find_Name = "Resources/";
+	std::string find_Name = "application/Resources/";
 	size_t strPos = fileName.find(find_Name);
 	//"Resources/"　が文字列の最初になければ文字列を足す
 	if (strPos == 0)
@@ -53,7 +53,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	}
 	else
 	{
-		allFileName = "Resources/" + fileName;
+		allFileName = find_Name + fileName;
 	}
 #pragma region 画像読み込み
 	//stringをwchar_tに変換
@@ -101,7 +101,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//失敗したときは白のテクスチャを読み込む
 	if (result != S_OK) {
 		result = LoadFromWICFile(
-			L"Resources/white1×1.png",
+			L"application/Resources/white1×1.png",
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}

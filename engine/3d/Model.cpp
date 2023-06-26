@@ -8,7 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "Util.h"
-const std::string kBaseDirectory = "Resources/";
+const std::string kBaseDirectory = "application/Resources/";
 
 //コマンドリストを格納する
 static RDirectX* directX_ = nullptr;
