@@ -2,6 +2,8 @@
 #include "Util.h"
 #include "Pipeline.h"
 
+std::string directoryName = "application/Resources/shader/";
+
 D3D12_STATIC_SAMPLER_DESC SetSAMPLER_DESC()
 {
 	//テクスチャサンプラーの設定
@@ -171,21 +173,21 @@ void PipelineObject::Create(BlendNum blendNum, CULL_MODE cullmode,
 	assert(SUCCEEDED(result));
 }
 
-void PipelineObject::Setshader(LPCWSTR fileName, ShaderType shadertype)
+void PipelineObject::Setshader(std::string fileName, ShaderType shadertype)
 {
-
+	std::wstring allFileName = ToWideString(directoryName + fileName);
 	// 頂点シェーダの読み込みとコンパイル
 	if (shadertype == ShaderType::VS)
 	{
-		ShaderCompileFromFile(fileName, "main", "vs_5_0", &vsBlob_, errorBlob_.Get());
+		ShaderCompileFromFile(allFileName.c_str(), "main", "vs_5_0", &vsBlob_, errorBlob_.Get());
 	}
 	else if (shadertype == ShaderType::PS)
 	{
-		ShaderCompileFromFile(fileName, "main", "ps_5_0", &psBlob_, errorBlob_.Get());
+		ShaderCompileFromFile(allFileName.c_str(), "main", "ps_5_0", &psBlob_, errorBlob_.Get());
 	}
 	else if (shadertype == ShaderType::GS)
 	{
-		ShaderCompileFromFile(fileName, "main", "gs_5_0", &gsBlob_, errorBlob_.Get());
+		ShaderCompileFromFile(allFileName.c_str(), "main", "gs_5_0", &gsBlob_, errorBlob_.Get());
 	}
 }
 

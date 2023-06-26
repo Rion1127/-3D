@@ -83,7 +83,7 @@ public:
 		TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
 		TEXTURE_ADDRESS_MODE uvMode);
 
-	void Setshader(LPCWSTR fileName,ShaderType shadertype);
+	void Setshader(std::string fileName,ShaderType shadertype);
 
 	void AddrootParams(size_t addNum);
 	void AddrootParamsMultiTexture(size_t addTexnum,size_t addNum);

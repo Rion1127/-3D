@@ -2,8 +2,6 @@
 
 std::map<std::string, std::unique_ptr<PipelineObject>> PipelineManager::pipelineObjects_;
 
-std::wstring fileName = L"Resources/shader/";
-
 void PipelineManager::Ini() {
 	//モデル、スプライトのパイプライン初期化
 	ObjShaderIni();
@@ -19,8 +17,8 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Object3D")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Object3D")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Object3D")->Setshader(L"application/Resources/shader/BasicVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Object3D")->Setshader(L"application/Resources/shader/BasicPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Object3D")->Setshader("BasicVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Object3D")->Setshader("BasicPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Object3D")->AddrootParams(4);
 
@@ -30,8 +28,8 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Sprite")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Sprite")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Sprite")->Setshader(L"application/Resources/shader/SpriteVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Sprite")->Setshader(L"application/Resources/shader/SpritePS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Sprite")->Setshader("SpriteVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Sprite")->Setshader("SpritePS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Sprite")->AddrootParams(3);
 
@@ -43,8 +41,8 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Toon")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Toon")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Toon")->Setshader(L"application/Resources/shader/ToonVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Toon")->Setshader(L"application/Resources/shader/ToonPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Toon")->Setshader("ToonVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Toon")->Setshader("ToonPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Toon")->AddrootParams(4);
 
@@ -58,8 +56,8 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("assimp")->AddInputLayout("BONEINDICES", DXGI_FORMAT_R32G32B32A32_UINT);
 	GetPipelineObjects("assimp")->AddInputLayout("BONEWEIGHTS", DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	GetPipelineObjects("assimp")->Setshader(L"application/Resources/shader/assimpVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("assimp")->Setshader(L"application/Resources/shader/assimpPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("assimp")->Setshader("assimpVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("assimp")->Setshader("assimpPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("assimp")->AddrootParams(5);
 
@@ -73,8 +71,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("PostEffect")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("PostEffect")->Setshader(L"application/Resources/shader/PostEffectVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("PostEffect")->Setshader(L"application/Resources/shader/PostEffectPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("PostEffect")->Setshader("PostEffectVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("PostEffect")->Setshader("PostEffectPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("PostEffect")->AddrootParams(2);
 
@@ -86,8 +84,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("MultiTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("MultiTexture")->Setshader(L"application/Resources/shader/MultiTextureVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("MultiTexture")->Setshader(L"application/Resources/shader/MultiTexturePS.hlsl", ShaderType::PS);
+	GetPipelineObjects("MultiTexture")->Setshader("MultiTextureVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("MultiTexture")->Setshader("MultiTexturePS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2, 1);
 
@@ -99,8 +97,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Bloom")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Bloom")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Bloom")->Setshader(L"application/Resources/shader/BloomVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Bloom")->Setshader(L"application/Resources/shader/BloomPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Bloom")->Setshader("BloomVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Bloom")->Setshader("BloomPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
 
@@ -112,8 +110,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("HighLumi")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("HighLumi")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("HighLumi")->Setshader(L"application/Resources/shader/HighLumiVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("HighLumi")->Setshader(L"application/Resources/shader/HighLumiPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("HighLumi")->Setshader("HighLumiVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("HighLumi")->Setshader("HighLumiPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("HighLumi")->AddrootParams(2);
 
@@ -125,8 +123,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Gaussian")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Gaussian")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Gaussian")->Setshader(L"application/Resources/shader/GaussianVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Gaussian")->Setshader(L"application/Resources/shader/GaussianPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Gaussian")->Setshader("GaussianVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Gaussian")->Setshader("GaussianPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Gaussian")->AddrootParams(2);
 
@@ -138,8 +136,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Noise")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Noise")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("Noise")->Setshader(L"application/Resources/shader/NoiseVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("Noise")->Setshader(L"application/Resources/shader/NoisePS.hlsl", ShaderType::PS);
+	GetPipelineObjects("Noise")->Setshader("NoiseVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Noise")->Setshader("NoisePS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("Noise")->AddrootParams(2);
 
@@ -152,8 +150,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("LineBlur")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("LineBlur")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("LineBlur")->Setshader(L"application/Resources/shader/LineBlurVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("LineBlur")->Setshader(L"application/Resources/shader/LineBlurPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("LineBlur")->Setshader("LineBlurVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("LineBlur")->Setshader("LineBlurPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("LineBlur")->AddrootParams(2);
 
@@ -165,8 +163,8 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("CrossFilter")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("CrossFilter")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("CrossFilter")->Setshader(L"application/Resources/shader/CrossFilterVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("CrossFilter")->Setshader(L"application/Resources/shader/CrossFilterPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("CrossFilter")->Setshader("CrossFilterVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("CrossFilter")->Setshader("CrossFilterPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("CrossFilter")->AddrootParamsMultiTexture(3, 1);
 
