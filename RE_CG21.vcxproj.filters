@@ -515,6 +515,9 @@
     <None Include="application\Resources\shader\MultiTexture.hlsli">
       <Filter>シェーダーファイル\application\postEffect</Filter>
     </None>
+    <None Include="application\Resources\shader\MultiRenderTexture.hlsli">
+      <Filter>シェーダーファイル\application</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="application\Resources\shader\ParticlePS.hlsl">
@@ -597,6 +600,12 @@
     </FxCompile>
     <FxCompile Include="application\Resources\shader\MultiTextureVS.hlsl">
       <Filter>シェーダーファイル\application\postEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\MultiRenderTexturePS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\MultiRenderTextureVS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
