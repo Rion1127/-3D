@@ -43,8 +43,7 @@ PSOutput main(VSOutput input) : SV_TARGET
             float4 white = { 1, 1, 1, 1 };
             float4 blue = { 0.04, 0.43, 1, 1 };
 			//トゥーンカラー
-            color.rgb =
-						(step(0.7f, intensity) == 1) ?
+            color.rgb = (step(0.7f, intensity) == 1) ?
 						white.rgb : white.rgb * 0.45f;
 			
             color.rgb *= dirLights[i].lightColor.rgb;
@@ -59,7 +58,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 			
           //////リムライト//////
             half rim = 1.0f - abs(dot(eyedir, input.normal));
-            float3 emission /*= _RimColor.rgb * pow(rim, _RimPower) * _RimPower*/;
+            float3 emission = 0;
 					//内積値(rim)を基準(_RimRange)にトゥーン調にする
             emission =
 						(step(rim, 0.7f) == 1) ?
@@ -167,8 +166,8 @@ PSOutput main(VSOutput input) : SV_TARGET
     }
 		
     
-    output.target0 = shadecolor * texcolor;
-    output.target1 = float4(1 - (shadecolor * texcolor).rgb, 1);
+    output.target0 = color * texcolor;
+    output.target1 = float4(1 - (color * texcolor).rgb, 1);
 	//シェーディングによる色で描画
     return output;
 	

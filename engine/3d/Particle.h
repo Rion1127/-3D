@@ -17,20 +17,7 @@ public:
 
 	static void PreDraw();
 
-	/// <summary>
-	/// ブレンド設定
-	/// </summary>
-	/// <param name="BLEND_ALPHA">アルファブレンド</param>
-	/// <param name="BLEND_SUB">減算合成</param>
-	/// <param name="BLEND_NEGA">色反転合成</param>
-	/// <param name="BLEND_NORMAL">半透明合成</param>
-	static void SetBlend(uint32_t blend);
-
 	void Update(Camera VP);
-
-
-	void ChangeColor(float x, float y, float z, float w);
-	void ChangeColor(const XMFLOAT4& color_);
 
 	void Draw(uint32_t descriptorSize);
 

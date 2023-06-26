@@ -49,18 +49,6 @@ std::unique_ptr<Model> Model::CreateOBJ_uniptr(const std::string& modelname, boo
 	return instance;
 }
 
-void Model::SetBlend(uint32_t blend)
-{
-	//if (blend > 3) blend = 3;
-	//else if (blend < 0) blend = 0;
-	//// パイプラインステートとルートシグネチャの設定コマンド
-	//directX_->GetCommandList()->SetPipelineState(
-	//	PipelineManager::GetObj3dPipeline(blend)->gerPipelineState());
-
-	//directX_->GetCommandList()->SetGraphicsRootSignature(
-	//	PipelineManager::GetObj3dPipeline(blend)->GetRootSignature());
-}
-
 void Model::SetModel(const Model* model)
 {
 
@@ -127,7 +115,7 @@ void Model::LoadOBJ(const std::string& modelname)
 	vert_.emplace_back(new Vertices);	//空の頂点データを入れる
 	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
 
-	uint32_t indexCountTex = 0;
+	uint16_t indexCountTex = 0;
 
 	while (getline(file, line))
 	{
@@ -142,10 +130,10 @@ void Model::LoadOBJ(const std::string& modelname)
 		if (key == "mtllib")
 		{
 			// マテリアルのファイル名読み込み
-			std::string filename;
-			line_stream >> filename;
+			std::string matfilename;
+			line_stream >> matfilename;
 			// マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, matfilename);
 		}
 
 		if (key == "v")
@@ -465,7 +453,6 @@ void Model::CalculateSmoothedVertexNormals()
 			float z = normal.z;
 
 			vert_[0]->vertices_[index].normal = { x,y,z };
-			uint32_t a = 0;
 		}
 	}
 	vert_[0]->Map();

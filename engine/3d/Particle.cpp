@@ -89,18 +89,6 @@ void Particle::PreDraw()
 	RDirectX::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ポイントリスト
 }
 
-void Particle::SetBlend(uint32_t blend)
-{
-	//if (blend > 3) blend = 3;
-	//else if (blend < 0) blend = 0;
-	//// パイプラインステートとルートシグネチャの設定コマンド
-	//directX_->GetCommandList()->SetPipelineState(
-	//	PipelineManager::GetParticlePipeline(blend)->gerPipelineState());
-
-	//directX_->GetCommandList()->SetGraphicsRootSignature(
-	//	PipelineManager::GetParticlePipeline(blend)->GetRootSignature());
-}
-
 void Particle::Update(Camera VP)
 {
 	HRESULT result;
@@ -128,16 +116,6 @@ void Particle::Update(Camera VP)
 		}
 		vertBuff_->Unmap(0, nullptr);
 	}
-}
-
-void Particle::ChangeColor(float x, float y, float z, float w)
-{
-	//bVertices_.ChangeColor(x, y, z, w);
-}
-
-void Particle::ChangeColor(const XMFLOAT4& color)
-{
-	//bVertices_.ChangeColor(color_);
 }
 
 void Particle::Draw(uint32_t descriptorSize)
