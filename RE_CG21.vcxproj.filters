@@ -145,6 +145,9 @@
     <Filter Include="シェーダーファイル\application\postEffect\CrossFilter">
       <UniqueIdentifier>{1fee2866-7a6c-4eaf-a197-5caf786e6086}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\application\postEffect\RadialBlur">
+      <UniqueIdentifier>{bedf3eb6-229c-4312-91d2-c1f601c80ad5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -518,6 +521,9 @@
     <None Include="application\Resources\shader\MultiRenderTexture.hlsli">
       <Filter>シェーダーファイル\application</Filter>
     </None>
+    <None Include="application\Resources\shader\RadialBlur.hlsli">
+      <Filter>シェーダーファイル\application\postEffect\RadialBlur</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="application\Resources\shader\ParticlePS.hlsl">
@@ -606,6 +612,12 @@
     </FxCompile>
     <FxCompile Include="application\Resources\shader\MultiRenderTextureVS.hlsl">
       <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\RadialBlurPS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\RadialBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\RadialBlurVS.hlsl">
+      <Filter>シェーダーファイル\application\postEffect\RadialBlur</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

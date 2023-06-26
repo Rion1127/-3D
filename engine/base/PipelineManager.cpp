@@ -183,6 +183,20 @@ void PipelineManager::PostEffectIni()
 
 	Create("MultiRenderTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion 
+
+#pragma region ラインブラー
+	//ポストエフェクト
+	AddPipeline("RadialBlur");
+	GetPipelineObjects("RadialBlur")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("RadialBlur")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("RadialBlur")->Setshader("RadialBlurVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("RadialBlur")->Setshader("RadialBlurPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("RadialBlur")->AddrootParams(2);
+
+	Create("RadialBlur", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion
 }
 
 void PipelineManager::Create(

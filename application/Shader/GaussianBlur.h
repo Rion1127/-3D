@@ -10,3 +10,12 @@ private:
 public:
 	void PreDraw();
 };
+
+class RadialBlur :
+	public IPostEffect {
+private:
+	void TransferBuff() override {};
+	void SendToShader() override {};
+public:
+	void PreDraw();
+};

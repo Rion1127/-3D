@@ -35,6 +35,7 @@ void Framework::Init()
 	bloom_ = std::move(std::make_unique<Bloom>());
 	noise_ = std::move(std::make_unique<Noise>());
 	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
+	radialBlur_ = std::move(std::make_unique<RadialBlur>());
 	crossFilter_ = std::move(std::make_unique<CrossFilter>());
 	multiRenderTexture_ = std::move(std::make_unique<MultiTexture>(2));
 }
@@ -66,6 +67,10 @@ void Framework::Update()
 	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
 		gaussianBlur_->PUpdate();
 		postEffectName = "Gaussian";
+	}
+	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
+		radialBlur_->PUpdate();
+		postEffectName = "RadialBlur";
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->Update();
@@ -102,10 +107,8 @@ void Framework::Run()
 		if (WinAPI::GetInstance()->MsgCheck()) {
 			break;
 		}
-
 		//–ˆƒtƒŒ[ƒ€ˆ—
 		Update();
-
 		//•`‰æ
 		Draw();
 	}
@@ -117,6 +120,9 @@ void Framework::Draw()
 {
 	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
 		gaussianBlur_->PreDraw();
+	}
+	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
+		radialBlur_->PreDraw();
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->PreDraw();
@@ -148,6 +154,9 @@ void Framework::Draw()
 	}
 	else if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
 		gaussianBlur_->Draw("Gaussian");
+	}
+	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
+		radialBlur_->Draw("RadialBlur");
 	}
 	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
 		bloom_->Draw();
