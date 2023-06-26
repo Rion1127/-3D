@@ -83,8 +83,10 @@ void GameScene::Draw()
 	//3Dオブジェクト//
 	////////////////
 	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
-	skyDome_->Draw();
 	cube_->Draw();
+	//skyDome_->Draw();
+	PipelineManager::PreDraw("Toon", TRIANGLELIST);
+	skyDome_->Draw();
 	
 	PipelineManager::PreDraw("assimp", TRIANGLELIST);
 	//assimpObj_.Draw();

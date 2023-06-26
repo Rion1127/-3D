@@ -14,7 +14,7 @@ float4 main(VSOutput input) : SV_TARGET
     float4 color = colorTex0;
     if (fmod(input.uv.y, 0.1f) < 0.05f)
     {
-        color = colorTex1;
+        color = float4(1, 1, 1, 1) - colorTex1;
     }
     
     

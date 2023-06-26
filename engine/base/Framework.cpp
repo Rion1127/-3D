@@ -36,6 +36,7 @@ void Framework::Init()
 	noise_ = std::move(std::make_unique<Noise>());
 	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
 	crossFilter_ = std::move(std::make_unique<CrossFilter>());
+	multiRenderTexture_ = std::move(std::make_unique<MultiTexture>(2));
 }
 
 void Framework::Finalize()
@@ -77,6 +78,9 @@ void Framework::Update()
 	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
 		crossFilter_->Update();
 		postEffectName = "Crossfilter";
+	}else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
+		multiRenderTexture_->PUpdate();
+		postEffectName = "MultiRenderTexture";
 	}
 
 	ImGui::Begin("postEffect");
@@ -123,6 +127,18 @@ void Framework::Draw()
 	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
 		crossFilter_->PreDraw();
 	}
+	else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
+		//ゲームシーンにガウシアンブラーを掛ける
+		gaussianBlur_->PreDraw();
+		//マルチテクスチャ0番にガウシアンブラーをセット
+		multiRenderTexture_->PreDrawSceneAssin(0);
+		gaussianBlur_->Draw("Gaussian");
+		multiRenderTexture_->PostDrawSceneAssin(0);
+		//マルチテクスチャ1番に通常の描画をセット
+		multiRenderTexture_->PreDrawSceneAssin(1);
+		SceneManager::Draw();
+		multiRenderTexture_->PostDrawSceneAssin(1);
+	}
 
 	//描画コマンド
 	RDirectX::GetInstance()->PreDraw();
@@ -141,6 +157,9 @@ void Framework::Draw()
 	}
 	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
 		crossFilter_->Draw();
+	}
+	else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
+		multiRenderTexture_->Draw("MultiRenderTexture");
 	}
 	//imgui終了
 	ImGuiManager::Getinstance()->End();

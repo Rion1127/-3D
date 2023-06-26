@@ -170,6 +170,19 @@ void PipelineManager::PostEffectIni()
 
 	Create("CrossFilter", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion 
+
+#pragma region CG4_•]‰¿‰Û‘è‚Q
+	AddPipeline("MultiRenderTexture");
+	GetPipelineObjects("MultiRenderTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("MultiRenderTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("MultiRenderTexture")->Setshader("MultiRenderTextureVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("MultiRenderTexture")->Setshader("MultiRenderTexturePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("MultiRenderTexture")->AddrootParamsMultiTexture(2, 1);
+
+	Create("MultiRenderTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+#pragma endregion 
 }
 
 void PipelineManager::Create(

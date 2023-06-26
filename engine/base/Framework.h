@@ -22,6 +22,7 @@
 
 enum class PostEffectName {
 	None,
+	MultiRenderTexture,
 	Gaussian,
 	Bloom,
 	Noise,
@@ -40,6 +41,7 @@ private:
 	std::unique_ptr<Noise> noise_;
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
 	std::unique_ptr<CrossFilter> crossFilter_;
+	std::unique_ptr<MultiTexture> multiRenderTexture_;
 	size_t postEffectnum = 0;
 public:
 	virtual ~Framework() = default;
