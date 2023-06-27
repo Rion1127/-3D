@@ -26,6 +26,6 @@ public:
 private:
 	void CameraMove();
 public:
-	Camera* GetViewProjection();
+	Camera* GetCamera() { return &viewProjection_; };
 };
 
