@@ -383,7 +383,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -392,7 +392,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalLibraryDirectories>$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Debug\assimp-vc142-mtd.dll" "$(TargetDir)assimp-vc142-mtd.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -415,7 +420,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalLibraryDirectories>$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Release\assimp-vc142-mt.dll" "$(TargetDir)assimp-vc142-mt.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
