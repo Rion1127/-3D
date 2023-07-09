@@ -68,16 +68,17 @@ void MultiTexture::Draw(std::string pipelineName)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = descHeapSRV_->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ0番に設定
-	for (size_t i = 0; i < texBuff_.size(); i++) {
+	for (size_t i = 0; i < texBuff_.size(); i++)
+	{
 		cmdList.SetGraphicsRootDescriptorTable((UINT)i,
-			CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle,(INT)i,
+			CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle, (INT)i,
 				device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	}
 
 	//定数バッファビュー(CBV)の設定コマンド
 	/*cmdList.
 		SetGraphicsRootConstantBufferView(2, constBuff_->GetGPUVirtualAddress());*/
-	// 頂点バッファビューの設定コマンド
+		// 頂点バッファビューの設定コマンド
 	cmdList.IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
 	cmdList.IASetIndexBuffer(&ibView_);
@@ -101,43 +102,35 @@ void MultiTexture::PreDrawScene()
 	}
 
 	//レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHs{};
-	rtvHs.resize(texBuff_.size());
-	for (size_t i = 0; i < texBuff_.size(); i++)
-	{
-		rtvHs[i] =
-			CD3DX12_CPU_DESCRIPTOR_HANDLE(
-				descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), (INT)i,
-				RDirectX::GetInstance()->GetDevice()->
-				GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-	}
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs{};
+
+	rtvHs =
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			descHeapRTV_->GetCPUDescriptorHandleForHeapStart(), (INT)0,
+			RDirectX::GetInstance()->GetDevice()->
+			GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH =
 		descHeapDSV_->GetCPUDescriptorHandleForHeapStart();
 	//レンダーターゲットをセット
-	cmdList.OMSetRenderTargets((UINT)texBuff_.size(), rtvHs.data(), false, &dsvH);
+	cmdList.OMSetRenderTargets((UINT)texBuff_.size(), &rtvHs, false, &dsvH);
 	//ビューポートの設定
-	std::vector < CD3DX12_VIEWPORT> viewPorts{};
-	viewPorts.resize(texBuff_.size());
+	CD3DX12_VIEWPORT viewPorts{};
 	//シザリング矩形の設定
-	std::vector < CD3DX12_RECT> rects{};
-	rects.resize(texBuff_.size());
-	for (size_t i = 0; i < texBuff_.size(); i++)
-	{
-		viewPorts[i] = CD3DX12_VIEWPORT(0.0f, 0.0f,
-			WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
-		rects[i] = CD3DX12_RECT(0, 0,
-			(LONG)WinAPI::GetWindowSize().x, (LONG)WinAPI::GetWindowSize().y);
-	}
+	CD3DX12_RECT rects{};
 
-	cmdList.RSSetViewports((UINT)texBuff_.size(), viewPorts.data());
-	cmdList.RSSetScissorRects((UINT)texBuff_.size(), rects.data());
+	viewPorts = CD3DX12_VIEWPORT(0.0f, 0.0f,
+		WinAPI::GetWindowSize().x, WinAPI::GetWindowSize().y);
+	rects = CD3DX12_RECT(0, 0,
+		(LONG)WinAPI::GetWindowSize().x, (LONG)WinAPI::GetWindowSize().y);
+
+	cmdList.RSSetViewports((UINT)texBuff_.size(), &viewPorts);
+	cmdList.RSSetScissorRects((UINT)texBuff_.size(), &rects);
 
 	//全画面クリア
-	for (size_t i = 0; i < texBuff_.size(); i++)
-	{
-		cmdList.ClearRenderTargetView(rtvHs[i], clearColor_, 0, nullptr);
-	}
+	cmdList.ClearRenderTargetView(rtvHs, clearColor_, 0, nullptr);
+
 	//深度バッファのクリア
 	cmdList.ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
