@@ -18,17 +18,11 @@ void LoadManager::LoadTexture()
 	LoadGraph("white1x1.png", "White");
 	LoadGraph("test.png", "Test");
 	LoadGraph("uv.png", "uv");
-	//HPバー
-	LoadGraph("hpBarBack.png", "HpBarBack");
-	LoadGraph("gauge.png", "Gauge");
-	//パーティクル
-	LoadGraph("starParticle.png", "StarParticle");
-	//UI
-	LoadGraph("LockOn1.png", "LockOn1");
-	LoadGraph("LockOn2.png", "LockOn2");
 
-	//ボタンUI
-	LoadGraph("pressA.png", "PressA");
+	LoadGraph("Dirt.jpg", "Dirt");
+	LoadGraph("FirldMask.png", "FirldMask");
+	LoadGraph("Grass.jpg", "Grass");
+	
 
 }
 

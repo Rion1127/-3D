@@ -6,6 +6,7 @@
 #include <vector>
 #include <wrl.h>
 #include <d3dx12.h>
+#include "Texture.h"
 
 class MultiTexture
 {
@@ -38,7 +39,7 @@ private:
 	//画面クリアカラー
 	static const float clearColor_[4];
 public:
-	MultiTexture(int32_t texNum);
+	MultiTexture(int32_t texNum = 0);
 
 	void PUpdate();
 
@@ -53,6 +54,8 @@ public:
 	void PreDrawSceneAssin(uint32_t texbuffNum);
 	//シーン描画後処理(texBuffを指定)
 	void PostDrawSceneAssin(uint32_t texbuffNum);
+
+	//void AddTexture(Texture* texture) { texBuff_.emplace_back(texture); }
 private:
 	void CreateVertBuff();
 	void CreateibView();

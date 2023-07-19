@@ -336,12 +336,6 @@
     <ClCompile Include="application\Scene\SceneChangeAnimation.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\63GameProject\engine\util\TextureBlend.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\util\TextureBlend.cpp">
-      <Filter>engine\ソース ファイル\Util</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -517,9 +511,6 @@
     </ClInclude>
     <ClInclude Include="application\Scene\SceneChangeAnimation.h">
       <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\util\TextureBlend.h">
-      <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
