@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\63GameProject\engine\util\TextureBlend.cpp" />
     <ClCompile Include="application\LoadManager.cpp" />
     <ClCompile Include="application\Particle\ParticleManager.cpp" />
     <ClCompile Include="application\Scene\DebugScene.cpp" />
@@ -68,6 +69,7 @@
     <ClCompile Include="engine\util\Color.cpp" />
     <ClCompile Include="engine\util\Gravity.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
+    <ClCompile Include="engine\util\TextureBlend.cpp" />
     <ClCompile Include="engine\util\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +130,7 @@
     <ClInclude Include="engine\util\Color.h" />
     <ClInclude Include="engine\util\Gravity.h" />
     <ClInclude Include="engine\util\RRandom.h" />
+    <ClInclude Include="engine\util\TextureBlend.h" />
     <ClInclude Include="engine\util\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +148,7 @@
     <None Include="application\Resources\shader\PostEffect.hlsli" />
     <None Include="application\Resources\shader\RadialBlur.hlsli" />
     <None Include="application\Resources\shader\Sprite.hlsli" />
+    <None Include="application\Resources\shader\TexBlendObj.hlsli" />
     <None Include="application\Resources\shader\Toon.hlsli" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -318,6 +322,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="application\Resources\shader\TexBlendObjPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\TexBlendObjVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="application\Resources\shader\ToonPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -375,8 +387,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)engine\external\DirectXTex;$(SolutionDir)engine\external\imgui;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\63GamePrjGenerated\Outputs\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\63GamePrjGenerated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

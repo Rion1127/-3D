@@ -336,6 +336,12 @@
     <ClCompile Include="application\Scene\SceneChangeAnimation.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\63GameProject\engine\util\TextureBlend.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\util\TextureBlend.cpp">
+      <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -512,6 +518,9 @@
     <ClInclude Include="application\Scene\SceneChangeAnimation.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="engine\util\TextureBlend.h">
+      <Filter>engine\ヘッダー ファイル\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -559,6 +568,9 @@
     </None>
     <None Include="application\Resources\shader\RadialBlur.hlsli">
       <Filter>シェーダーファイル\application\postEffect\RadialBlur</Filter>
+    </None>
+    <None Include="application\Resources\shader\TexBlendObj.hlsli">
+      <Filter>シェーダーファイル\Engine</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -654,6 +666,12 @@
     </FxCompile>
     <FxCompile Include="application\Resources\shader\RadialBlurVS.hlsl">
       <Filter>シェーダーファイル\application\postEffect\RadialBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\TexBlendObjPS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\TexBlendObjVS.hlsl">
+      <Filter>シェーダーファイル\Engine</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

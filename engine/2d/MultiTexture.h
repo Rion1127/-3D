@@ -43,6 +43,7 @@ public:
 	void PUpdate();
 
 	void Draw(std::string pipelineName);
+	void SetGraphicsRootDescriptorTable(std::string pipelineName);
 	//シーン前処理
 	void PreDrawScene();
 	//シーン描画後処理

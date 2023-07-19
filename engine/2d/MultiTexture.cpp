@@ -48,6 +48,20 @@ void MultiTexture::PUpdate()
 void MultiTexture::Draw(std::string pipelineName)
 {
 	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
+	SetGraphicsRootDescriptorTable(pipelineName);
+	// 頂点バッファビューの設定コマンド
+	cmdList.IASetVertexBuffers(0, 1, &vbView_);
+	//インデックスバッファビューの設定コマンド
+	cmdList.IASetIndexBuffer(&ibView_);
+
+	//描画コマンド
+	cmdList.
+		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
+}
+
+void MultiTexture::SetGraphicsRootDescriptorTable(std::string pipelineName)
+{
+	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
 	auto& device = *RDirectX::GetInstance()->GetDevice();
 	// パイプラインステートとルートシグネチャの設定コマンド
 	cmdList.SetPipelineState(
@@ -59,7 +73,6 @@ void MultiTexture::Draw(std::string pipelineName)
 	// プリミティブ形状の設定コマンド
 	cmdList.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-
 	//SRVヒープの設定コマンド
 	std::vector<ID3D12DescriptorHeap*> heaps = { descHeapSRV_.Get() };
 	cmdList.SetDescriptorHeaps(1, heaps.data());
@@ -67,23 +80,12 @@ void MultiTexture::Draw(std::string pipelineName)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 	srvGpuHandle = descHeapSRV_->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ0番に設定
-	for (int32_t i = 0; i < texBuff_.size(); i++) {
+	for (int32_t i = 0; i < texBuff_.size(); i++)
+	{
 		cmdList.SetGraphicsRootDescriptorTable((UINT)i,
-			CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle,(INT)i,
+			CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle, (INT)i,
 				device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	}
-
-	//定数バッファビュー(CBV)の設定コマンド
-	/*cmdList.
-		SetGraphicsRootConstantBufferView(2, constBuff_->GetGPUVirtualAddress());*/
-	// 頂点バッファビューの設定コマンド
-	cmdList.IASetVertexBuffers(0, 1, &vbView_);
-	//インデックスバッファビューの設定コマンド
-	cmdList.IASetIndexBuffer(&ibView_);
-
-	//描画コマンド
-	cmdList.
-		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
 void MultiTexture::PreDrawScene()

@@ -232,11 +232,10 @@ void PipelineObject::AddrootParams(int32_t addNum)
 	}
 }
 
-void PipelineObject::AddrootParamsMultiTexture(int32_t addTexnum, int32_t addNum)
+void PipelineObject::AddrootParamsMultiTextureFront(int32_t addTexnum, int32_t addNum)
 {
 	rootParams_.clear();
 	int32_t size = 0;
-
 	
 	for (int32_t i = 0; i < addTexnum; i++)
 	{
@@ -266,7 +265,42 @@ void PipelineObject::AddrootParamsMultiTexture(int32_t addTexnum, int32_t addNum
 		size++;
 
 		rootParams_.emplace_back(rootParams);
+	}
+}
 
+void PipelineObject::AddrootParamsMultiTextureBack(int32_t addNum, int32_t addTexnum)
+{
+	rootParams_.clear();
+	int32_t size = 0;
+
+	for (int32_t i = 0; i < addNum; i++)
+	{
+		D3D12_ROOT_PARAMETER rootParams{};
+		//定数バッファ
+		rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
+		rootParams.Descriptor.ShaderRegister = size;					//定数バッファ番号
+		rootParams.Descriptor.RegisterSpace = 0;						//デフォルト値
+		rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+		size++;
+
+		rootParams_.emplace_back(rootParams);
+	}
+
+	for (int32_t i = 0; i < addTexnum; i++)
+	{
+		D3D12_ROOT_PARAMETER rootParams{};
+		//デスクリプタレンジの設定
+		CD3DX12_DESCRIPTOR_RANGE* descriptorRange =
+			new CD3DX12_DESCRIPTOR_RANGE{};
+
+		descriptorRange->Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, i);
+
+		rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+		rootParams.DescriptorTable.pDescriptorRanges = descriptorRange;//デスクリプタレンジ
+		rootParams.DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+		rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダから見える
+
+		rootParams_.emplace_back(rootParams);
 	}
 }
 

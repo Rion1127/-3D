@@ -64,6 +64,17 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("assimp")->AddrootParams(5);
 
 	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+
+	//オブジェクト3D
+	AddPipeline("TextureBlend");
+	GetPipelineObjects("TextureBlend")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("TextureBlend")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("TextureBlend")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("TextureBlend")->Setshader("BasicVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("TextureBlend")->Setshader("BasicPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("TextureBlend")->AddrootParamsMultiTextureBack(4,3);
 }
 void PipelineManager::PostEffectIni()
 {
@@ -89,7 +100,7 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiTexture")->Setshader("MultiTextureVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("MultiTexture")->Setshader("MultiTexturePS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTexture(2, 1);
+	GetPipelineObjects("MultiTexture")->AddrootParamsMultiTextureFront(2, 1);
 
 	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
@@ -102,7 +113,7 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("Bloom")->Setshader("BloomVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("Bloom")->Setshader("BloomPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
+	GetPipelineObjects("Bloom")->AddrootParamsMultiTextureFront(2, 1);
 
 	Create("Bloom",NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
@@ -168,7 +179,7 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("CrossFilter")->Setshader("CrossFilterVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("CrossFilter")->Setshader("CrossFilterPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("CrossFilter")->AddrootParamsMultiTexture(3, 1);
+	GetPipelineObjects("CrossFilter")->AddrootParamsMultiTextureFront(3, 1);
 
 	Create("CrossFilter", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion 
@@ -181,7 +192,7 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiRenderTexture")->Setshader("MultiRenderTextureVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("MultiRenderTexture")->Setshader("MultiRenderTexturePS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("MultiRenderTexture")->AddrootParamsMultiTexture(2, 1);
+	GetPipelineObjects("MultiRenderTexture")->AddrootParamsMultiTextureFront(2, 1);
 
 	Create("MultiRenderTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion 
