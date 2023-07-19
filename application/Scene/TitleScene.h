@@ -7,12 +7,6 @@
 #include "EmptyScene.h"
 #include "LightManager.h"
 
-#include "Floor.h"
-#include "Player.h"
-#include "GameCamera.h"
-#include "CollisionManager.h"
-#include "EnemyManager.h"
-
 class TitleScene
 	final :
 	public EmptyScene

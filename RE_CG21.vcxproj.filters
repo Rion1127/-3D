@@ -351,59 +351,11 @@
     <ClCompile Include="application\Shader\HighLumi.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="application\CollisionManager.cpp">
-      <Filter>application\ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\Player.cpp">
-      <Filter>application\ソースファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="application\GameCamera.cpp">
-      <Filter>application\ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Floor.cpp">
-      <Filter>application\ソースファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\PlayerAttack.cpp">
-      <Filter>application\ソースファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\AttackManager.cpp">
-      <Filter>application\ソースファイル\Player\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\Attack1.cpp">
-      <Filter>application\ソースファイル\Player\Attack\GroundAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\Attack2.cpp">
-      <Filter>application\ソースファイル\Player\Attack\GroundAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\Attack3.cpp">
-      <Filter>application\ソースファイル\Player\Attack\GroundAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\AttackAir1.cpp">
-      <Filter>application\ソースファイル\Player\Attack\AirAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\AttackAir2.cpp">
-      <Filter>application\ソースファイル\Player\Attack\AirAttack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\AttackAir3.cpp">
-      <Filter>application\ソースファイル\Player\Attack\AirAttack</Filter>
-    </ClCompile>
     <ClCompile Include="engine\util\Gravity.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="engine\util\Color.cpp">
       <Filter>engine\ソース ファイル\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\PlayerInfo.cpp">
-      <Filter>application\ソースファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\EnemyManager.cpp">
-      <Filter>application\ソースファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\EnemyDummy.cpp">
-      <Filter>application\ソースファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="application\IActor.cpp">
-      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="engine\base\Framework.cpp">
       <Filter>engine\ソース ファイル\Game</Filter>
@@ -414,38 +366,11 @@
     <ClCompile Include="engine\3d\light\LightManager.cpp">
       <Filter>engine\ソース ファイル\Object3D\Light</Filter>
     </ClCompile>
-    <ClCompile Include="application\Particle\ParticleTest.cpp">
-      <Filter>application\ソースファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Particle\ParticleHitAttack.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\EnemyAirDummy.cpp">
-      <Filter>application\ソースファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\EnemyHPGauge.cpp">
-      <Filter>application\ソースファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\EnemyShadow.cpp">
-      <Filter>application\ソースファイル\Enemy\EnemyShadow</Filter>
-    </ClCompile>
     <ClCompile Include="engine\IParticle.cpp">
-      <Filter>application\ソースファイル\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\IAttack.cpp">
-      <Filter>application\ソースファイル\Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\IEnemy.cpp">
       <Filter>application\ソースファイル\Interface</Filter>
     </ClCompile>
     <ClCompile Include="application\Scene\DebugScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Enemy\AttackShadow.cpp">
-      <Filter>application\ソースファイル\Enemy\EnemyShadow\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Player\PlayerHPGauge.cpp">
-      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="application\Scene\TitleScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
@@ -599,62 +524,14 @@
     <ClInclude Include="application\Shader\LineBlur.h">
       <Filter>engine\ヘッダー ファイル\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="application\CollisionManager.h">
-      <Filter>application\ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\Player.h">
-      <Filter>application\ヘッダーファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="application\GameCamera.h">
-      <Filter>application\ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Floor.h">
-      <Filter>application\ヘッダーファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\PlayerAttack.h">
-      <Filter>application\ヘッダーファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\AttackManager.h">
-      <Filter>application\ヘッダーファイル\Player\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\Attack1.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\GroundAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\Attack2.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\GroundAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\Attack3.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\GroundAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\AttackAir1.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\AirAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\AttackAir2.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\AirAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\AttackAir3.h">
-      <Filter>application\ヘッダーファイル\Player\Attack\AirAttack</Filter>
-    </ClInclude>
     <ClInclude Include="engine\util\Gravity.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
     <ClInclude Include="engine\util\Color.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="application\Player\PlayerInfo.h">
-      <Filter>application\ヘッダーファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="engine\base\REngine.h">
       <Filter>engine\ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\EnemyManager.h">
-      <Filter>application\ヘッダーファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\EnemyDummy.h">
-      <Filter>application\ヘッダーファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="application\IActor.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\Framework.h">
       <Filter>engine\ヘッダー ファイル\Game</Filter>
@@ -665,38 +542,11 @@
     <ClInclude Include="engine\3d\light\LightManager.h">
       <Filter>engine\ヘッダー ファイル\Object3D\Light</Filter>
     </ClInclude>
-    <ClInclude Include="application\Particle\ParticleTest.h">
-      <Filter>application\ヘッダーファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Particle\ParticleHitAttack.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\EnemyAirDummy.h">
-      <Filter>application\ヘッダーファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\EnemyHPGauge.h">
-      <Filter>application\ヘッダーファイル\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="engine\IParticle.h">
       <Filter>application\ヘッダーファイル\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="application\Player\IAttack.h">
-      <Filter>application\ヘッダーファイル\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\EnemyShadow.h">
-      <Filter>application\ヘッダーファイル\Enemy\EnemyShadow</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\IEnemy.h">
-      <Filter>application\ヘッダーファイル\Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Enemy\AttackShadow.h">
-      <Filter>application\ヘッダーファイル\Enemy\EnemyShadow\Attack</Filter>
-    </ClInclude>
     <ClInclude Include="application\Scene\DebugScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Player\PlayerHPGauge.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="application\Scene\TitleScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>

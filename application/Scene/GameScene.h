@@ -6,12 +6,7 @@
 #include "Texture.h"
 #include "EmptyScene.h"
 #include "LightManager.h"
-
-#include "Floor.h"
-#include "Player.h"
-#include "GameCamera.h"
-#include "CollisionManager.h"
-#include "EnemyManager.h"
+#include "Object3d.h"
 
 class GameScene final:
 	public EmptyScene
@@ -20,18 +15,10 @@ private:
 	Controller* controller_ = nullptr;
 	SoundManager* sound_ = nullptr;
 	DebugCamera debugCamera_;
-	
-	GameCamera gameCamera_;
 
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
-	//è∞
-	std::unique_ptr<Floor> floor_;
-	//ÉvÉåÉCÉÑÅ[
-	std::unique_ptr<Player> player_;
-
-	std::unique_ptr<CollisionManager> colManager_;
-	std::unique_ptr<EnemyManager> enemyManager_;
+	std::unique_ptr<Object3d> obj_;
 
 public:
 	~GameScene();
