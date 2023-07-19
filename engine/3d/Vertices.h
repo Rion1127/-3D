@@ -44,7 +44,7 @@ public:
 		UINT descriptorSize);
 
 	void Draw(
-		const WorldTransform& worldTransform);
+		const WorldTransform& worldTransform, uint32_t index = 1);
 
 	void DrawInstanced(
 		WorldTransform* worldTransform,

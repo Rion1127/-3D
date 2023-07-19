@@ -13,6 +13,14 @@ const uint32_t MultiTexture::vertNum_ = 4;
 MultiTexture::MultiTexture(int32_t texNum)
 {
 	texBuff_.resize(texNum);
+	if (texBuff_.size() > 0)
+	{
+		Create();
+	}
+}
+
+void MultiTexture::Create()
+{
 	//頂点バッファ生成
 	CreateVertBuff();
 	//ibView生成
@@ -48,7 +56,7 @@ void MultiTexture::PUpdate()
 void MultiTexture::Draw(std::string pipelineName)
 {
 	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
-	SetGraphicsRootDescriptorTable(pipelineName);
+	SetGraphicsRootDescriptorTable(pipelineName,0);
 	// 頂点バッファビューの設定コマンド
 	cmdList.IASetVertexBuffers(0, 1, &vbView_);
 	//インデックスバッファビューの設定コマンド
@@ -59,7 +67,7 @@ void MultiTexture::Draw(std::string pipelineName)
 		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
 
-void MultiTexture::SetGraphicsRootDescriptorTable(std::string pipelineName)
+void MultiTexture::SetGraphicsRootDescriptorTable(std::string pipelineName, uint32_t index)
 {
 	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
 	auto& device = *RDirectX::GetInstance()->GetDevice();
@@ -82,7 +90,7 @@ void MultiTexture::SetGraphicsRootDescriptorTable(std::string pipelineName)
 	//SRVヒープの先頭にあるSRVをルートパラメータ0番に設定
 	for (int32_t i = 0; i < texBuff_.size(); i++)
 	{
-		cmdList.SetGraphicsRootDescriptorTable((UINT)i,
+		cmdList.SetGraphicsRootDescriptorTable((UINT)index + i,
 			CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuHandle, (INT)i,
 				device.GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	}
@@ -211,6 +219,11 @@ void MultiTexture::PostDrawSceneAssin(uint32_t texbuffNum)
 		ResourceBarrier(1, &barrier);
 }
 
+void MultiTexture::AddTexture(Texture* texture)
+{
+	texBuff_.emplace_back(texture->texBuff);
+}
+
 void MultiTexture::CreateVertBuff()
 {
 	HRESULT result;
@@ -323,6 +336,8 @@ void MultiTexture::CreateConstBuff()
 
 void MultiTexture::CreateTexBuff()
 {
+	if (texBuff_.size() <= 0)return;
+	if (texBuff_.at(0) != nullptr)return;
 	HRESULT result;
 
 	//テクスチャリソース設定
@@ -391,7 +406,7 @@ void MultiTexture::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	//デスクリプタヒープにSRV作成
-	for (int32_t i = 0; i < texBuff_.size(); i++)
+	for (int32_t i = 0; i < texBuff_.size() - 1; i++)
 	{
 		device.
 			CreateShaderResourceView(texBuff_[i].Get(),

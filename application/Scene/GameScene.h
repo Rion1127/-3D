@@ -7,6 +7,7 @@
 #include "EmptyScene.h"
 #include "LightManager.h"
 #include "Object3d.h"
+#include "TextureBlend.h"
 
 class GameScene final:
 	public EmptyScene
@@ -19,6 +20,8 @@ private:
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
 	std::unique_ptr<Object3d> obj_;
+
+	TextureBlend textureBlend_;
 
 public:
 	~GameScene();

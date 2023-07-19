@@ -48,7 +48,7 @@ public:
 
 	void LoadGraph(const std::string& fileName, const std::string& name);
 
-	void SetGraphicsDescriptorTable(UINT descriptorSize);
+	void SetGraphicsDescriptorTable(UINT descriptorSize,uint32_t index = 0);
 
 	Texture* GetTexture(const std::string& name);
 

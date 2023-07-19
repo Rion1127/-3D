@@ -53,18 +53,21 @@ void Material::LoadTexture(const std::string& directoryPath)
 	texture_ = *TextureManager::GetInstance()->GetTexture(filepath);
 }
 
+void Material::SetConstBuff(uint32_t index)
+{
+	//ルートパラメータ配列2番目を指定
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(index, constBufferMat_->GetGPUVirtualAddress());
+}
+
 void Material::Draw(UINT descriptorSize)
 {
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
-	//ルートパラメータ配列2番目を指定
-	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBufferMat_->GetGPUVirtualAddress());
+	SetConstBuff();
 }
 
 void Material::Draw()
 {
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
-	//ルートパラメータ配列2番目を指定
-	RDirectX::GetInstance()->GetCommandList()->
-		SetGraphicsRootConstantBufferView(2, constBufferMat_->GetGPUVirtualAddress());
+	SetConstBuff();
 }

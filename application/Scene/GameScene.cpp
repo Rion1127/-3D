@@ -34,27 +34,29 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
+	PipelineManager::PreDraw("Object3D");
 	obj_->Draw();
 
-	PipelineManager::PreDraw("Toon", TRIANGLELIST);
+	PipelineManager::PreDraw("Toon");
 
 
-	PipelineManager::PreDraw("assimp", TRIANGLELIST);
+	PipelineManager::PreDraw("assimp");
 
 	////////////
 	//スプライト//
 	////////////
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 
 
-	PipelineManager::PreDraw("Particle", POINTLIST);
+	PipelineManager::PreDraw("Particle",TopologyName::POINTLIST);
 	ParticleManager::GetInstance()->Draw();
+
+	textureBlend_.Draw();
 }
 
 void GameScene::CameraUpdate()

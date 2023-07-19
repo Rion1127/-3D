@@ -71,10 +71,12 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("TextureBlend")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("TextureBlend")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
 
-	GetPipelineObjects("TextureBlend")->Setshader("BasicVS.hlsl", ShaderType::VS);
-	GetPipelineObjects("TextureBlend")->Setshader("BasicPS.hlsl", ShaderType::PS);
+	GetPipelineObjects("TextureBlend")->Setshader("TexBlendObjVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("TextureBlend")->Setshader("TexBlendObjPS.hlsl", ShaderType::PS);
 
 	GetPipelineObjects("TextureBlend")->AddrootParamsMultiTextureBack(4,3);
+
+	Create("TextureBlend", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 }
 void PipelineManager::PostEffectIni()
 {

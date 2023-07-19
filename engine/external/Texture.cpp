@@ -182,7 +182,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 
 }
 
-void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
+void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize, uint32_t index)
 {
 	//SRVヒープの設定コマンド
 	std::vector<ID3D12DescriptorHeap*> heaps = { srvHeap.Get() };
@@ -192,7 +192,7 @@ void TextureManager::SetGraphicsDescriptorTable(UINT descriptorSize)
 	srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	srvGpuHandle.ptr += descriptorSize;
-	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, srvGpuHandle);
+	RDirectX::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(index, srvGpuHandle);
 }
 
 Texture* TextureManager::GetTexture(const std::string& name)

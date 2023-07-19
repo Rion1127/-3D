@@ -21,3 +21,8 @@ void Object3d::Draw()
 {
 	model_->DrawOBJ(WT_);
 }
+
+void Object3d::DrawVert()
+{
+	model_->DrawVert(WT_);
+}

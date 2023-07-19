@@ -69,5 +69,6 @@ private:
 public:
 	void DrawOBJ(const WorldTransform& worldTransform);
 	void DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle);
+	void DrawVert(const WorldTransform& worldTransform);
 };
 

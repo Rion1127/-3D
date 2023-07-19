@@ -31,7 +31,7 @@ public:
 		constMapMat_->specular = specular_;
 	}
 
-	
+	void SetConstBuff(uint32_t index = 2);
 
 	void Draw(UINT descriptorSize);
 	void Draw();

@@ -76,7 +76,7 @@ void ParticleScene::Draw()
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
+	PipelineManager::PreDraw("Object3D");
 	lightGroup->Draw(3);
 	
 	//assimpObj_.Draw();

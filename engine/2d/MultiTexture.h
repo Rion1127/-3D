@@ -44,7 +44,7 @@ public:
 	void PUpdate();
 
 	void Draw(std::string pipelineName);
-	void SetGraphicsRootDescriptorTable(std::string pipelineName);
+	void SetGraphicsRootDescriptorTable(std::string pipelineName,uint32_t index);
 	//シーン前処理
 	void PreDrawScene();
 	//シーン描画後処理
@@ -55,7 +55,7 @@ public:
 	//シーン描画後処理(texBuffを指定)
 	void PostDrawSceneAssin(uint32_t texbuffNum);
 
-	//void AddTexture(Texture* texture) { texBuff_.emplace_back(texture); }
+	void AddTexture(Texture* texture);
 private:
 	void CreateVertBuff();
 	void CreateibView();
@@ -66,6 +66,7 @@ private:
 	void CreateDepthBuff();
 	void CreateDSV();
 public:
+	void Create();
 private:
 	static const uint32_t vertNum_;
 	struct VertexPosUV {

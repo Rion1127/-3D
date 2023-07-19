@@ -404,6 +404,19 @@ void Model::DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle
 	}
 }
 
+void Model::DrawVert(const WorldTransform& worldTransform)
+{
+	lightGroup_->Draw(2);
+	for (auto& m : materials_)
+	{
+		m.second->SetConstBuff(1);
+	}
+	for (auto& v : vert_)
+	{
+		v->Draw(worldTransform,0);
+	}
+}
+
 void Model::AddSmoothData(unsigned short indexPositon, unsigned short indexVertex)
 {
 	smoothData_[indexPositon].emplace_back(indexVertex);

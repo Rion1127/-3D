@@ -36,25 +36,25 @@ void DebugScene::Update()
 
 void DebugScene::Draw()
 {
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 
 	////////////////
 	//3Dオブジェクト//
 	////////////////
-	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
+	PipelineManager::PreDraw("Object3D");
 	obj_.Draw();
 
-	PipelineManager::PreDraw("Toon", TRIANGLELIST);
+	PipelineManager::PreDraw("Toon");
 
 
-	PipelineManager::PreDraw("assimp", TRIANGLELIST);
+	PipelineManager::PreDraw("assimp");
 
 	////////////
 	//スプライト//
 	////////////
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 
-	PipelineManager::PreDraw("Particle", POINTLIST);
+	PipelineManager::PreDraw("Particle",TopologyName::POINTLIST);
 	ParticleManager::GetInstance()->Draw();
 
 	ImGui::Begin("Quaternion");

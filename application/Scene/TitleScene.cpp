@@ -34,20 +34,20 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 	pressASprite_->Draw();
 	
-	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
+	PipelineManager::PreDraw("Object3D");
 
-	PipelineManager::PreDraw("Toon", TRIANGLELIST);
+	PipelineManager::PreDraw("Toon");
 
-	PipelineManager::PreDraw("assimp", TRIANGLELIST);
+	PipelineManager::PreDraw("assimp");
 
 	
-	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	PipelineManager::PreDraw("Sprite");
 	
 
-	PipelineManager::PreDraw("Particle", POINTLIST);
+	PipelineManager::PreDraw("Particle",TopologyName::POINTLIST);
 	
 }
 
