@@ -2,6 +2,8 @@
 #include "Easing.h"
 #include "SceneManager.h"
 #include "Collision.h"
+#include "ParticleManager.h"
+#include "Camera.h"
 
 GameScene::~GameScene()
 {
@@ -12,67 +14,41 @@ void GameScene::Ini()
 {
 	controller_ = Controller::GetInstance();
 	sound_ = SoundManager::GetInstance();
-
-	Model::Ini();
 	
 	lightManager_ = std::make_shared<LightManager>();
+	colManager_ = std::make_unique<CollisionManager>();
+	enemyManager_ = std::make_unique<EnemyManager>();
 	Model::SetLight(lightManager_->GetLightGroup());
-	AssimpModel::SetLightGroup(lightManager_->GetLightGroup().get());
+	
 
-	skyDome_ = std::move(std::make_unique<Object3d>());
-	skyDome_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
+	
+	floor_ = std::move(std::make_unique<Floor>());
 
-	sphere_ = std::move(std::make_unique<Object3d>());
-	sphere_->SetModel(Model::CreateOBJ_uniptr("uvSphere", true));
+	player_ = std::move(std::make_unique<Player>());
+	gameCamera_.SetPlayer(player_.get());
 
-	cube_ = std::move(std::make_unique<Object3d>());
-	cube_->SetModel(Model::CreateOBJ_uniptr("cube", true));
-
-	//const wchar_t* modelFile = L"Resources/Alicia/FBX/Alicia_solid_Unity.FBX";
-	const wchar_t* modelFile = L"Resources/boneTest/moveCube/moveCube.gltf";
-	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
-	//  L"Resources/FBX/untitled.glb"
-	std::vector<Mesh> meshes;
-	ImportSettings importSetting = {
-		modelFile,
-		meshes,
-		false,
-		true
-	};
-	testModel_.Create(modelFile);
-	assimpObj_.SetModel(&testModel_);
+	IEnemy::SetPlayer(player_.get());
+	colManager_->SetPlayer(player_.get());
+	colManager_->SetFloor(floor_.get());
+	colManager_->SetEnemys(enemyManager_.get());
+	AttackManager::SetPlayer(player_.get());
 }
 
 void GameScene::Update()
 {
-	Camera::scurrent_.eye_ = debugCamera_.GetCamera()->eye_;
-	Camera::scurrent_.up_ = debugCamera_.GetCamera()->up_;
-	Camera::scurrent_.target_ = debugCamera_.GetCamera()->target_;
-	Camera::scurrent_.Update();
-
-	//カメラ更新
-	debugCamera_.Update();
-
-	//gameCamera_.Update();
-
-	assimpObj_.SetPos({ 0,0,0 });
-	assimpObj_.Update();
-
-	static float rotY = 0;
-	rotY += 0.01f;
+	CameraUpdate();
 	
-	skyDome_->SetPos({ -2,0,0 });
-	skyDome_->SetRot({ 0,rotY,0 });
-	sphere_->SetPos({ 2,0,0 });
-	sphere_->SetRot({ 0,rotY,0 });
-	cube_->SetPos({ 2,0,0 });
-	cube_->SetRot({ 0,rotY,0 });
+	floor_->Update();
+	player_->PreUpdate();
+	enemyManager_->PreUpdate();
 
-	skyDome_->Update();
-	sphere_->Update();
-	cube_->Update();
+	colManager_->Update();
+
+	enemyManager_->PostUpdate();
+	player_->PostUpdate();
 
 	lightManager_->DebugUpdate();
+	ParticleManager::GetInstance()->Update();
 }
 
 void GameScene::Draw()
@@ -83,17 +59,45 @@ void GameScene::Draw()
 	//3Dオブジェクト//
 	////////////////
 	PipelineManager::PreDraw("Object3D", TRIANGLELIST);
-	cube_->Draw();
-	skyDome_->Draw();
-	//skyDome_->Draw();
+	floor_->Draw();
+	player_->Draw();
+	enemyManager_->Draw();
+	
+	
 	PipelineManager::PreDraw("Toon", TRIANGLELIST);
 	
 	
 	PipelineManager::PreDraw("assimp", TRIANGLELIST);
-	//assimpObj_.Draw();
 
 	////////////
 	//スプライト//
 	////////////
+	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	enemyManager_->SpriteDraw();
+	player_->DrawSprite();
+
+	PipelineManager::PreDraw("Particle", POINTLIST);
+	ParticleManager::GetInstance()->Draw();
+}
+
+void GameScene::CameraUpdate()
+{
+	static bool isDebug = true;
+	if (Key::TriggerKey(DIK_Q)) {
+		isDebug = isDebug == false ? true : false;
+	}
+	if (isDebug)
+	{
+		gameCamera_.Update(CameraMode::LookAT);
+		Camera::scurrent_ = gameCamera_.GetCamera();
+	}
+	else
+	{
+		//カメラ更新
+		debugCamera_.Update();
+		Camera::scurrent_ = debugCamera_.GetCamera();
+	}
+	Camera::scurrent_->Update(CameraMode::LookAT);
+
 	
 }

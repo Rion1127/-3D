@@ -1,7 +1,7 @@
 #pragma once
 #include <wrl.h>
 #include <d3d12.h>
-#pragma comment(lib, "d3d12.lib")
+
 #include <cassert>
 #include <vector>
 #include "Material.h"
@@ -44,8 +44,7 @@ public:
 		UINT descriptorSize);
 
 	void Draw(
-		const WorldTransform& worldTransform,
-		UINT descriptorSize);
+		const WorldTransform& worldTransform);
 
 	void DrawInstanced(
 		WorldTransform* worldTransform,

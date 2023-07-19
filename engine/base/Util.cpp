@@ -117,7 +117,7 @@ std::string WStringToString(std::wstring oWString)
 void MoveTo(const Vector3& goal, float speed, WorldTransform& WT)
 {
 	Vector3 dir = goal - WT.position_;
-	float dirLength = dir.length2();
+	float dirLength = dir.length();
 	if (dirLength < speed * speed)
 	{
 		WT.position_ = goal;
@@ -126,3 +126,40 @@ void MoveTo(const Vector3& goal, float speed, WorldTransform& WT)
 	WT.position_ =
 		WT.position_ + dir.SetLength(speed);
 }
+
+void MoveTo(const Vector3& goal, float speed, Vector3& value)
+{
+	Vector3 dir = goal - value;
+	float dirLength = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
+	if (dirLength < speed * speed)
+	{
+		value = goal;
+		return;
+	}
+	value =
+		value + dir.SetLength(speed);
+}
+
+Vector2 GetScreenPos(const WorldTransform& WT, const Camera& camera)
+{
+	Vector2 result;
+
+	Vector4 pos(0,0,0,1);
+	Vector2 winSize = WinAPI::GetInstance()->GetWindowSize();
+	Matrix4 viewPort = {
+		winSize.x / 2.f,	           0,0,0,
+		              0,-winSize.y / 2.f,0,0,
+		              0,               0,1,0,
+		winSize.x / 2.f, winSize.y / 2.f,0,1,
+	};
+	//ÇRéüå≥Å®ÇQéüå≥ÇÃïœä∑
+	pos = Vec4MulMat4(pos, WT.matWorld_);
+	pos = Vec4MulMat4(pos, camera.matView_);
+	pos = Vec4MulMat4(pos, camera.matProjection_);
+	pos = Vec4MulMat4(pos, viewPort);
+
+	result = { pos.x ,pos.y };
+
+	return result;
+}
+

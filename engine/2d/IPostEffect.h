@@ -35,7 +35,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	//定数バッファ用データ構造体
 	struct ConstBufferData {
-		size_t timer;
+		int32_t timer;
 	};
 protected:
 	ComPtr<ID3D12Resource> constBuff_ = nullptr;
@@ -49,7 +49,7 @@ private:
 	};
 public:
 	IPostEffect();
-	
+	virtual ~IPostEffect() {};
 	//更新
 	void PUpdate();
 

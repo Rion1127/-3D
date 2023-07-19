@@ -7,6 +7,8 @@ void PipelineManager::Ini() {
 	ObjShaderIni();
 	//ポストエフェクトのパイプライン初期化
 	PostEffectIni();
+	//パーティクルのパイプライン初期化
+	ParticleShaderIni();
 }
 
 void PipelineManager::ObjShaderIni()
@@ -199,12 +201,30 @@ void PipelineManager::PostEffectIni()
 #pragma endregion
 }
 
+void PipelineManager::ParticleShaderIni()
+{
+	AddPipeline("Particle");
+	GetPipelineObjects("Particle")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("SCALE", DXGI_FORMAT_R32_FLOAT, 0);
+	GetPipelineObjects("Particle")->AddInputLayout("ROTATION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("ANCORPOINT", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	GetPipelineObjects("Particle")->Setshader("ParticleGS.hlsl", ShaderType::GS);
+	GetPipelineObjects("Particle")->Setshader("ParticleVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Particle")->Setshader("ParticlePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Particle")->AddrootParams(2);
+
+	Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+}
+
 void PipelineManager::Create(
 	const std::string& pipelinename, CULL_MODE cullmode,
 	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
 	TEXTURE_ADDRESS_MODE uvMode)
 {
-	for (size_t i = 0; i < 4; i++)
+	for (int32_t i = 0; i < 4; i++)
 	{
 		pipelineObjects_[pipelinename]->
 			Create(BlendNum(i), cullmode, topologytype, depthWriteMasc, uvMode);

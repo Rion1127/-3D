@@ -1,11 +1,13 @@
 #pragma once
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
+
 #include <d3d12.h>
 #include <string>
 #include <chrono>
 #include "Vector3.h"
 #include "WorldTransform.h"
+#include <cassert>
+#include "Camera.h"
 
 //WARNINGの詳細表示
 void DisplayWarningInfo(ID3D12Device* device);
@@ -16,6 +18,7 @@ void ShaderCompileFromFile(
 	ID3DBlob** blob, ID3DBlob* errorBlob);
 
 void MoveTo(const Vector3& goal, float speed,WorldTransform& WT);
+void MoveTo(const Vector3& goal, float speed, Vector3& value);
 
 //定数バッファ
 template <class MapClass>
@@ -68,3 +71,6 @@ std::string ToUTF8(const std::wstring& value);
 std::wstring ToWideString(const std::string& str);
 // std::wstring(ワイド文字列)からstd::string(マルチバイト文字列)を得る
 std::string WStringToString(std::wstring oWString);
+
+
+Vector2 GetScreenPos(const WorldTransform& WT, const Camera& camera);

@@ -312,6 +312,19 @@ Matrix4 Matrix4::Inverse()
 	return inverseMat;
 }
 
+Matrix4 Matrix4::Transpose()
+{
+	Matrix4 result;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			result.m[i][j] = m[j][i];
+		}
+	}
+	return result;
+}
+
 Matrix4 ConvertScalingMat(Vector3 scale)
 {
 	return
@@ -380,11 +393,11 @@ float Radian(float angle) {
 
 #pragma endregion
 
-const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startIndex, const float t)
+const Vector3 SplinePosition(const std::vector<Vector3>& point, uint32_t startIndex, const float t)
 {
 	////補完すべき点の数
 	size_t n = point.size() - 2;
-
+	
 	if (startIndex > n)return point[n];//Pnの値を返す
 	if (startIndex < 1)return point[1];//P1の値を返す
 
@@ -428,44 +441,86 @@ Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const 
 	return c0 * t3 + c1 * t2 + c2 * t + c3;
 }
 
+float UpAndDown(float oneRoundTime, float range)
+{
+	return 0.0f;
+}
+
 //float UpAndDown(float oneRoundTime, float range)
 //{
 //	return (float)(sin(PI * 2 / oneRoundTime * GetNowCount()) * range);
 //}
 
-const Vector3 operator-(const DirectX::XMFLOAT3 v1, const Vector3 v2)
+float Vec2Angle(Vector2 vec) {
+	float angle;
+	angle = vec.dot({ 0.0f, 1.0f }) / (vec.length() * Vector2(0.0f, 1.0f).length());
+	angle = acos(angle);
+	angle = Angle(angle);
+
+	// 180度までしか計算できないので360度までの値に修正
+	if (vec.x < 0) angle = 180.0f + (180.0f - angle);
+
+	// 計算結果がオーバーフローしていなかったら値を更新
+	if (angle < 0)
+	{
+		return -1;
+	}
+
+	return angle;
+}
+
+Matrix4 CalculateWorldMat(const Vector3 pos, const Vector3 scale, const Vector3 rot)
 {
-	Vector3 result;
-	result.x = v1.x - v2.x;
-	result.y = v1.y - v2.y;
-	result.z = v1.z - v2.z;
+	Matrix4 result;
+	result.UnitMatrix();
+	// 平行移動、スケーリング、回転行列作成
+	Matrix4 transMat;
+	Matrix4 scaleMat;
+	Matrix4 rotMat;
+	transMat.UnitMatrix();
+	scaleMat.UnitMatrix();
+	rotMat.UnitMatrix();
+
+	transMat = ConvertTranslationMat(pos);	// 平行移動
+	scaleMat = ConvertScalingMat(scale);		// スケーリング
+	rotMat *= ConvertRotationZAxisMat(rot.z);	// z軸回転
+	rotMat *= ConvertRotationXAxisMat(rot.x);	// x軸回転
+	rotMat *= ConvertRotationYAxisMat(rot.y);	// y軸回転
+
+	result = scaleMat * rotMat * transMat;
+
 	return result;
 }
 
-const Vector3 operator-(const Vector3 v1, DirectX::XMFLOAT3 v2)
+Vector4 Vec4MulMat4(Vector4 v, Matrix4 m)
 {
-	Vector3 result;
-	result.x = v1.x - v2.x;
-	result.y = v1.y - v2.y;
-	result.z = v1.z - v2.z;
+	float w = m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3];
+	Vector4 result = {
+		m.m[0][0] * v.x + m.m[1][0] * v.y + m.m[2][0] * v.z + m.m[3][0] * v.w,
+		m.m[0][1] * v.x + m.m[1][1] * v.y + m.m[2][1] * v.z + m.m[3][1] * v.w,
+		m.m[0][2] * v.x + m.m[1][2] * v.y + m.m[2][2] * v.z + m.m[3][2] * v.w,
+		m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3],
+	};
+
+	result.x /= w;
+	result.y /= w;
+	result.z /= w;
+	result.w /= w;
+
 	return result;
 }
 
-const Vector3 operator+(const Vector3 v1, const DirectX::XMFLOAT3 v2)
-{
+Vector3 getEulerAnglesFromVector(const Vector3& vec) {
+	// ベクトルの長さを計算
+	double length_xy = (double)std::sqrt(vec.x * vec.x + vec.y * vec.y);
+	double length_xyz = (double)std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+
 	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
+
+	result = {
+		std::atan2(vec.y, vec.x),
+		std::atan2(-vec.z, (float)length_xy) + Radian(90),
+		std::atan2(vec.y, vec.x),
+	};
 	return result;
 }
-
-const Vector3 operator+(const DirectX::XMFLOAT3 v1, const Vector3 v2)
-{
-	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
-	return result;
-}
-

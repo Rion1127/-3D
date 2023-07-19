@@ -20,7 +20,7 @@ float4 main(VSOutput input) : SV_TARGET
         float x = cos(angleRad) * i;
         float y = sin(angleRad) * i;
         pickUV = input.uv + float2(x, y);
-        pickUV = clamp(pickUV, 0.01f, 0.99f);
+        
         float weight = Gaussian(input.uv, pickUV, pickRange);
         color += tex.Sample(smp, pickUV) * weight;
         totalWeight += weight;

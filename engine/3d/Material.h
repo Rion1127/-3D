@@ -2,7 +2,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <string>
-#pragma comment(lib, "d3d12.lib")
+
 #include <cassert>
 #include "Texture.h"
 #include "Vector3.h"
@@ -34,6 +34,7 @@ public:
 	
 
 	void Draw(UINT descriptorSize);
+	void Draw();
 
 	std::string name_;            // マテリアル名
 	std::string textureFilename_; // テクスチャファイル名

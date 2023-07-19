@@ -1,12 +1,10 @@
 #pragma once
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
+
 #include <d3d12.h>
 #include <d3dx12.h>
-#pragma comment(lib, "d3d12.lib")
 #include <wrl.h>
 #include <dxgi1_6.h>
-#pragma comment(lib, "dxgi.lib")
 #include <d3d12sdklayers.h>
 #include "WinAPI.h"
 #include <chrono>
@@ -48,6 +46,7 @@ public:
 	//深度バッファのクリア
 	void ClearDepthBuffer();
 private:
+	RDirectX(){};
 	//DXGIデバイス初期化
 	void DXGIDeviceIni();
 	//スワップチェーンの生成

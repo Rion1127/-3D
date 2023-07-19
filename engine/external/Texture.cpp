@@ -1,5 +1,6 @@
 #include "Util.h"
 #include "Texture.h"
+using namespace DirectX;
 
 #pragma region TextureManager
 
@@ -101,7 +102,7 @@ void TextureManager::LoadGraph(const std::string& fileName, const std::string& n
 	//失敗したときは白のテクスチャを読み込む
 	if (result != S_OK) {
 		result = LoadFromWICFile(
-			L"application/Resources/white1×1.png",
+			L"application/Resources/white1x1.png",
 			WIC_FLAGS_NONE,
 			&metadata, scratchImg);
 	}

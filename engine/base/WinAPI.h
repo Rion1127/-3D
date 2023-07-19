@@ -1,8 +1,6 @@
 #pragma once
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 #include <d3d12.h>
-#pragma comment(lib, "d3d12.lib")
 #include <stdint.h>
 #include "Vector2.h"
 class WinAPI
@@ -32,6 +30,8 @@ private:
 	// ウィンドウサイズ
 	static const uint32_t win_width_ = 1280; // 横幅
 	static const uint32_t win_height_ = 720; // 縦幅
+private:
+	WinAPI(){};
 };
 
 

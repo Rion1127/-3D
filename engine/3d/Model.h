@@ -34,21 +34,19 @@ private:
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 public:
 	std::vector<std::unique_ptr<Vertices>> vert_;
-	std::vector<Texture> texture_;
 	// マテリアルコンテナ
 	std::map<std::string, std::unique_ptr<Material>> materials_;
 	//ライト
 	static std::shared_ptr<LightGroup> lightGroup_;
 public:
+	Model() {};
 	~Model();
 
 	static Model* GetInstance();
 
-	static void Ini();
 	//モデルを読み込む
 	static Model* CreateOBJ(const std::string& modelname, bool smoothing = false);
-	static std::unique_ptr<Model> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false);
-	
+	static std::unique_ptr<Model> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false);	
 
 	void SetModel(const Model* model);
 

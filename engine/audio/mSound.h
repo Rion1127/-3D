@@ -1,6 +1,6 @@
 #pragma once
 #include <xaudio2.h>
-#pragma comment(lib, "xaudio2.lib")
+
 #include <map>
 #include <wrl.h>
 #include <fstream>
@@ -52,9 +52,15 @@ public:
 };
 
 class SoundManager {
-public:
+private:
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+	static ComPtr<IXAudio2> sxAudio2_;
+	static IXAudio2MasteringVoice* smasterVoice_;
+	static std::map<SoundKey, SoundData> ssndMap_;
+public:
+	
 	~SoundManager();
 	static SoundManager* GetInstance();
 	static void Init();
@@ -79,7 +85,7 @@ public:
 	/// <param name="loopFlag">ループ</param>
 	/// <param name="volum">音量
 	/// </param>
-	static void Play(const SoundKey& key, bool loopFlag = false, float volum = 1.0f);
+	static void Play(const SoundKey& key, bool loopFlag = false, float volum = 1.0f,float picth = 1.0f);
 	/// <summary>
 	/// すでに読み込んだ音源を返す
 	/// </summary>
@@ -91,8 +97,5 @@ public:
 	static void ReleaseAllSounds();
 
 private:
-	static ComPtr<IXAudio2> sxAudio2_;
-	static IXAudio2MasteringVoice* smasterVoice_;
-	static std::map<SoundKey, SoundData> ssndMap_;
-
+	SoundManager() {};
 };

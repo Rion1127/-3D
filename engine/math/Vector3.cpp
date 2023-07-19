@@ -9,19 +9,21 @@ float Vector3::length() const
 {
 	return sqrt(x * x + y * y + z * z);
 }
-float Vector3::length2() const
-{
-	return x * x + y * y + z * z;
-}
+//float Vector3::length() const
+//{
+//	return x * x + y * y + z * z;
+//}
 // ƒxƒNƒgƒ‹‚ğ³‹K‰»
-Vector3& Vector3::normalize()
+Vector3 Vector3::normalize()
 {
+	Vector3 result = *this;
 	float len = length();
 	if (len != 0)
 	{
-		return *this /= len;
+		result /= len;
+		return result;
 	}
-	return *this;
+	return result;
 }
 // “àÏ‚ğ‹‚ß‚é
 float Vector3::dot(const Vector3& v) const
@@ -146,4 +148,10 @@ const Vector3 operator/(const Vector3& v, float s)
 {
 	Vector3 temp(v);
 	return temp /= s;
+}
+
+Vector3 Lerp(const Vector3 s, const Vector3 e, const float f)
+{
+	Vector3 dis = e - s;
+	return dis * f + s;
 }

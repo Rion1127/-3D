@@ -1,5 +1,5 @@
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
+
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <cassert>
@@ -193,7 +193,6 @@ void Sprite::Ini(const std::string& guiname)
 	};
 	//スケール
 	Scale_ = { 1.f,1.f };
-	color_ = { 1,1,1,1 };
 	anchorPoint_ = { 0.5f,0.5f };
 #pragma endregion
 }
@@ -233,8 +232,8 @@ void Sprite::DrawImGui()
 	{
 		float scalex = Scale_.x;
 		float scaley = Scale_.y;
-		ImGui::SliderFloat("scale.x", &scalex, 0.0f, 1.0f, "x = %.3f");
-		ImGui::SliderFloat("scale.y", &scaley, 0.0f, 1.0f, "y = %.3f");
+		ImGui::DragFloat("scale.x", &scalex,1.0f, 0.0f, 10.0f);
+		ImGui::DragFloat("scale.y", &scaley,1.0f, 0.0f, 10.0f);
 		Scale_.x = scalex;
 		Scale_.y = scaley;
 	}
@@ -263,7 +262,7 @@ void Sprite::Update()
 	matWorld_ *= ConvertTranslationMat({ pos_.x, pos_.y, 0.0f });
 
 	// 定数バッファにデータ転送
-	constMapMaterial_->color = color_;
+	constMapMaterial_->color = color_ / 255.f;
 	constMapTransform_->mat = matWorld_ * matProjection_; // 行列の合成
 
 #pragma endregion

@@ -66,11 +66,13 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 	Quaternion result{};
 	//thisとq1の内積
 	float dot = this->w * q1.w + this->x * q1.x + this->y * q1.y + this->z * q1.z;
-	if (dot < 0) {
+	if (dot < 0)
+	{
 		result = { -this->x,-this->y,-this->z,-this->w };	//もう片方の回転を利用する
 		dot = -dot;		//内積も反転
 	}
-	else {
+	else
+	{
 		//なす角を求める
 		float theta = acos(dot);
 		float sinPh = sin(theta);
@@ -78,10 +80,11 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 		float sinTheta1subT = (float)sin(theta * (1.0 - t));
 		float sinThetaMulT = sin(theta * t);
 
-		if (dot < 0.0 && theta > 3.1415f / 2.0) {
+		if (dot < 0.0 && theta > 3.1415f / 2.0)
+		{
 			//thetaとsinを使って補間係数を求める
 			dot = -this->w * q1.w - this->x * q1.x - this->y * q1.y - this->z * q1.z;
-			
+
 			float s1 = sinTheta1subT / sinPh;
 			float s2 = sinThetaMulT / sinPh;
 			//それぞれの補間係数を利用して保管後の
@@ -90,7 +93,8 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 			result.z = this->z * s1 - q1.z * s2;
 			result.w = this->w * s1 - q1.w * s2;
 		}
-		else {
+		else
+		{
 			float s1, s2;
 			s1 = sinTheta1subT / sinPh;
 			s2 = sinThetaMulT / sinPh;
@@ -101,9 +105,18 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 			result.w = this->w * s1 + q1.w * s2;
 		}
 	}
-	
+
 	return result;
 }
+// クォータニオンの掛け算を演算子オーバーロードで定義する
+Quaternion Quaternion::operator*(const Quaternion& other) const {
+	float result_x = w * other.x + x * other.w + y * other.z - z * other.y;
+	float result_y = w * other.y - x * other.z + y * other.w + z * other.x;
+	float result_z = w * other.z + x * other.y - y * other.x + z * other.w;
+	float result_w = w * other.w - x * other.x - y * other.y - z * other.z;
+	return Quaternion(result_x, result_y, result_z,result_w);
+}
+
 //任意軸回転を表すQuaternionの生成
 Quaternion MakeAxisAngle(const Vector3& axis, float angle)
 {
@@ -119,6 +132,74 @@ Quaternion MakeAxisAngle(const Vector3& axis, float angle)
 	};
 
 	return result;
+}
+Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
+{
+	//uとvを正規化
+	Vector3 uNorm = u;
+	uNorm = uNorm.normalize();
+	Vector3 vNorm = v;
+	vNorm = vNorm.normalize();
+
+	//uとvの内積
+	float dot = uNorm.dot(vNorm);
+
+	//外積をとる
+	Vector3 cross = uNorm.cross(vNorm);
+
+	Vector3 axis = cross.normalize();
+	//単位ベクトルで内積をとっているのでacosで角度を求める
+	float theta = std::acos(dot);
+	//axisとthetaで任意軸回転を作って返す
+	return MakeAxisAngle(axis, theta);
+}
+Quaternion RotationBetweenVectors(Vector3 start, Vector3 dest)
+{
+	start = start.normalize();
+	dest = dest.normalize();
+
+	float cosTheta = start.dot(dest);
+	Vector3 rotationAxis;
+
+	//if (cosTheta < -1 + 0.001f) {
+	//	// ベクトルが反対方向を向いている特殊なケース：
+	//	// 単位回転軸はないので、垂直なものを見つけます。
+	//	Vector3 up = { 0,0,1 };
+	//	Vector3 right = { 1,0,0 };
+
+	//	rotationAxis = up.cross(start);
+	//	if (rotationAxis.length() < 0.01) { // もう一度計算！
+	//		rotationAxis = right.cross(start);
+	//	}
+	//	rotationAxis = rotationAxis.normalize();
+	//	return MakeAxisAngle(rotationAxis, Radian(180.0f));
+	//}
+
+	rotationAxis = start.cross(dest);
+
+	float s = sqrt((1 + cosTheta) * 2);
+	float invs = 1 / s;
+
+	return Quaternion(
+		s * 0.5f,
+		rotationAxis.x * invs,
+		rotationAxis.y * invs,
+		rotationAxis.z * invs
+	);
+}
+Quaternion VecToDir(Vector3 vec)
+{
+	Quaternion rot1 = RotationBetweenVectors(Vector3(0, 0, 1), vec);
+
+	Vector3 up = { 0,1,0 };
+	Vector3 right = vec.cross(up);
+	up = right.cross(vec);
+
+	Vector3 newUp = Vector3(rot1.x, rot1.y, rot1.z) * Vector3(0, 1, 0);
+	Quaternion rot2 = RotationBetweenVectors(newUp, up);
+	Quaternion target = rot2 * rot1;
+
+	return target;
 }
 //ベクトルをQuaternionで回転させた結果のベクトルを求める
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
@@ -141,25 +222,55 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 	return Vector3(result.x, result.y, result.z);
 }
 
-Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
+Matrix4 CalculateWorldMat(const Vector3 pos, const Vector3 scale, const Quaternion rot)
 {
-	//uとvを正規化
-	Vector3 uNorm = u;
-	uNorm.normalize();
-	Vector3 vNorm = v;
-	vNorm.normalize();
+	Matrix4 result;
+	result.UnitMatrix();
+	// 平行移動、スケーリング、回転行列作成
+	Matrix4 transMat;
+	Matrix4 scaleMat;
+	Matrix4 rotMat;
+	transMat.UnitMatrix();
+	scaleMat.UnitMatrix();
+	rotMat.UnitMatrix();
 
-	//uとvの内積
-	float dot = uNorm.dot(vNorm);
+	transMat = ConvertTranslationMat(pos);	// 平行移動
+	scaleMat = ConvertScalingMat(scale);	// スケーリング
+	rotMat = ConvertRotationMat(rot);		// 回転
 
-	//外積をとる
-	Vector3 cross = uNorm.cross(vNorm);
+	result = scaleMat * rotMat * transMat;
 
-	Vector3 axis = cross.normalize();
-	//単位ベクトルで内積をとっているのでacosで角度を求める
-	float theta = std::acos(dot);
-	//axisとthetaで任意軸回転を作って返す
-	return MakeAxisAngle(axis, theta);
+	return result;
 }
 
+Matrix4 ConvertRotationMat(const Quaternion q)
+{
+	Matrix4 result;
+	result.UnitMatrix();
+
+	Quaternion q_ = q;
+	q_ = q_.Normalize();
+
+	float xx = q_.x * q_.x;
+	float yy = q_.y * q_.y;
+	float zz = q_.z * q_.z;
+	float ww = q_.w * q_.w;
+	float xy = q_.x * q_.y * 2.0f;
+	float xz = q_.x * q_.z * 2.0f;
+	float yz = q_.y * q_.z * 2.0f;
+	float wx = q_.w * q_.x * 2.0f;
+	float wy = q_.w * q_.y * 2.0f;
+	float wz = q_.w * q_.z * 2.0f;
+
+	result =
+	{
+		ww + xx - yy - zz, xy + wz          , xz - wy          ,0.0f,
+		xy - wz          , ww - xx + yy - zz, yz + wx          ,0.0f,
+		xz + wy          , yz - wx          , ww - xx - yy + zz,0.0f,
+		0.0f             ,0.0f              ,0.0f              ,1.0f
+	};
+
+
+	return result;
+}
 

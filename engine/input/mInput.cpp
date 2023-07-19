@@ -1,7 +1,8 @@
 #include <cassert>
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
+
 #include "mInput.h"
+#pragma comment(lib, "Xinput.lib")
+#pragma comment(lib, "dinput8.lib")
 
 //DirectInputの初期化
 static IDirectInput8* sdirectInput = nullptr;
@@ -118,8 +119,7 @@ void MouseInput::GetCursorPosition()
 	mPos_.y = (float)p_.y;
 	//マウスがどの方向に動いたかのベクトルを取得
 	mouseVec_ = mPos_ - prevmPos_;
-	//ベクトル正規化
-	//mouseVec.normalize();
+	
 }
 #include <string>
 void MouseInput::Updata()
@@ -234,19 +234,19 @@ void Controller::Update()
 	}
 }
 
-WORD Controller::GetButtons(WORD button)
+WORD Controller::GetButtons(PAD button)
 {
-	if (state_.Gamepad.wButtons == button) {
+	if (state_.Gamepad.wButtons == (WORD)button) {
 		return true;
 	}
 
 	return false;
 }
 
-WORD Controller::GetTriggerButtons(WORD button)
+WORD Controller::GetTriggerButtons(PAD button)
 {
-	if ((state_.Gamepad.wButtons == button) &&
-		(preState_.Gamepad.wButtons != button))
+	if ((state_.Gamepad.wButtons == (WORD)button) &&
+		(preState_.Gamepad.wButtons != (WORD)button))
 	{
 		return true;
 	}
@@ -254,10 +254,10 @@ WORD Controller::GetTriggerButtons(WORD button)
 	return false;
 }
 
-WORD Controller::GetReleasButtons(WORD button)
+WORD Controller::GetReleasButtons(PAD button)
 {
-	if ((state_.Gamepad.wButtons != button) &&
-		(preState_.Gamepad.wButtons == button))
+	if ((state_.Gamepad.wButtons != (WORD)button) &&
+		(preState_.Gamepad.wButtons == (WORD)button))
 	{
 		return true;
 	}
@@ -265,7 +265,7 @@ WORD Controller::GetReleasButtons(WORD button)
 	return false;
 }
 
-Vector2 Controller::GetLStick()
+Vector2 Controller::GetLStick(int32_t deadZone)
 {
 	Vector2 stickPos;
 	
@@ -273,14 +273,14 @@ Vector2 Controller::GetLStick()
 	stickPos.x = state_.Gamepad.sThumbLX;
 	stickPos.y = state_.Gamepad.sThumbLY;
 	//デッドゾーンを設定
-	if ((state_.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/ &&
-		state_.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/))
+	if ((state_.Gamepad.sThumbLX < (SHORT)deadZone &&
+		state_.Gamepad.sThumbLX > -(SHORT)deadZone))
 	{
 		stickPos.x = 0;
 	}
 
-	if ((state_.Gamepad.sThumbLY < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/ &&
-		state_.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE/* * 2.0f*/))
+	if ((state_.Gamepad.sThumbLY < (SHORT)deadZone &&
+		state_.Gamepad.sThumbLY > -(SHORT)deadZone))
 	{
 		stickPos.y = 0;
 	}
@@ -288,20 +288,23 @@ Vector2 Controller::GetLStick()
 	return stickPos;
 }
 
-Vector2 Controller::GetRStick()
+Vector2 Controller::GetRStick(int32_t deadZone)
 {
 	Vector2 stickPos;
 	//右スティック
 		//returnする変数に値を代入
 	stickPos.x = state_.Gamepad.sThumbRX;
 	stickPos.y = state_.Gamepad.sThumbRY;
-	//デッドゾーンを設定
-	if ((state_.Gamepad.sThumbRX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-		state_.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
-		(state_.Gamepad.sThumbRY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-			state_.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+	if ((state_.Gamepad.sThumbRX < (SHORT)deadZone &&
+		state_.Gamepad.sThumbRX > -(SHORT)deadZone))
 	{
-		return Vector2(0, 0);
+		stickPos.x = 0;
+	}
+
+	if ((state_.Gamepad.sThumbRY < (SHORT)deadZone &&
+		state_.Gamepad.sThumbRY > -(SHORT)deadZone))
+	{
+		stickPos.y = 0;
 	}
 	//デッドゾーンに入らなかったら値を返す
 	return stickPos;

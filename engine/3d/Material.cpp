@@ -1,8 +1,8 @@
 #include <DirectXTex.h>
-using namespace DirectX;
 #include "Texture.h"
 #include "Material.h"
 #include "DirectX.h"
+using namespace DirectX;
 
 Material::Material()
 {
@@ -56,6 +56,14 @@ void Material::LoadTexture(const std::string& directoryPath)
 void Material::Draw(UINT descriptorSize)
 {
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(descriptorSize);
+	//ルートパラメータ配列2番目を指定
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(2, constBufferMat_->GetGPUVirtualAddress());
+}
+
+void Material::Draw()
+{
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//ルートパラメータ配列2番目を指定
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(2, constBufferMat_->GetGPUVirtualAddress());

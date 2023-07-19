@@ -11,11 +11,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="application\CollisionManager.cpp" />
+    <ClCompile Include="application\Enemy\AttackShadow.cpp" />
+    <ClCompile Include="application\Enemy\EnemyAirDummy.cpp" />
+    <ClCompile Include="application\Enemy\EnemyDummy.cpp" />
+    <ClCompile Include="application\Enemy\EnemyHPGauge.cpp" />
+    <ClCompile Include="application\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="application\Enemy\EnemyShadow.cpp" />
+    <ClCompile Include="application\Enemy\IEnemy.cpp" />
+    <ClCompile Include="application\Floor.cpp" />
+    <ClCompile Include="application\GameCamera.cpp" />
+    <ClCompile Include="application\IActor.cpp" />
     <ClCompile Include="application\LoadManager.cpp" />
+    <ClCompile Include="application\Particle\ParticleHitAttack.cpp" />
     <ClCompile Include="application\Particle\ParticleManager.cpp" />
+    <ClCompile Include="application\Particle\ParticleTest.cpp" />
+    <ClCompile Include="application\Player\Attack3.cpp" />
+    <ClCompile Include="application\Player\AttackAir1.cpp" />
+    <ClCompile Include="application\Player\AttackAir2.cpp" />
+    <ClCompile Include="application\Player\AttackAir3.cpp" />
+    <ClCompile Include="application\Player\AttackManager.cpp" />
+    <ClCompile Include="application\Player\Attack1.cpp" />
+    <ClCompile Include="application\Player\IAttack.cpp" />
+    <ClCompile Include="application\Player\Player.cpp" />
+    <ClCompile Include="application\Player\PlayerAttack.cpp" />
+    <ClCompile Include="application\Player\PlayerHPGauge.cpp" />
+    <ClCompile Include="application\Player\PlayerInfo.cpp" />
+    <ClCompile Include="application\Player\Attack2.cpp" />
+    <ClCompile Include="application\Scene\DebugScene.cpp" />
     <ClCompile Include="application\Scene\GameScene.cpp" />
     <ClCompile Include="application\Scene\ParticleScene.cpp" />
+    <ClCompile Include="application\Scene\SceneChangeAnimation.cpp" />
     <ClCompile Include="application\Scene\SceneManager.cpp" />
+    <ClCompile Include="application\Scene\TitleScene.cpp" />
     <ClCompile Include="application\Shader\Bloom.cpp" />
     <ClCompile Include="application\Shader\CrossFilter.cpp" />
     <ClCompile Include="application\Shader\GaussianBlur.cpp" />
@@ -32,7 +60,7 @@
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\light\LightManager.cpp" />
     <ClCompile Include="engine\3d\Model.cpp" />
-    <ClCompile Include="engine\3d\Particle.cpp" />
+    <ClCompile Include="engine\IParticle.cpp" />
     <ClCompile Include="engine\math\Collision.cpp" />
     <ClCompile Include="engine\3d\DebugCamera.cpp" />
     <ClCompile Include="engine\base\DirectX.cpp" />
@@ -63,15 +91,44 @@
     <ClCompile Include="engine\base\WinAPI.cpp" />
     <ClCompile Include="engine\3d\WorldTransform.cpp" />
     <ClCompile Include="engine\util\Color.cpp" />
+    <ClCompile Include="engine\util\Gravity.cpp" />
     <ClCompile Include="engine\util\RRandom.cpp" />
     <ClCompile Include="engine\util\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\CollisionManager.h" />
+    <ClInclude Include="application\Enemy\AttackShadow.h" />
+    <ClInclude Include="application\Enemy\EnemyAirDummy.h" />
+    <ClInclude Include="application\Enemy\EnemyDummy.h" />
+    <ClInclude Include="application\Enemy\EnemyHPGauge.h" />
+    <ClInclude Include="application\Enemy\EnemyManager.h" />
+    <ClInclude Include="application\Enemy\EnemyShadow.h" />
+    <ClInclude Include="application\Enemy\IEnemy.h" />
+    <ClInclude Include="application\Floor.h" />
+    <ClInclude Include="application\GameCamera.h" />
+    <ClInclude Include="application\IActor.h" />
     <ClInclude Include="application\LoadManager.h" />
+    <ClInclude Include="application\Particle\ParticleHitAttack.h" />
     <ClInclude Include="application\Particle\ParticleManager.h" />
+    <ClInclude Include="application\Particle\ParticleTest.h" />
+    <ClInclude Include="application\Player\Attack3.h" />
+    <ClInclude Include="application\Player\AttackAir1.h" />
+    <ClInclude Include="application\Player\AttackAir2.h" />
+    <ClInclude Include="application\Player\AttackAir3.h" />
+    <ClInclude Include="application\Player\AttackManager.h" />
+    <ClInclude Include="application\Player\Attack1.h" />
+    <ClInclude Include="application\Player\IAttack.h" />
+    <ClInclude Include="application\Player\Player.h" />
+    <ClInclude Include="application\Player\PlayerAttack.h" />
+    <ClInclude Include="application\Player\PlayerHPGauge.h" />
+    <ClInclude Include="application\Player\PlayerInfo.h" />
+    <ClInclude Include="application\Player\Attack2.h" />
+    <ClInclude Include="application\Scene\DebugScene.h" />
     <ClInclude Include="application\Scene\GameScene.h" />
     <ClInclude Include="application\Scene\ParticleScene.h" />
+    <ClInclude Include="application\Scene\SceneChangeAnimation.h" />
     <ClInclude Include="application\Scene\SceneManager.h" />
+    <ClInclude Include="application\Scene\TitleScene.h" />
     <ClInclude Include="application\Shader\Bloom.h" />
     <ClInclude Include="application\Shader\CrossFilter.h" />
     <ClInclude Include="application\Shader\GaussianBlur.h" />
@@ -88,8 +145,8 @@
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\light\LightManager.h" />
     <ClInclude Include="engine\3d\Model.h" />
-    <ClInclude Include="engine\3d\Particle.h" />
     <ClInclude Include="engine\base\REngine.h" />
+    <ClInclude Include="engine\IParticle.h" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
     <ClInclude Include="engine\base\DirectX.h" />
@@ -119,6 +176,7 @@
     <ClInclude Include="engine\base\WinAPI.h" />
     <ClInclude Include="engine\3d\WorldTransform.h" />
     <ClInclude Include="engine\util\Color.h" />
+    <ClInclude Include="engine\util\Gravity.h" />
     <ClInclude Include="engine\util\RRandom.h" />
     <ClInclude Include="engine\util\Timer.h" />
   </ItemGroup>
@@ -367,14 +425,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)engine\external\DirectXTex;$(SolutionDir)engine\external\imgui;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\63GamePrjGenerated\Outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\63GamePrjGenerated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)engine\external\DirectXTex;$(SolutionDir)engine\external\imgui;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\63GamePrjGenerated\Outputs\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\63GamePrjGenerated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgAutoLink>false</VcpkgAutoLink>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -383,7 +444,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;$(ProjectDir)application\Player;$(ProjectDir)application\Enemy;$(ProjectDir)engine;$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -392,7 +453,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies>assimp-vc142-mtd.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Debug\assimp-vc142-mtd.dll" "$(TargetDir)assimp-vc142-mtd.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -404,7 +470,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)application;$(ProjectDir)application\Scene;$(ProjectDir)application\Particle;$(ProjectDir)engine\3d\assimp;$(ProjectDir)engine\\util;$(ProjectDir)application\Shader;$(ProjectDir)application\Player;$(ProjectDir)application\Enemy;$(ProjectDir)engine;$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -415,7 +481,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies>assimp-vc142-mt.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\lib\x64-Release\assimp-vc142-mt.dll" "$(TargetDir)assimp-vc142-mt.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

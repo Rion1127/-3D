@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <d3d12.h>
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
+
 #include <cassert>
 #include <string>
 #include <fstream>
@@ -10,16 +10,12 @@
 #include "Util.h"
 const std::string kBaseDirectory = "application/Resources/";
 
-//コマンドリストを格納する
-static RDirectX* directX_ = nullptr;
-
 std::shared_ptr<LightGroup> Model::lightGroup_ = nullptr;
 
 Model::~Model()
 {
 	materials_.clear();
 	vert_.clear();
-	texture_.clear();
 }
 
 Model* Model::GetInstance()
@@ -28,10 +24,6 @@ Model* Model::GetInstance()
 	return &instance;
 }
 
-void Model::Ini()
-{
-	directX_ = RDirectX::GetInstance();
-}
 
 Model* Model::CreateOBJ(const std::string& modelname, bool smoothing)
 {
@@ -55,12 +47,12 @@ void Model::SetModel(const Model* model)
 	vert_.emplace_back(std::move(std::make_unique<Vertices>()));	//空の頂点データを入れる
 	Vertices& vert = *vert_.back();		//空のvert_のアドレスをvertに入れる
 
-	for (size_t i = 0; i < model->vert_[0]->vertices_.size(); i++)
+	for (int32_t i = 0; i < model->vert_[0]->vertices_.size(); i++)
 	{
 		vert.AddVertices(model->vert_[0]->vertices_[i]);
 	}
 
-	for (size_t i = 0; i < model->vert_[0]->indices_.size(); i++)
+	for (int32_t i = 0; i < model->vert_[0]->indices_.size(); i++)
 	{
 		vert.AddIndex(model->vert_[0]->indices_[i]);
 	}
@@ -77,12 +69,6 @@ void Model::SetModel(const Model* model)
 	//}
 
 	//materials_.insert(model->materials_.begin(), model->materials_.end());
-
-	for (size_t i = 0; i < model->texture_.size(); i++)
-	{
-		texture_.push_back(model->texture_[i]);
-	}
-
 	// メッシュのバッファ生成
 	for (auto& m : vert_)
 	{
@@ -366,9 +352,8 @@ void Model::LoadTexture()
 		else
 		{
 			// マテリアルにテクスチャ読み込み
-			material.LoadTexture("white1×1.png");
+			material.LoadTexture("white1x1.png");
 		}
-		texture_.push_back(material.texture_);
 	}
 }
 
@@ -399,12 +384,11 @@ void Model::DrawOBJ(const WorldTransform& worldTransform)
 	lightGroup_->Draw(3);
 	for (auto& m : materials_)
 	{
-		m.second->Draw(texture_.at(0).textureHandle);
+		m.second->Draw();
 	}
 	for (auto& v : vert_)
 	{
-
-		v->Draw(worldTransform, texture_.at(0).textureHandle);
+		v->Draw(worldTransform);
 	}
 }
 
@@ -416,7 +400,7 @@ void Model::DrawOBJ(const WorldTransform& worldTransform, uint32_t textureHandle
 	}
 	for (auto& v : vert_)
 	{
-		v->Draw(worldTransform, textureHandle);
+		v->Draw(worldTransform);
 	}
 }
 

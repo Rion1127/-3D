@@ -17,7 +17,7 @@ void ParticleScene::Ini()
 
 	gameCamera.SetEyePos(Vector3(0, 8, -20));
 	gameCamera.SetTarget(Vector3(0, 0, 0));
-	gameCamera.Update();
+	gameCamera.Update(CameraMode::LookAT);
 	//useVP = &gameCamera;
 	useVP = debugCamera.GetCamera();
 	useVP->SetOriginalPos();
@@ -25,42 +25,40 @@ void ParticleScene::Ini()
 	lightGroup = std::make_shared<LightGroup>();
 	lightGroup->Init();
 	Model::SetLight(lightGroup);
-	AssimpModel::SetLightGroup(lightGroup.get());
+	
 	lightGroup->SetDirLightActive(0, true);
 	lightGroup->SetDirLightActive(1, true);
 	lightGroup->SetDirLightActive(2, true);
 
 	
 
-	const wchar_t* modelFile = L"Resources/boneTest/testCube.gltf";
-	//  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
-	//  L"Resources/FBX/untitled.glb"
-	ImportSettings importSetting = {
-		modelFile,
-		meshes,
-		false,
-		true
-	};
-	testModel_.Create(modelFile);
-	assimpObj_.SetModel(&testModel_);
+	//const wchar_t* modelFile = L"Resources/boneTest/testCube.gltf";
+	////  L"Resources/FBX/Alica/Alicia_solid_Unity.FBX"
+	////  L"Resources/FBX/untitled.glb"
+	//ImportSettings importSetting = {
+	//	modelFile,
+	//	meshes,
+	//	false,
+	//	true
+	//};
+	//testModel_.Create(modelFile);
+	//assimpObj_.SetModel(&testModel_);
 }
 
 void ParticleScene::Update()
 {
-	Camera::scurrent_.eye_ = debugCamera.GetCamera()->eye_;
-	Camera::scurrent_.up_ = debugCamera.GetCamera()->up_;
-	Camera::scurrent_.target_ = debugCamera.GetCamera()->target_;
-	Camera::scurrent_.Update();
+	Camera::scurrent_->eye_ = debugCamera.GetCamera()->eye_;
+	Camera::scurrent_->up_ = debugCamera.GetCamera()->up_;
+	Camera::scurrent_->target_ = debugCamera.GetCamera()->target_;
+	Camera::scurrent_->Update(CameraMode::LookAT);
 	//カメラ更新
 	if (Key::PushKey(DIK_LCONTROL)) {
 		debugCamera.Update();
 	}
-	gameCamera.Update();
+	gameCamera.Update(CameraMode::LookAT);
 
 
 	WT_.Update();
-
-	object_.Update(*useVP);
 
 
 	testWT_.Update();
@@ -86,7 +84,5 @@ void ParticleScene::Draw()
 	///////////////////
 	/////パーティクル////
 	///////////////////
-	ParticleManager::GetInstance()->PreDraw();
-
-	object_.Draw(whiteTexture_);
+	
 }

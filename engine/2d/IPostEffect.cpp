@@ -1,7 +1,7 @@
 #include "IPostEffect.h"
 #include "WinAPI.h"
 #include <d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
+
 #include "DirectX.h"
 #include "PipelineManager.h"
 
@@ -234,7 +234,7 @@ void IPostEffect::CreateTexBuff()
 	//‰æ‘œƒCƒ[ƒW
 	std::vector<UINT> img;
 	img.resize(pixelCount);
-	for (uint32_t i = 0; i < pixelCount; i++)
+	for (size_t i = 0; i < pixelCount; i++)
 	{
 		img[i] = 0xff0000ff;
 	}

@@ -2,7 +2,6 @@
 #include <memory>
 #include "Object3d.h"
 #include "Sprite.h"
-#include "Particle.h"
 #include "WorldTransform.h"
 #include "WinAPI.h"
 #include "DirectX.h"
@@ -17,7 +16,7 @@
 #include "AssimpLoader.h"
 
 #include "AssimpObject3D.h"
-class ParticleScene :
+class ParticleScene final:
 	public EmptyScene
 {
 public:
@@ -38,7 +37,6 @@ private:
 	//égÇ§ÉJÉÅÉâç¿ïW
 	Camera* useVP = nullptr;
 
-	Particle object_;
 	WorldTransform WT_;
 
 	uint32_t texture_;
@@ -50,7 +48,6 @@ private:
 	
 	std::vector<Mesh> meshes;
 	std::vector <uint32_t> texHandle_;
-	std::unique_ptr<ImportSettings> importSetting_;
 
 	WorldTransform testWT_;
 

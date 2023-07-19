@@ -4,13 +4,12 @@
 #include <string>
 #include <memory>
 #include <d3d12.h>
-#pragma comment(lib, "d3d12.lib")
+
 #include "DirectXTex/d3dx12.h"
 #include <cassert>
 #include <vector>
 #include <DirectXTex.h>
 #include "Vector2.h"
-using namespace DirectX;
 
 struct Texture {
 	//テクスチャバッファの生成
@@ -54,6 +53,8 @@ public:
 	Texture* GetTexture(const std::string& name);
 
 	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+private:
+	TextureManager() {};
 };
 
 std::string FileExtension(const std::string& path);
