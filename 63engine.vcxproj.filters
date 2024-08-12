@@ -366,9 +366,6 @@
     <ClCompile Include="application\Sourcecode\Collision\ICollider.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="application\Sourcecode\Draw\Drawer\ShockWaveDrawer.cpp">
-      <Filter>application\ソースファイル\Draw\Drawer</Filter>
-    </ClCompile>
     <ClCompile Include="application\Sourcecode\Scene\DebugScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
@@ -377,6 +374,9 @@
     </ClCompile>
     <ClCompile Include="ColliderTag.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\SpriteVertex.cpp">
+      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,9 +575,6 @@
     <ClInclude Include="application\Sourcecode\ObjectsName.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="application\Sourcecode\Draw\Drawer\ShockWaveDrawer.h">
-      <Filter>application\ヘッダーファイル\Draw\Drawer</Filter>
-    </ClInclude>
     <ClInclude Include="application\Sourcecode\ObjectsName.h">
       <Filter>application\ヘッダーファイル\StageObject</Filter>
     </ClInclude>
@@ -598,6 +595,9 @@
     </ClInclude>
     <ClInclude Include="application\Sourcecode\GameStatus.h">
       <Filter>application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\SpriteVertex.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

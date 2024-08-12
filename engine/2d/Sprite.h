@@ -9,6 +9,7 @@
 #include "Texture.h"
 #include "Color.h"
 #include "myMath.h"
+#include "SpriteVertex.h"
 
 /**
  * @file Sprite.h
@@ -41,20 +42,8 @@ private:
 
 	static uint32_t SAllNum;
 	uint32_t spriteNum_ = 0;
-	//頂点データ
-	std::vector<Vertex> vertices_;
-	// 頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView_{};
-	// 頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
-	Vertex* vertMap_ = nullptr;
-
-	//インデックスデータ
-	std::vector<uint16_t> indices_;
-	// インデックスバッファの生成
-	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView_{};
+	////頂点データ
+	SpriteVertex vertex_;
 
 	//定数バッファ用データ構造体
 	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
@@ -74,10 +63,9 @@ private:
 	Vector2 anchorPoint_;	//アンカーポイント
 	Vector2 splitNum_;		//画像を分割する数
 	Vector2 tilingNum_;		//タイリング
-	bool isTiling = false;
 	bool isFlipX_ = false;	//左右フリップ
 	bool isFlipY_ = false;	//上下フリップ
-	bool isInvisible_ = false;					//非表示フラグ
+	bool isVisible_ = true;					//表示フラグ
 	bool isScaleChange_ = false;
 	bool isMatrixChange_ = false;
 	Vector2 textureLeftTop_ = { 0.0f,0.0f };	//テクスチャ左上座標
@@ -86,21 +74,12 @@ private:
 	uint32_t descriptorSize_ = 0;
 	Texture texture_;		//テクスチャ
 
-	//imgui
-	std::string guiName_;
-	uint32_t clicked_ = 0;
-	const char* gui_;
-
-	std::string name_;
-
 	bool isVertChange = false;
 public:
 	Sprite(const std::string& guiname = "");
 	//セッター
 	void Init(const std::string& guiname = "");
 	void Update();
-
-	void DrawImGui();
 
 	//画像サイズ自動取得(描画座標は中心)
 	void Draw();
@@ -129,7 +108,7 @@ public:
 	//上下反転
 	void SetFlipY(bool flip) { isFlipY_ = flip; }
 	//表示フラグ
-	void SetInvisivle(bool invisivle) { isInvisible_ = invisivle; }
+	void SetVisivle(bool visivle) { isVisible_ = visivle; }
 	//画像左上変更
 	void SetTex_LeftTop(const Vector2& pos) { textureLeftTop_ = pos; }
 	//画像のUVサイズ指定
@@ -139,10 +118,6 @@ public:
 	void SetImGui(bool flag) { isImguiDisplay_ = flag; }
 	void SetSplitNum(const Vector2& splitNum) { splitNum_ = splitNum; }
 	void SetTilingNum(const Vector2& tilingNum) { tilingNum_ = tilingNum; }
-	void SetMatrix(const Matrix4& mat) {
-		matWorld_ = mat;
-		isMatrixChange_ = true;
-	}
 	//画像の描画されるサイズを指定する
 	void SetSprite_Size(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB);
 public:

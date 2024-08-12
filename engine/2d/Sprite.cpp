@@ -19,128 +19,33 @@
 
 uint32_t Sprite::SAllNum = 0;
 
-Sprite::Sprite(const std::string& guiname)
+Sprite::Sprite(const std::string& name)
 {
-	Init(guiname);
+	Init(name);
 }
 
-void Sprite::Init(const std::string& guiname)
+void Sprite::Init(const std::string& name)
 {
 	if (RDirectX::GetInstance()->GetDevice() == nullptr)return;
 	spriteNum_ = SAllNum;
 	Sprite::AddAllNum();
+	name;
 
-	std::string noneString = "";
-	//何も入っていない場合
-	if (guiname == noneString) {
-		std::ostringstream oss;
-		oss << spriteNum_;
-		name_ = "Sprite" + oss.str();
-		gui_ = name_.c_str();
-	}
-	else {
-		guiName_ = guiname;
-
-		gui_ = guiName_.c_str();
-	}
+	//std::string noneString = "";
+	////何も入っていない場合
+	//if (guiname == noneString) {
+	//	std::ostringstream oss;
+	//	oss << spriteNum_;
+	//	name_ = "Sprite" + oss.str();
+	//	gui_ = name_.c_str();
+	//}
+	//else {
+	//	guiName_ = guiname;
+	//	gui_ = guiName_.c_str();
+	//}
 
 	HRESULT result;
-#pragma region 頂点データ
-	//頂点データ
-	vertices_.push_back({ {   -0.0f,100.0f,0.0f },{0.0f,1.0f} });//左下
-	vertices_.push_back({ {   -0.0f, +0.0f,0.0f },{0.0f,0.0f} });//左上
-	vertices_.push_back({ { +100.0f,100.0f,0.0f },{1.0f,1.0f} });//右下
-	vertices_.push_back({ { +100.0f, +0.0f,0.0f },{1.0f,0.0f} });//右上
-
-	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * vertices_.size());
-	// 頂点バッファの設定
-	D3D12_HEAP_PROPERTIES heapProp{}; // ヒープ設定
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD; // GPUへの転送用
-	// リソース設定
-	D3D12_RESOURCE_DESC resDesc{};
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB; // 頂点データ全体のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
-		&heapProp, // ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc, // リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertBuff_));
-	assert(SUCCEEDED(result));
-
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	result = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (uint32_t i = 0; i < vertices_.size(); i++) {
-		vertMap_[i] = vertices_[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
-
-	// 頂点バッファビューの作成
-	// GPU仮想アドレス
-	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
-	// 頂点バッファのサイズ
-	vbView_.SizeInBytes = sizeVB;
-	// 頂点1つ分のデータサイズ
-	vbView_.StrideInBytes = sizeof(vertices_[0]);
-#pragma endregion
-
-#pragma region インデックスデータ
-	indices_.push_back(0);
-	indices_.push_back(1);
-	indices_.push_back(2);
-	indices_.push_back(1);
-	indices_.push_back(2);
-	indices_.push_back(3);
-
-	//インデックスデータ全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * indices_.size());
-
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB; // 頂点データ全体のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-
-	result = RDirectX::GetInstance()->GetDevice()->CreateCommittedResource(
-		&heapProp, // ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc, // リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff_));
-	assert(SUCCEEDED(result));
-
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	uint16_t* indexMap = nullptr;
-	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
-	assert(SUCCEEDED(result));
-	// 全頂点に対して
-	for (uint32_t i = 0; i < indices_.size(); i++) {
-		indexMap[i] = indices_[i]; // 座標をコピー
-	}
-	// 繋がりを解除
-	indexBuff_->Unmap(0, nullptr);
-	//インデックスバッファビューの作成
-	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
-	ibView_.Format = DXGI_FORMAT_R16_UINT;
-	ibView_.SizeInBytes = sizeIB;
-
-#pragma endregion
-
+	vertex_.Init();
 #pragma region シェーダーに色を渡す
 
 	//ヒープ設定
@@ -213,91 +118,9 @@ void Sprite::Init(const std::string& guiname)
 	isMatrixChange_ = false;
 }
 
-void Sprite::DrawImGui()
-{
-	ImGui::Begin(gui_);
-	/* ここに追加したいGUIを書く */
-
-	//static int clicked_ = 0;
-	if (ImGui::Button("isInvisible_"))clicked_++;
-	//クリックされた場合表示しない
-	if (clicked_ & 1)
-	{
-		ImGui::SameLine();
-		ImGui::Text("TRUE");
-		isInvisible_ = true;
-	}
-	else {
-		ImGui::SameLine();
-		ImGui::Text("FALSE");
-		isInvisible_ = false;
-	}
-
-	// Menu Bar
-	float pos[2] = { pos_.x,pos_.y };
-	ImGui::DragFloat2("pos", pos, 1.0f, 0.f, WinAPI::GetWindowSize().x);
-
-	pos_.x = pos[0];
-	pos_.y = pos[1];
-	// スケール変更
-	float scale[2] = { scale_.x,scale_.y };
-	ImGui::DragFloat2("scale", scale, 0.1f, 0.0f, 10.0f);
-
-	scale_.x = scale[0];
-	scale_.y = scale[1];
-
-	//回転
-	float rot = rot_;
-	ImGui::SliderFloat("Rot", &rot, 0.0f, Radian(360), "x = %.3f");
-	rot_ = rot;
-
-	// textureLeftTop変更
-	float textureLeftTop[2] = { textureLeftTop_.x,textureLeftTop_.y };
-	ImGui::DragFloat2("textureLeftTop", textureLeftTop, 1.0f, 0.0f, 1280.0f);
-
-	textureLeftTop_.x = textureLeftTop[0];
-	textureLeftTop_.y = textureLeftTop[1];
-
-	// textureSize変更
-	float textureSize[2] = { textureSize_.x,textureSize_.y };
-	ImGui::DragFloat2("textureSize", textureSize, 1.0f, 0.0f, 1280.0f);
-
-	textureSize_.x = textureSize[0];
-	textureSize_.y = textureSize[1];
-
-	// color変更
-	float color[4] = { color_.r,color_.g,color_.b,color_.a };
-	ImGui::DragFloat4("color", color, 1.0f, 0.0f, 255.0f);
-
-	color_.r = color[0];
-	color_.g = color[1];
-	color_.b = color[2];
-	color_.a = color[3];
-
-	ImGui::Checkbox("vertChange", &isVertChange);
-	// color変更
-	float Ld[2] = { vertices_.at(0).pos.x,vertices_.at(0).pos.y};
-	ImGui::DragFloat2("Ld", Ld, 1.0f, 0.0f, 10000.0f);
-	float Lu[2] = { vertices_.at(1).pos.x,vertices_.at(1).pos.y };
-	ImGui::DragFloat2("Lu", Lu, 1.0f, 0.0f, 10000.0f);
-	float Rd[2] = { vertices_.at(2).pos.x,vertices_.at(2).pos.y };
-	ImGui::DragFloat2("Rd", Rd, 1.0f, 0.0f, 10000.0f);
-	float Ru[2] = { vertices_.at(3).pos.x,vertices_.at(3).pos.y };
-	ImGui::DragFloat2("Ru", Ru, 1.0f, 0.0f, 10000.0f);
-
-	vertices_.at(0).pos = { Ld[0],Ld[1],0};//左下
-	vertices_.at(1).pos = { Lu[0],Lu[1],0 };//左上
-	vertices_.at(2).pos = { Rd[0],Rd[1],0 };//右下
-	vertices_.at(3).pos = { Ru[0],Ru[1],0 };//右上
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
-
-	ImGui::End();
-}
-
 void Sprite::Update()
 {
-	if (isInvisible_)
+	if (isVisible_ == false)
 	{
 		return;
 	}
@@ -338,11 +161,7 @@ void Sprite::Update()
 
 void Sprite::Draw()
 {
-	if (isImguiDisplay_) {
-		DrawImGui();
-	}
-
-	if (isInvisible_) {
+	if (isVisible_ == false) {
 		return;
 	}
 
@@ -350,48 +169,30 @@ void Sprite::Draw()
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
-	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
-	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
-	//描画コマンド
-	RDirectX::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
+	vertex_.Draw();
 }
 
 void Sprite::Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY)
 {
-	if (isInvisible_) {
+	if (isVisible_ == false) {
 		return;
 	}
-#pragma region 画像の頂点データを更新
-	vertices_.at(0).pos = { LdX,LdY,0 };//左下
-	vertices_.at(1).pos = { LuX,LuY,0 };//左上
-	vertices_.at(2).pos = { RdX,RdY,0 };//右下
-	vertices_.at(3).pos = { RuX,RuY,0 };//右上
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
+	//画像の頂点データを更新
+	vertex_.SetVerticesPos(LuX, LuY, RuX, RuY, LdX, LdY, RdX, RdY);
 
-#pragma endregion
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
-	// 頂点バッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView_);
-	//インデックスバッファビューの設定コマンド
-	RDirectX::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView_);
 	//定数バッファビュー(CBV)の設定コマンド
 	RDirectX::GetInstance()->GetCommandList()->
 		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
 
-	//描画コマンド
-	RDirectX::GetInstance()->GetCommandList()->
-		DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
+	vertex_.Draw();
 }
 
 void Sprite::Draw(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
@@ -402,12 +203,7 @@ void Sprite::Draw(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
 void Sprite::SetSprite_Size(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
 {
 	isVertChange = true;
-	vertices_.at(VertNum::LB).pos = { LB.x,LB.y,0 };//左下
-	vertices_.at(VertNum::LT).pos = { LT.x,LT.y,0 };//左上
-	vertices_.at(VertNum::RB).pos = { RB.x,RB.y,0 };//右下
-	vertices_.at(VertNum::RT).pos = { RT.x,RT.y,0 };//右上
-	// GPU上のバッファに対応した仮想メモリ(メインメモリ上)を取得
-	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
+	vertex_.SetVerticesPos(LT, RT, LB, RB);
 }
 
 void Sprite::TransferVertex()
@@ -431,10 +227,7 @@ void Sprite::TransferVertex()
 
 	if (isVertChange == false)
 	{
-		vertices_.at(LB).pos = { left	, bottom	,0 };//左下
-		vertices_.at(LT).pos = { left	, top		,0 };//左上
-		vertices_.at(RB).pos = { right	, bottom	,0 };//右下
-		vertices_.at(RT).pos = { right	, top		,0 };//右上
+		vertex_.SetVerticesPos(left, right, top, bottom);
 	}
 	isVertChange = false;
 
@@ -446,11 +239,8 @@ void Sprite::TransferVertex()
 		float tex_top = textureLeftTop_.y / texture_.size_.y;
 		float tex_bottom = (textureLeftTop_.y + textureSize_.y) / texture_.size_.y;
 		//頂点のUVに反映する
-		vertices_.at(LB).uv = { tex_left	, tex_bottom };//左下
-		vertices_.at(LT).uv = { tex_left	, tex_top };//左上
-		vertices_.at(RB).uv = { tex_right	, tex_bottom };//右下
-		vertices_.at(RT).uv = { tex_right	, tex_top };//右上
+		vertex_.SetVerticesUv(tex_left, tex_right, tex_top, tex_bottom);
 	}
 	
-	std::copy(std::begin(vertices_), std::end(vertices_), vertMap_);
+	vertex_.TransferVertex();
 }
