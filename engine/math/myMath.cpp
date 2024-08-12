@@ -1,6 +1,13 @@
 #include "Util.h"
 #include "myMath.h"
-#define PI 3.141592f
+#include <numbers>
+
+constexpr float PI = std::numbers::pi_v<float>;
+
+/**
+ * @file myMath.cpp
+ * @brief æ•°å­¦ã«é–¢ã™ã‚‹ã‚‚ã®ã‚’ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
+ */
 
 #pragma region FLOAT2
 FLOAT2::FLOAT2() : x(0), y(0) {}
@@ -237,28 +244,38 @@ Matrix4 Matrix4::operator*(const Matrix4& m2)
 	};
 }
 
+Vector4 Matrix4::operator*(const Vector4& v)
+{
+    Vector4 result;
+    result.x = m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3] * v.w;
+    result.y = m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3] * v.w;
+    result.z = m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3] * v.w;
+    result.w = m[3][0] * v.x + m[3][1] * v.y + m[3][2] * v.z + m[3][3] * v.w;
+    return result;
+}
+
 Matrix4 Matrix4::Inverse()
 {
 	float sweepMat[4][8] = {};
 	float tmepNum = 0;
 
-	// ‘|‚«o‚µs—ñ‚Ì‰Šú‰»
+	// æƒãå‡ºã—è¡Œåˆ—ã®åˆæœŸåŒ–
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			// ˆø”‚Å‚à‚ç‚Á‚½s—ñi¶ 4 * 4j
+			// å¼•æ•°ã§ã‚‚ã‚‰ã£ãŸè¡Œåˆ—ï¼ˆå·¦ 4 * 4ï¼‰
 			sweepMat[i][j] = m[i][j];
 
-			// ’PˆÊs—ñi‰E 4 * 4j
+			// å˜ä½è¡Œåˆ—ï¼ˆå³ 4 * 4ï¼‰
 			sweepMat[i][j + 4] = (i == j) ? 1.0f : 0.0f;
 		}
 	}
 
-	// ‘|‚«o‚µ–@
+	// æƒãå‡ºã—æ³•
 	for (int i = 0; i < 4; i++)
 	{
-		// Å‘å¬•ª‚ğ’Tõ‚·‚é
+		// æœ€å¤§æˆåˆ†ã‚’æ¢ç´¢ã™ã‚‹
 		float max = fabsf(sweepMat[i][i]);
 		int maxIndex = i;
 		for (int j = i + 1; j < 4; j++)
@@ -269,23 +286,23 @@ Matrix4 Matrix4::Inverse()
 				maxIndex = j;
 			}
 		}
-		// ‹ts—ñ‹‚ß‚é‚©‚Ç‚¤‚©
+		// é€†è¡Œåˆ—æ±‚ã‚ã‚‹ã‹ã©ã†ã‹
 		if (fabsf(sweepMat[maxIndex][i]) <= 1.e-50)
 		{
-			// ‹‚ß‚ê‚È‚¢ê‡‚Í’PˆÊs—ñ‚ğ•Ô‚·
+			// æ±‚ã‚ã‚Œãªã„å ´åˆã¯å˜ä½è¡Œåˆ—ã‚’è¿”ã™
 			Matrix4 identity;
 			identity.UnitMatrix();
 			return identity;
 		}
 
-		// ‘ÎÛ‚Æ‚È‚és—ñ‚Ì‘ÎŠp¬•ª‚ğ1‚É‚·‚é
+		// å¯¾è±¡ã¨ãªã‚‹è¡Œåˆ—ã®å¯¾è§’æˆåˆ†ã‚’1ã«ã™ã‚‹
 		tmepNum = 1 / sweepMat[i][i];
 		for (int j = 0; j < 8; j++)
 		{
 			sweepMat[i][j] *= tmepNum;
 		}
 
-		// ‘ÎÛ‚Æ‚È‚és—ñ‚Ì‘ÎŠp¬•ªˆÈŠO‚ğ0‚É‚·‚é‚½‚ß
+		// å¯¾è±¡ã¨ãªã‚‹è¡Œåˆ—ã®å¯¾è§’æˆåˆ†ä»¥å¤–ã‚’0ã«ã™ã‚‹ãŸã‚
 		for (int j = 0; j < 4; j++)
 		{
 			if (i == j) continue;
@@ -298,7 +315,7 @@ Matrix4 Matrix4::Inverse()
 		}
 	}
 
-	// ‹ts—ñ‚ğ•Ô‚·
+	// é€†è¡Œåˆ—ã‚’è¿”ã™
 	Matrix4 inverseMat;
 	inverseMat.UnitMatrix();
 	for (int i = 0; i < 4; i++)
@@ -312,7 +329,20 @@ Matrix4 Matrix4::Inverse()
 	return inverseMat;
 }
 
-Matrix4 ConvertScalingMat(Vector3 scale)
+Matrix4 Matrix4::Transpose()
+{
+	Matrix4 result;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			result.m[i][j] = m[j][i];
+		}
+	}
+	return result;
+}
+
+Matrix4 ConvertScalingMat(const Vector3& scale)
 {
 	return
 	{
@@ -362,17 +392,26 @@ Matrix4 ConvertTranslationMat(const Vector3& pos)
 		pos.x,pos.y,pos.z,1
 	};
 }
+const Vector4 operator*(const Vector4& v, const Matrix4& m)
+{
+    Vector4 result;
+    result.x = v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + v.w * m.m[3][0];
+    result.y = v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + v.w * m.m[3][1];
+    result.z = v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + v.w * m.m[3][2];
+    result.w = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + v.w * m.m[3][3];
+    return result;
+}
 #pragma endregion
 
-#pragma region •ÏŠ·
+#pragma region å¤‰æ›
 
-//ƒ‰ƒWƒAƒ“‚©‚çŠp“x
+//ãƒ©ã‚¸ã‚¢ãƒ³ã‹ã‚‰è§’åº¦
 float Angle(float radian) {
 	float angle = 180 / PI * radian;
 	return angle;
 }
 
-//Šp“x‚©‚çƒ‰ƒWƒAƒ“
+//è§’åº¦ã‹ã‚‰ãƒ©ã‚¸ã‚¢ãƒ³
 float Radian(float angle) {
 	float radian = PI / 180 * angle;
 	return radian;
@@ -380,52 +419,12 @@ float Radian(float angle) {
 
 #pragma endregion
 
-const Vector3 SplinePosition(const std::vector<Vector3>& point, size_t startIndex, const float t)
+
+
+float UpAndDown(float oneRoundTime, float range, float timer, bool isSinCos)
 {
-	////•âŠ®‚·‚×‚«“_‚Ì”
-	size_t n = point.size() - 2;
-
-	if (startIndex > n)return point[n];//Pn‚Ì’l‚ğ•Ô‚·
-	if (startIndex < 1)return point[1];//P1‚Ì’l‚ğ•Ô‚·
-
-	//p0~p3‚Ì§Œä“_‚ğæ“¾‚·‚é@¦p1~p2‚ğ•âŠ®‚·‚é
-	Vector3 p0 = point[startIndex];
-	Vector3 p1 = point[startIndex + 1];
-	Vector3 p2;
-	if (startIndex > 0)
-	{
-		p2 = 0.5f * (point[startIndex + 1] - point[startIndex - 1]);
-	}
-	else
-	{
-		p2 = point[startIndex + 1] - point[startIndex];
-	}
-	Vector3 p3;
-	if (startIndex < n)
-	{
-		p3 = 0.5f * (point[startIndex + 2] - point[startIndex]);
-	}
-	else
-	{
-		p3 = point[startIndex + 1] - point[startIndex];
-	}
-
-	Vector3 position = GetPoint(p0, p1, p2, p3, t);
-
-	return position;
-}
-
-// n“_/I“_‚ÌÀ•W‚Æ ƒxƒNƒgƒ‹‚©‚çA‹Èü‚Ì‹O“¹ã‚ÌÀ•W‚ğ•Ô‚·
-Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const Vector3& v1, float t)
-{
-	Vector3 c0 = 2.0f * p0 + -2.0f * p1 + v0 + v1;
-	Vector3 c1 = -3.0f * p0 + 3.0f * p1 + -2.0f * v0 - v1;
-	Vector3 c2 = v0;
-	Vector3 c3 = p0;
-
-	float t2 = t * t;
-	float t3 = t2 * t;
-	return c0 * t3 + c1 * t2 + c2 * t + c3;
+	if (isSinCos == 0)return (sinf(PI * 2.f / oneRoundTime * timer) * range);
+	else return (cosf(PI * 2.f / oneRoundTime * timer) * range);
 }
 
 //float UpAndDown(float oneRoundTime, float range)
@@ -433,39 +432,88 @@ Vector3 GetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const 
 //	return (float)(sin(PI * 2 / oneRoundTime * GetNowCount()) * range);
 //}
 
-const Vector3 operator-(const DirectX::XMFLOAT3 v1, const Vector3 v2)
+float Vec2Angle(const Vector2& vec) {
+	float angle = 0;
+	if (vec.length() == 0) return angle;
+	angle = vec.dot({ 0.0f, 1.0f }) / (vec.length() * Vector2(0.0f, 1.0f).length());
+	angle = acos(angle);
+	angle = Angle(angle);
+
+	// 180åº¦ã¾ã§ã—ã‹è¨ˆç®—ã§ããªã„ã®ã§360åº¦ã¾ã§ã®å€¤ã«ä¿®æ­£
+	if (vec.x < 0) angle = 180.0f + (180.0f - angle);
+
+	// è¨ˆç®—çµæœãŒã‚ªãƒ¼ãƒãƒ¼ãƒ•ãƒ­ãƒ¼ã—ã¦ã„ãªã‹ã£ãŸã‚‰å€¤ã‚’æ›´æ–°
+	if (angle < 0)
+	{
+		return -1;
+	}
+
+	return angle;
+}
+
+Matrix4 CalculateWorldMat(const Vector3& pos, const Vector3& scale, const Vector3& rot)
 {
-	Vector3 result;
-	result.x = v1.x - v2.x;
-	result.y = v1.y - v2.y;
-	result.z = v1.z - v2.z;
+	Matrix4 result;
+	result.UnitMatrix();
+	// å¹³è¡Œç§»å‹•ã€ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã€å›è»¢è¡Œåˆ—ä½œæˆ
+	Matrix4 transMat;
+	Matrix4 scaleMat;
+	Matrix4 rotMat;
+	transMat.UnitMatrix();
+	scaleMat.UnitMatrix();
+	rotMat.UnitMatrix();
+
+	transMat = ConvertTranslationMat(pos);	// å¹³è¡Œç§»å‹•
+	scaleMat = ConvertScalingMat(scale);		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
+	rotMat *= ConvertRotationZAxisMat(rot.z);	// zè»¸å›è»¢
+	rotMat *= ConvertRotationXAxisMat(rot.x);	// xè»¸å›è»¢
+	rotMat *= ConvertRotationYAxisMat(rot.y);	// yè»¸å›è»¢
+
+	result = scaleMat * rotMat * transMat;
+
 	return result;
 }
 
-const Vector3 operator-(const Vector3 v1, DirectX::XMFLOAT3 v2)
+Vector4 Vec4MulMat4(const Vector4& v,const Matrix4& m)
 {
-	Vector3 result;
-	result.x = v1.x - v2.x;
-	result.y = v1.y - v2.y;
-	result.z = v1.z - v2.z;
+	float w = m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3];
+	Vector4 result = {
+		m.m[0][0] * v.x + m.m[1][0] * v.y + m.m[2][0] * v.z + m.m[3][0] * v.w,
+		m.m[0][1] * v.x + m.m[1][1] * v.y + m.m[2][1] * v.z + m.m[3][1] * v.w,
+		m.m[0][2] * v.x + m.m[1][2] * v.y + m.m[2][2] * v.z + m.m[3][2] * v.w,
+		m.m[0][3] * v.x + m.m[1][3] * v.y + m.m[2][3] * v.z + m.m[3][3],
+	};
+
+	result.x /= w;
+	result.y /= w;
+	result.z /= w;
+	result.w /= w;
+
 	return result;
 }
 
-const Vector3 operator+(const Vector3 v1, const DirectX::XMFLOAT3 v2)
-{
+Vector3 getEulerAnglesFromVector(const Vector3& vec) {
+	// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’è¨ˆç®—
+	double length_xy = (double)std::sqrt(vec.x * vec.x + vec.y * vec.y);
+	
 	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
+
+	result = {
+		std::atan2(vec.y, vec.x),
+		std::atan2(-vec.z, (float)length_xy) + Radian(90),
+		std::atan2(vec.y, vec.x),
+	};
 	return result;
 }
 
-const Vector3 operator+(const DirectX::XMFLOAT3 v1, const Vector3 v2)
-{
-	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
-	return result;
-}
+// 2æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’ä»»æ„ã®è§’åº¦å›è»¢ã•ã›ã‚‹é–¢æ•°
+Vector2 RotateVector2(const Vector2& vec, float angleDegrees) {
+	float angleRadians = Radian(angleDegrees);
+	float cosTheta = cos(angleRadians);
+	float sinTheta = sin(angleRadians);
 
+	float newX = vec.x * cosTheta - vec.y * sinTheta;
+	float newY = vec.x * sinTheta + vec.y * cosTheta;
+
+	return Vector2(newX, newY);
+}

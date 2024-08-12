@@ -1,73 +1,87 @@
 #pragma once
 
 #include <d3d12.h>
-#pragma comment(lib, "d3d12.lib")
+
 #include "DirectX.h"
 #include "myMath.h"
 
-// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+/**
+ * @file Camera.h
+ * @brief ã‚«ãƒ¡ãƒ©ã®ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’ç®¡ç†ã—ã¦ã„ã‚‹
+ */
+
+// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 struct ConstVPBuff {
-	Matrix4 view;       // ƒ[ƒ‹ƒh ¨ ƒrƒ…[•ÏŠ·s—ñ
-	Matrix4 projection; // ƒrƒ…[ ¨ ƒvƒƒWƒFƒNƒVƒ‡ƒ“•ÏŠ·s—ñ
-	Vector3 cameraPos;  // ƒJƒƒ‰À•Wiƒ[ƒ‹ƒhÀ•Wj
+	Matrix4 view;       // ãƒ¯ãƒ¼ãƒ«ãƒ‰ â†’ ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
+	Matrix4 projection; // ãƒ“ãƒ¥ãƒ¼ â†’ ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³å¤‰æ›è¡Œåˆ—
+	Vector3 cameraPos;  // ã‚«ãƒ¡ãƒ©åº§æ¨™ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
+};
+
+enum class CameraMode {
+	LookAT,	//åº§æ¨™ã¨æ³¨è¦–ç‚¹åº§æ¨™
+	LookTo	//åº§æ¨™ã¨ã‚ªã‚¤ãƒ©ãƒ¼è§’
 };
 
 class Camera {
+public:
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
+	Camera();
+	//ã‚«ãƒ¡ãƒ©åº§æ¨™
+	void SetEyePos(float x, float y, float z);
+	void SetEyePos(const Vector3& pos);
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚»ãƒƒãƒˆ
+	void SetTarget(float x, float y, float z);
+	void SetTarget(const Vector3& pos);
+	//ã‚¢ãƒƒãƒ—ãƒ™ã‚¯ãƒˆãƒ«
+	void SetUpVec(float x, float y, float z);
+	void SetUpVec(const Vector3& upVec);
+	void MoveTo(const Vector3& goal, float speed);
+	//åº§æ¨™ã¨æ³¨è¦–ç‚¹åº§æ¨™ã§è¡Œåˆ—è¨ˆç®—
+	void UpdateLookAt();
+	//åº§æ¨™ã¨ã‚ªã‚¤ãƒ©ãƒ¼è§’ã§è¡Œåˆ—è¨ˆç®—(ã“ã£ã¡ã¯ãƒ‡ãƒãƒƒã‚°ã‚«ãƒ¡ãƒ©ãŒå¯¾å¿œã—ã¦ã„ãªã„ãŸã‚ã€ãƒã‚°ã‚‹)
+	void UpdateLookTo();
+
+	void Update(CameraMode mode);
+
+	Vector3 eye_;
+	Vector3 target_;
+	Vector3 up_;
+	Vector3 rot_;
+
+	Matrix4 matView_{};
+	//é€è¦–æŠ•å½±è¡Œåˆ—ã®è¨ˆç®—
+	Matrix4 matProjection_{};
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
+	Matrix4 matBillboard_;
+	//Yè»¸å‘¨ã‚Šã®ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰
+	Matrix4 matBillboardY_;
+
+	static Camera* scurrent_;
+public:
+	/// <summary>
+	/// ã‚«ãƒ¡ãƒ©ã‚·ã‚§ã‚¤ã‚¯
+	/// </summary>
+	/// <param name="time">æºã‚Œã‚‹æ™‚é–“</param>
+	/// <param name="power">æºã‚Œã‚‹å¤§ãã•</param>
+	void ShakeSet(uint32_t time, float power);
+	void ShakeUpdate();
+	void SetOriginalPos();
+	bool GetIsShake() { return isShake_; }
+public:
+	Matrix4 GetMatView();
+	Matrix4 GetMatProjection();
+
 private:
-	// ƒrƒ…[ƒ|[ƒg‚ÌƒAƒXƒyƒNƒg”ä
+	void UpdateMatProjection();
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”
 	float aspectRatio_;
 
-	//ƒVƒFƒCƒN‚·‚é‘O‚ÌêŠ
+	//ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹å‰ã®å ´æ‰€
 	Vector3 originalPos_;
 	bool isShake_ = false;
 	uint32_t maxShakeTime_;
 	uint32_t shakeTime_ = 0;
 	float power_;
-public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-
-	Vector3 eye_;
-	Vector3 target_;
-	Vector3 up_;
-
-	Matrix4 matView_{};
-	//“§‹“Š‰es—ñ‚ÌŒvZ
-	Matrix4 matProjection_{};
-
-	//ƒrƒ‹ƒ{[ƒhs—ñ
-	Matrix4 matBillboard_;
-	//Y²ü‚è‚Ìƒrƒ‹ƒ{[ƒh
-	Matrix4 matBillboardY_;
-
-	static Camera scurrent_;
-public:
-	Camera();
-	//ƒJƒƒ‰À•W
-	void SetEyePos(float x,float y,float z);
-	void SetEyePos(Vector3 pos);
-	//ƒ^[ƒQƒbƒgƒZƒbƒg
-	void SetTarget(float x, float y, float z);
-	void SetTarget(Vector3 pos);
-	//ƒAƒbƒvƒxƒNƒgƒ‹
-	void SetUpVec(float x, float y, float z);
-	void SetUpVec(Vector3 upVec);
-	void MoveTo(Vector3 goal, float speed);
-	//‰Šú‰»
-	void Update();
-
-	Matrix4 GetMatView();
-	Matrix4 GetMatProjection();
-
-	/// <summary>
-	/// ƒJƒƒ‰ƒVƒFƒCƒN
-	/// </summary>
-	/// <param name="time">—h‚ê‚éŠÔ</param>
-	/// <param name="power">—h‚ê‚é‘å‚«‚³</param>
-	void ShakeSet(uint32_t time, float power);
-	void ShakeUpdate();
-	void SetOriginalPos();
-	bool GetIsShake() { return isShake_; }
 };
-
-const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2);

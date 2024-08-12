@@ -1,0 +1,609 @@
+{
+    "OBJECTS": [
+        {
+            "OBJECT_DETAIL": -1,
+            "OBJECT_TYPE": -2,
+            "POSITION": [
+                -115.48849487304688,
+                543.458740234375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -331.4888610839844,
+                267.1804504394531
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                128.000732421875,
+                995.0
+            ]
+        },
+        {
+            "DESTINATION": "stage1-1",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                185.13092041015625,
+                431.4676513671875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                608.1326293945313,
+                621.04833984375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                447.0,
+                215.99998474121094
+            ]
+        },
+        {
+            "DESTINATION": "stage1-4",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                1028.9564208984375,
+                846.7450561523438
+            ]
+        },
+        {
+            "DESTINATION": "stage1-5",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                687.43017578125,
+                845.7450561523438
+            ]
+        },
+        {
+            "DESTINATION": "stage1-6",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                361.2520446777344,
+                846.7450561523438
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -289.75335693359375,
+                946.7451171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                263.0,
+                426.00006103515625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                682.6827392578125,
+                1071.69140625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                225.0,
+                160.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1242.518798828125,
+                1070.993408203125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                679.0,
+                160.99993896484375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                354.7431945800781,
+                1069.69140625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                225.0,
+                160.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -93.7147216796875,
+                972.65966796875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                339.0,
+                383.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -254.05291748046875,
+                1185.6915283203125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                660.0,
+                592.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                509.7368469238281,
+                992.6991577148438
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                156.0,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                857.73681640625,
+                993.6991577148438
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                156.0,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                411.03619384765625,
+                1533.6044921875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1688.62158203125,
+                206.011474609375
+            ]
+        },
+        {
+            "DIRECTION": 3,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                1292.337158203125,
+                380.2810363769531
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DESTINATION": "stage1-7",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                357.97894287109375,
+                1287.5986328125
+            ]
+        },
+        {
+            "DESTINATION": "stage1-8",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                688.3116455078125,
+                1286.5986328125
+            ]
+        },
+        {
+            "DESTINATION": "stage1-9",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                1037.1015625,
+                1287.5986328125
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                854.9166870117188,
+                872.6913452148438
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                518.9166870117188,
+                868.6913452148438
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                521.947021484375,
+                1277.5986328125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                848.94189453125,
+                1276.5986328125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1419.51904296875,
+                1489.0986328125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                331.0,
+                225.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2125.32275390625,
+                1484.0986328125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                393.9998779296875,
+                219.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1753.861328125,
+                1378.5986328125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                359.0,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                1728.72314453125,
+                1772.0703125
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                0.0,
+                0.0
+            ],
+            "SIZE": [
+                669.9998779296875,
+                163.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1494.6666259765625,
+                401.7999572753906
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                173.0,
+                1200.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                2629.815185546875,
+                1828.03271484375
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                0.0,
+                0.0
+            ],
+            "SIZE": [
+                932.0,
+                452.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                577.2609252929688,
+                1825.1468505859375
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                0.0,
+                0.0
+            ],
+            "SIZE": [
+                1716.0,
+                181.002685546875
+            ]
+        },
+        {
+            "DESTINATION": "BossStage",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                2126.26123046875,
+                1231.5986328125
+            ]
+        },
+        {
+            "CYCLE_TIME": 360,
+            "MOVE_DISTANCE": [
+                0.0,
+                270.0
+            ],
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                111.9530029296875,
+                1141.81201171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                32.0
+            ]
+        },
+        {
+            "DESTINATION": "stage1-3",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                994.553466796875,
+                433.25994873046875
+            ]
+        },
+        {
+            "DESTINATION": "stage1-2",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                608.7220458984375,
+                369.8094177246094
+            ]
+        },
+        {
+            "CYCLE_TIME": 360,
+            "MOVE_DISTANCE": [
+                0.0,
+                200.0
+            ],
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1354.289794921875,
+                769.9363403320313
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                108.0,
+                32.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                1419.0435791015625,
+                1274.5986328125
+            ],
+            "SIZE": [
+                100.0,
+                100.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2585.217529296875,
+                1326.0986328125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                539.09423828125,
+                591.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2198.26416015625,
+                145.609130859375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1245.7119140625,
+                512.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1731.22509765625,
+                1687.69873046875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                492.0001220703125,
+                197.0
+            ]
+        },
+        {
+            "JUMP_HIGHT": -10.0,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                1758.3427734375,
+                1546.1986083984375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2382.61865234375,
+                1695.1986083984375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                872.0001220703125,
+                454.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1290.019287109375,
+                1771.1986083984375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                576.0,
+                426.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                1629.3427734375,
+                1549.1986083984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                1887.3427734375,
+                1553.1986083984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                579.13720703125,
+                687.458740234375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1027.0,
+                224.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                217.132568359375,
+                687.458740234375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1027.0,
+                224.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -1573.568359375,
+                426.5494384765625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                2400.0,
+                2400.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2756.703857421875,
+                -48.9014892578125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                2400.0,
+                2400.0
+            ]
+        }
+    ]
+}

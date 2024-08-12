@@ -1,50 +1,40 @@
 #pragma once
 #include "REngine.h"
+#include "myMath.h"
+#include "AssimpModel.h"
+#include <string>
+#include <assimp/matrix4x4.h>
+
+/**
+ * @file AssimpLoader.h
+ * @brief 'assimp'ã‚’ç”¨ã„ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹
+ */
 
 struct aiMesh;
 struct aiMaterial;
-struct aiBone;
+struct aiNode;
 
 struct Mesh {
-	Vertices Vertices; // ’¸“_ƒf[ƒ^‚Ì”z—ñ
-	std::wstring diffuseMap; // ƒeƒNƒXƒ`ƒƒ‚Ìƒtƒ@ƒCƒ‹ƒpƒX
-};
-
-struct BoneData {
-	static const uint32_t NUM_BONES_PER_VERTEX = 4;
-
-	uint32_t IDs[NUM_BONES_PER_VERTEX];
-	float Weights[NUM_BONES_PER_VERTEX];
-	Matrix4 boneMatrix_;
-};
-
-struct ImportSettings // ƒCƒ“ƒ|[ƒg‚·‚é‚Æ‚«‚Ìƒpƒ‰ƒ[ƒ^
-{
-public:
-	
-	const wchar_t* filename = nullptr; // ƒtƒ@ƒCƒ‹ƒpƒX
-	std::vector<Mesh>& meshes; // o—Íæ‚ÌƒƒbƒVƒ…”z—ñ
-	bool inverseU = false; // UÀ•W‚ğ”½“]‚³‚¹‚é‚©
-	bool inverseV = false; // VÀ•W‚ğ”½“]‚³‚¹‚é‚©
-
-	std::vector<BoneData> boneData;
+	Vertices Vertices; // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®é…åˆ—
+	std::wstring diffuseMap; // ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 };
 
 class AssimpLoader
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	static AssimpLoader* GetInstance();
 
-	bool Load(ImportSettings* setting); // ƒ‚ƒfƒ‹‚ğƒ[ƒh‚·‚é
-
+	std::unique_ptr<AssimpModel> Load(const std::string& fileName);
+	static Matrix4 ConvertAiMatrixToMatrix(const aiMatrix4x4 aimat);
 private:
-	void LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool inverseV);
-	void LoadTexture(const wchar_t* filename, Mesh& dst, const aiMaterial* src);
-
-	void LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting);
+	void LoadVertices(Vertices* vert, const aiMesh* aimesh);
+	void LoadMaterial(std::string fileName, Material* material, const aiMaterial* aimaterial);
+	void LoadSkin(AssimpModel* model, const aiMesh* aimesh);
+	void LoadNode(AssimpModel* model, Node* parent, const aiNode* node);
+	AssimpLoader() {};
 private:
-	
 };
+

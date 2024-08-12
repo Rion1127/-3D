@@ -2,8 +2,14 @@
 #include <random>
 #include "Util.h"
 #include "Camera.h"
+#include <imgui.h>
 
-Camera Camera::scurrent_{};
+/**
+ * @file Camera.cpp
+ * @brief „Ç´„É°„É©„ÅÆ„Éà„É©„É≥„Çπ„Éï„Ç©„Éº„É†„ÇíÁÆ°ÁêÜ„Åó„Å¶„ÅÑ„Çã
+ */
+
+Camera* Camera::scurrent_ = nullptr;
 
 Camera::Camera()
 {
@@ -13,7 +19,7 @@ Camera::Camera()
 	target_ = { 0,0,0 };
 	up_ = { 0,1,0 };
 
-	Update();
+	UpdateLookAt();
 }
 
 void Camera::SetEyePos(float x, float y, float z)
@@ -23,14 +29,16 @@ void Camera::SetEyePos(float x, float y, float z)
 	eye_.z = z;
 }
 
-void Camera::SetEyePos(Vector3 pos)
+void Camera::SetEyePos(const Vector3& pos)
 {
-	if (isShake_) {
+	if (isShake_)
+	{
 		originalPos_.x = pos.x;
 		originalPos_.y = pos.y;
 		originalPos_.z = pos.z;
 	}
-	else if (isShake_ == false) {
+	else if (isShake_ == false)
+	{
 		eye_.x = pos.x;
 		eye_.y = pos.y;
 		eye_.z = pos.z;
@@ -44,7 +52,7 @@ void Camera::SetTarget(float x, float y, float z)
 	target_.z = z;
 }
 
-void Camera::SetTarget(Vector3 pos)
+void Camera::SetTarget(const Vector3& pos)
 {
 	target_.x = pos.x;
 	target_.y = pos.y;
@@ -58,17 +66,17 @@ void Camera::SetUpVec(float x, float y, float z)
 	up_.z = z;
 }
 
-void Camera::SetUpVec(Vector3 upVec)
+void Camera::SetUpVec(const Vector3& upVec)
 {
 	up_.x = upVec.x;
 	up_.y = upVec.y;
 	up_.z = upVec.z;
 }
 
-void Camera::MoveTo(Vector3 goal, float speed)
+void Camera::MoveTo(const Vector3& goal, float speed)
 {
 	Vector3 dir = goal - eye_;
-	float dirLength = dir.length2();
+	float dirLength = dir.length();
 	if (dirLength < speed * speed)
 	{
 		eye_.x = goal.x;
@@ -82,39 +90,32 @@ void Camera::MoveTo(Vector3 goal, float speed)
 }
 
 
-void Camera::Update()
+void Camera::UpdateLookAt()
 {
-#pragma region ÉrÉÖÅ[çsóÒ
-			//éãì_ç¿ïW
+	//Ë¶ñÁÇπÂ∫ßÊ®ô
 	Vector3 eyePosition = eye_;
-	//íçéãì_ç¿ïW
+	//Ê≥®Ë¶ñÁÇπÂ∫ßÊ®ô
 	Vector3 targetPosition = target_;
-	//ÅiâºÇÃÅjè„ï˚å¸
+	//Ôºà‰ªÆ„ÅÆÔºâ‰∏äÊñπÂêë
 	Vector3 upVector = up_;
 
-	//ÉJÉÅÉâZé≤Åiéãê¸ï˚å¸Åj
-	Vector3 cameraAxisZ = targetPosition- eyePosition;
-	//0ÉxÉNÉgÉãÇæÇ∆å¸Ç´Ç™íËÇ‹ÇÁÇ»Ç¢ÇÃÇ≈èúäO
-	/*assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
-	assert(!XMVector3IsInfinite(cameraAxisZ));
-	assert(!XMVector3Equal(upVector, XMVectorZero()));
-	assert(!XMVector3IsInfinite(upVector));*/
-	//ÉxÉNÉgÉãÇê≥ãKâª
+	//„Ç´„É°„É©ZËª∏ÔºàË¶ñÁ∑öÊñπÂêëÔºâ
+	Vector3 cameraAxisZ = targetPosition - eyePosition;
+	//„Éô„ÇØ„Éà„É´„ÇíÊ≠£Ë¶èÂåñ
 	cameraAxisZ = cameraAxisZ.normalize();
-	//ÉJÉÅÉâÇÃXé≤ÅiâEï˚å¸Åj
+	//„Ç´„É°„É©„ÅÆXËª∏ÔºàÂè≥ÊñπÂêëÔºâ
 	Vector3 cameraAxisX;
-	//Xé≤ÇÕè„ï˚å¸Å®Zé≤ÇÃäOêœÇ≈ãÅÇ‹ÇÈ
+	//XËª∏„ÅØ‰∏äÊñπÂêë‚ÜíZËª∏„ÅÆÂ§ñÁ©ç„ÅßÊ±Ç„Åæ„Çã
 	cameraAxisX = upVector.cross(cameraAxisZ);
-	//ÉxÉNÉgÉãÇê≥ãKâª
+	//„Éô„ÇØ„Éà„É´„ÇíÊ≠£Ë¶èÂåñ
 	cameraAxisX = cameraAxisX.normalize();
-	//ÉJÉÅÉâÇÃYç¿ïWÅiè„ï˚å¸Åj
+	//„Ç´„É°„É©„ÅÆYÂ∫ßÊ®ôÔºà‰∏äÊñπÂêëÔºâ
 	Vector3 cameraAxisY;
-	//Yé≤ÇÕZé≤Å®Xé≤ÇÃäOêœÇ≈ãÅÇ‹ÇÈ
+	//YËª∏„ÅØZËª∏‚ÜíXËª∏„ÅÆÂ§ñÁ©ç„ÅßÊ±Ç„Åæ„Çã
 	cameraAxisY = cameraAxisZ.cross(cameraAxisX);
-	//cameraAxisY = XMVector3Normalize(cameraAxisY);
-	//ÉJÉÅÉââÒì]çsóÒ
+	//„Ç´„É°„É©ÂõûËª¢Ë°åÂàó
 	Matrix4 matCameraRot{};
-	//ÉJÉÅÉâç¿ïWånÅ®ÉèÅ[ÉãÉhç¿ïWånÇÃïœä∑çsóÒ
+	//„Ç´„É°„É©Â∫ßÊ®ôÁ≥ª‚Üí„ÉØ„Éº„É´„ÉâÂ∫ßÊ®ôÁ≥ª„ÅÆÂ§âÊèõË°åÂàó
 	matCameraRot.m[0][0] = cameraAxisX.x;
 	matCameraRot.m[0][1] = cameraAxisX.y;
 	matCameraRot.m[0][2] = cameraAxisX.z;
@@ -131,7 +132,7 @@ void Camera::Update()
 	matCameraRot.m[3][1] = 0;
 	matCameraRot.m[3][2] = 0;
 	matCameraRot.m[3][3] = 1;
-	//ì]íuÇµÇƒë„ì¸
+	//Ëª¢ÁΩÆ„Åó„Å¶‰ª£ÂÖ•
 
 	matView_.m[0][0] = matCameraRot.m[0][0];
 	matView_.m[1][0] = matCameraRot.m[0][1];
@@ -152,55 +153,99 @@ void Camera::Update()
 	matView_.m[1][3] = matCameraRot.m[3][1];
 	matView_.m[2][3] = matCameraRot.m[3][2];
 	matView_.m[3][3] = matCameraRot.m[3][3];
-	
-	//éãì_ç¿ïWÇ…-1ÇìqÇØÇΩç¿ïW
-	Vector3 reverseEyePosition = eyePosition * -1;
-	//ÉJÉÅÉâÇÃà íuÇ©ÇÁÉèÅ[ÉãÉhå¥ì_Ç÷ÇÃÉxÉNÉgÉãÅiÉJÉÅÉâç¿ïWånÅj
-	float tX = cameraAxisX.dot(reverseEyePosition);
-	float tY = cameraAxisY.dot(reverseEyePosition);
-	float tZ = cameraAxisZ.dot(reverseEyePosition);
-	//àÍÇ¬ÇÃÉxÉNÉgÉãÇ…Ç‹Ç∆ÇﬂÇÈ
-	Vector3 translation = { tX, tY, tZ };
-	//ÉrÉÖÅ[çsóÒÇ…ïΩçsà⁄ìÆê¨ï™Çê›íË
-	matView_.m[3][0] = translation.x;
-	matView_.m[3][1] = translation.y;
-	matView_.m[3][2] = translation.z;
-	matView_.m[3][3] = 1.f;
-	//ëSï˚å¸ÉrÉãÉ{Å[ÉhçsóÒ
-	/*matBillboard_.m[0] = cameraAxisX;
-	matBillboard_.m[1] = cameraAxisY;
-	matBillboard_.m[2] = cameraAxisZ;
-	matBillboard_.m[3] = XMVectorSet(0, 0, 0, 1);*/
 
-	////Yé≤é¸ÇËÉrÉãÉ{Å[ÉhçsóÒ
-	////ÉJÉÅÉâXYZé≤
+	//Ë¶ñÁÇπÂ∫ßÊ®ô„Å´-1„ÇíË≥≠„Åë„ÅüÂ∫ßÊ®ô
+	Vector3 reverseEyePosition = eyePosition * -1;
+	//„Éì„É•„ÉºË°åÂàó„Å´Âπ≥Ë°åÁßªÂãïÊàêÂàÜ„ÇíË®≠ÂÆö
+	matView_.m[3][0] = cameraAxisX.dot(reverseEyePosition);
+	matView_.m[3][1] = cameraAxisY.dot(reverseEyePosition);
+	matView_.m[3][2] = cameraAxisZ.dot(reverseEyePosition);
+	matView_.m[3][3] = 1.f;
+	//ÂÖ®ÊñπÂêë„Éì„É´„Éú„Éº„ÉâË°åÂàó
+	matBillboard_.m[0][0] = cameraAxisX.x;
+	matBillboard_.m[0][1] = cameraAxisX.y;
+	matBillboard_.m[0][2] = cameraAxisX.z;
+	matBillboard_.m[0][3] = 0;
+
+	matBillboard_.m[1][0] = cameraAxisY.x;
+	matBillboard_.m[1][1] = cameraAxisY.y;
+	matBillboard_.m[1][2] = cameraAxisY.z;
+	matBillboard_.m[1][3] = 0;
+
+	matBillboard_.m[2][0] = cameraAxisZ.x;
+	matBillboard_.m[2][1] = cameraAxisZ.y;
+	matBillboard_.m[2][2] = cameraAxisZ.z;
+	matBillboard_.m[2][3] = 0;
+
+	matBillboard_.m[3][0] = 0;
+	matBillboard_.m[3][1] = 0;
+	matBillboard_.m[3][2] = 0;
+	matBillboard_.m[3][3] = 1;
+
+	////YËª∏Âë®„Çä„Éì„É´„Éú„Éº„ÉâË°åÂàó
+	////„Ç´„É°„É©XYZËª∏
 	//XMVECTOR ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
-	////Xé≤ÇÕã§í 
+	////XËª∏„ÅØÂÖ±ÈÄö
 	//ybillCameraAxisX = cameraAxisX;
-	////Yé≤ÇÕÉèÅ[ÉãÉhç¿ïWånÇÃYé≤
+	////YËª∏„ÅØ„ÉØ„Éº„É´„ÉâÂ∫ßÊ®ôÁ≥ª„ÅÆYËª∏
 	//ybillCameraAxisY = XMVector3Normalize(upVector);
-	////Zé≤ÇÕXé≤Å®Yé≤ÇÃäOêœÇ≈ãÅÇ‹ÇÈ
+	////ZËª∏„ÅØXËª∏‚ÜíYËª∏„ÅÆÂ§ñÁ©ç„ÅßÊ±Ç„Åæ„Çã
 	//ybillCameraAxisZ = XMVector3Cross(cameraAxisX, cameraAxisY);
 
-	//////Yé≤âÒÇËÉrÉãÉ{Å[ÉhçsóÒ
+	//////YËª∏Âõû„Çä„Éì„É´„Éú„Éº„ÉâË°åÂàó
 	//matBillboardY_.r[0] = ybillCameraAxisX;
 	//matBillboardY_.r[1] = ybillCameraAxisY;
 	//matBillboardY_.r[2] = ybillCameraAxisZ;
 	//matBillboardY_.r[3] = XMVectorSet(0, 0, 0, 1);
-#pragma endregion
-	//ÉJÉÅÉâÉVÉFÉCÉNÉAÉbÉvÉfÅ[Ég
-	ShakeUpdate();
-	
-	float scaleY = 1.f / tanf(Radian(45) / 2);
-	float scaleX = 1.f / tanf(Radian(45) / 2) / aspectRatio_;
-	float scaleZ = 1.f / (1000.0f - 0.1f) * 1000.0f;
-	float TransZ = -0.1f / (1000.0f - 0.1f) * 1000.0f;
 
-	matProjection_.m[1][1] = scaleY;
-	matProjection_.m[0][0] = scaleX;
-	matProjection_.m[2][2] = scaleZ;
-	matProjection_.m[3][2] = TransZ;
-	matProjection_.m[2][3] = 1;
+	//„Ç´„É°„É©„Ç∑„Çß„Ç§„ÇØ„Ç¢„ÉÉ„Éó„Éá„Éº„Éà
+	ShakeUpdate();
+
+	UpdateMatProjection();
+}
+
+void Camera::UpdateLookTo()
+{
+	Matrix4 rotMat;
+
+	rotMat *= ConvertRotationYAxisMat(rot_.z);
+	rotMat *= ConvertRotationZAxisMat(rot_.x);
+	rotMat *= ConvertRotationXAxisMat(rot_.y);
+	
+	//„Ç´„É°„É©Â∫ßÊ®ô„Å®YËª∏„ÄÅZËª∏„ÇíÂèñÂæó
+	Vector3 pos = eye_;
+	Vector3 axisY = rotMat.GetAxisY();
+	Vector3 axisZ = rotMat.GetAxisZ();
+	//Âçò‰ΩçË°åÂàó„Å´ÂàùÊúüÂåñ
+	matView_.UnitMatrix();
+	//ZËª∏„Å®YËª∏„ÇíÂèñÂæó
+	Vector3 xAxisVec = axisY.cross(axisZ).normalize();
+	Vector3 yAxisVec = axisZ.cross(xAxisVec).normalize();
+	//Âπ≥Ë°åÁßªÂãïÊàêÂàÜ„ÇíË®≠ÂÆö
+	Vector3 transPos = {
+		-pos.dot(xAxisVec.normalize()),
+		-pos.dot(yAxisVec.normalize()),
+		-pos.dot(axisZ.normalize())
+	};
+
+	matView_ = {
+		xAxisVec.x,yAxisVec.x,axisZ.x	,0.f,
+		xAxisVec.y,yAxisVec.y,axisZ.y	,0.f,
+		xAxisVec.z,yAxisVec.z,axisZ.z	,0.f,
+		transPos.x,transPos.y,transPos.z,1.f,
+	};
+}
+
+void Camera::Update(CameraMode mode)
+{
+	if (CameraMode::LookAT == mode)
+	{
+		UpdateLookAt();
+	}
+	else if (CameraMode::LookTo == mode)
+	{
+		UpdateLookTo();
+	}
 }
 
 Matrix4 Camera::GetMatView()
@@ -227,11 +272,11 @@ void Camera::ShakeUpdate()
 	//Vector2 dist;
 	//if (shakeTime_ > 0) {
 	//	shakeTime_--;
-	//	//óêêîÉVÅ[Éhê∂ê¨äÌ
+	//	//‰π±Êï∞„Ç∑„Éº„ÉâÁîüÊàêÂô®
 	//	std::random_device seed_gen;
-	//	//ÉÅÉãÉZÉìÉkÅEÉcÉCÉXÉ^Å[ÇÃóêêîÉGÉìÉWÉì
+	//	//„É°„É´„Çª„É≥„Éå„Éª„ÉÑ„Ç§„Çπ„Çø„Éº„ÅÆ‰π±Êï∞„Ç®„É≥„Ç∏„É≥
 	//	std::mt19937_64 engine(seed_gen());
-	//	//êUìÆÇÃëÂÇ´Ç≥
+	//	//ÊåØÂãï„ÅÆÂ§ß„Åç„Åï
 	//	if (shakeTime_ > maxShakeTime_ * 0.8f) {
 	//		dist = { -(power_ * 0.8f) , power_ * 0.8f };
 	//	}
@@ -254,12 +299,12 @@ void Camera::ShakeUpdate()
 	//}
 	//else {
 	//	SetOriginalPos();
-	//	//å≥ÇÃç¿ïWÇë„ì¸Ç∑ÇÈ
+	//	//ÂÖÉ„ÅÆÂ∫ßÊ®ô„Çí‰ª£ÂÖ•„Åô„Çã
 	//	//if (isShake == true) {
 	//		eye_ = originalPos_;
 	//		isShake_ = false;
 	//	//}
-	//	
+	//
 	//}
 }
 
@@ -268,12 +313,16 @@ void Camera::SetOriginalPos()
 	originalPos_ = eye_;
 }
 
-const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3 v1, const DirectX::XMFLOAT3 v2)
+void Camera::UpdateMatProjection()
 {
-	DirectX::XMFLOAT3 result{};
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
-	return result;
-}
+	float scaleY = 1.f / tanf(Radian(45) / 2);
+	float scaleX = 1.f / tanf(Radian(45) / 2) / aspectRatio_;
+	float scaleZ = 1.f / (1000.0f - 0.1f) * 1000.0f;
+	float TransZ = -0.1f / (1000.0f - 0.1f) * 1000.0f;
 
+	matProjection_.m[1][1] = scaleY;
+	matProjection_.m[0][0] = scaleX;
+	matProjection_.m[2][2] = scaleZ;
+	matProjection_.m[3][2] = TransZ;
+	matProjection_.m[2][3] = 1;
+}

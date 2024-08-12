@@ -1,40 +1,54 @@
 #pragma once
-#include "AssimpLoader.h"
 #include "WorldTransform.h"
 #include "Texture.h"
 #include "LightGroup.h"
 #include <memory>
 #include "Material.h"
+#include "Vertices.h"
 #include "myMath.h"
-class AssimpModel
+#include "Timer.h"
+#include <assimp/Importer.hpp>
+
+/**
+ * @file AssimpModel.h
+ * @brief ボーンや頂点データを管理している
+ */
+
+struct Bone
 {
-private:
-	//�G�C���A�X�e���v���[�g
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	std::vector<Mesh> meshes_;
-	std::vector<Material> materials_;
-	std::vector <Texture> texture_;
-	std::unique_ptr<ImportSettings> importSetting_;
+	std::string name;
+	Matrix4 offsetMat;
+	Matrix4 currentMat;
+};
 
-	WorldTransform WorldTransform_;
+struct Node
+{
+	std::string name;
+	Vector3 pos = { 0,0,0 };
+	Vector3 scale = { 1,1,1 };
+	Vector3 rot = { 0,0,0 };
+	Matrix4 localTransformMat;
+	Matrix4 globalTransformMat;
+	Node* parent = nullptr;
+};
 
-	static LightGroup* slightGroup_;
-public:
-	static const uint32_t MAX_BONES = 32;
+struct aiScene;
 
-	struct ConstBufferDataMatrix {
-		Matrix4 bonesMatrix[MAX_BONES];
-	};
-	ComPtr<ID3D12Resource> constBuff_;
-	ConstBufferDataMatrix* constMap_;
+struct AssimpModel
+{
+	std::vector<Bone> bones;
+	std::vector<Node> nodes;
+
+	Assimp::Importer importer;
+	const aiScene* scene;
+
+	std::vector<std::unique_ptr<Vertices>> vertices_;
+	std::vector<std::unique_ptr<Material>> materials_;
 public:
 	AssimpModel();
-	static void SetLightGroup(LightGroup* lightGroup) { slightGroup_ = lightGroup; }
+	static void CreateModel(const std::string& fileName);
 
-	void Update();
-
-	void Create(const wchar_t* modelFile);
+	void PlayAnimetion();
 
 	void Draw(const WorldTransform& WT);
 };
-

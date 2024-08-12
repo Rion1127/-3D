@@ -4,6 +4,7 @@ cbuffer ConstBufferDataMaterial : register(b0) {
 
 cbuffer ConstBufferDataTransform : register(b1) {
 	matrix mat;
+    float2 tiling;
 }
 
 //頂点シェーダの出力構造体

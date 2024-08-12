@@ -1,11 +1,13 @@
 #include "Object3d.h"
 
+/**
+ * @file Object3d.cpp
+ * @brief 読み込んだモデルを描画するクラス
+ */
+
 Object3d::Object3d()
 {
-	pos_ = { 0,0,0 };
-	scale_ = { 1,1,1 };
-	rot_ = {0,0,0};
-
+	billBoard = BillBoard::None;
 }
 
 Object3d::~Object3d()
@@ -16,15 +18,26 @@ void Object3d::Init()
 {
 }
 
-void Object3d::Update()
+void Object3d::Update(Camera* camera)
 {
-	WT_.position_ = pos_;
-	WT_.scale_ = scale_;
-	WT_.rotation_ = rot_;
-	WT_.Update();
+	if (model_ != nullptr) {
+		model_->ShadowUpdate(WT_.position_);
+	}
+	WT_.Update(billBoard, camera);
 }
 
 void Object3d::Draw()
 {
-	model_->DrawOBJ(WT_);
+	if (isVisible_)
+	{
+		model_->DrawOBJ(WT_);
+	}
+}
+
+void Object3d::Draw(WorldTransform WT)
+{
+	if (isVisible_)
+	{
+		model_->DrawOBJ(WT);
+	}
 }

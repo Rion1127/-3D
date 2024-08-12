@@ -4,43 +4,20 @@
 #include "Color.h"
 #include "myMath.h"
 #include <vector>
+#include <array>
 #include <wrl.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
 
+/**
+ * @file IPostEffect.h
+ * @brief ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ä½¿ç”¨ã™ã‚‹éš›ã«ç¶™æ‰¿ã™ã‚‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹
+ */
+
 class IPostEffect
 {
 private:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	ComPtr<ID3D12Resource> texBuff_;
-	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
-
-	//[“xƒoƒbƒtƒ@
-	ComPtr<ID3D12Resource> depthBuff_;
-	//RTV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
-	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
-	//DSV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
-	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
-
-	//’¸“_ƒf[ƒ^
-	ComPtr<ID3D12Resource> vertBuff_;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
-	D3D12_VERTEX_BUFFER_VIEW vbView_{};
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
-	std::vector<uint16_t> indices_;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
-	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
-	D3D12_INDEX_BUFFER_VIEW ibView_{};
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
-	struct ConstBufferData {
-		size_t timer;
-	};
-protected:
-	ComPtr<ID3D12Resource> constBuff_ = nullptr;
-private:
-	//‰æ–ÊƒNƒŠƒAƒJƒ‰[
+	//ç”»é¢ã‚¯ãƒªã‚¢ã‚«ãƒ©ãƒ¼
 	static const float clearColor_[4];
 	static const uint32_t vertNum_;
 	struct VertexPosUV {
@@ -48,22 +25,64 @@ private:
 		Vector2 uv;
 	};
 public:
+	enum class VertName {
+		LB,	//å·¦ä¸‹
+		LT,	//å·¦ä¸Š
+		RB,	//å³ä¸‹
+		RT	//å³ä¸Š
+	};
+private:
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	ComPtr<ID3D12Resource> texBuff_;
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
+
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡
+	ComPtr<ID3D12Resource> depthBuff_;
+	//RTVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
+	ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
+	//DSVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
+	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
+
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
+	ComPtr<ID3D12Resource> vertBuff_;
+	std::array<VertexPosUV,4> vertices_;
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
+	std::vector<uint16_t> indices_;
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
+	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
+	struct ConstBufferData {
+		int32_t timer;
+	};
+protected:
+	ComPtr<ID3D12Resource> constBuff_ = nullptr;
+public:
 	IPostEffect();
-	
-	//XV
+	virtual ~IPostEffect() {};
+	//æ›´æ–°
 	void PUpdate();
 
-	void Draw(std::string pipelineName);
-	//ƒV[ƒ“‘Oˆ—
+	void Draw(const std::string& pipelineName);
+	void DrawImGui(const std::string& imguiName = "IPostEffect");
+	//ã‚·ãƒ¼ãƒ³å‰å‡¦ç†
 	void PreDrawScene();
-	//ƒV[ƒ“•`‰æŒãˆ—
+	//ã‚·ãƒ¼ãƒ³æç”»å¾Œå‡¦ç†
 	void PostDrawScene();
+
+	void SetTexture();
+public:
+	void SetVerTex(VertName name,Vector2 pos);
 protected:
-	//Œp³æ‚Åoverride‚·‚éŠÖ”‚Í‰º‚Ì“ñ‚Â‚¾‚¯
-	//ƒVƒF[ƒ_[‚Ö’l‚ğ“n‚·
+	//ç¶™æ‰¿å…ˆã§overrideã™ã‚‹é–¢æ•°ã¯ä¸‹ã®äºŒã¤ã ã‘
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸å€¤ã‚’æ¸¡ã™
 	virtual void TransferBuff() = 0;
 	virtual void SendToShader() = 0;
-	//ƒRƒ}ƒ“ƒhƒŠƒXƒg‚ÉBuff‚ÌƒAƒhƒŒƒX‚ğÏ‚Ş
+	//ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã«Buffã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’ç©ã‚€
 	void SetBuff(uint32_t index, ID3D12Resource* constBuff);
 private:
 	void CreateVertBuff();

@@ -1,0 +1,10 @@
+#include "Default.hlsli"
+
+VSOutput main(float4 pos : POSITION)
+{
+    VSOutput output; // ジオメトリシェーダーに渡す値
+    
+    output.pos = pos;
+    
+    return output;
+}

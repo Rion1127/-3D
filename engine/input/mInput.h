@@ -1,31 +1,37 @@
 #pragma once
-#define DIRECTINPUT_VERSION		0x0800	//DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+#define DIRECTINPUT_VERSION		0x0800	//DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 #include <dinput.h>
 #include "Vector3.h"
+#include "Timer.h"
 #include <WinUser.h>
+#include <vector>
 #include "WinAPI.h"
-//ƒRƒ“ƒgƒ[ƒ‰
+//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
 #include <Xinput.h>
-#pragma comment(lib, "Xinput.lib")
 
-//ƒL[ƒ{[ƒh
+/**
+ * @file mInput.h
+ * @brief 'dinput'ã‚„'Xinput'ã«ã‚ˆã‚‹å…¥åŠ›ã‚’ç®¡ç†ã—ã¦ã„ã‚‹
+ */
+
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 class Key
 {
 private:
 	static IDirectInputDevice8* skeyboard_;
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	static BYTE skeys_[256];
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	static BYTE soldkeys_[256];
 public:
 	static void InputIni();
 	static void InputUpdata();
 
-	static bool PushKey(UINT8 key);		//‰Ÿ‚µ‚Á‚Ï‚È‚µ
-	static bool TriggerKey(UINT8 key);		//‰Ÿ‚µ‚½uŠÔ
+	static bool PushKey(UINT8 key);		//æŠ¼ã—ã£ã±ãªã—
+	static bool TriggerKey(UINT8 key);		//æŠ¼ã—ãŸç¬é–“
 	static bool GetKeyReleased(UINT8 key);
 };
-//ƒ}ƒEƒX
+//ãƒã‚¦ã‚¹
 enum {
 	MOUSE_LEFT,
 	MOUSE_RIGHT,
@@ -40,11 +46,11 @@ private:
 	DIMOUSESTATE prevmouseState_;
 public:
 	POINT p_;
-	//Œ»ƒtƒŒ[ƒ€‚Ìƒ}ƒEƒX‚ÌˆÊ’u
+	//ç¾ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒã‚¦ã‚¹ã®ä½ç½®
 	Vector3 mPos_;
-	//‘OƒtƒŒ[ƒ€‚Ìƒ}ƒEƒX‚ÌˆÊ’u
+	//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒã‚¦ã‚¹ã®ä½ç½®
 	Vector3 prevmPos_;
-	//ƒ}ƒEƒX‚ª“®‚¢‚½•ûŒü‚ÌƒxƒNƒgƒ‹
+	//ãƒã‚¦ã‚¹ãŒå‹•ã„ãŸæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 mouseVec_;
 public:
 	static MouseInput* GetInstance();
@@ -52,74 +58,97 @@ public:
 	void MouseIni();
 	void Updata();
 
-	//ƒ}ƒEƒXƒ{ƒ^ƒ“î•ñ
-	//[0] MOUSE_LEFT= ¶ƒ{ƒ^ƒ“
-	//[1] MOUSE_RIGHT= ‰Eƒ{ƒ^ƒ“
-	//[2] MOUSE_WHEEL= ƒ}ƒEƒXƒzƒC[ƒ‹
+	//ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³æƒ…å ±
+	//[0] MOUSE_LEFT= å·¦ãƒœã‚¿ãƒ³
+	//[1] MOUSE_RIGHT= å³ãƒœã‚¿ãƒ³
+	//[2] MOUSE_WHEEL= ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«
 	bool IsMouseTrigger(BYTE button);
-	//[0] MOUSE_LEFT= ¶ƒ{ƒ^ƒ“
-	//[1] MOUSE_RIGHT= ‰Eƒ{ƒ^ƒ“
-	//[2] MOUSE_WHEEL= ƒ}ƒEƒXƒzƒC[ƒ‹
+	//[0] MOUSE_LEFT= å·¦ãƒœã‚¿ãƒ³
+	//[1] MOUSE_RIGHT= å³ãƒœã‚¿ãƒ³
+	//[2] MOUSE_WHEEL= ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«
 	bool IsMouseDown(BYTE button);
-	//[0] MOUSE_LEFT= ¶ƒ{ƒ^ƒ“
-	//[1] MOUSE_RIGHT= ‰Eƒ{ƒ^ƒ“
-	//[2] MOUSE_WHEEL= ƒ}ƒEƒXƒzƒC[ƒ‹
+	//[0] MOUSE_LEFT= å·¦ãƒœã‚¿ãƒ³
+	//[1] MOUSE_RIGHT= å³ãƒœã‚¿ãƒ³
+	//[2] MOUSE_WHEEL= ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«
 	bool IsMouseReleas(BYTE button);
 	int32_t IsMouseWheel();
-	
-	//ƒ}ƒEƒX‚ª1ƒtƒŒ[ƒ€‚ÉˆÚ“®‚µ‚½ƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+
+	//ãƒã‚¦ã‚¹ãŒ1ãƒ•ãƒ¬ãƒ¼ãƒ ã«ç§»å‹•ã—ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
 	Vector3 GetCursorMove();
 
 	float GetCursorMoveX();
 	float GetCursorMoveY();
 	float GetCursorMoveZ();
 private:
-	//ƒ}ƒEƒX‚ÌÀ•W‚ğæ“¾‚·‚é
+	MouseInput() {};
+	//ãƒã‚¦ã‚¹ã®åº§æ¨™ã‚’å–å¾—ã™ã‚‹
 	void GetCursorPosition();
 };
-//ƒRƒ“ƒgƒ[ƒ‰
+
+enum class PAD {
+	INPUT_UP = 0x0001,
+	INPUT_DOWN = 0x0002,
+	INPUT_LEFT = 0x0004,
+	INPUT_RIGHT = 0x0008,
+	INPUT_START = 0x0010,
+	INPUT_BACK = 0x0020,
+	INPUT_LEFT_THUMB = 0x0040,
+	INPUT_RIGHT_THUMB = 0x0080,
+	INPUT_LEFT_SHOULDER = 0x0100,
+	INPUT_RIGHT_SHOULDER = 0x0200,
+	INPUT_A = 0x1000,
+	INPUT_B = 0x2000,
+	INPUT_X = 0x4000,
+	INPUT_Y = 0x8000,
+};
+
+enum DeadZone {
+	Half = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE / 2,
+	Default = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE,
+	Mul_2 = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 2,
+	Mul_3 = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE * 3,
+};
+
+//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
 class Controller {
-private:
-#define PAD_UP				0x0001
-#define PAD_DOWN			0x0002
-#define PAD_LEFT			0x0004
-#define PAD_RIGHT			0x0008
-#define PAD_START			0x0010
-#define PAD_BACK			0x0020
-#define PAD_LEFT_THUMB		0x0040
-#define PAD_RIGHT_THUMB		0x0080
-#define PAD_LEFT_SHOULDER	0x0100
-#define PAD_RIGHT_SHOULDER	0x0200
-#define PAD_A				0x1000
-#define PAD_B				0x2000
-#define PAD_X				0x4000
-#define PAD_Y				0x8000
-
-	XINPUT_STATE state_;
-	XINPUT_STATE preState_;
-	bool isConnect_;
-
-	//ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“
-	XINPUT_VIBRATION vibration_;
-
 public:
-	static Controller* GetInstance();
+	struct Vibrate {
+		Timer timer;
+		int32_t id;
+	};
+private:
+	static XINPUT_STATE state_;
+	static XINPUT_STATE preState_;
+	static bool isConnect_;
+	//ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
+	static XINPUT_VIBRATION vibration_;
+	static std::vector<Vibrate> vibrateTimer_;
+public:
 
-	void Ini();
+	static void Ini();
 
-	void Update();
+	static void Update();
 
-	bool GetActive() { return isConnect_; }
+	static bool GetActive() { return isConnect_; }
 
-	WORD GetButtons(WORD button);
-	WORD GetTriggerButtons(WORD button);
-	WORD GetReleasButtons(WORD button);
-	//false	‰EƒXƒeƒBƒbƒN
-	//true	¶ƒXƒeƒBƒbƒN
-	Vector2 GetLStick();
-	Vector2 GetRStick();
+	static WORD GetButtons(const PAD& button);
+	static WORD GetTriggerButtons(const PAD& button);
+	static WORD GetReleasButtons(const PAD& button);
+	//false	å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+	//true	å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+	static Vector2 GetLStick(int32_t deadZone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	static Vector2 GetRStick(int32_t deadZone = XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 
-	BYTE GetRTrigger();
-	BYTE GetLTrigger();
+	//æŒ¯å‹•
+	static void SetVibration(int32_t controllerId, int32_t leftMotorSpeed, int32_t rightMotorSpeed, int32_t time);
+private:
+	static void SetVibrationTimer(int32_t controllerId, int32_t time);
+public:
+	static bool GetRTTrigger();
+	static bool GetLTTrigger();
+	static BYTE GetRTPush();
+	static BYTE GetLTPush();
+private:
+	Controller() {};
 };
 

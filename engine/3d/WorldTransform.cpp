@@ -1,8 +1,11 @@
-
 #include "Util.h"
 #include "Camera.h"
 #include "WorldTransform.h"
 
+/**
+ * @file WorldTransform.cpp
+ * @brief åº§æ¨™ãƒ»ã‚¹ã‚±ãƒ¼ãƒ«ãƒ»å›è»¢ã‚’ç®¡ç†ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹
+ */
 
 WorldTransform::WorldTransform()
 {
@@ -11,21 +14,8 @@ WorldTransform::WorldTransform()
 	rotation_ = { 0,0,0 };
 
 	constBuffTransform_ = CreateBuff(constMapTransform_);
-}
 
-void WorldTransform::SetScale(float x, float y, float z)
-{
-	scale_ = { x,y,z };
-}
-
-void WorldTransform::SetRotation(float x, float y, float z)
-{
-	rotation_ = { x,y,z };
-}
-
-void WorldTransform::SetPosition(float x, float y, float z)
-{
-	position_ = { x,y,z };
+	rotType = RotType::Euler;
 }
 
 void WorldTransform::AddScale(float x, float y, float z)
@@ -49,53 +39,72 @@ void WorldTransform::AddPosition(float x, float y, float z)
 	position_.z += z;
 }
 
-
-
-void WorldTransform::Update(uint32_t isBillboard)
+void WorldTransform::Update(BillBoard isBillboard, Camera* camera)
 {
 	Matrix4 matScale, matRot, matTrans;
 
-	//ƒXƒP[ƒ‹A‰ñ“]A•½sˆÚ“®s—ñ‚ÌŒvZ
+	//ã‚¹ã‚±ãƒ¼ãƒ«ã€å›è»¢ã€å¹³è¡Œç§»å‹•è¡Œåˆ—ã®è¨ˆç®—
 	matScale = ConvertScalingMat(scale_);
 	matRot.UnitMatrix();
-	matRot *= ConvertRotationZAxisMat(rotation_.z);
-	matRot *= ConvertRotationXAxisMat(rotation_.x);
-	matRot *= ConvertRotationYAxisMat(rotation_.y);
+	if (rotType == RotType::Euler)
+	{
+		matRot *= ConvertRotationZAxisMat(rotation_.z);
+		matRot *= ConvertRotationXAxisMat(rotation_.x);
+		matRot *= ConvertRotationYAxisMat(rotation_.y);
+	}
+	else
+	{
+		matRot = ConvertRotationMat(quaternion_);
+	}
 	matTrans = ConvertTranslationMat(position_);
 
-	
-	//ƒNƒH[ƒ^ƒjƒIƒ“
-	/*q.w += 0.005f;
+	scaleMat_ = matScale;
+	rotMat_ = matRot;
+	posMat_ = matTrans;
 
-	matRot = q.UpdateMatrix();*/
-
-	//ƒ[ƒ‹ƒhs—ñ‚Ì‡¬
-	matWorld_.UnitMatrix();//•ÏŒ`‚ğƒŠƒZƒbƒg
-	//ƒrƒ‹ƒ{[ƒh
-	if (isBillboard == 1) {
-		matWorld_ *= Camera::scurrent_.matBillboard_;
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã®å›è»¢ã®ã¿
+	if (parentRotMat_) {
+		matRot *= *parentRotMat_;
 	}
-	else if (isBillboard == 2) {
-		matWorld_ *= Camera::scurrent_.matBillboardY_;
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã®åº§æ¨™ã®ã¿
+	if (parentPosMat_) {
+		matTrans *= *parentPosMat_;
 	}
 
-	matWorld_ *= matScale;			//ƒ[ƒ‹ƒhs—ñ‚ÉƒXƒP[ƒŠƒ“ƒO‚ğ”½‰f
-	matWorld_ *= matRot;				//ƒ[ƒ‹ƒhs—ñ‚ÉŠJ“X‚ğ”½‰f
-	matWorld_ *= matTrans;			//ƒ[ƒ‹ƒhs—ñ‚É•½sˆÚ“®‚ğ”½‰f
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®åˆæˆ
+	matWorld_.UnitMatrix();//å¤‰å½¢ã‚’ãƒªã‚»ãƒƒãƒˆ
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰
+	if (isBillboard == BillBoard::BillBoard)
+	{
+		matWorld_ *= camera->matBillboard_;
+	}
+	else if (isBillboard == BillBoard::AxisYBillBoard)
+	{
+		matWorld_ *= camera->matBillboardY_;
+	}
 
-	//eƒIƒuƒWƒFƒNƒg‚ª‚ ‚ê‚Î
-	if (parent_) {
-		//eƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒ‹ƒhs—ñ‚ğŠ|‚¯‚é
+	matWorld_ *= matScale;			//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚’åæ˜ 
+	matWorld_ *= matRot;				//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å›è»¢ã‚’åæ˜ 
+	matWorld_ *= matTrans;			//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å¹³è¡Œç§»å‹•ã‚’åæ˜ 
+
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚Œã°
+	if (parent_)
+	{
+		//è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‚’æ›ã‘ã‚‹
 		matWorld_ *= parent_->matWorld_;
 	}
 
-	//’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
-	constMapTransform_->mat = matWorld_;
-	constMapTransform_->viewProj = Camera::scurrent_.GetMatView() * Camera::scurrent_.GetMatProjection();
-	constMapTransform_->cameraPos = {
-		Camera::scurrent_.eye_.x,
-		Camera::scurrent_.eye_.y,
-		Camera::scurrent_.eye_.z
-	};
+
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
+	if (camera != nullptr)
+	{
+		constMapTransform_->mat = matWorld_;
+		constMapTransform_->viewProj = camera->GetMatView() * camera->GetMatProjection();
+		constMapTransform_->cameraPos = {
+			camera->eye_.x,
+			camera->eye_.y,
+			camera->eye_.z
+		};
+	}
 }
 

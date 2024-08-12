@@ -1,11 +1,17 @@
 #pragma once
 #include <xaudio2.h>
-#pragma comment(lib, "xaudio2.lib")
+
 #include <map>
+#include <list>
 #include <wrl.h>
 #include <fstream>
 #include <memory>
 #include <vector>
+
+/**
+ * @file mSound.h
+ * @brief ã‚µã‚¦ãƒ³ãƒ‰ã®èª­ã¿è¾¼ã¿ãƒ»å†ç”Ÿã®æ©Ÿèƒ½ã‚’æŒã£ãŸã‚¯ãƒ©ã‚¹
+ */
 
 typedef std::string SoundKey;
 
@@ -27,6 +33,11 @@ struct FormatChunk
 	WAVEFORMATEX fmt;
 };
 
+enum class SoundType {
+	SE,
+	BGM
+};
+
 class SoundData
 {
 public:
@@ -37,6 +48,10 @@ public:
 	uint32_t bufferSize_;
 
 	IXAudio2SourceVoice* sound_;
+
+	SoundType soundType_;
+
+	bool isAdded_;
 
 	void Release() {
 
@@ -52,47 +67,70 @@ public:
 };
 
 class SoundManager {
-public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	~SoundManager();
-	static SoundManager* GetInstance();
-	static void Init();
-
-	/// <summary>
-	/// WAVƒtƒ@ƒCƒ‹“Ç‚İ‚İ
-	/// </summary>
-	/// <param name="path">ƒtƒ@ƒCƒ‹–¼</param>
-	/// <param name="key">ƒL[ƒ[ƒh
-	/// </param>
-	static SoundKey LoadWave(const std::string& path, const SoundKey& key);
-	/// <summary>
-	/// ‰¹ºÄ¶’†‚©‚Ç‚¤‚©
-	/// </summary>
-	/// <param name="key">İ’è‚µ‚½ƒL[ƒ[ƒh</param>
-	/// <returns>‰¹ºÄ¶’†‚©‚Ç‚¤‚©</returns>
-	static bool IsPlaying(const SoundKey& key);
-	/// <summary>
-	/// Ä¶
-	/// </summary>
-	/// <param name="key">ƒL[ƒ[ƒh</param>
-	/// <param name="loopFlag">ƒ‹[ƒv</param>
-	/// <param name="volum">‰¹—Ê
-	/// </param>
-	static void Play(const SoundKey& key, bool loopFlag = false, float volum = 1.0f);
-	/// <summary>
-	/// ‚·‚Å‚É“Ç‚İ‚ñ‚¾‰¹Œ¹‚ğ•Ô‚·
-	/// </summary>
-	/// <param name="key">ƒL[ƒ[ƒh</param>
-	static SoundData* GetSoundData(const SoundKey& key);
-
-	static void Stop(const SoundKey& key);
-	
-	static void ReleaseAllSounds();
-
 private:
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 	static ComPtr<IXAudio2> sxAudio2_;
 	static IXAudio2MasteringVoice* smasterVoice_;
 	static std::map<SoundKey, SoundData> ssndMap_;
+	static std::map<SoundKey, SoundData> ssndPlaying_;
+	static float sSeVolume_;
+	static float sBgmVolume_;
+	static float sMasterVolume_;
+	static bool sdirty_;
+public:
+	~SoundManager();
+	static SoundManager* GetInstance();
+	static void Init();
+	static void Update();
+	/// <summary>
+	/// WAVãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
+	/// </summary>
+	/// <param name="path">ãƒ•ã‚¡ã‚¤ãƒ«å</param>
+	/// <param name="key">ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+	/// </param>
+	static SoundKey LoadWave(const std::string& path, const SoundKey& key,const SoundType& soundType);
+	/// <summary>
+	/// éŸ³å£°å†ç”Ÿä¸­ã‹ã©ã†ã‹
+	/// </summary>
+	/// <param name="key">è¨­å®šã—ãŸã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰</param>
+	/// <returns>éŸ³å£°å†ç”Ÿä¸­ã‹ã©ã†ã‹</returns>
+	static bool IsPlaying(const SoundKey& key);
+	/// <summary>
+	/// å†ç”Ÿ
+	/// </summary>
+	/// <param name="key">ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰</param>
+	/// <param name="loopFlag">ãƒ«ãƒ¼ãƒ—</param>
+	/// <param name="volum">éŸ³é‡
+	/// </param>
+	static void Play(const SoundKey& key, bool loopFlag = false, float volumRate = 1.0f, float picth = 1.0f);
+	/// <summary>
+	/// ã™ã§ã«èª­ã¿è¾¼ã‚“ã éŸ³æºã‚’è¿”ã™
+	/// </summary>
+	/// <param name="key">ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰</param>
+	static SoundData* GetSoundData(const SoundKey& key);
+	/// <summary>
+	/// å…¨ã¦ã®éŸ³æºã‚’æ­¢ã‚ã‚‹
+	/// </summary>
+	/// <param name="key"></param>
+	static void AllStop();
+	/// <summary>
+	/// å…¨ã¦ã®BGMã‚’æ­¢ã‚ã‚‹
+	/// </summary>
+	static void AllBGMStop();
 
+	static void Stop(const SoundKey& key);
+
+	static void ReleaseAllSounds();
+
+	static void SetSEVolume(float volume) { sSeVolume_ = volume; sdirty_ = true; }
+	static void SetBGMVolume(float volume) { sBgmVolume_ = volume; sdirty_ = true;}
+	static void SetMasterVolume(float volume) { sMasterVolume_ = volume; sdirty_ = true;}
+
+	const static float GetSEVolume() { return sSeVolume_; }
+	const static float GetBGMVolume() { return sBgmVolume_; }
+	const static float GetMasterVolume() { return sMasterVolume_; }
+private:
+	SoundManager() {};
 };

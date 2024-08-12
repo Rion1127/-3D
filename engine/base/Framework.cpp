@@ -1,179 +1,120 @@
 #include "Framework.h"
 #include "DirectionalLight.h"
 #include "LightGroup.h"
+#include "HitStop.h"
+/**
+ * @file Framework.ï½ƒï½ï½
+ * @brief ã‚¨ãƒ³ã‚¸ãƒ³éƒ¨åˆ†ã®å‡¦ç†ã®æµã‚Œã‚’ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
+ */
+
+bool Framework::isImguiDisplay_ = false;
 
 void Framework::Init()
 {
-	//winAPI‰Šú‰»
+	//winAPIåˆæœŸåŒ–
 	WinAPI::GetInstance()->Ini();
 
-	//DirectX‰Šú‰»
+	//DirectXåˆæœŸåŒ–
 	RDirectX::GetInstance()->Ini(WinAPI::GetInstance());
 
-	//ƒeƒNƒXƒ`ƒƒƒ}ƒl[ƒWƒƒ[‰Šú‰»
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ¼åˆæœŸåŒ–
 	TextureManager::GetInstance()->Ini();
-	//ƒCƒ“ƒvƒbƒg‰Šú‰»
-	//ƒL[ƒ{[ƒh
+	//ã‚¤ãƒ³ãƒ—ãƒƒãƒˆåˆæœŸåŒ–
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	Key::InputIni();
-	//ƒRƒ“ƒgƒ[ƒ‰[
-	Controller::GetInstance()->Ini();
-	//ƒ}ƒEƒX
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
+	Controller::Ini();
+	//ãƒžã‚¦ã‚¹
 	MouseInput::GetInstance()->MouseIni();
-	//ƒTƒEƒ“ƒh‰Šú‰»
+	//ã‚µã‚¦ãƒ³ãƒ‰åˆæœŸåŒ–
 	SoundManager::GetInstance()->Init();
-
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³åˆæœŸåŒ–
 	PipelineManager::Ini();
-
-	//imgui‰Šú‰»
+	//imguiåˆæœŸåŒ–
 	ImGuiManager::Getinstance()->Init();
 
 	DirectionalLight::StaticInit();
 	LightGroup::StaticInit();
-
+	
 	loadManager_.LoadAllResources();
-
-	bloom_ = std::move(std::make_unique<Bloom>());
-	noise_ = std::move(std::make_unique<Noise>());
-	gaussianBlur_ = std::move(std::make_unique<GaussianBlur>());
-	radialBlur_ = std::move(std::make_unique<RadialBlur>());
-	crossFilter_ = std::move(std::make_unique<CrossFilter>());
-	multiRenderTexture_ = std::move(std::make_unique<MultiTexture>(2));
+#ifdef _DEBUG
+	Framework::isImguiDisplay_ = true;
+#else
+	Framework::isImguiDisplay_ = false;
+#endif // _DEBUG
 }
 
 void Framework::Finalize()
 {
-	// ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ð“o˜^‰ðœ
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’ç™»éŒ²è§£é™¤
 	WinAPI::GetInstance()->ReleaseClass();
-	//ƒTƒEƒ“ƒhŠÖ˜A‰ð•ú
+	//ã‚µã‚¦ãƒ³ãƒ‰é–¢é€£è§£æ”¾
 	SoundManager::GetInstance()->ReleaseAllSounds();
-	//imgui‰ð•ú
+	//imguiè§£æ”¾
 	ImGuiManager::Getinstance()->Finalize();
 }
 
 void Framework::Update()
 {
-	// ƒQ[ƒ€ƒ‹[ƒv
-	//imguiŠJŽn
+	HitStop::GetInstance()->Update();
+	// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
+	//imguié–‹å§‹
 	ImGuiManager::Getinstance()->Begin();
-	//ƒCƒ“ƒvƒbƒgŠÖ˜AXV
+	//ã‚¤ãƒ³ãƒ—ãƒƒãƒˆé–¢é€£æ›´æ–°
 	Key::InputUpdata();
-	Controller::GetInstance()->Update();
+	Controller::Update();
 	MouseInput::GetInstance()->Updata();
+	SoundManager::Update();
 
-	const char* postEffectName = "None";
-
-	if (postEffectnum >= (size_t)PostEffectName::END)postEffectnum = 0;
-
-	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-		gaussianBlur_->PUpdate();
-		postEffectName = "Gaussian";
-	}
-	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
-		radialBlur_->PUpdate();
-		postEffectName = "RadialBlur";
-	}
-	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
-		bloom_->Update();
-		postEffectName = "Bloom";
-	}
-	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
-		noise_->PUpdate();
-		postEffectName = "Noise";
-	}
-	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
-		crossFilter_->Update();
-		postEffectName = "Crossfilter";
-	}else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
-		multiRenderTexture_->PUpdate();
-		postEffectName = "MultiRenderTexture";
-	}
-
-	ImGui::Begin("postEffect");
-	if (ImGui::Button("Change PostEffect"))postEffectnum++;
-	ImGui::Text(postEffectName);
-	ImGui::End();
 #ifdef _DEBUG
-	//ƒfƒ‚ƒEƒBƒ“ƒhƒE‚Ì•\Ž¦ƒIƒ“
-	//ImGui::ShowDemoWindow();
+	//ãƒ‡ãƒ¢ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¡¨ç¤ºã‚ªãƒ³
+	
+	ImGui::Begin("ImGuiDisplay");
+
+	ImGui::Text("ä»–ã®ImGuiã‚’è¡¨ç¤ºã«ã—ã¾ã™ã€‚ã“ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã¯æ®‹ã‚Šã¾ã™ã€‚");
+	if (ImGui::Button("ImGui"))
+	{
+		Framework::isImguiDisplay_ = (Framework::isImguiDisplay_ == true) ? false : true;
+	}
+	ImGui::SameLine();
+	std::string flagName;
+
+	if (Framework::isImguiDisplay_)flagName = "true";
+	else flagName = "false";
+
+	ImGui::Text(flagName.c_str());
+
+	ImGui::End();
 #endif // DEBUG
 }
 
 void Framework::Run()
 {
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	Init();
 
 	while (true) {
 		if (WinAPI::GetInstance()->MsgCheck()) {
 			break;
 		}
-		//–ˆƒtƒŒ[ƒ€ˆ—
+		//æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 		Update();
-		//•`‰æ
+		//æç”»
 		Draw();
 	}
-	//ƒQ[ƒ€‚ÌI—¹
+	//ã‚²ãƒ¼ãƒ ã®çµ‚äº†
 	Finalize();
 }
 
 void Framework::Draw()
 {
-	if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-		gaussianBlur_->PreDraw();
-	}
-	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
-		radialBlur_->PreDraw();
-	}
-	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
-		bloom_->PreDraw();
-	}
-	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
-		noise_->PreDraw();
-	}
-	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
-		crossFilter_->PreDraw();
-	}
-	else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
-		//ƒQ[ƒ€ƒV[ƒ“‚ÉƒKƒEƒVƒAƒ“ƒuƒ‰[‚ðŠ|‚¯‚é
-		gaussianBlur_->PreDraw();
-		//ƒ}ƒ‹ƒ`ƒeƒNƒXƒ`ƒƒ0”Ô‚ÉƒKƒEƒVƒAƒ“ƒuƒ‰[‚ðƒZƒbƒg
-		multiRenderTexture_->PreDrawSceneAssin(0);
-		gaussianBlur_->Draw("Gaussian");
-		multiRenderTexture_->PostDrawSceneAssin(0);
-		//ƒ}ƒ‹ƒ`ƒeƒNƒXƒ`ƒƒ1”Ô‚É’Êí‚Ì•`‰æ‚ðƒZƒbƒg
-		multiRenderTexture_->PreDrawSceneAssin(1);
-		SceneManager::Draw();
-		multiRenderTexture_->PostDrawSceneAssin(1);
-	}
-
-	//•`‰æƒRƒ}ƒ“ƒh
+	//æç”»ã‚³ãƒžãƒ³ãƒ‰
 	RDirectX::GetInstance()->PreDraw();
-	//ƒQ[ƒ€ƒV[ƒ“•`‰æ
-	if (PostEffectName::None == PostEffectName(postEffectnum)) {
-		SceneManager::Draw();
-	}
-	else if (PostEffectName::Gaussian == PostEffectName(postEffectnum)) {
-		gaussianBlur_->Draw("Gaussian");
-	}
-	else if (PostEffectName::RadialBlur == PostEffectName(postEffectnum)) {
-		radialBlur_->Draw("RadialBlur");
-	}
-	else if (PostEffectName::Bloom == PostEffectName(postEffectnum)) {
-		bloom_->Draw();
-	}
-	else if (PostEffectName::Noise == PostEffectName(postEffectnum)) {
-		noise_->Draw("Noise");
-	}
-	else if (PostEffectName::CrossFilter == PostEffectName(postEffectnum)) {
-		crossFilter_->Draw();
-	}
-	else if (PostEffectName::MultiRenderTexture == PostEffectName(postEffectnum)) {
-		multiRenderTexture_->Draw("MultiRenderTexture");
-	}
-	//imguiI—¹
+	SceneManager::Draw();
+	//imguiçµ‚äº†
 	ImGuiManager::Getinstance()->End();
-	//imgui•`‰æ
+	//imguiæç”»
 	ImGuiManager::Getinstance()->Draw();
-	//•`‰æI—¹
+	//æç”»çµ‚äº†
 	RDirectX::GetInstance()->PostDraw();
 }

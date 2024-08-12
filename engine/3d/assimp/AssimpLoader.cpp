@@ -6,7 +6,10 @@
 #include "AssimpLoader.h"
 #include "Util.h"
 
-
+/**
+ * @file AssimpLoader.cpp
+ * @brief 'assimp'を用いてファイルを読み込むクラス
+ */
 
 AssimpLoader* AssimpLoader::GetInstance()
 {
@@ -14,258 +17,257 @@ AssimpLoader* AssimpLoader::GetInstance()
 	return &instance;
 }
 
-
-
-bool AssimpLoader::Load(ImportSettings* setting)
+std::unique_ptr<AssimpModel> AssimpLoader::Load(const std::string& fileName)
 {
-	assert(setting->filename);
+	std::unique_ptr<AssimpModel> result =
+		std::move(std::make_unique<AssimpModel>());
 
-	auto& meshes = setting->meshes;
-	auto inverseU = setting->inverseU;
-	auto inverseV = setting->inverseV;
 
-	auto path = ToUTF8(setting->filename);
-
-	Assimp::Importer importer;
-	//�ȉ��̃t���O�̐��l�������Ă���
+	//以下のフラグの数値を代入していく
 	uint32_t flag = 0;
 
-	/*flag |= aiProcess_Triangulate;
-	flag |= aiProcess_PreTransformVertices;
-	flag |= aiProcess_JoinIdenticalVertices;
-	flag |= aiProcess_CalcTangentSpace;
+
+	flag |= aiProcess_Triangulate;
 	flag |= aiProcess_GenSmoothNormals;
-	flag |= aiProcess_GenUVCoords;
-	flag |= aiProcess_TransformUVCoords;
+	flag |= aiProcess_FlipUVs;
+	//flag |= aiProcess_GenUVCoords;
+	/*flag |= aiProcess_TransformUVCoords;
+	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_RemoveRedundantMaterials;
 	flag |= aiProcess_OptimizeMeshes;
 	flag |= aiProcess_LimitBoneWeights;*/
 
-	flag |= aiProcess_Triangulate;
-	flag |= aiProcess_JoinIdenticalVertices;
-	flag |= aiProcess_CalcTangentSpace;
-	flag |= aiProcess_GenSmoothNormals;
-	flag |= aiProcess_GenUVCoords;
-	flag |= aiProcess_TransformUVCoords;
-	flag |= aiProcess_RemoveRedundantMaterials;
-	flag |= aiProcess_OptimizeMeshes;
-	flag |= aiProcess_LimitBoneWeights;
 
-	auto scene = importer.ReadFile(path, flag);
+	result->scene = result->importer.ReadFile(fileName, flag);
 
-	if (scene == nullptr)
+	if (result->scene == nullptr)
 	{
-		// �����ǂݍ��݃G���[���ł���\������
-		printf(importer.GetErrorString());
+		// もし読み込みエラーがでたら表示する
+		printf(result->importer.GetErrorString());
 		printf("\n");
 		OutputDebugStringA("scene = nullptr");
-		return false;
+		return nullptr;
 	}
-
-	// �ǂݍ��񂾃f�[�^�������Œ�`����Mesh�\���̂ɕϊ�����
-	meshes.clear();
-	meshes.resize(scene->mNumMeshes);
-	for (uint32_t i = 0; i < meshes.size(); ++i)
+	result->vertices_.resize(result->scene->mNumMeshes);
+	result->materials_.resize(result->scene->mNumMeshes);
+	for (uint32_t i = 0; i < result->scene->mNumMeshes; ++i)
 	{
-		const auto pMesh = scene->mMeshes[i];
-		LoadMesh(meshes[i], pMesh, inverseU, inverseV);
-		const auto pMaterial = scene->mMaterials[i];
-		if (scene->mNumMaterials > i) {
-			LoadTexture(setting->filename, meshes[i], pMaterial);
+		result->vertices_[i] = std::move(std::make_unique<Vertices>());
+		result->materials_[i] = std::move(std::make_unique<Material>());
+		//各種情報読み込み
+		LoadVertices(result->vertices_[i].get(), *result->scene->mMeshes);
+		if (result->scene->HasMaterials()) {
+			LoadMaterial(fileName, result->materials_[i].get(), *result->scene->mMaterials);
 		}
-		LoadBones(i, scene->mMeshes[i], setting);
-
 	}
+	LoadSkin(result.get(), *result->scene->mMeshes);
+	//頂点データを更新したので転送する
+	for (uint32_t i = 0; i < result->scene->mNumMeshes; ++i)
+	{
+		result->vertices_[i]->Map();
+	}
+	LoadNode(result.get(), nullptr, result->scene->mRootNode);
 
-
-
-	scene = nullptr;
-
-	return true;
+	return std::move(result);
 }
 
-void AssimpLoader::LoadMesh(Mesh& dst, const aiMesh* src, bool inverseU, bool inverseV)
+void AssimpLoader::LoadVertices(Vertices* vert, const aiMesh* aimesh)
 {
 	aiVector3D zero3D(0.0f, 0.0f, 0.0f);
-	aiColor4D zeroColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	dst.Vertices.vertices_.resize(src->mNumVertices);
-
-	std::array<float, 4> bWeightList;
-	std::vector<std::array<uint32_t, 4>> bIndexList;
-
-	for (auto i = 0u; i < src->mNumVertices; ++i)
+	//頂点データを代入
+	vert->vertices_.resize(aimesh->mNumVertices);
+	for (auto i = 0u; i < aimesh->mNumVertices; ++i)
 	{
-		auto position = &(src->mVertices[i]);
-		auto normal = &(src->mNormals[i]);
-		auto uv = (src->HasTextureCoords(0)) ? &(src->mTextureCoords[0][i]) : &zero3D;
-
-
-		// ���]�I�v�V��������������UV�𔽓]������
-		if (inverseU)
-		{
-			uv->x = 1 - uv->x;
-		}
-		if (inverseV)
-		{
-			uv->y = 1 - uv->y;
-		}
+		auto position = &(aimesh->mVertices[i]);
+		auto normal = &(aimesh->mNormals[i]);
+		auto uv = (aimesh->HasTextureCoords(0)) ? &(aimesh->mTextureCoords[0][i]) : &zero3D;
 
 		Vertices::VertexPosNormalUv vertex = {};
 		vertex.pos = Vector3(position->x, position->y, position->z);
 		vertex.normal = Vector3(normal->x, normal->y, normal->z);
 		vertex.uv = Vector2(uv->x, uv->y);
 
-		//Bone
-		if (src->HasBones() || !src->mNumBones)
-		{
-			struct BoneData {
-				int32_t index;
-				float weight;
-			};
-
-			std::vector<BoneData> bdlist;
-
-			for (uint32_t j = 0; j < src->mNumBones; j++)
-			{
-				BoneData bd;
-
-				bd.index = j;
-
-				for (uint32_t h = 0; h < src->mBones[j]->mNumWeights; h++)
-				{
-					if (src->mBones[j]->mWeights[h].mVertexId == i)
-					{
-						bd.weight = src->mBones[j]->mWeights[h].mWeight;
-					}
-				}
-
-				bdlist.push_back(bd);
-			}
-
-			sort(bdlist.begin(), bdlist.end(), [](const auto& lhs, const auto& rhs) {
-				return lhs.weight > rhs.weight;
-				});
-
-			std::array<uint32_t, 4> bInd;
-			std::array<float, 4> bWeight;
-
-			for (size_t j = 0; j < 4; j++)
-			{
-				if (j < bdlist.size())
-				{
-					bInd[j] = bdlist.at(j).index;
-					bWeight[j] = bdlist.at(j).weight;
-				}
-				else
-				{
-					bInd[j] = 0;
-					bWeight[j] = 0.f;
-				}
-			}
-			bIndexList.push_back({ bInd[0], bInd[1], bInd[2], bInd[3] });
-			bWeightList.at(0) = bWeight[0];
-			bWeightList.at(1) = bWeight[1];
-			bWeightList.at(2) = bWeight[2];
-			bWeightList.at(3) = bWeight[3];
-		}
-		else
-		{
-			bIndexList.push_back({ 0, 0, 0, 0 });
-			bWeightList.at(0) = 0.f;
-			bWeightList.at(1) = 0.f;
-			bWeightList.at(2) = 0.f;
-			bWeightList.at(3) = 0.f;
-		}
-
-		//vertices.emplace_back(Vertex{ posList.back(), normalList.back(), tcList.back(), bIndexList.back(), bWeightList.back() });
-		for (uint32_t j = 0; j < bIndexList.size(); j++) {
-			for (uint32_t i = 0; i < 4; i++) {
-				vertex.m_BoneIDs.at(i) = bIndexList.at(j).at(i);
-				vertex.m_Weights.at(i) = bWeightList.at(i);
-			}
-		}
-		dst.Vertices.vertices_[i] = vertex;
+		vert->vertices_[i] = vertex;
 	}
-
-	dst.Vertices.indices_.resize(src->mNumFaces * 3);
-
-	for (auto i = 0u; i < src->mNumFaces; ++i)
+	//インデックスデータを代入
+	vert->indices_.resize(aimesh->mNumFaces * 3);
+	for (auto i = 0u; i < aimesh->mNumFaces; ++i)
 	{
-		const auto& face = src->mFaces[i];
+		const auto& face = aimesh->mFaces[i];
 
-		dst.Vertices.indices_[i * 3 + 0] = (uint16_t)face.mIndices[0];
-		dst.Vertices.indices_[i * 3 + 1] = (uint16_t)face.mIndices[1];
-		dst.Vertices.indices_[i * 3 + 2] = (uint16_t)face.mIndices[2];
+		vert->indices_[i * 3 + 0] = (uint16_t)face.mIndices[0];
+		vert->indices_[i * 3 + 1] = (uint16_t)face.mIndices[1];
+		vert->indices_[i * 3 + 2] = (uint16_t)face.mIndices[2];
 	}
+
+	vert->CreateBuffer();
 }
 
-void AssimpLoader::LoadTexture(const wchar_t* filename, Mesh& dst, const aiMaterial* src)
+void AssimpLoader::LoadMaterial(std::string fileName, Material* material, const aiMaterial* aimaterial)
 {
+	//テクスチャ
 	aiString path;
-	if (src->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), path) == AI_SUCCESS)
+	if (aimaterial->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), path) == AI_SUCCESS)
 	{
-		// �e�N�X�`���p�X�͑��΃p�X�œ����Ă���̂ŁA�t�@�C���̏ꏊ�Ƃ�������
-		auto dir = GetDirectoryPath(filename);
+		auto wFileName = ToWideString(fileName);
+		// テクスチャパスは相対パスで入っているので、ファイルの場所とくっつける
+		//auto dir = GetDirectoryPath(fileName);
 		auto file = std::string(path.C_Str());
 
-		std::wstring filename_ = dir + ToWideString(file);
+		std::wstring filename_ = wFileName + ToWideString(file);
 
-		filename_ = ReplaceExtension(filename_, "tga");
-		dst.diffuseMap = filename_;
+		filename_ = ReplaceExtension(filename_, "png");
+		material->textureFilename_ = ToUTF8(filename_);
+		TextureManager::GetInstance()->
+			LoadGraph(material->textureFilename_, material->textureFilename_);
+		material->texture_ = *TextureManager::GetInstance()->GetTexture(material->textureFilename_);
 	}
-	else
-	{
-		dst.diffuseMap.clear();
-	}
-
 }
 
-void AssimpLoader::LoadBones(uint32_t MeshIndex, const aiMesh* pMesh, ImportSettings* setting)
+void AssimpLoader::LoadSkin(AssimpModel* model, const aiMesh* aimesh)
 {
-	uint32_t m_NumBones = 0;
-	for (uint32_t i = 0; i < pMesh->mNumBones; i++)
+	// スキニング情報を持つメッシュかどうかを確認します
+	if (aimesh->HasBones() == true)
 	{
-		uint32_t BoneIndex = 0;
-		std::string BoneName(pMesh->mBones[i]->mName.data);
-
-		setting->boneData.emplace_back();
-		BoneIndex = m_NumBones;
-		m_NumBones++;
-
-		aiMatrix4x4& m = pMesh->mBones[i]->mOffsetMatrix;
-		aiBone& bone = *pMesh->mBones[i];
-
-		for (size_t j = 0; j < bone.mNumWeights; j++)
+		// ボーン番号とスキンウェイトのペア
+		struct WeightSet
 		{
-			auto& weight = bone.mWeights[j];
-		}
-		setting->boneData[BoneIndex].boneMatrix_ = {
-			m.a1, m.b1, m.c1, m.d1,	// �]�u
-			m.a2, m.b2, m.c2, m.d2,
-			m.a3, m.b3, m.c3, m.d3,
-			m.a4, m.b4, m.c4, m.d4
+			uint32_t index;
+			float weight;
 		};
+		size_t vertNum = 0;
+		for (auto& v : model->vertices_) {
+			vertNum += v->vertices_.size();
+		}
 
+		// 二次元配列（ジャグ配列） list:頂点が影響を受けるボーンの全リスト vector:それを全頂点分
+		std::vector<std::list<WeightSet>> weightLists(vertNum);
+
+		// ボーンの最大数設定
+		model->bones.resize(aimesh->mNumBones);
+
+		// スキニング情報の処理
+		for (uint32_t i = 0; i < aimesh->mNumBones; i++)
+		{
+			aiBone* bone = aimesh->mBones[i];
+
+			// ボーンの名前
+			model->bones[i].name = bone->mName.C_Str();
+
+			// ボーンの初期姿勢行列(バインドポーズ行列)
+			Matrix4 initalMat = ConvertAiMatrixToMatrix(bone->mOffsetMatrix);
+			model->bones[i].offsetMat = initalMat.Transpose();
+
+			// ウェイトの読み取り
+			for (uint32_t j = 0; j < bone->mNumWeights; j++)
+			{
+				// 頂点番号
+				int vertexIndex = bone->mWeights[j].mVertexId;
+				// スキンウェイト
+				float weight = bone->mWeights[j].mWeight;
+				// その頂点の影響を受けるボーンリストに、ボーンとウェイトのペアを追加
+				weightLists[vertexIndex].emplace_back(WeightSet{ i,weight });
+			}
+		}
+		for (auto& v : model->vertices_) {
+			// ウェイトの整理
+			auto& vertices = v->vertices_;
+			// 各頂点について処理
+			for (uint32_t i = 0; i < vertices.size(); i++)
+			{
+				// 頂点のウェイトから最も大きい4つを選択
+				auto& weightList = weightLists[i];
+				// 大小比較用のラムダ式を指定して降順にソート
+				weightList.sort(
+					[](auto const& lhs, auto const& rhs)
+					{
+						return lhs.weight > rhs.weight;
+					});
+
+				int weightArrayIndex = 0;
+				// 降順ソート済みのウェイトリストから
+				for (auto& weightSet : weightList)
+				{
+					// 頂点データに書き込み
+					vertices[i].m_BoneIDs[weightArrayIndex] = weightSet.index;
+					vertices[i].m_Weights[weightArrayIndex] = weightSet.weight;
+					// 4つに達したら終了
+					if (++weightArrayIndex >= 4)
+					{
+						float weight = 0.f;
+						// 2番目以降のウェイトを合計
+						for (size_t j = 1; j < 4; j++)
+						{
+							weight += vertices[i].m_Weights[j];
+						}
+						// 合計で1,f(100%)になるように調整
+						vertices[i].m_Weights[0] = 1.f - weight;
+						break;
+					}
+				}
+			}
+		}
 	}
-
-	//for (uint32_t i = 0; i < pMesh->mNumBones; i++)
-	//{
-
-	//	int32_t index = (pMesh->mNumBones - 1) - i;
-
-	//	aiMatrix4x4& m = pMesh->mBones[index]->mOffsetMatrix;
-
-	//	setting->boneData.emplace_back();
-
-	//	setting->boneData[i].boneMatrix_ = {
-	//		m.a1, m.b1, m.c1, m.d1,	// �]�u
-	//		m.a2, m.b2, m.c2, m.d2,
-	//		m.a3, m.b3, m.c3, m.d3,
-	//		m.a4, m.b4, m.c4, m.d4
-	//	};
-
-	//}
-
 }
 
+void AssimpLoader::LoadNode(AssimpModel* model, Node* parent, const aiNode* node)
+{
+	aiString nodeName = node->mName;
+
+	// モデルにノードを追加
+	model->nodes.emplace_back();
+	Node& modelNode = model->nodes.back();
+
+	// ノード名を取得
+	modelNode.name = node->mName.C_Str();
+
+	// ローカル行列
+	modelNode.localTransformMat = ConvertAiMatrixToMatrix(node->mTransformation);
+
+	// グローバル行列
+	modelNode.globalTransformMat = modelNode.localTransformMat;
+	if (parent)
+	{
+		modelNode.parent = parent;
+		// 親の変形を乗算
+		modelNode.globalTransformMat *= parent->globalTransformMat;
+	}
+
+	for (uint32_t i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* aimesh = model->scene->mMeshes[node->mMeshes[i]];
+		if (aimesh)
+		{
+			//各種情報読み込み
+			LoadVertices(model->vertices_[i].get(), aimesh);
+			LoadSkin(model, aimesh);
+		}
+	}
+	//頂点データを更新したので転送する
+	for (uint32_t i = 0; i < model->scene->mNumMeshes; ++i)
+	{
+		model->vertices_[i]->Map();
+	}
+
+	// 再帰
+	for (uint32_t i = 0; i < node->mNumChildren; i++)
+	{
+		LoadNode(model, &modelNode, node->mChildren[i]);
+	}
+}
+
+Matrix4 AssimpLoader::ConvertAiMatrixToMatrix(const aiMatrix4x4 aimat)
+{
+	Matrix4 result;
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			result.m[i][j] = (float)aimat[i][j];
+		}
+	}
+
+	return result;
+}

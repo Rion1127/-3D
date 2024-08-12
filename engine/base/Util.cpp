@@ -5,46 +5,40 @@ using namespace Microsoft::WRL;
 #include "Util.h"
 #include "DirectX.h"
 #include <filesystem>
+#include <iostream>
+#include "Collision.h"
+/**
+ * @file Util.cpp
+ * @brief ä¾¿åˆ©ãªé–¢æ•°ã‚’ã¾ã¨ã‚ã¦ã„ã‚‹
+ */
 
-void DisplayWarningInfo(ID3D12Device* device)
-{
-	assert(device);
-	ComPtr<ID3D12DebugDevice> debugInterface;
-
-	if (SUCCEEDED(device->QueryInterface(debugInterface.GetAddressOf())))
-	{
-		debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
-		debugInterface->Release();
-	}
-}
-
-//ƒVƒF[ƒ_[“Ç‚İ‚İ
+//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼èª­ã¿è¾¼ã¿
 void ShaderCompileFromFile(
 	LPCWSTR fileName, LPCSTR entryPoint, LPCSTR target,
 	ID3DBlob** blob, ID3DBlob* errorBlob)
 {
 	HRESULT result;
 
-	// ’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	// é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	result = D3DCompileFromFile(
-		fileName, // ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		fileName, // ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		entryPoint, target, // ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼AƒVƒF[ƒ_[ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ƒfƒoƒbƒO—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		entryPoint, target, // ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆåã€ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // ãƒ‡ãƒãƒƒã‚°ç”¨è¨­å®š
 		0,
 		blob, &errorBlob);
 
-	// ƒGƒ‰[‚È‚ç
+	// ã‚¨ãƒ©ãƒ¼ãªã‚‰
 	if (FAILED(result)) {
-		// errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		// errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string error;
 		error.resize(errorBlob->GetBufferSize());
 		std::copy_n((char*)errorBlob->GetBufferPointer(),
 			errorBlob->GetBufferSize(),
 			error.begin());
 		error += "\n";
-		// ƒGƒ‰[“à—e‚ğo—ÍƒEƒBƒ“ƒhƒE‚É•\¦
+		// ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’å‡ºåŠ›ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(error.c_str());
 		assert(0);
 	}
@@ -58,13 +52,13 @@ std::wstring GetDirectoryPath(const std::wstring& origin)
 	fs::path p = origin.c_str();
 	return p.remove_filename().c_str();
 }
-//Šg’£q‚ğ“ü‚ê‘Ö‚¦‚é (const char* ext)‚Íu.v‚ğ‚Ê‚¢‚½Šg’£q‚ğ“ü—Í
+//æ‹¡å¼µå­ã‚’å…¥ã‚Œæ›¿ãˆã‚‹ (const char* ext)ã¯ã€Œ.ã€ã‚’ã¬ã„ãŸæ‹¡å¼µå­ã‚’å…¥åŠ›
 std::wstring ReplaceExtension(const std::wstring& origin, const char* ext)
 {
 	fs::path p = origin.c_str();
 	return p.replace_extension(ext).c_str();
 }
-//wstring‚ğstd::string(ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š—ñ)‚É•ÏŠ·
+//wstringã‚’std::string(ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—åˆ—)ã«å¤‰æ›
 std::string ToUTF8(const std::wstring& value)
 {
 	auto length = WideCharToMultiByte(CP_UTF8, 0U, value.data(), -1, nullptr, 0, nullptr, nullptr);
@@ -76,7 +70,7 @@ std::string ToUTF8(const std::wstring& value)
 
 	return result;
 }
-// std::string(ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š—ñ)‚©‚çstd::wstring(ƒƒCƒh•¶š—ñ)‚ğ“¾‚é
+// std::string(ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—åˆ—)ã‹ã‚‰std::wstring(ãƒ¯ã‚¤ãƒ‰æ–‡å­—åˆ—)ã‚’å¾—ã‚‹
 std::wstring ToWideString(const std::string& str)
 {
 	auto num1 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, nullptr, 0);
@@ -85,44 +79,174 @@ std::wstring ToWideString(const std::string& str)
 	wstr.resize(num1);
 
 	auto num2 = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED | MB_ERR_INVALID_CHARS, str.c_str(), -1, &wstr[0], num1);
-
+	num2;
 	assert(num1 == num2);
 	return wstr;
 }
-// std::wstring(ƒƒCƒh•¶š—ñ)‚©‚çstd::string(ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š—ñ)‚ğ“¾‚é
+// std::wstring(ãƒ¯ã‚¤ãƒ‰æ–‡å­—åˆ—)ã‹ã‚‰std::string(ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—åˆ—)ã‚’å¾—ã‚‹
 std::string WStringToString(std::wstring oWString)
 {
-	// wstring ¨ SJIS
+	// wstring â†’ SJIS
 	uint32_t iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str()
 		, -1, (char*)NULL, 0, NULL, NULL);
 
-	// ƒoƒbƒtƒ@‚Ìæ“¾
+	// ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
 	std::vector<CHAR> cpMultiByte;
 	cpMultiByte.resize(iBufferSize);
-	// wstring ¨ SJIS
+	// wstring â†’ SJIS
 	WideCharToMultiByte(CP_OEMCP, 0, oWString.c_str(), -1, cpMultiByte.data()
 		, iBufferSize, NULL, NULL);
 
-	// string‚Ì¶¬
+	// stringã®ç”Ÿæˆ
 	std::string oRet(cpMultiByte.data(), cpMultiByte.data() + iBufferSize - 1);
 
-	// ƒoƒbƒtƒ@‚Ì”jŠü
+	// ãƒãƒƒãƒ•ã‚¡ã®ç ´æ£„
 
 
-	// •ÏŠ·Œ‹‰Ê‚ğ•Ô‚·
+	// å¤‰æ›çµæœã‚’è¿”ã™
 	return(oRet);
 }
 
-
-void MoveTo(const Vector3& goal, float speed, WorldTransform& WT)
+std::vector<int32_t> GetDigitNum(int32_t num, int32_t digitNum)
 {
-	Vector3 dir = goal - WT.position_;
-	float dirLength = dir.length2();
+	std::vector<int32_t> result;
+
+	for (int32_t i = digitNum; i > 0; i--) {
+		result.emplace_back(GetDigitNumber(num, i));
+	}
+
+	return result;
+}
+
+int32_t GetDigitNumber(int32_t number, int32_t digit)
+{
+	// digitã®å€¤ãŒä¸æ­£ãªå ´åˆã€-1ã‚’è¿”ã™
+	if (digit < 1 || digit >(int)std::log10(number) + 1)
+	{
+		return 0;
+	}
+
+	// numberã‚’digitæ¡ç›®ã‹ã‚‰1æ¡ç›®ã¾ã§é †ã«å–ã‚Šå‡ºã™
+	int num = number;
+	for (int i = 1; i < digit; i++)
+	{
+		num /= 10;
+	}
+
+	// digitæ¡ç›®ã®æ•°å€¤ã‚’è¿”ã™
+	return num % 10;
+}
+
+void MoveTo(const Vector3& goal, float speed, Vector3& value)
+{
+	Vector3 dir = goal - value;
+	float dirLength = dir.x * dir.x + dir.y * dir.y + dir.z * dir.z;
 	if (dirLength < speed * speed)
 	{
-		WT.position_ = goal;
+		value = goal;
 		return;
 	}
-	WT.position_ =
-		WT.position_ + dir.SetLength(speed);
+	value =
+		value + dir.SetLength(speed);
+}
+
+void MoveTo(const Vector2& goal, float speed, Vector2& value)
+{
+	Vector2 dir = goal - value;
+	float dirLength = dir.x * dir.x + dir.y * dir.y;
+	if (dirLength < speed * speed)
+	{
+		value = goal;
+		return;
+	}
+	value =
+		value + dir.SetLength(speed);
+}
+
+Vector2 GetScreenPos(const WorldTransform& WT, const Camera& camera)
+{
+	Vector2 result;
+
+	Vector4 pos(0, 0, 0, 1);
+	Vector2 winSize = WinAPI::GetInstance()->GetWindowSize();
+	Matrix4 viewPort = {
+		winSize.x / 2.f,	           0,0,0,
+					  0,-winSize.y / 2.f,0,0,
+					  0,               0,1,0,
+		winSize.x / 2.f, winSize.y / 2.f,0,1,
+	};
+	//ï¼“æ¬¡å…ƒâ†’ï¼’æ¬¡å…ƒã®å¤‰æ›
+	pos = Vec4MulMat4(pos, WT.matWorld_);
+	pos = Vec4MulMat4(pos, camera.matView_);
+	pos = Vec4MulMat4(pos, camera.matProjection_);
+	pos = Vec4MulMat4(pos, viewPort);
+
+	result = { pos.x ,pos.y };
+
+	return result;
+}
+
+std::vector<std::string> FindFileNames(const std::string& dir, const std::string& extension, bool isExtension)
+{
+	std::vector<std::string> result;
+
+	HANDLE hFind;
+	//defined at Windwos.h
+	WIN32_FIND_DATA win32fd;
+
+	//æ¢ã™ãƒ•ã‚¡ã‚¤ãƒ«åæŒ‡å®šã€€ãƒ¯ã‚¤ãƒ«ãƒ‰ã‚«ãƒ¼ãƒ‰ã‚’ä½¿ç”¨
+	std::string search_name = dir + "*" + extension;
+
+	std::wstring wsearch_name = ToWideString(search_name);
+	//ãƒ•ã‚¡ã‚¤ãƒ«æ¤œç´¢
+	hFind = FindFirstFile(wsearch_name.c_str(), &win32fd);
+
+	//è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸå ´åˆ
+	if (hFind == INVALID_HANDLE_VALUE)
+	{
+		return result;
+	}
+
+	//æ¬¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹é™ã‚Šèª­ã¿è¾¼ã¿ç¶šã‘ã‚‹
+	do
+	{
+		//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãªã‚‰ç„¡è¦–
+		if (win32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {}
+		else
+		{
+			//ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ãƒ‘ã‚¹ä»˜ã§å–å¾—
+			std::wstring wfileName = win32fd.cFileName;
+			std::string fileName = WStringToString(wfileName);
+			if (fileName != extension) {
+				result.push_back(fileName);
+			}
+		}
+	} while (FindNextFile(hFind, &win32fd));
+	//é–‰ã˜ã‚‹
+	FindClose(hFind);
+
+	//æ‹¡å¼µå­ã‚’æ¶ˆã™
+	if (isExtension == false) {
+		for (auto& fileName : result) {
+			size_t num = fileName.find(".");
+			fileName = fileName.substr(0, num);
+		}
+	}
+
+	return result;
+}
+
+bool InScreen(Vector2 pos, Vector2 scrollValue, Vector2 offsetValue)
+{
+	Rect screenRect;
+	screenRect.center = {
+		WinAPI::GetWindowSize().x / 2.f + scrollValue.x,
+		WinAPI::GetWindowSize().y / 2.f + scrollValue.y,
+	};
+	screenRect.length = {
+		WinAPI::GetWindowSize().x + offsetValue.x,
+		WinAPI::GetWindowSize().y + offsetValue.y,
+	};
+
+	return CheckBox2DtoPoint(screenRect, pos);
 }

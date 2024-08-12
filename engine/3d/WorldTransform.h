@@ -6,52 +6,82 @@
 #include "DirectX.h"
 #include "Quaternion.h"
 #include "myMath.h"
+#include "Camera.h"
 
-//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ìi‚RD•ÏŠ·s—ñj
+/**
+ * @file WorldTransform.h
+ * @brief åº§æ¨™ãƒ»ã‚¹ã‚±ãƒ¼ãƒ«ãƒ»å›è»¢ã‚’ç®¡ç†ã—ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹
+ */
+
+//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“ï¼ˆï¼“Då¤‰æ›è¡Œåˆ—ï¼‰
 struct ConstBufferDataTransform {
-	Matrix4 mat; //3D•ÏŠ·s—ñ
-	Matrix4 viewProj;	//ƒrƒ…[‚ÆƒvƒƒWƒFƒNƒVƒ‡ƒ“‡¬s—ñ
+	Matrix4 mat; //3Då¤‰æ›è¡Œåˆ—
+	Matrix4 viewProj;	//ãƒ“ãƒ¥ãƒ¼ã¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³åˆæˆè¡Œåˆ—
 	Vector3 cameraPos;
+};
+
+enum class BillBoard {
+	None,
+	BillBoard,
+	AxisYBillBoard
+};
+
+enum class RotType {
+	Euler,
+	Quaternion
 };
 
 class WorldTransform
 {
 public:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	WorldTransform();
 
-	void SetScale(float x,float y,float z);
-	void SetRotation(float x, float y, float z);
-	void SetPosition(float x, float y, float z);
+	void SetScale(const Vector3& scale) { scale_ = scale; }
+	void SetRotation(const Vector3& rot) { rotation_ = rot; }
+	void SetPosition(const Vector3& pos) { position_ = pos; }
+	void SetQuaternion(const Quaternion& q) { quaternion_ = q; }
+	void SetRotType(const RotType& type) { rotType = type; }
 
 	void AddScale(float x, float y, float z);
 	void AddRotation(float x, float y, float z);
 	void AddPosition(float x, float y, float z);
-	/// <summary>
-	/// ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€XV
-	/// </summary>
-	/// <param name="viewProjection">ƒJƒƒ‰</param>
-	/// <param name="isBillboard">0 = –³‚µ; 1 = ƒrƒ‹ƒ{[ƒh‚ ‚è; 2 = Y²ƒrƒ‹ƒ{[ƒh</param>
-	void Update(uint32_t isBillboard = 0);
 
-	//’è”ƒoƒbƒtƒ@is—ñ—pj
+	void AddScale(const Vector3& scale) { scale_ += scale; }
+	void AddRotation(const Vector3& rot) { rotation_ += rot; }
+	void AddPosition(const Vector3& pos) { position_ += pos; }
+	/// <summary>
+	/// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ æ›´æ–°
+	/// </summary>
+	/// <param name="viewProjection">ã‚«ãƒ¡ãƒ©</param>
+	/// <param name="isBillboard">0 = ç„¡ã—; 1 = ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰ã‚ã‚Š; 2 = Yè»¸ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰</param>
+	void Update(BillBoard isBillboard = BillBoard::None, Camera* camera = Camera::scurrent_);
+
+	Matrix4 GetMatWorld() { return matWorld_; }
+	Vector3 GetWorldPos() { return Vector3(matWorld_.m[3][0], matWorld_.m[3][1], matWorld_.m[3][2]); }
+
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ï¼ˆè¡Œåˆ—ç”¨ï¼‰
 	ComPtr<ID3D12Resource> constBuffTransform_;
-	//’è”ƒoƒbƒtƒ@ƒ}ƒbƒvis—ñ—pj
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒãƒƒãƒ—ï¼ˆè¡Œåˆ—ç”¨ï¼‰
 	ConstBufferDataTransform* constMapTransform_;
-	//eƒIƒuƒWƒFƒNƒg‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	WorldTransform* parent_ = nullptr;
-	
-	//ƒAƒtƒBƒ“•ÏŠ·î•ñ
+	Matrix4* parentRotMat_ = nullptr;
+	Matrix4* parentPosMat_ = nullptr;
+
+	//ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›æƒ…å ±
 	Vector3 scale_ = { 1,1,1 };
 	Vector3 rotation_ = { 0,0,0 };
 	Vector3 position_ = { 0,0,0 };
-private:
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
+	Matrix4 scaleMat_;
+	Matrix4 rotMat_;
+	Matrix4 posMat_;
 	Matrix4 matWorld_;
-
-	//ƒNƒH[ƒ^ƒjƒIƒ“
+	RotType rotType;
+	//ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
 	Quaternion quaternion_ = { 0,1,0,0 };
+private:
 };
-

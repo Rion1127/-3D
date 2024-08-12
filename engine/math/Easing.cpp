@@ -1,7 +1,13 @@
 #include "Easing.h"
 #include <math.h>
-/// Œ³‚ÌƒR[ƒh
-//t Œo‰ßŠÔ    bÅ‰‚ÌˆÊ’u    cˆÚ“®—Ê    dˆÚ“®ŠÔ 
+
+/**
+ * @file Easing.cpp
+ * @brief Easingã®æ©Ÿèƒ½ã‚’ã¾ã¨ã‚ã¦ã„ã‚‹
+ */
+
+/// å…ƒã®ã‚³ãƒ¼ãƒ‰
+//t çµŒéæ™‚é–“    bæœ€åˆã®ä½ç½®    cç§»å‹•é‡    dç§»å‹•æ™‚é–“ 
 #pragma region Back
 
 float Easing::Back::easeIn(float t, float b, float c, float d)
@@ -94,7 +100,7 @@ float Easing::Cubic::easeInOut(float t, float b, float c, float d)
 }
 #pragma endregion
 
-/// ‰ü•ÏŒãƒR[ƒh
+/// æ”¹å¤‰å¾Œã‚³ãƒ¼ãƒ‰
 
 #pragma region Back
 float Easing::Back::easeIn(float start, float end, float t)
@@ -216,8 +222,26 @@ float Easing::Cubic::easeOut(float start, float end, float t)
 float Easing::Cubic::easeInOut(float start, float end, float t)
 {
 	float time;
+	if (fabsf(start) - fabsf(end) < 0.01f) return end;
 	if (t < 0.5f) time = 4.0f * t * t * t;
 	else time = 1.0f - (float)pow(-2 * t + 2, 3) / 2;
 	return start * (1.0f - time) + end * time;
+}
+#pragma endregion
+
+#pragma region Sine
+float Easing::Sine::easeIn(float t, float b, float c, float d)
+{
+	return -c * cosf(t / d * (3.1415f / 2.f)) + c + b;
+}
+
+float Easing::Sine::easeOut(float t, float b, float c, float d)
+{
+	return c * sinf(t / d * (3.1415f / 2.f)) + b;
+}
+
+float Easing::Sine::easeInOut(float t, float b, float c, float d)
+{
+	return -c / 2.f * (cosf(3.1415f * t / d) - 1.f) + b;
 }
 #pragma endregion

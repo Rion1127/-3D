@@ -1,10 +1,13 @@
 #pragma once
 
-/// Œ³‚ÌƒR[ƒh
+/**
+ * @file Easing.h
+ * @brief Easingã®æ©Ÿèƒ½ã‚’ã¾ã¨ã‚ã¦ã„ã‚‹
+ */
 
 namespace Easing {
 	namespace Back {
-		float easeIn (float t, float b, float c, float d);
+		float easeIn(float t, float b, float c, float d);
 		float easeOut(float t, float b, float c, float d);
 		float easeInOut(float t, float b, float c, float d);
 	}
@@ -32,9 +35,15 @@ namespace Easing {
 		float easeOut(float t, float b, float c, float d);
 		float easeInOut(float t, float b, float c, float d);
 	}
+
+	namespace Sine {
+		float easeIn(float t, float b, float c, float d);
+		float easeOut(float t, float b, float c, float d);
+		float easeInOut(float t, float b, float c, float d);
+	};
 }
 
-/// ‰ü•ÏŒãƒR[ƒh
+/// æ”¹å¤‰å¾Œã‚³ãƒ¼ãƒ‰
 
 namespace Easing {
 	namespace Back {

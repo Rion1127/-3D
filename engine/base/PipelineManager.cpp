@@ -1,17 +1,24 @@
 #include "PipelineManager.h"
 
+/**
+ * @file PipelineManager.cpp
+ * @brief ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’ç”Ÿæˆã€ç®¡ç†ã—ã¦ã„ã‚‹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚¯ãƒ©ã‚¹
+ */
+
 std::map<std::string, std::unique_ptr<PipelineObject>> PipelineManager::pipelineObjects_;
 
 void PipelineManager::Ini() {
-	//ƒ‚ƒfƒ‹AƒXƒvƒ‰ƒCƒg‚ÌƒpƒCƒvƒ‰ƒCƒ“‰Šú‰»
+	//ãƒ¢ãƒ‡ãƒ«ã€ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³åˆæœŸåŒ–
 	ObjShaderIni();
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚ÌƒpƒCƒvƒ‰ƒCƒ“‰Šú‰»
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³åˆæœŸåŒ–
 	PostEffectIni();
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³åˆæœŸåŒ–
+	ParticleShaderIni();
 }
 
 void PipelineManager::ObjShaderIni()
 {
-	//ƒIƒuƒWƒFƒNƒg3D
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ3D
 	AddPipeline("Object3D");
 	GetPipelineObjects("Object3D")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Object3D")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -23,7 +30,8 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Object3D")->AddrootParams(4);
 
 	Create("Object3D", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
-	//ƒXƒvƒ‰ƒCƒg
+
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	AddPipeline("Sprite");
 	GetPipelineObjects("Sprite")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Sprite")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -35,7 +43,7 @@ void PipelineManager::ObjShaderIni()
 
 	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
 
-	//ƒgƒD[ƒ“ƒIƒuƒWƒFƒNƒg3D
+	//ãƒˆã‚¥ãƒ¼ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ3D
 	AddPipeline("Toon");
 	GetPipelineObjects("Toon")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Toon")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -48,7 +56,7 @@ void PipelineManager::ObjShaderIni()
 
 	Create("Toon", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 
-	//ƒIƒuƒWƒFƒNƒg3D
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ3D
 	AddPipeline("assimp");
 	GetPipelineObjects("assimp")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("assimp")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
@@ -62,11 +70,36 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("assimp")->AddrootParams(5);
 
 	Create("assimp", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+
+	//ç·š3Dæç”»ç”¨
+	AddPipeline("Object3DWireFrame");
+	GetPipelineObjects("Object3DWireFrame")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3DWireFrame")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3DWireFrame")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Object3DWireFrame")->Setshader("SkySphereVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Object3DWireFrame")->Setshader("SkySpherePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Object3DWireFrame")->AddrootParams(4);
+
+	Create("Object3DWireFrame", BACK, TOPOLOGY_LINE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+
+	AddPipeline("Line3D");
+	GetPipelineObjects("Line3D")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	
+	GetPipelineObjects("Line3D")->Setshader("Line3DVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Line3D")->Setshader("Line3DPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Line3D")->AddrootParamsNoneTexture(2);
+
+	Create("Line3D", NONE, TOPOLOGY_LINE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+
+	
 }
 void PipelineManager::PostEffectIni()
 {
-#pragma region ƒ|ƒXƒgƒGƒtƒFƒNƒg
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+#pragma region ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	AddPipeline("PostEffect");
 	GetPipelineObjects("PostEffect")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("PostEffect")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -79,7 +112,7 @@ void PipelineManager::PostEffectIni()
 	Create("PostEffect", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒ}ƒ‹ƒ`ƒeƒNƒXƒ`ƒƒ
+#pragma region ãƒãƒ«ãƒãƒ†ã‚¯ã‚¹ãƒãƒ£
 	AddPipeline("MultiTexture");
 	GetPipelineObjects("MultiTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("MultiTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -92,7 +125,7 @@ void PipelineManager::PostEffectIni()
 	Create("MultiTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒuƒ‹[ƒ€
+#pragma region ãƒ–ãƒ«ãƒ¼ãƒ 
 	AddPipeline("Bloom");
 	GetPipelineObjects("Bloom")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Bloom")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -102,10 +135,10 @@ void PipelineManager::PostEffectIni()
 
 	GetPipelineObjects("Bloom")->AddrootParamsMultiTexture(2, 1);
 
-	Create("Bloom",NONE, TOPOLOGY_TRIANGLE,DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
+	Create("Bloom", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒ‹ƒ~ƒ‰ƒCƒg
+#pragma region ãƒ«ãƒŸãƒ©ã‚¤ãƒˆ
 	AddPipeline("HighLumi");
 	GetPipelineObjects("HighLumi")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("HighLumi")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -118,7 +151,7 @@ void PipelineManager::PostEffectIni()
 	Create("HighLumi", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒKƒEƒVƒAƒ“ƒuƒ‰[
+#pragma region ã‚¬ã‚¦ã‚·ã‚¢ãƒ³ãƒ–ãƒ©ãƒ¼
 	AddPipeline("Gaussian");
 	GetPipelineObjects("Gaussian")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Gaussian")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -131,7 +164,7 @@ void PipelineManager::PostEffectIni()
 	Create("Gaussian", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒmƒCƒY
+#pragma region ãƒã‚¤ã‚º
 	AddPipeline("Noise");
 	GetPipelineObjects("Noise")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("Noise")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -144,8 +177,8 @@ void PipelineManager::PostEffectIni()
 	Create("Noise", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒ‰ƒCƒ“ƒuƒ‰[
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+#pragma region ãƒ©ã‚¤ãƒ³ãƒ–ãƒ©ãƒ¼
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	AddPipeline("LineBlur");
 	GetPipelineObjects("LineBlur")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("LineBlur")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -158,7 +191,7 @@ void PipelineManager::PostEffectIni()
 	Create("LineBlur", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
 #pragma endregion
 
-#pragma region ƒNƒƒXƒtƒBƒ‹ƒ^[
+#pragma region ã‚¯ãƒ­ã‚¹ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
 	AddPipeline("CrossFilter");
 	GetPipelineObjects("CrossFilter")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("CrossFilter")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -169,9 +202,9 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("CrossFilter")->AddrootParamsMultiTexture(3, 1);
 
 	Create("CrossFilter", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
-#pragma endregion 
+#pragma endregion
 
-#pragma region CG4_•]‰¿‰Û‘è‚Q
+#pragma region CG4_è©•ä¾¡èª²é¡Œï¼’
 	AddPipeline("MultiRenderTexture");
 	GetPipelineObjects("MultiRenderTexture")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("MultiRenderTexture")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -182,10 +215,10 @@ void PipelineManager::PostEffectIni()
 	GetPipelineObjects("MultiRenderTexture")->AddrootParamsMultiTexture(2, 1);
 
 	Create("MultiRenderTexture", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_BORDER);
-#pragma endregion 
+#pragma endregion
 
-#pragma region ƒ‰ƒCƒ“ƒuƒ‰[
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+#pragma region ãƒ©ã‚¤ãƒ³ãƒ–ãƒ©ãƒ¼
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	AddPipeline("RadialBlur");
 	GetPipelineObjects("RadialBlur")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
 	GetPipelineObjects("RadialBlur")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
@@ -199,12 +232,86 @@ void PipelineManager::PostEffectIni()
 #pragma endregion
 }
 
-void PipelineManager::Create(
-	const std::string& pipelinename, CULL_MODE cullmode,
-	TOPOLOGY_TYPE topologytype, WRIGHT_MASK depthWriteMasc,
-	TEXTURE_ADDRESS_MODE uvMode)
+void PipelineManager::ParticleShaderIni()
 {
-	for (size_t i = 0; i < 4; i++)
+	AddPipeline("Particle");
+	GetPipelineObjects("Particle")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("SCALE", DXGI_FORMAT_R32_FLOAT, 0);
+	GetPipelineObjects("Particle")->AddInputLayout("ROTATION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("ANCORPOINT", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("Particle")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	GetPipelineObjects("Particle")->Setshader("ParticleGS.hlsl", ShaderType::GS);
+	GetPipelineObjects("Particle")->Setshader("ParticleVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Particle")->Setshader("ParticlePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Particle")->AddrootParams(2);
+
+	Create("Particle", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
+
+	AddPipeline("Particle_Depth_False");
+	GetPipelineObjects("Particle_Depth_False")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle_Depth_False")->AddInputLayout("SCALE", DXGI_FORMAT_R32_FLOAT, 0);
+	GetPipelineObjects("Particle_Depth_False")->AddInputLayout("ROTATION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Particle_Depth_False")->AddInputLayout("ANCORPOINT", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("Particle_Depth_False")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	GetPipelineObjects("Particle_Depth_False")->Setshader("ParticleGS.hlsl", ShaderType::GS);
+	GetPipelineObjects("Particle_Depth_False")->Setshader("ParticleVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Particle_Depth_False")->Setshader("ParticlePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Particle_Depth_False")->AddrootParams(2);
+
+	Create("Particle_Depth_False", NONE, TOPOLOGY_POINT, DEPTH_ENABLE_FALSE, MODE_WRAP);
+
+	AddPipeline("Smoke");
+	GetPipelineObjects("Smoke")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Smoke")->AddInputLayout("SCALE", DXGI_FORMAT_R32_FLOAT, 0);
+	GetPipelineObjects("Smoke")->AddInputLayout("ROTATION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Smoke")->AddInputLayout("ANCORPOINT", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("Smoke")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	GetPipelineObjects("Smoke")->Setshader("SmokeGS.hlsl", ShaderType::GS);
+	GetPipelineObjects("Smoke")->Setshader("SmokeVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Smoke")->Setshader("SmokePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Smoke")->AddrootParams(2);
+
+	Create("Smoke", NONE, TOPOLOGY_POINT, DEPTH_ENABLE_FALSE, MODE_WRAP);
+
+	AddPipeline("Fire");
+	GetPipelineObjects("Fire")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Fire")->AddInputLayout("SCALE", DXGI_FORMAT_R32_FLOAT, 0);
+	GetPipelineObjects("Fire")->AddInputLayout("ROTATION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Fire")->AddInputLayout("ANCORPOINT", DXGI_FORMAT_R32G32_FLOAT);
+	GetPipelineObjects("Fire")->AddInputLayout("COLOR", DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	GetPipelineObjects("Fire")->Setshader("FireGS.hlsl", ShaderType::GS);
+	GetPipelineObjects("Fire")->Setshader("FireVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Fire")->Setshader("FirePS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Fire")->AddrootParams(2);
+
+	Create("Fire", NONE, TOPOLOGY_POINT, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
+
+	AddPipeline("SwordTrail");
+	GetPipelineObjects("SwordTrail")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("SwordTrail")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("SwordTrail")->Setshader("SwordTrailVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("SwordTrail")->Setshader("SwordTrailPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("SwordTrail")->AddrootParams(3);
+
+	Create("SwordTrail", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
+}
+
+void PipelineManager::Create(
+	const std::string& pipelinename, const CULL_MODE& cullmode,
+	const TOPOLOGY_TYPE& topologytype, const WRIGHT_MASK& depthWriteMasc,
+	const TEXTURE_ADDRESS_MODE& uvMode)
+{
+	for (int32_t i = 0; i < 4; i++)
 	{
 		pipelineObjects_[pipelinename]->
 			Create(BlendNum(i), cullmode, topologytype, depthWriteMasc, uvMode);
@@ -216,16 +323,31 @@ void PipelineManager::AddPipeline(const std::string& pipelinename)
 	obj->name_ = pipelinename;
 	pipelineObjects_.insert(std::make_pair(pipelinename, std::move(obj)));
 }
-void PipelineManager::PreDraw(std::string pipelinename, TopologyName topologyName)
+void PipelineManager::PreDraw(const std::string& pipelinename, const TopologyName& topologyName,
+	const PipeLineState& state)
 {
 	auto& cmdList = *RDirectX::GetInstance()->GetCommandList();
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Æƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ìİ’èƒRƒ}ƒ“ƒh
-	cmdList.SetPipelineState(
-		PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateAlpha());
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã¨ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
+	if (state == PipeLineState::Add) {
+		cmdList.SetPipelineState(
+			PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateAdd());
+	}
+	else if (state == PipeLineState::Alpha) {
+		cmdList.SetPipelineState(
+			PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateAlpha());
+	}
+	else if (state == PipeLineState::Nega) {
+		cmdList.SetPipelineState(
+			PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateNega());
+	}
+	else if (state == PipeLineState::Sub) {
+		cmdList.SetPipelineState(
+			PipelineManager::GetPipelineObjects(pipelinename)->GetPipelineStateSub());
+	}
 
 	cmdList.SetGraphicsRootSignature(
 		PipelineManager::GetPipelineObjects(pipelinename)->GetRootSignature());
 
-	// ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚Ìİ’èƒRƒ}ƒ“ƒh
-	cmdList.IASetPrimitiveTopology((D3D_PRIMITIVE_TOPOLOGY)topologyName); // OŠpŒ`ƒŠƒXƒg
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
+	cmdList.IASetPrimitiveTopology((D3D_PRIMITIVE_TOPOLOGY)topologyName); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 }

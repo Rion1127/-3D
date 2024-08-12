@@ -1,0 +1,101 @@
+{
+    "OBJECTS": [
+        {
+            "OBJECT_DETAIL": -1,
+            "OBJECT_TYPE": -2,
+            "POSITION": [
+                215.0,
+                765.5
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                200.0,
+                800.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1000.0,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                200.0,
+                1000.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1000.0,
+                100.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -300.0,
+                500.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                100.0,
+                1000.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                700.0,
+                500.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                100.0,
+                1000.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 2,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                0.0,
+                800.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                200.0,
+                100.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 7,
+            "POP_DIRECTION": 0,
+            "POP_ENEMY_POSITION": [
+                200.0,
+                765.5
+            ],
+            "POP_ENEMY_SIZE": [
+                64.0,
+                64.0
+            ],
+            "POP_ENEMY_TYPE": 6,
+            "POP_IS_CANSMASH": false,
+            "POSITION": [
+                462.00006103515625,
+                800.0
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                110.0,
+                207.0
+            ]
+        }
+    ]
+}

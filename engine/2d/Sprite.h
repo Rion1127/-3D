@@ -9,6 +9,12 @@
 #include "Texture.h"
 #include "Color.h"
 #include "myMath.h"
+
+/**
+ * @file Sprite.h
+ * @brief 2Dã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã«é–¢ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ */
+
 class Sprite
 {
 private:
@@ -17,63 +23,68 @@ private:
 		Vector2 uv;
 	};
 	enum VertNum {
-		LB,	//¶‰º
-		LT,	//¶ã
-		RB,	//‰E‰º
-		RT	//‰Eã
+		LB,	//å·¦ä¸‹
+		LT,	//å·¦ä¸Š
+		RB,	//å³ä¸‹
+		RT	//å³ä¸Š
 	};
 	struct ConstBufferDataMaterial {
 		Color color;
 	};
 	struct ConstBufferDataTransform {
 		Matrix4 mat;
+		Vector2 tiling;
 	};
 private:
-	//ƒGƒCƒŠƒAƒXƒeƒ“ƒvƒŒ[ƒg
+	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	static uint32_t SAllNum;
 	uint32_t spriteNum_ = 0;
-
-	//’¸“_ƒf[ƒ^
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	std::vector<Vertex> vertices_;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
-	// ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	Vertex* vertMap_ = nullptr;
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
 	std::vector<uint16_t> indices_;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	ConstBufferDataMaterial* constMapMaterial_ = nullptr;
 
 	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
 	Matrix4 matProjection_;
-	
-	Matrix4 matWorld_{};// ƒ[ƒ‹ƒhs—ñ
-	
-	Color color_;//F
-	
-	float rot_;				//‰ñ“]
-	Vector2 pos_;			//À•W
-	Vector2 Scale_;			//ƒXƒP[ƒ‹
-	Vector2 anchorPoint_;	//ƒAƒ“ƒJ[ƒ|ƒCƒ“ƒg
-	bool isFlipX_ = false;	//¶‰EƒtƒŠƒbƒv
-	bool isFlipY_ = false;	//ã‰ºƒtƒŠƒbƒv
-	bool isInvisible_ = false;					//”ñ•\¦ƒtƒ‰ƒO
-	Vector2 textureLeftTop_ = { 0.0f,0.0f };	//ƒeƒNƒXƒ`ƒƒ¶ãÀ•W
-	Vector2 textureSize_ = { 0.f,0.f };			//ƒeƒNƒXƒ`ƒƒØ‚èo‚µƒTƒCƒY
-	bool isImguiDisplay_ = false;				//imgui•\¦ƒtƒ‰ƒO
+
+	Matrix4 matWorld_{};// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+
+	Color color_;//è‰²
+
+	float rot_;				//å›è»¢
+	Vector2 pos_;			//åº§æ¨™
+	Vector2 scale_;			//ã‚¹ã‚±ãƒ¼ãƒ«
+	Vector2 anchorPoint_;	//ã‚¢ãƒ³ã‚«ãƒ¼ãƒã‚¤ãƒ³ãƒˆ
+	Vector2 splitNum_;		//ç”»åƒã‚’åˆ†å‰²ã™ã‚‹æ•°
+	Vector2 tilingNum_;		//ã‚¿ã‚¤ãƒªãƒ³ã‚°
+	bool isTiling = false;
+	bool isFlipX_ = false;	//å·¦å³ãƒ•ãƒªãƒƒãƒ—
+	bool isFlipY_ = false;	//ä¸Šä¸‹ãƒ•ãƒªãƒƒãƒ—
+	bool isInvisible_ = false;					//éè¡¨ç¤ºãƒ•ãƒ©ã‚°
+	bool isScaleChange_ = false;
+	bool isMatrixChange_ = false;
+	Vector2 textureLeftTop_ = { 0.0f,0.0f };	//ãƒ†ã‚¯ã‚¹ãƒãƒ£å·¦ä¸Šåº§æ¨™
+	Vector2 textureSize_ = { 0.f,0.f };			//ãƒ†ã‚¯ã‚¹ãƒãƒ£åˆ‡ã‚Šå‡ºã—ã‚µã‚¤ã‚º
+	bool isImguiDisplay_ = false;				//imguiè¡¨ç¤ºãƒ•ãƒ©ã‚°
 	uint32_t descriptorSize_ = 0;
-	Texture texture_;		//ƒeƒNƒXƒ`ƒƒ
+	Texture texture_;		//ãƒ†ã‚¯ã‚¹ãƒãƒ£
 
 	//imgui
 	std::string guiName_;
@@ -81,55 +92,68 @@ private:
 	const char* gui_;
 
 	std::string name_;
+
+	bool isVertChange = false;
 public:
+	Sprite(const std::string& guiname = "");
+	//ã‚»ãƒƒã‚¿ãƒ¼
+	void Init(const std::string& guiname = "");
 	void Update();
 
 	void DrawImGui();
 
-	//‰æ‘œƒTƒCƒY©“®æ“¾(•`‰æÀ•W‚Í’†S)
+	//ç”»åƒã‚µã‚¤ã‚ºè‡ªå‹•å–å¾—(æç”»åº§æ¨™ã¯ä¸­å¿ƒ)
 	void Draw();
-	//‰æ‘œ‚Ì’¸“_ƒf[ƒ^‚ğ©•ª‚Åw’è
-	void Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY, UINT descriptorSize);
-	/// <summary>
-	/// ƒuƒŒƒ“ƒhİ’è
-	/// </summary>
-	/// <param name="BLEND_ALPHA">ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒh</param>
-	/// <param name="BLEND_SUB">Œ¸Z‡¬</param>
-	/// <param name="BLEND_NEGA">F”½“]‡¬</param>
-	/// <param name="BLEND_NORMAL">”¼“§–¾‡¬</param>
-	static void SetBlend(uint32_t blend);
-
+	//ç”»åƒã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’è‡ªåˆ†ã§æŒ‡å®š
+	void Draw(float LuX, float LuY, float RuX, float RuY, float LdX, float LdY, float RdX, float RdY);
+	//ç”»åƒã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’è‡ªåˆ†ã§æŒ‡å®š
+	void Draw(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB);
+	
 	static void AddAllNum() { SAllNum++; }
 public:
-	//ƒZƒbƒ^[
-	void Ini(const std::string& guiname = "");
-	//À•W‚ğ‘ã“ü‚·‚é
+	//åº§æ¨™ã‚’ä»£å…¥ã™ã‚‹
 	void SetPos(const Vector2& pos) { pos_ = pos; }
-	//‰ñ“]‚³‚¹‚é
+	//å›è»¢ã•ã›ã‚‹
 	void SetRot(float rot) { rot_ = rot; }
-	//ƒXƒP[ƒ‹İ’è
-	void SetScale(const Vector2& scale) { Scale_ = scale; }
-	//‰æ‘œ‚Ì’†S‚ğŒˆ‚ß‚é
+	//ã‚¹ã‚±ãƒ¼ãƒ«è¨­å®š
+	void SetScale(const Vector2& scale) {
+		scale_ = scale;
+		isScaleChange_ = true;
+	}
+	//ç”»åƒã®ä¸­å¿ƒã‚’æ±ºã‚ã‚‹
 	void SetAnchor(const Vector2& anchorPoint) { anchorPoint_ = anchorPoint; }
-	//F•ÏX
+	//è‰²å¤‰æ›´
 	void SetColor(const Color& color) { color_ = color; }
-	//¶‰E”½“]
+	//å·¦å³åè»¢
 	void SetFlipX(bool flip) { isFlipX_ = flip; }
-	//ã‰º”½“]
+	//ä¸Šä¸‹åè»¢
 	void SetFlipY(bool flip) { isFlipY_ = flip; }
-	//•\¦ƒtƒ‰ƒO
+	//è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	void SetInvisivle(bool invisivle) { isInvisible_ = invisivle; }
-	//‰æ‘œ¶ã•ÏX
+	//ç”»åƒå·¦ä¸Šå¤‰æ›´
 	void SetTex_LeftTop(const Vector2& pos) { textureLeftTop_ = pos; }
-	//‰æ‘œUVÀ•W•ÏX
+	//ç”»åƒã®UVã‚µã‚¤ã‚ºæŒ‡å®š
 	void SetTex_Size(const Vector2& pos) { textureSize_ = pos; }
-	//ƒeƒNƒXƒ`ƒƒ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	void SetTexture(Texture* texture) { texture_ = *texture; }
 	void SetImGui(bool flag) { isImguiDisplay_ = flag; }
+	void SetSplitNum(const Vector2& splitNum) { splitNum_ = splitNum; }
+	void SetTilingNum(const Vector2& tilingNum) { tilingNum_ = tilingNum; }
+	void SetMatrix(const Matrix4& mat) {
+		matWorld_ = mat;
+		isMatrixChange_ = true;
+	}
+	//ç”»åƒã®æç”»ã•ã‚Œã‚‹ã‚µã‚¤ã‚ºã‚’æŒ‡å®šã™ã‚‹
+	void SetSprite_Size(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB);
 public:
-	//ƒQƒbƒ^[
-	Vector2 GetScale() { return Scale_; }
-	Vector2 GetPos() { return pos_; }
+	//ã‚²ãƒƒã‚¿ãƒ¼
+	const Vector2& GetScale() { return scale_; }
+	const Vector2& GetPos() { return pos_; }
+	float GetRotate() { return rot_; }
+	const Vector2& GetsplitNum() { return splitNum_; }
+	const Vector2& GetTex_Size() { return textureSize_; }
+	const Color& GetColor() { return color_; }
+	const Texture& GetTexture() { return texture_; }
 private:
 	void TransferVertex();
 };

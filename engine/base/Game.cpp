@@ -1,5 +1,10 @@
 #include "Game.h"
 
+/**
+ * @file Game.cpp
+ * @brief ã‚²ãƒ¼ãƒ å…¨ä½“ã®å‡¦ç†ã‚’ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
+ */
+
 Game::~Game()
 {
 }
@@ -8,14 +13,14 @@ void Game::Init()
 {
 	Framework::Init();
 
-	//ƒQ[ƒ€ƒV[ƒ“‰Šú‰»
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³åˆæœŸåŒ–
 	SceneManager::Ini();
 }
 
 void Game::Update()
 {
 	Framework::Update();
-	//ƒQ[ƒ€ƒV[ƒ“XV
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³æ›´æ–°
 	SceneManager::Update();
 }
 

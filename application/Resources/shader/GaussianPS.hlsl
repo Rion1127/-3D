@@ -8,7 +8,7 @@ float Gaussian(float2 drawUV, float2 pickUV, float sigma);
 float4 main(VSOutput input) : SV_TARGET
 {
     //2.抽出した画像にブラーをかける
-    float totalWeight = 0, _Sigma = 0.040, _StepWidth = 0.0035;
+    float totalWeight = 0, _Sigma = 0.030, _StepWidth = 0.005;
     float4 col = float4(0, 0, 0, 0);
 
     for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
@@ -16,7 +16,6 @@ float4 main(VSOutput input) : SV_TARGET
         for (float px = -_Sigma * 2; px <= _Sigma * 2; px += _StepWidth)
         {
             float2 pickUV = input.uv + float2(px, py);
-            pickUV = clamp(pickUV, 0.01f, 0.99f);
             float weight = Gaussian(input.uv, pickUV, _Sigma);
             col += tex.Sample(smp, pickUV) * weight; //Gaussianで取得した「重み」を色にかける
             totalWeight += weight; //かけた「重み」の合計値を控えておく

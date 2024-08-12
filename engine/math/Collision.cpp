@@ -3,21 +3,33 @@
 #include <memory>
 #include "WorldTransform.h"
 #include "Collision.h"
-#include <DirectXMath.h>
-using namespace DirectX;
 
+/**
+ * @file Collision.cpp
+ * @brief å½“ãŸã‚Šåˆ¤å®šã«é–¢ã™ã‚‹æ§‹é€ ä½“ãƒ»é–¢æ•°ã‚’ã¾ã¨ã‚ã¦ã„ã‚‹
+ */
+
+void Triangle::ComputeNormal()
+{
+	Vector3 p0_p1 = p1 - p0;
+	Vector3 p0_p2 = p2 - p0;
+
+	//å¤–ç©ã«ã‚ˆã‚Šã€2è¾ºã«å‚ç›´ãªãƒ™ã‚¯ãƒˆãƒ«ã‚’ç®—å‡ºã™ã‚‹
+	normal = p0_p1.cross(p0_p2);
+	normal = normal.normalize();
+}
 
 bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)
 {
-	//ƒŒƒC‚Ì“–‚½‚è”»’è
+	//ãƒ¬ã‚¤ã®å½“ãŸã‚Šåˆ¤å®š
 
-	//ƒ[ƒ‹ƒhÀ•W‚ğ‘ã“ü
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’ä»£å…¥
 	Vector3 objPos;
 	Vector3 rayPos;
 	objPos = obj.position_;
 	rayPos = ray.position_;
-#pragma region ƒŒƒC‚Ì“–‚½‚è”»’è
-	//ƒŒƒC‚Ìn“_‚ÆI“_‚ğ‘ã“ü
+#pragma region ãƒ¬ã‚¤ã®å½“ãŸã‚Šåˆ¤å®š
+	//ãƒ¬ã‚¤ã®å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’ä»£å…¥
 	Vector3 rayStart;
 	Vector3 rayEnd;
 	rayStart = {
@@ -30,15 +42,15 @@ bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)
 		ray.position_.y,
 		ray.position_.z + ray.scale_.z + 11.0f,
 	};
-	//n“_‚ÆI“_‚©‚çƒŒƒC‚ÌƒxƒNƒgƒ‹(a¨)‚ğ‹‚ß‚é
+	//å§‹ç‚¹ã¨çµ‚ç‚¹ã‹ã‚‰ãƒ¬ã‚¤ã®ãƒ™ã‚¯ãƒˆãƒ«(aâ†’)ã‚’æ±‚ã‚ã‚‹
 	Vector3 rayVec;
 	rayVec = rayEnd - rayStart;
 	float raySize;
 	raySize = rayVec.length();
-	//³‹K‰»(a¨N)
-	rayVec.normalize();
-	//ƒŒƒC‚ÆƒIƒuƒWƒFƒNƒg‚ÌƒxƒNƒgƒ‹(b¨)‚ğ‹‚ß‚é
-	// ƒŒƒC‚Ìn“_‚ÆƒIƒuƒWƒFƒNƒg‚Ö‚ÌƒxƒNƒgƒ‹(b¨)‚ğ‹‚ß‚é
+	//æ­£è¦åŒ–(aâ†’N)
+	rayVec = rayVec.normalize();
+	//ãƒ¬ã‚¤ã¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ™ã‚¯ãƒˆãƒ«(bâ†’)ã‚’æ±‚ã‚ã‚‹
+	// ãƒ¬ã‚¤ã®å§‹ç‚¹ã¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ãƒ™ã‚¯ãƒˆãƒ«(bâ†’)ã‚’æ±‚ã‚ã‚‹
 	Vector3 ABVec;
 	ABVec = {
 		objPos.x - rayStart.x,
@@ -46,28 +58,31 @@ bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)
 		objPos.z - rayStart.z
 	};
 
-	//b¨Ea¨N ‚ğray2ObjLength‚ÉŠi”[
+	//bâ†’ãƒ»aâ†’N ã‚’ray2ObjLengthã«æ ¼ç´
 	float ray2ObjectLength = ABVec.dot(rayVec);
 
-	//Q‚ğ‹‚ß‚é a¨N * b¨Ea¨N + P
+	//Qã‚’æ±‚ã‚ã‚‹ aâ†’N * bâ†’ãƒ»aâ†’N + P
 	Vector3 Q;
 	//Q = rayVec * ABVec.dot(rayVec) + rayPos;
 	Q = rayVec * ray2ObjectLength + rayStart;
-	//ƒIƒuƒWƒFƒNƒg‚©‚çƒŒƒC‚Ì‚ü(obj-Q)‚ğ‹‚ß‚é
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ãƒ¬ã‚¤ã®å‚ç·š(obj-Q)ã‚’æ±‚ã‚ã‚‹
 	Vector3 line;
 	line = objPos - Q;
-	//‚ü‚Ì’·‚³‚ğ‹‚ß‚é
+	//å‚ç·šã®é•·ã•ã‚’æ±‚ã‚ã‚‹
 	line.length();
 
-	//‚ü‚Ì’·‚³‚ª”¼Œa+”¼Œa‚æ‚è’Z‚¯‚ê‚Î“–‚½‚Á‚Ä‚é
+	//å‚ç·šã®é•·ã•ãŒåŠå¾„+åŠå¾„ã‚ˆã‚ŠçŸ­ã‘ã‚Œã°å½“ãŸã£ã¦ã‚‹
 	bool isHit = false;
-	if (line.length() <= obj.scale_.x + 4.3f) {
-		if (raySize >= ray2ObjectLength) {
+	if (line.length() <= obj.scale_.x + 4.3f)
+	{
+		if (raySize >= ray2ObjectLength)
+		{
 			isHit = true;
 		}
 	}
 
-	if (ray2ObjectLength <= 0) {
+	if (ray2ObjectLength <= 0)
+	{
 		isHit = false;
 	}
 
@@ -75,141 +90,306 @@ bool RayCollision(const WorldTransform& ray, const WorldTransform& obj)
 
 #pragma endregion
 }
-//‹…‚Æ‹…
-bool BallCollision(const WorldTransform& a, const WorldTransform& b) {
-	float x, y, z;
-	float r;
+//çŸ©å½¢ã¨çŸ©å½¢
+bool Rect2RectCol(const Rect& a, const Rect& b, bool* colX, bool* colY )
+{
+	if (a.isActive == false || b.isActive == false) return false;
+	if (a.length.x == 0 || a.length.y == 0) return false;
+	if (b.length.x == 0 || b.length.y == 0) return false;
+	Vector2 distance = {
+		fabs(a.center.x - b.center.x),
+		fabs(a.center.y - b.center.y),
+	};
 
-	x = (float)pow(b.position_.x - a.position_.x, 2);
-	y = (float)pow(b.position_.y - a.position_.y, 2);
-	z = (float)pow(b.position_.z - a.position_.z, 2);
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	Vector2 sizeSum = {
+		(a.length.x + b.length.x) / 2.0f,
+		(a.length.y + b.length.y) / 2.0f
+	};
 
-	float pos = x + y + z;
+	if (distance.x < sizeSum.x) {
+		if (colX != nullptr) *colX = true;
+	}
+	if (distance.y < sizeSum.y) {
+		if (colY != nullptr) *colY = true;
+	}
 
-	r = (float)pow(a.scale_.x + b.scale_.x, 2);
-	if (pos <= r) {
+	if (distance.x < sizeSum.x &&
+		distance.y < sizeSum.y)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Rect2RectColX(const Rect& a, const Rect& b, bool* colX)
+{
+	if (a.isActive == false || b.isActive == false) return false;
+	float distance = fabs(a.center.x - b.center.x);
+		
+
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.length.x + b.length.x) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colX != nullptr) *colX = true;
+	}
+
+	if (distance < sizeSum )
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Rect2RectColY(const Rect& a, const Rect& b, bool* colY)
+{
+	if (a.isActive == false || b.isActive == false) return false;
+	float distance = fabs(a.center.y - b.center.y);
+
+
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.length.y + b.length.y) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colY != nullptr) *colY = true;
+	}
+
+	if (distance < sizeSum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Square2SquareColX(const Square& a, const Square& b, bool* colX)
+{
+	float distance = fabs(a.center.x - b.center.x);
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.length.x + b.length.x) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colX != nullptr) *colX = true;
+	}
+
+	if (distance < sizeSum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Square2SquareColY(const Square& a, const Square& b, bool* colY)
+{
+	float distance = fabs(a.center.y - b.center.y);
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.length.y + b.length.y) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colY != nullptr) *colY = true;
+	}
+
+	if (distance < sizeSum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Circle2SquareColX(const Circle& a, const Square& b, bool* colX)
+{
+	float distance = fabs(a.center.x - b.center.x);
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.radius + b.length.x) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colX != nullptr) *colX = true;
+	}
+
+	if (distance < sizeSum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Circle2SquareColY(const Circle& a, const Square& b, bool* colY)
+{
+	float distance = fabs(a.center.y - b.center.y);
+	// ã‚µã‚¤ã‚ºã®å’Œã‚’å‰²ã‚Šå‡ºã™
+	float sizeSum = (a.radius + b.length.y) / 2.0f;
+
+	if (distance < sizeSum) {
+		if (colY != nullptr) *colY = true;
+	}
+
+	if (distance < sizeSum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Circle2Circle(const Circle& a, const Circle& b)
+{
+	float r = sqrt(a.radius * a.radius + b.radius * b.radius);
+
+	if (r <= a.radius + b.radius)
+	{
 		return true;
 	}
 	return false;
 }
-//‹…‚Æ‹…
-bool BallCollision(const Vector3& a, const float& aSize, const Vector3& b, const float& bSize) {
-	float x, y, z;
-	float r;
-
-	x = (float)pow(b.x - a.x, 2);
-	y = (float)pow(b.y - a.y, 2);
-	z = (float)pow(b.z - a.z, 2);
-
-	float pos = x + y + z;
-
-	r = (float)pow(aSize + bSize, 2);
-	if (pos <= r) {
-		return true;
-	}
-	return false;
-}
-//‹…‚Æ‹…
+//çƒã¨çƒ
 bool BallCollision(const Sphere& a, const Sphere& b)
 {
+	if (a.isActive == false ||
+		b.isActive == false)
+	{
+		return false;
+	}
 	float x, y, z;
 	float r;
 
-	x = (float)pow(b.center.m128_f32[0] - a.center.m128_f32[0], 2);
-	y = (float)pow(b.center.m128_f32[1] - a.center.m128_f32[1], 2);
-	z = (float)pow(b.center.m128_f32[2] - a.center.m128_f32[2], 2);
+	x = (float)pow(b.center.x - a.center.x, 2);
+	y = (float)pow(b.center.y - a.center.y, 2);
+	z = (float)pow(b.center.z - a.center.z, 2);
 
 	float pos = x + y + z;
 
 	r = (float)pow(a.radius + b.radius, 2);
-	if (pos <= r) {
+	if (pos <= r)
+	{
 		return true;
 	}
 	return false;
 }
-//•½–Ê‚Æ‹…
-bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR* inter)
+
+bool BallCollision(const Sphere& a, float heightA, const Sphere& b, float heightB)
 {
-	//À•WŒn‚ÌŒ´“_‚©‚ç‹…‚Ì’†SÀ•W‚Ö‚Ì‹——£
-	XMVECTOR distV = XMVector3Dot(sphere.center, plane.normal);
-	//•½–Ê‚ÌŒ´“_‹——£‚ğŒ¸Y‚·‚é‚±‚Æ‚ÅA•½–Ê‚Æ‹…‚Ì’†S‚Æ‚Ì‹——£‚ªo‚é
-	float dist = distV.m128_f32[0] - plane.distance;
-	//‹——£‚Ìâ‘Î’l‚ª”¼Œa‚æ‚è‘å‚«‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢
+	if (a.isActive == false ||
+		b.isActive == false)
+	{
+		return false;
+	}
+
+	float posAY = a.center.y;
+	float posBY = b.center.y;
+
+	float distancePos = fabs(posAY - posBY);
+	float distanceLength = fabs(heightA + heightB);
+	if (distancePos >= distanceLength) {
+		return false;
+	}
+
+	float x, y, z;
+	float r;
+
+	x = (float)pow(b.center.x - a.center.x, 2);
+	y = (float)pow(b.center.y - a.center.y, 2);
+	z = (float)pow(b.center.z - a.center.z, 2);
+
+	float pos = x + y + z;
+
+	r = (float)pow(a.radius + b.radius, 2);
+	if (pos <= r)
+	{
+		return true;
+	}
+	return false;
+}
+//å¹³é¢ã¨çƒ
+bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane, Vector3* inter)
+{
+
+	//åº§æ¨™ç³»ã®åŸç‚¹ã‹ã‚‰çƒã®ä¸­å¿ƒåº§æ¨™ã¸ã®è·é›¢
+	float distV = sphere.center.dot(plane.normal);
+	//å¹³é¢ã®åŸç‚¹è·é›¢ã‚’æ¸›ç”£ã™ã‚‹ã“ã¨ã§ã€å¹³é¢ã¨çƒã®ä¸­å¿ƒã¨ã®è·é›¢ãŒå‡ºã‚‹
+	float dist = distV - plane.distance;
+	//è·é›¢ã®çµ¶å¯¾å€¤ãŒåŠå¾„ã‚ˆã‚Šå¤§ãã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„
 	if (fabsf(dist) > sphere.radius) return false;
 
-	//‹^—Œğ“_‚ğŒvZ
-	if (inter) {
-		//•½–Êã‚ÌÅ‹ßÚ“_‚ğA‹c–D“]‚Æ‚·‚é
+	//ç–‘ä¼¼äº¤ç‚¹ã‚’è¨ˆç®—
+	if (inter)
+	{
+		//å¹³é¢ä¸Šã®æœ€è¿‘æ¥ç‚¹ã‚’ã€ç–‘ä¼¼äº¤ç‚¹ã¨ã™ã‚‹
 		*inter = -dist * plane.normal + sphere.center;
 	}
 
 	return true;
 }
-//“_‚ÆOŠpŒ`
-void ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
+//ç‚¹ã¨ä¸‰è§’å½¢
+void ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
 {
-	// point‚ªp0‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
-	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
-	XMVECTOR p0_p2 = triangle.p2 - triangle.p0;
-	XMVECTOR p0_pt = point - triangle.p0;
+	// pointãŒp0ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
+	Vector3 p0_p1 = triangle.p1 - triangle.p0;
+	Vector3 p0_p2 = triangle.p2 - triangle.p0;
+	Vector3 p0_pt = point - triangle.p0;
 
-	XMVECTOR d1 = XMVector3Dot(p0_p1, p0_pt);
-	XMVECTOR d2 = XMVector3Dot(p0_p2, p0_pt);
+	float d1 = p0_p1.dot(p0_pt);
+	float d2 = p0_p2.dot(p0_pt);
 
-	if (d1.m128_f32[0] <= 0.0f && d2.m128_f32[0] <= 0.0f)
+	if (d1 <= 0.0f && d2 <= 0.0f)
 	{
-		// p0‚ªÅ‹ß–T
+		// p0ãŒæœ€è¿‘å‚
 		*closest = triangle.p0;
 		return;
 	}
 
-	// point‚ªp1‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
-	XMVECTOR p1_pt = point - triangle.p1;
+	// pointãŒp1ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
+	Vector3 p1_pt = point - triangle.p1;
 
-	XMVECTOR d3 = XMVector3Dot(p0_p1, p1_pt);
-	XMVECTOR d4 = XMVector3Dot(p0_p2, p1_pt);
+	float d3 = p0_p1.dot(p1_pt);
+	float d4 = p0_p2.dot(p1_pt);
 
-	if (d3.m128_f32[0] >= 0.0f && d4.m128_f32[0] <= d3.m128_f32[0])
+	if (d3 >= 0.0f && d4 <= d3)
 	{
-		// p1‚ªÅ‹ß–T
+		// p1ãŒæœ€è¿‘å‚
 		*closest = triangle.p1;
 		return;
 	}
 
-	// point‚ªp0_p1‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp0_p1ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
-	float vc = d1.m128_f32[0] * d4.m128_f32[0] - d3.m128_f32[0] * d2.m128_f32[0];
-	if (vc <= 0.0f && d1.m128_f32[0] >= 0.0f && d3.m128_f32[0] <= 0.0f)
+	// pointãŒp0_p1ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p0_p1ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
+	float vc = d1 * d4 - d3 * d2;
+	if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
 	{
-		float v = d1.m128_f32[0] / (d1.m128_f32[0] - d3.m128_f32[0]);
+		float v = d1 / (d1 - d3);
 		*closest = triangle.p0 + v * p0_p1;
 		return;
 	}
 
-	// point‚ªp2‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
-	XMVECTOR p2_pt = point - triangle.p2;
+	// pointãŒp2ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
+	Vector3 p2_pt = point - triangle.p2;
 
-	XMVECTOR d5 = XMVector3Dot(p0_p1, p2_pt);
-	XMVECTOR d6 = XMVector3Dot(p0_p2, p2_pt);
-	if (d6.m128_f32[0] >= 0.0f && d5.m128_f32[0] <= d6.m128_f32[0])
+	float d5 = p0_p1.dot(p2_pt);
+	float d6 = p0_p2.dot(p2_pt);
+	if (d6 >= 0.0f && d5 <= d6)
 	{
 		*closest = triangle.p2;
 		return;
 	}
 
-	// point‚ªp0_p2‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp0_p2ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
-	float vb = d5.m128_f32[0] * d2.m128_f32[0] - d1.m128_f32[0] * d6.m128_f32[0];
-	if (vb <= 0.0f && d2.m128_f32[0] >= 0.0f && d6.m128_f32[0] <= 0.0f)
+	// pointãŒp0_p2ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p0_p2ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
+	float vb = d5 * d2 - d1 * d6;
+	if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
 	{
-		float w = d2.m128_f32[0] / (d2.m128_f32[0] - d6.m128_f32[0]);
+		float w = d2 / (d2 - d6);
 		*closest = triangle.p0 + w * p0_p2;
 		return;
 	}
 
-	// point‚ªp1_p2‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp1_p2ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
-	float va = d3.m128_f32[0] * d6.m128_f32[0] - d5.m128_f32[0] * d4.m128_f32[0];
-	if (va <= 0.0f && (d4.m128_f32[0] - d3.m128_f32[0]) >= 0.0f && (d5.m128_f32[0] - d6.m128_f32[0]) >= 0.0f)
+	// pointãŒp1_p2ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p1_p2ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
+	float va = d3 * d6 - d5 * d4;
+	if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f)
 	{
-		float w = (d4.m128_f32[0] - d3.m128_f32[0]) / ((d4.m128_f32[0] - d3.m128_f32[0]) + (d5.m128_f32[0] - d6.m128_f32[0]));
+		float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
 		*closest = triangle.p1 + w * (triangle.p2 - triangle.p1);
 		return;
 	}
@@ -219,25 +399,168 @@ void ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& tri
 	float w = vc * denom;
 	*closest = triangle.p0 + p0_p1 * v + p0_p2 * w;
 }
-//’e‚Æ–@ü•t‚«OŠpŒ`‚Ì“–‚½‚è”»’èƒ`ƒFƒbƒN
-bool Sphere2TriangleCol(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter)
+//å¼¾ã¨æ³•ç·šä»˜ãä¸‰è§’å½¢ã®å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
+bool Sphere2TriangleCol(const Sphere& sphere, const Triangle& triangle, Vector3* inter)
 {
-	XMVECTOR p;
-	//’e‚Ì’†S‚É‘Î‚·‚éÅ‹ßÚ“_‚Å‚ ‚éOŠpŒ`ã‚É‚ ‚é“_p‚ğŒ©‚Â‚¯‚é
+	Vector3 p;
+	//å¼¾ã®ä¸­å¿ƒã«å¯¾ã™ã‚‹æœ€è¿‘æ¥ç‚¹ã§ã‚ã‚‹ä¸‰è§’å½¢ä¸Šã«ã‚ã‚‹ç‚¹pã‚’è¦‹ã¤ã‘ã‚‹
 	ClosestPtPoint2Triangle(sphere.center, triangle, &p);
-	//“_p‚Æ‹…‚Ì’†S‚Ì·•ªƒxƒNƒgƒ‹
-	XMVECTOR v = p - sphere.center;
-	//‹——£‚Ì“ñæ‚ğ‹‚ß‚é
-	//i“¯‚¶ƒxƒNƒgƒ‹“¯m‚Ì“àÏ‚ÍO•½•û‚Ì’è—‚Ìƒ‹[ƒg“à•”‚Ì®‚Æˆê’v‚·‚éj
-	v = XMVector3Dot(v, v);
-	//‹…‚ÆOŠpŒ`‚Ì‹——£‚ª”¼ŒaˆÈ‰º‚È‚ç“–‚½‚Á‚Ä‚¢‚È‚¢
-	if (v.m128_f32[0] > sphere.radius * sphere.radius) return false;
-	//‹^—Œğ“_‚ğŒvZ
-	if (inter) {
-		//OŠpŒ`ã‚ÌÅ‹ßİ’èp‚ğ‹^—Œğ“_‚Æ‚·‚é
+	//ç‚¹pã¨çƒã®ä¸­å¿ƒã®å·®åˆ†ãƒ™ã‚¯ãƒˆãƒ«
+	Vector3 v = p - sphere.center;
+	//è·é›¢ã®äºŒä¹—ã‚’æ±‚ã‚ã‚‹
+	//ï¼ˆåŒã˜ãƒ™ã‚¯ãƒˆãƒ«åŒå£«ã®å†…ç©ã¯ä¸‰å¹³æ–¹ã®å®šç†ã®ãƒ«ãƒ¼ãƒˆå†…éƒ¨ã®å¼ã¨ä¸€è‡´ã™ã‚‹ï¼‰
+	float d;
+	d = v.dot(v);
+	//çƒã¨ä¸‰è§’å½¢ã®è·é›¢ãŒåŠå¾„ä»¥ä¸‹ãªã‚‰å½“ãŸã£ã¦ã„ãªã„
+	if (d > sphere.radius * sphere.radius) return false;
+	//ç–‘ä¼¼äº¤ç‚¹ã‚’è¨ˆç®—
+	if (inter)
+	{
+		//ä¸‰è§’å½¢ä¸Šã®æœ€è¿‘è¨­å®špã‚’ç–‘ä¼¼äº¤ç‚¹ã¨ã™ã‚‹
 		*inter = p;
 	}
 
 	return true;
 }
+//ãƒ¬ã‚¤ã¨å¹³é¢
+bool CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
+{
+	const float epsilon = 1.0e-5f;//èª¤å·®å¸åç”¨ã®å¾®å°ãªå€¤
+	//é¢æ³•ç·šã¨ãƒ¬ã‚¤ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
+	float d1 = plane.normal.dot(ray.dir);
+	//è£é¢ã«ã¯å½“ãŸã‚‰ãªã„
+	if (d1 > -epsilon) { return false; }
+	//å§‹ç‚¹ã¨åŸç‚¹ã®è·é›¢ï¼ˆå¹³é¢ã®æ³•ç·šæ–¹å‘ï¼‰
+	//é¢æ³•ç·šã¨ãƒ¬ã‚¤ã®å§‹ç‚¹åº§æ¨™
+	float d2 = plane.normal.dot(ray.start);
+	//å§‹ç‚¹ã¨å¹³é¢ã®è·é›¢ï¼ˆå¹³é¢ã®æ³•ç·šæ–¹å‘ï¼‰
+	float dist = d2 - plane.distance;
+	//å§‹ç‚¹ã¨å¹³é¢ã®è·é›¢ï¼ˆãƒ¬ã‚¤æ–¹å‘ï¼‰
+	float t = dist / -d1;
+	//å¥½å¤©ãŒè¦–ç‚¹ã‚ˆã‚Šå¾Œã‚ã«ã‚ã‚‹ã®ã§ã€å½“ãŸã‚‰ãªã„
+	if (t < 0)return false;
+	//è·é›¢ã‚’æ›¸ãè¾¼ã‚€
+	if (distance) { *distance = t; }
+	//äº¤ç‚¹ã‚’è¨ˆç®—
+	if (inter) { *inter = ray.start + t * ray.dir; }
+	return true;
+}
+//ãƒ¬ã‚¤ã¨ä¸‰è§’å½¢
+bool CheckRay2Traiangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
+{
+	//ä¸‰è§’å½¢ãŒä¹—ã£ã¦ã„ã‚‹å¹³é¢ã‚’ç®—å‡º
+	Plane plane;
+	Vector3 interPlane;
+	plane.normal = triangle.normal;
+	plane.distance = triangle.normal.dot(triangle.p0);
+	//ãƒ¬ã‚¤ã¨å¹³é¢ãŒå½“ãŸã£ã¦ã„ãªã‘ã‚Œã°ã€å½“ãŸã£ã¦ã„ãªã„
+	if (!CheckRay2Plane(ray, plane, distance, &interPlane)) { return false; }
+	//ãƒ¬ã‚¤ã¨å¹³é¢ãŒå½“ãŸã£ã¦ã„ãŸã®ã§ã€è·é›¢ã¨äº¤ç‚¹ãŒæ›¸ãè¾¼ã¾ã‚ŒãŸ
+	//ãƒ¬ã‚¤ã¨å¹³é¢ã®å¥½è»¢ãŒä¸‰è§’å½¢ã®å†…å´ã«ã‚ã‚‹ã‹åˆ¤å®š
+	const float epsilon = 1.0e-5f;//èª¤å·®å¸åç”¨ã®å¾®å°ãªå€¤
+	Vector3 m;
+	//è¾ºp0_p1ã«ã¤ã„ã¦
+	Vector3 pt_p0 = triangle.p0 - interPlane;
+	Vector3 p0_p1 = triangle.p1 - triangle.p0;
+	m = pt_p0.cross(p0_p1);
+	//è¾ºã®å¤–å´ã§ã‚ã‚Œã°å½“ãŸã£ã¦ã„ãªã„ã®ã§åˆ¤å®šã‚’æ‰“ã¡åˆ‡ã‚‹
+	if (m.dot(triangle.normal) < -epsilon) { return false; }
+
+	Vector3 m2;
+	//è¾ºp1_p2ã«ã¤ã„ã¦
+	Vector3 pt_p1 = triangle.p1 - interPlane;
+	Vector3 p1_p2 = triangle.p2 - triangle.p1;
+	m2 = pt_p1.cross(p1_p2);
+	//è¾ºã®å¤–å´ã§ã‚ã‚Œã°å½“ãŸã£ã¦ã„ãªã„ã®ã§åˆ¤å®šã‚’æ‰“ã¡åˆ‡ã‚‹
+	if (m2.dot(triangle.normal) < -epsilon) { return false; }
+
+	//è¾ºp2_p0ã«ã¤ã„ã¦
+	Vector3 pt_p2 = triangle.p2 - interPlane;
+	Vector3 p2_p0 = triangle.p0 - triangle.p2;
+	m = pt_p2.cross(p2_p0);
+	//è¾ºã®å¤–å´ã§ã‚ã‚Œã°å½“ãŸã£ã¦ã„ãªã„ã®ã§åˆ¤å®šã‚’æ‰“ã¡åˆ‡ã‚‹
+	if (m.dot(triangle.normal) < -epsilon) { return false; }
+
+	//å†…å´ãªã®ã§ã€å½“ãŸã£ã¦ã„ã‚‹
+	if (inter)
+	{
+		*inter = interPlane;
+	}
+
+
+	return true;
+}
+//ãƒ¬ã‚¤ã¨çƒ
+bool CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
+{
+	Vector3 m = ray.start - sphere.center;
+	float b = m.dot(ray.dir);
+	float c = m.dot(m) - sphere.radius * sphere.radius;
+	//layã®å§‹ç‚¹ãŒsphereã®å¤–å´ã«ã‚ã‚Š(c > 0)ã€layãŒsphereã‹ã‚‰é›¢ã‚Œã¦ã„ãæ–¹å‘ã‚’æŒ‡ã—ã¦ã„ã‚‹å ´åˆ(b > 0)ã€å½“ãŸã‚‰ãªã„
+	if (c > 0.0f && b > 0.0f) { return false; }
+
+	float discr = b * b - c;
+	//è² ã®åˆ¤åˆ¥å¼ã¯ä¾‹ãŒæ€¥ã‚’å¤–ã‚Œã¦ã„ã‚‹ã“ã¨ã«ä¸€è‡´
+	if (discr < 0.0f) { return false; }
+
+	//ãƒ¬ã‚¤ã¯çƒã¨äº¤å·®ã—ã¦ã„ã‚‹
+	//äº¤å·®ã™ã‚‹æœ€å°ã®å€¤tã‚’è¨ˆç®—
+	float t = -b - sqrtf(discr);
+	//tãŒè² ã§ã‚ã‚‹å ´åˆã€ãƒ¬ã‚¤ã¯ç´šã®å†…å´ã‹ã‚‰ä»‹ã—ã¦ã„ã‚‹ã®ã§tã‚’ã‚¼ãƒ­ã«ã‚¯ãƒ©ãƒ³ãƒ—
+	if (t < 0)t = 0.0f;
+	if (distance) { *distance = t; }
+
+	if (inter) { *inter = ray.start + t * ray.dir; }
+
+	return true;
+}
+
+bool CheckBox2DtoPoint(const Rect& rect, const Vector2& point)
+{
+	Vector2 leftUp = {
+		rect.center.x - rect.length.x / 2.f,
+		rect.center.y - rect.length.y / 2.f,
+	};
+	Vector2 rightDown = {
+		rect.center.x + rect.length.x / 2.f,
+		rect.center.y + rect.length.y / 2.f,
+	};
+
+	if (leftUp.x < point.x &&
+		rightDown.x > point.x)
+	{
+		if (leftUp.y < point.y &&
+			rightDown.y > point.y)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool CheckBox2DtoPoint(const Square& square, const Vector2& point)
+{
+	Vector2 leftUp = {
+		square.center.x - square.length.x / 2.f,
+		square.center.y - square.length.y / 2.f,
+	};
+	Vector2 rightDown = {
+		square.center.x + square.length.x / 2.f,
+		square.center.y + square.length.y / 2.f,
+	};
+
+	if (leftUp.x < point.x &&
+		rightDown.x > point.x)
+	{
+		if (leftUp.y < point.y &&
+			rightDown.y > point.y)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 

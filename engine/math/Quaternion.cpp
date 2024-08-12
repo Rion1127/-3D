@@ -1,15 +1,20 @@
 #include "Quaternion.h"
 #include <cmath>
 
-//’PˆÊQuaternion‚ğ•Ô‚·
-Quaternion Quaternion::IdentityQuaternion()
+/**
+ * @file Quaternion.cpp
+ * @brief ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’ä½¿ã„ã‚„ã™ã„ã‚ˆã†ã«ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
+ */
+
+//å˜ä½Quaternionã‚’è¿”ã™
+Quaternion IdentityQuaternion()
 {
 	Quaternion identity = { 0,0,0,1 };
 
 
 	return identity;
 }
-//‹¤–ğQuaternion‚ğ•Ô‚·
+//å…±å½¹Quaternionã‚’è¿”ã™
 Quaternion Quaternion::Conjugate() const
 {
 	Quaternion result = {
@@ -20,12 +25,12 @@ Quaternion Quaternion::Conjugate() const
 	};
 	return result;
 }
-//Quaternion‚Ìnorm‚ğ•Ô‚·
+//Quaternionã®normã‚’è¿”ã™
 float Quaternion::Norm()
 {
 	return (float)sqrt(w * w + x * x + y * y + z * z);
 }
-//³‹K‰»‚µ‚½Quaternion‚ğ•Ô‚·
+//æ­£è¦åŒ–ã—ãŸQuaternionã‚’è¿”ã™
 Quaternion Quaternion::Normalize()
 {
 	Quaternion result = {
@@ -37,7 +42,7 @@ Quaternion Quaternion::Normalize()
 
 	return result;
 }
-//‹tQuaternion‚ğ•Ô‚·
+//é€†Quaternionã‚’è¿”ã™
 Quaternion Quaternion::Inverse()
 {
 	Quaternion result = {
@@ -49,7 +54,7 @@ Quaternion Quaternion::Inverse()
 
 	return result;
 }
-//Quaternion‚ÌÏ
+//Quaternionã®ç©
 Quaternion Quaternion::Multiply(const Quaternion& rhs)const
 {
 	Quaternion result = {
@@ -63,48 +68,111 @@ Quaternion Quaternion::Multiply(const Quaternion& rhs)const
 }
 Quaternion Quaternion::Slerp(const Quaternion& q1, float t)
 {
+	Quaternion q = q1;
+	q = q.Normalize();
+	/*if (*this == q)
+	{
+		return *this;
+	}*/
 	Quaternion result{};
-	//this‚Æq1‚Ì“àÏ
-	float dot = this->w * q1.w + this->x * q1.x + this->y * q1.y + this->z * q1.z;
-	if (dot < 0) {
-		result = { -this->x,-this->y,-this->z,-this->w };	//‚à‚¤•Ğ•û‚Ì‰ñ“]‚ğ—˜—p‚·‚é
-		dot = -dot;		//“àÏ‚à”½“]
+	//thisã¨q1ã®å†…ç©
+	float dot = this->w * q.w + this->x * q.x + this->y * q.y + this->z * q.z;
+	if (dot < 0)
+	{
+		result = { -this->x,-this->y,-this->z,-this->w };	//ã‚‚ã†ç‰‡æ–¹ã®å›è»¢ã‚’åˆ©ç”¨ã™ã‚‹
+		dot = -dot;		//å†…ç©ã‚‚åè»¢
 	}
-	else {
-		//‚È‚·Šp‚ğ‹‚ß‚é
+	else
+	{
+		//ãªã™è§’ã‚’æ±‚ã‚ã‚‹
 		float theta = acos(dot);
 		float sinPh = sin(theta);
 
 		float sinTheta1subT = (float)sin(theta * (1.0 - t));
 		float sinThetaMulT = sin(theta * t);
 
-		if (dot < 0.0 && theta > 3.1415f / 2.0) {
-			//theta‚Æsin‚ğg‚Á‚Ä•âŠÔŒW”‚ğ‹‚ß‚é
-			dot = -this->w * q1.w - this->x * q1.x - this->y * q1.y - this->z * q1.z;
-			
+		if (dot < 0.0 && theta > 3.1415f / 2.0)
+		{
+			//thetaã¨sinã‚’ä½¿ã£ã¦è£œé–“ä¿‚æ•°ã‚’æ±‚ã‚ã‚‹
+			dot = -this->w * q.w - this->x * q.x - this->y * q.y - this->z * q.z;
+
 			float s1 = sinTheta1subT / sinPh;
 			float s2 = sinThetaMulT / sinPh;
-			//‚»‚ê‚¼‚ê‚Ì•âŠÔŒW”‚ğ—˜—p‚µ‚Ä•ÛŠÇŒã‚Ì
-			result.x = this->x * s1 - q1.x * s2;
-			result.y = this->y * s1 - q1.y * s2;
-			result.z = this->z * s1 - q1.z * s2;
-			result.w = this->w * s1 - q1.w * s2;
+			//ãã‚Œãã‚Œã®è£œé–“ä¿‚æ•°ã‚’åˆ©ç”¨ã—ã¦ä¿ç®¡å¾Œã®
+			result.x = this->x * s1 - q.x * s2;
+			result.y = this->y * s1 - q.y * s2;
+			result.z = this->z * s1 - q.z * s2;
+			result.w = this->w * s1 - q.w * s2;
 		}
-		else {
-			float s1, s2;
-			s1 = sinTheta1subT / sinPh;
-			s2 = sinThetaMulT / sinPh;
+		else
+		{
+			float s1 = 0.f;
+			float s2 = 0.f;
+			//ï¼ã§å‰²ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
+			if (sinPh != 0.f) {
+				s1 = sinTheta1subT / sinPh;
+				s2 = sinThetaMulT / sinPh;
 
-			result.x = this->x * s1 + q1.x * s2;
-			result.y = this->y * s1 + q1.y * s2;
-			result.z = this->z * s1 + q1.z * s2;
-			result.w = this->w * s1 + q1.w * s2;
+				result.x = this->x * s1 + q.x * s2;
+				result.y = this->y * s1 + q.y * s2;
+				result.z = this->z * s1 + q.z * s2;
+				result.w = this->w * s1 + q.w * s2;
+			}
+			else {
+				result.x = q.x;
+				result.y = q.y;
+				result.z = q.z;
+				result.w = q.w;
+			}
 		}
 	}
-	
+
+	if (isfinite(result.x) == false ||
+		isfinite(result.y) == false ||
+		isfinite(result.z) == false ||
+		isfinite(result.w) == false)
+	{
+		return q1;
+	}
+
 	return result;
 }
-//”CˆÓ²‰ñ“]‚ğ•\‚·Quaternion‚Ì¶¬
+// ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã®æ›ã‘ç®—ã‚’æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰ã§å®šç¾©ã™ã‚‹
+Quaternion Quaternion::operator*(const Quaternion& other) const {
+	float result_x = w * other.x + x * other.w + y * other.z - z * other.y;
+	float result_y = w * other.y - x * other.z + y * other.w + z * other.x;
+	float result_z = w * other.z + x * other.y - y * other.x + z * other.w;
+	float result_w = w * other.w - x * other.x - y * other.y - z * other.z;
+	return Quaternion(result_x, result_y, result_z, result_w);
+}
+
+bool Quaternion::operator==(const Quaternion& other) const
+{
+	if (x == other.x &&
+		y == other.y &&
+		z == other.z &&
+		w == other.w)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Quaternion::operator!=(const Quaternion& other) const
+{
+	if (x != other.x &&
+		y != other.y &&
+		z != other.z &&
+		w != other.w)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+//ä»»æ„è»¸å›è»¢ã‚’è¡¨ã™Quaternionã®ç”Ÿæˆ
 Quaternion MakeAxisAngle(const Vector3& axis, float angle)
 {
 	float Sin = sin(angle / 2.f);
@@ -120,7 +188,75 @@ Quaternion MakeAxisAngle(const Vector3& axis, float angle)
 
 	return result;
 }
-//ƒxƒNƒgƒ‹‚ğQuaternion‚Å‰ñ“]‚³‚¹‚½Œ‹‰Ê‚ÌƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
+{
+	//uã¨vã‚’æ­£è¦åŒ–
+	Vector3 uNorm = u;
+	uNorm = uNorm.normalize();
+	Vector3 vNorm = v;
+	vNorm = vNorm.normalize();
+
+	//uã¨vã®å†…ç©
+	float dot = uNorm.dot(vNorm);
+
+	//å¤–ç©ã‚’ã¨ã‚‹
+	Vector3 cross = uNorm.cross(vNorm);
+
+	Vector3 axis = cross.normalize();
+	//å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã§å†…ç©ã‚’ã¨ã£ã¦ã„ã‚‹ã®ã§acosã§è§’åº¦ã‚’æ±‚ã‚ã‚‹
+	float theta = std::acos(dot);
+	//axisã¨thetaã§ä»»æ„è»¸å›è»¢ã‚’ä½œã£ã¦è¿”ã™
+	return MakeAxisAngle(axis, theta);
+}
+Quaternion RotationBetweenVectors(Vector3 start, Vector3 dest)
+{
+	start = start.normalize();
+	dest = dest.normalize();
+
+	float cosTheta = start.dot(dest);
+	Vector3 rotationAxis;
+
+	//if (cosTheta < -1 + 0.001f) {
+	//	// ãƒ™ã‚¯ãƒˆãƒ«ãŒåå¯¾æ–¹å‘ã‚’å‘ã„ã¦ã„ã‚‹ç‰¹æ®Šãªã‚±ãƒ¼ã‚¹ï¼š
+	//	// å˜ä½å›è»¢è»¸ã¯ãªã„ã®ã§ã€å‚ç›´ãªã‚‚ã®ã‚’è¦‹ã¤ã‘ã¾ã™ã€‚
+	//	Vector3 up = { 0,0,1 };
+	//	Vector3 right = { 1,0,0 };
+
+	//	rotationAxis = up.cross(start);
+	//	if (rotationAxis.length() < 0.01) { // ã‚‚ã†ä¸€åº¦è¨ˆç®—ï¼
+	//		rotationAxis = right.cross(start);
+	//	}
+	//	rotationAxis = rotationAxis.normalize();
+	//	return MakeAxisAngle(rotationAxis, Radian(180.0f));
+	//}
+
+	rotationAxis = start.cross(dest);
+
+	float s = sqrt((1 + cosTheta) * 2);
+	float invs = 1 / s;
+
+	return Quaternion(
+		s * 0.5f,
+		rotationAxis.x * invs,
+		rotationAxis.y * invs,
+		rotationAxis.z * invs
+	);
+}
+Quaternion VecToDir(Vector3 vec)
+{
+	Quaternion rot1 = RotationBetweenVectors(Vector3(0, 0, 1), vec);
+
+	Vector3 up = { 0,1,0 };
+	Vector3 right = vec.cross(up);
+	up = right.cross(vec);
+
+	Vector3 newUp = Vector3(rot1.x, rot1.y, rot1.z) * Vector3(0, 1, 0);
+	Quaternion rot2 = RotationBetweenVectors(newUp, up);
+	Quaternion target = rot2 * rot1;
+
+	return target;
+}
+//ãƒ™ã‚¯ãƒˆãƒ«ã‚’Quaternionã§å›è»¢ã•ã›ãŸçµæœã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 {
 
@@ -137,29 +273,87 @@ Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
 
 	result = result.Multiply(conj);
 
-	//ƒNƒH[ƒ^ƒjƒIƒ“~ƒxƒNƒgƒ‹~‹¤–ğƒNƒH[ƒ^ƒjƒIƒ“
+	//ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³Ã—ãƒ™ã‚¯ãƒˆãƒ«Ã—å…±å½¹ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
 	return Vector3(result.x, result.y, result.z);
 }
 
-Quaternion DirectionToDirection(const Vector3& u, const Vector3& v)
+Matrix4 CalculateWorldMat(const Vector3 pos, const Vector3 scale, const Quaternion rot)
 {
-	//u‚Æv‚ğ³‹K‰»
-	Vector3 uNorm = u;
-	uNorm.normalize();
-	Vector3 vNorm = v;
-	vNorm.normalize();
+	Matrix4 result;
+	result.UnitMatrix();
+	// å¹³è¡Œç§»å‹•ã€ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã€å›è»¢è¡Œåˆ—ä½œæˆ
+	Matrix4 transMat;
+	Matrix4 scaleMat;
+	Matrix4 rotMat;
+	transMat.UnitMatrix();
+	scaleMat.UnitMatrix();
+	rotMat.UnitMatrix();
 
-	//u‚Æv‚Ì“àÏ
-	float dot = uNorm.dot(vNorm);
+	transMat = ConvertTranslationMat(pos);	// å¹³è¡Œç§»å‹•
+	scaleMat = ConvertScalingMat(scale);	// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
+	rotMat = ConvertRotationMat(rot);		// å›è»¢
 
-	//ŠOÏ‚ğ‚Æ‚é
-	Vector3 cross = uNorm.cross(vNorm);
+	result = scaleMat * rotMat * transMat;
 
-	Vector3 axis = cross.normalize();
-	//’PˆÊƒxƒNƒgƒ‹‚Å“àÏ‚ğ‚Æ‚Á‚Ä‚¢‚é‚Ì‚Åacos‚ÅŠp“x‚ğ‹‚ß‚é
-	float theta = std::acos(dot);
-	//axis‚Ætheta‚Å”CˆÓ²‰ñ“]‚ğì‚Á‚Ä•Ô‚·
-	return MakeAxisAngle(axis, theta);
+	return result;
 }
 
+Matrix4 ConvertRotationMat(const Quaternion q)
+{
+	Matrix4 result;
+	result.UnitMatrix();
 
+	Quaternion q_ = q;
+	q_ = q_.Normalize();
+
+	float xx = q_.x * q_.x;
+	float yy = q_.y * q_.y;
+	float zz = q_.z * q_.z;
+	float ww = q_.w * q_.w;
+	float xy = q_.x * q_.y * 2.0f;
+	float xz = q_.x * q_.z * 2.0f;
+	float yz = q_.y * q_.z * 2.0f;
+	float wx = q_.w * q_.x * 2.0f;
+	float wy = q_.w * q_.y * 2.0f;
+	float wz = q_.w * q_.z * 2.0f;
+
+	result =
+	{
+		ww + xx - yy - zz, xy + wz          , xz - wy          ,0.0f,
+		xy - wz          , ww - xx + yy - zz, yz + wx          ,0.0f,
+		xz + wy          , yz - wx          , ww - xx - yy + zz,0.0f,
+		0.0f             ,0.0f              ,0.0f              ,1.0f
+	};
+
+
+	return result;
+}
+
+Quaternion EulerAnglesToQuaternion(const Vector3& Euler)
+{
+	Quaternion result;
+	float cosRoll = cosf(Euler.x / 2.0f);
+	float sinRoll = sinf(Euler.x / 2.0f);
+	float cosPitch = cosf(Euler.y / 2.0f);
+	float sinPitch = sinf(Euler.y / 2.0f);
+	float cosYaw = cosf(Euler.z / 2.0f);
+	float sinYaw = sinf(Euler.z / 2.0f);
+
+	result.x = cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw;
+	result.y = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw;
+	result.z = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw;
+	result.w = cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw;
+	return result;
+}
+
+Vector3 QuaternionToEulerAngles(const Quaternion q)
+{
+	Vector3 euler;
+	// ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‹ã‚‰ãƒ­ãƒ¼ãƒ«ã‚’è¨ˆç®—ã—ã¾ã™
+	euler.x = atan2f(2.0f * (q.w * q.x + q.y * q.z), 1.0f - 2.0f * (q.x * q.x + q.y * q.y));
+	// ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‹ã‚‰ãƒ”ãƒƒãƒã‚’è¨ˆç®—ã—ã¾ã™
+	euler.y = asinf(2.0f * (q.w * q.y - q.z * q.x));
+	// ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‹ã‚‰ãƒ¨ãƒ¼ã‚’è¨ˆç®—ã—ã¾ã™
+	euler.z = atan2f(2.0f * (q.w * q.z + q.x * q.y), 1.0f - 2.0f * (q.y * q.y + q.z * q.z));
+	return euler;
+}

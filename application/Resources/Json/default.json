@@ -1,0 +1,25 @@
+{
+    "OBJECTS": [
+        {
+            "OBJECT_DETAIL": -1,
+            "OBJECT_TYPE": -2,
+            "POSITION": [
+                176.55557250976563,
+                555.9790649414063
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                190.0,
+                637.9790649414063
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1000.0,
+                100.0
+            ]
+        }
+    ]
+}

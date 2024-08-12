@@ -1,0 +1,1641 @@
+{
+    "OBJECTS": [
+        {
+            "OBJECT_DETAIL": -1,
+            "OBJECT_TYPE": -2,
+            "POSITION": [
+                -944.6649169921875,
+                960.3900146484375
+            ]
+        },
+        {
+            "JUMP_HIGHT": -10.0,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                -302.0780029296875,
+                956.2947387695313
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -17.83819580078125,
+                991.3200073242188
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                319.0,
+                244.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -393.4840087890625,
+                1095.8900146484375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1571.0,
+                207.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                303.3465881347656,
+                1080.6199951171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                360.0,
+                274.0
+            ]
+        },
+        {
+            "JUMP_HIGHT": -10.0,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                320.469970703125,
+                911.6213989257813
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                628.4146728515625,
+                958.1900024414063
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                325.0,
+                572.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                949.6383666992188,
+                904.3800048828125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                337.0,
+                330.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1253.0865478515625,
+                935.3800048828125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                301.0,
+                521.0
+            ]
+        },
+        {
+            "CYCLE_TIME": 240,
+            "MOVE_DISTANCE": [
+                200.0,
+                -200.0
+            ],
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                1661.7896728515625,
+                517.9879150390625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                108.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                3138.083740234375,
+                -27.31353759765625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                472.0576171875,
+                102.0
+            ]
+        },
+        {
+            "CYCLE_TIME": 240,
+            "MOVE_DISTANCE": [
+                200.0,
+                -200.0
+            ],
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2647.560791015625,
+                153.73513793945313
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                108.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                2153.178955078125,
+                337.7075500488281
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                472.0576171875,
+                102.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                3419.797119140625,
+                164.46694946289063
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                419.9990234375,
+                486.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                3909.3330078125,
+                106.81512451171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                569.626220703125,
+                531.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4317.484375,
+                234.6307373046875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                456.0,
+                428.0
+            ]
+        },
+        {
+            "JUMP_HIGHT": -10.0,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                3505.098388671875,
+                -114.46954345703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4394.73193359375,
+                110.8543701171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                448.0,
+                677.0
+            ]
+        },
+        {
+            "JUMP_HIGHT": -10.0,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                4040.242919921875,
+                -453.677001953125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4803.08154296875,
+                -146.177001953125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                433.0,
+                163.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5247.81787109375,
+                -58.481292724609375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                486.0,
+                480.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5663.611328125,
+                -296.32159423828125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                340.7783203125,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5097.408203125,
+                356.4345397949219
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                450.0,
+                386.0000305175781
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5291.9267578125,
+                38.81500244140625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                390.0,
+                299.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4915.9736328125,
+                123.65020751953125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                673.0,
+                392.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5006.0986328125,
+                890.2550659179688
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                668.9423828125,
+                540.0000610351563
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6757.52099609375,
+                233.48602294921875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                384.04931640625,
+                731.0001220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6642.83056640625,
+                -90.80538940429688
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                612.0,
+                378.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                6181.3544921875,
+                212.98605346679688
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                5717.3544921875,
+                210.986083984375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5964.43408203125,
+                370.4061279296875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                942.0,
+                62.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5966.43017578125,
+                542.7977294921875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                942.0,
+                62.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7188.42529296875,
+                722.923095703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1250.0,
+                74.00006103515625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4495.8447265625,
+                873.9444580078125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                370.54736328125,
+                506.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                4292.1220703125,
+                720.9444580078125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                653.0,
+                600.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                4896.24267578125,
+                583.2550048828125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4658.8955078125,
+                377.7964172363281
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4743.8955078125,
+                379.7964172363281
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4820.8955078125,
+                378.7964172363281
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                4966.14892578125,
+                588.1029052734375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                5032.14892578125,
+                584.1029052734375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4743.8955078125,
+                491.7964172363281
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4818.8955078125,
+                500.7964172363281
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4660.8955078125,
+                493.79644775390625
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                5285.14892578125,
+                588.2550048828125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                5215.14892578125,
+                584.1029052734375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                5148.14892578125,
+                586.1029052734375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": -1,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                5088.14892578125,
+                587.1029052734375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5716.3876953125,
+                474.7874450683594
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5948.43310546875,
+                723.0830688476563
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1250.0,
+                74.00006103515625
+            ]
+        },
+        {
+            "DIRECTION": 3,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 6,
+            "POSITION": [
+                5957.8251953125,
+                -525.8217163085938
+            ],
+            "SIZE": [
+                150.0,
+                150.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8495.123046875,
+                722.423095703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                468.09375,
+                73.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7477.91455078125,
+                596.423095703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                226.0,
+                93.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                7688.9521484375,
+                649.923095703125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                7471.546875,
+                506.923095703125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": false,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                7622.546875,
+                581.923095703125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7511.6875,
+                205.403076171875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1152.998046875,
+                238.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7443.78271484375,
+                -116.95356750488281
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1130.9873046875,
+                595.5923461914063
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7479.46826171875,
+                662.2049560546875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                362.0,
+                92.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8072.00439453125,
+                355.9282531738281
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                479.0,
+                467.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8033.40966796875,
+                722.423095703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                468.09375,
+                73.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8911.3623046875,
+                505.9130859375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                385.0,
+                507.9999694824219
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8524.451171875,
+                660.923095703125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                182.0,
+                76.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                8742.91796875,
+                146.7757568359375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                904.0595703125,
+                476.5478515625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                9492.046875,
+                275.818603515625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                835.935546875,
+                1237.7666015625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7016.97705078125,
+                975.90283203125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                3365.7685546875,
+                449.980712890625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6278.0849609375,
+                -93.11956787109375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                214.0,
+                104.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7016.97705078125,
+                975.90283203125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                5365.77001953125,
+                449.980712890625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6587.640625,
+                -314.11968994140625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                377.0,
+                104.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6275.56298828125,
+                23.82818603515625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                205.0,
+                65.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                6298.6611328125,
+                71.82818603515625
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                179.0,
+                55.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                7092.0576171875,
+                -576.28466796875
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                656.0,
+                623.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                2123.6025390625,
+                1074.8924560546875
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                -991.030029296875,
+                960.3900146484375
+            ],
+            "SIZE": [
+                1388.9998779296875,
+                233.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                3388.1640625,
+                1057.8720703125
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                -991.030029296875,
+                960.3900146484375
+            ],
+            "SIZE": [
+                1120.0,
+                492.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                6174.3876953125,
+                473.7874450683594
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                -1341.8170166015625,
+                838.389892578125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                346.0,
+                761.9999389648438
+            ]
+        },
+        {
+            "DESTINATION": "stage1-8",
+            "GOAL": false,
+            "OBJECT_TYPE": 2,
+            "POSITION": [
+                8532.818359375,
+                481.28125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 7,
+            "POSITION": [
+                -2593.3173828125,
+                2032.4739990234375
+            ],
+            "RADIAN": 0.0,
+            "RESPAWN_POSITION": [
+                -991.030029296875,
+                960.3900146484375
+            ],
+            "SIZE": [
+                64000.0,
+                640.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                871.67919921875,
+                703.487548828125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5957.3876953125,
+                474.7874450683594
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                -293.94921875,
+                827.3900146484375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                -232.94921875,
+                683.3900146484375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                -146.1495361328125,
+                580.3199462890625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                -52.1495361328125,
+                688.3199462890625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                363.61920166015625,
+                641.984619140625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                540.6192016601563,
+                608.984619140625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                3867.43798828125,
+                -332.02130126953125
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                410.0,
+                170.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4634.0009765625,
+                -1072.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4673.0009765625,
+                -1274.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4936.0009765625,
+                -1135.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4786.0009765625,
+                -1066.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4820.0009765625,
+                -1135.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4752.0009765625,
+                -1142.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4986.0009765625,
+                -1261.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4648.0009765625,
+                -1135.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4862.0009765625,
+                -1279.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4662.0009765625,
+                -1198.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4718.0009765625,
+                -1209.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4958.0009765625,
+                -1201.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                0.8504638671875,
+                824.3199462890625
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                319.61920166015625,
+                809.984619140625
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                7328.81396484375,
+                577.7792358398438
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                7264.81201171875,
+                653.923095703125
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4842.1181640625,
+                -1208.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5158.71630859375,
+                -1246.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5109.71630859375,
+                -1243.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5068.71630859375,
+                -1194.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5044.71630859375,
+                -1134.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5067.71630859375,
+                -1084.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5112.71630859375,
+                -1056.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5203.71630859375,
+                -1218.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5168.71630859375,
+                -1065.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5327.71630859375,
+                -1265.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5389.71630859375,
+                -1264.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5446.71630859375,
+                -1269.2684326171875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5314.31787109375,
+                -1188.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5302.31787109375,
+                -1122.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5289.31787109375,
+                -1063.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5370.31787109375,
+                -1175.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5433.31787109375,
+                -1168.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5359.31787109375,
+                -1064.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5424.31787109375,
+                -1060.532958984375
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                7330.91455078125,
+                584.2049560546875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                7266.46826171875,
+                653.923095703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                4910.0009765625,
+                -1068.51220703125
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 1,
+            "POSITION": [
+                5096.62841796875,
+                -1013.247802734375
+            ],
+            "RADIAN": 0.0,
+            "SIZE": [
+                1458.0,
+                5.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5546.412109375,
+                -1064.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5590.412109375,
+                -1062.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5562.412109375,
+                -1179.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5608.412109375,
+                -1176.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5577.412109375,
+                -1256.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5626.412109375,
+                -1261.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5587.412109375,
+                -1319.748046875
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                5636.412109375,
+                -1317.748046875
+            ]
+        },
+        {
+            "IS_MOVE": true,
+            "ITEM_TYPE": 0,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 0,
+            "POSITION": [
+                6301.076171875,
+                -177.11956787109375
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "BOUND_VEL": 10.0,
+            "DIRECTION": 0,
+            "IS_CANSMASH": true,
+            "IS_MOVE": false,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                7547.177734375,
+                505.2049560546875
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "BOUND_VEL": 10.0,
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "IS_MOVE": false,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                7396.177734375,
+                507.2049560546875
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "IS_CANSMASH": true,
+            "IS_MOVE": true,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                6180.50048828125,
+                296.41656494140625
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "IS_MOVE": true,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                5707.91748046875,
+                291.41656494140625
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "BOUND_VEL": 10.0,
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "IS_MOVE": true,
+            "OBJECT_DETAIL": 4,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                4698.58056640625,
+                -380.677001953125
+            ],
+            "SIZE": [
+                128.0,
+                128.0
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "OBJECT_DETAIL": 3,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                4341.3046875,
+                -689.0214233398438
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "DIRECTION": 0,
+            "IS_CANSMASH": true,
+            "IS_MOVE": true,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                4191.6806640625,
+                -354.24371337890625
+            ],
+            "SIZE": [
+                96.0,
+                96.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                1041.66650390625,
+                704.487548828125
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "IS_MOVE": false,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                2156.626953125,
+                188.1900634765625
+            ],
+            "SIZE": [
+                64.0,
+                64.0
+            ]
+        },
+        {
+            "OBJECT_DETAIL": 0,
+            "OBJECT_TYPE": 5,
+            "POSITION": [
+                435.61920166015625,
+                512.984619140625
+            ]
+        },
+        {
+            "DIRECTION": 1,
+            "IS_CANSMASH": true,
+            "IS_MOVE": false,
+            "OBJECT_DETAIL": 1,
+            "OBJECT_TYPE": 3,
+            "POSITION": [
+                954.74267578125,
+                675.780029296875
+            ],
+            "SIZE": [
+                128.0,
+                128.0
+            ]
+        }
+    ]
+}

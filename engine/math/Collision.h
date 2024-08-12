@@ -1,51 +1,107 @@
 #pragma once
+#include "Vector3.h"
+#include "WorldTransform.h"
 
-//��
+/**
+ * @file Collision.h
+ * @brief 当たり判定に関する構造体・関数をまとめている
+ */
+
+//球
 struct Sphere {
-	//���S���W
-	DirectX::XMVECTOR center = { 0,0,0,1 };
-	//���a
+	//中心座標
+	Vector3 center = { 0,0,0 };
+	//半径
 	float radius = 1.0f;
 
 	void SetPos(const Vector3& pos) {
-		center.m128_f32[0] = pos.x;
-		center.m128_f32[1] = pos.y;
-		center.m128_f32[2] = pos.z;
+		center = pos;
 	};
 
-	// �t���O
-	bool isActive = false;
+	// フラグ
+	bool isActive = true;
 };
-//����
+//平面
 struct Plane {
-	//�@���x�N�g��
-	DirectX::XMVECTOR normal = { 0,1,0,0 };
-	//���_(0,0,0)��̋���
+	//法線ベクトル
+	Vector3 normal = { 0,1,0 };
+	//原点(0,0,0)からの距離
 	float distance = 0.0f;
 };
-//�@���t���O�p�`(���v��肪�\��)
+//法線付き三角形(時計回りが表面)
 struct Triangle {
-	//���_���W�R��
-	DirectX::XMVECTOR p0;
-	DirectX::XMVECTOR p1;
-	DirectX::XMVECTOR p2;
-	//�@���x�N�g��
-	DirectX::XMVECTOR normal;
+	//頂点座標３つ
+	Vector3 p0;
+	Vector3 p1;
+	Vector3 p2;
+	//法線ベクトル
+	Vector3 normal;
+	//法背の計算
+	void ComputeNormal();
+};
+//レイ(半直線)
+struct Ray {
+	//始点座標
+	Vector3 start = { 0,0,0 };
+	//方向
+	Vector3 dir = { 1,0,0 };
+};
+//矩形
+struct Rect {
+	Vector2 center;
+	Vector2 length;
+	bool isActive = true;
 };
 
-bool RayCollision(const WorldTransform& ray, const WorldTransform& obj);
+struct Square
+{
+    Vector2 center;
+    Vector2 length;
+    float radian;
+};
 
-bool BallCollision(const WorldTransform& a, const WorldTransform& b);
+//円
+struct Circle {
+	Vector2 center;
+	float radius;
+};
+//矩形と矩形の当たり判定
+bool Rect2RectCol(const Rect& a, const Rect& b,bool* colX = nullptr, bool* colY = nullptr);
+bool Rect2RectColX(const Rect& a, const Rect& b, bool* colX = nullptr);
+bool Rect2RectColY(const Rect& a, const Rect& b,  bool* colY = nullptr);
+//X軸の当たり判定
+bool Square2SquareColX(const Square& a, const Square& b, bool* colX = nullptr);
+//Y軸の当たり判定
+bool Square2SquareColY(const Square& a, const Square& b, bool* colY = nullptr);
+//X軸の当たり判定
+bool Circle2SquareColX(const Circle& a, const Square& b, bool* colX = nullptr);
+//Y軸の当たり判定
+bool Circle2SquareColY(const Circle& a, const Square& b, bool* colY = nullptr);
 
-bool BallCollision(const Vector3& a, const float& aSize, const Vector3& b, const float& bSize);
-
-//���Ƌ�
+//円と縁の当たり判定
+bool Circle2Circle(const Circle& a, const Circle& b);
+//球と球
 bool BallCollision(const Sphere& a, const Sphere& b);
-//���ʂƋ�
+//上下制限あり球と球
+bool BallCollision(const Sphere& a,float heightA, const Sphere& b, float heightB);
+//平面と球
 bool Sphere2PlaneCol(const Sphere& sphere, const Plane& plane,
-	DirectX::XMVECTOR* inter = nullptr);
-//�_�ƎO�p�`
-void ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest);
-//�e�Ɩ@���t���O�p�`�̓����蔻��`�F�b�N
+	Vector3* inter = nullptr);
+//点と三角形
+void ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest);
+//球と法線付き三角形の当たり判定チェック
 bool Sphere2TriangleCol(const Sphere& sphere, const Triangle& triangle,
-	DirectX::XMVECTOR* inter = nullptr);
+	Vector3* inter = nullptr);
+//レイと平面
+bool CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance = nullptr, Vector3* inter = nullptr);
+
+//レイと法線付き三角形の当たり判定
+bool CheckRay2Traiangle(const Ray& ray, const Triangle& triangle,
+	float* distance = nullptr, Vector3* inter = nullptr);
+
+//レイと級の当たり判定
+bool CheckRay2Sphere(const Ray& ray, const Sphere& sphere,
+	float* distance = nullptr, Vector3* inter = nullptr);
+
+bool CheckBox2DtoPoint(const Rect& rect, const Vector2& point);
+bool CheckBox2DtoPoint(const Square& square, const Vector2& point);
