@@ -42,32 +42,7 @@ private:
 	//ライトマネージャー
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
-	Sprite resultSprite_;	//「結果」
-	Sprite backGround_;	//背景
-	Sprite uiSprite_;	//Aボタン
-	Sprite rankItemSprite_;	//「腕前」
-	Sprite rankTextSprite_;	//～～級テキスト
-	Sprite retryTextSprite_;	//再挑戦テキスト
-	Sprite titleTextSprite_;	//戻るテキスト
 	bool isSceneChange_;
 
-	Vector2 retryPos;
-	Vector2 titlePos;
-	TimerFloat uiEasingTimer_;
-
-	TimerFloat uiFloatTimer_;
-	int32_t uiAnimationIndex_;
-
-	TimerFloat scoreEasing_;
-
-	bool isSEPray;	//SE鳴らしたか
-
-	bool isRetry;	//リトライかタイトルか
-private:
-	void LoadRanking();
-
-	void RankSpriteInit();
-	//階級
-	void Rank();
 };
 

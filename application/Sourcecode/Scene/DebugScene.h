@@ -13,11 +13,6 @@
 #include "TestDrawer.h"
 
 #include "SphereCollider.h"
-
-#include "KnockBack.h"
-#include "Human/HumanManager.h"
-#include "FeverLight.h"
-
 #include "ParticleManager.h"
 
 class DebugScene :
@@ -42,26 +37,6 @@ private:
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
 	ColliderManager colliderManager_;
-
-	//std::unique_ptr<AssimpObject3D> assimpObj_;
-	TestDrawer assimpObjects_;
-	TestDrawer assimpObjects2_;
-	Timer timer_;
-
-	std::unique_ptr<Object3d> playerObj_;
-
-	KnockBack knockBack_;
-	Timer knockTimer_;
-
-	Vector3 knockVec_;
-	float knockPower_;
-
-	std::unique_ptr<Object3d> colliderObj_;
-	SphereCollider sphereCol_;
-
-	FeverLight feverLight_;
-
-	std::shared_ptr<ContinuousEmitter> fireEmitter_;
 private:
 	void CallBack();
 };

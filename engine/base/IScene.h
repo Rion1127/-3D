@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <string>
 
 /**
  * @file IScene.h
@@ -12,6 +13,8 @@ public:
 	//空の関数を宣言しておく
 	IScene() {
 	};
+	virtual ~IScene() {
+	};
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
@@ -23,7 +26,6 @@ public:
 
 	uint32_t isNext_ = false;
 
-	virtual ~IScene() {
-	};
+	std::string sceneName_ = "unknown";
 };
 

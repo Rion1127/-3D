@@ -15,8 +15,6 @@
 #include "CircleGauge.h"
 #include "FileOutPut.h"
 #include "RescueCount.h"
-#include "PopEditor.h"
-#include "FeverLight.h"
 #include "ParticleManager.h"
 /**
  * @file GameScene.h
@@ -41,8 +39,6 @@ public:
 	void DrawPostEffect() override;
 
 private:
-	const int32_t gameLimitTime = 3600;
-	//>> 変数
 	SoundManager* sound_ = nullptr;
 	//デバッグカメラ
 	DebugCamera debugCamera_;
@@ -51,37 +47,6 @@ private:
 
 	ColliderManager colliderManager_;
 
-	Sprite background_;
-	Sprite readyText_;
-	Sprite startText_;
-
 	std::unique_ptr<Object3d> object3d_;
-
-	Timer countdownTimer_;
-	const int32_t countTime_ = 180;
-	Timer startEaseTimer_;
-	const int32_t startEaseTime_ = 90;
-	bool isReadySEPlay;
-	bool isStartSEPlay;
-	Timer timer_;
-	bool isTimerActive_;
-	bool isTimerActiveDebug_;
-	CircleGauge timerGauge_;
-	CircleGauge feverGauge_;
-
-	bool isDebug_ = false;
-	bool isCanOutPut_;
-
-	FileOutPut scoreOutPut_;
-	RescueCount rescueCount_;
-	PopEditor editor_;
-
-	FeverLight feverLight_;
-	std::shared_ptr<ContinuousEmitter> fireEmitter_;
-	std::shared_ptr<OneceEmitter> ringCrushEmitter_;
-	std::shared_ptr<OneceEmitter> ascensionEmitter_;
-private:
-	//ランキング更新
-	void RankingUpdate();
 };
 

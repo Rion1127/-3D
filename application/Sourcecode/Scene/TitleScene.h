@@ -31,13 +31,5 @@ private:
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 	
 	bool isSceneChange_;
-
-	Sprite title_;
-	Sprite backGround_;
-	Sprite uiSprite_;
-	
-	TimerFloat titleFloatTimer_;
-	TimerFloat uiFloatTimer_;
-	int32_t uiAnimationIndex_;
 };
 

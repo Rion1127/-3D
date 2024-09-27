@@ -8,7 +8,6 @@
 #include "TitleScene.h"
 #include "DebugScene.h"
 #include "GameOverScene.h"
-#include "EditorScene.h"
 #include "Framework.h"
 #include "imgui.h"
 #include "ClearScene.h"
@@ -29,6 +28,7 @@ std::vector<std::string> SceneManager::sceneNames_;
 std::vector<std::string> SceneManager::stageNames_;
 bool SceneManager::isSceneChange_ = false;
 std::string SceneManager::sceneName_ = "Title";
+std::string SceneManager::currentSceneName_ = "Title";
 std::string SceneManager::stageName_ = "SceneSelect";
 
 void SceneManager::Ini()
@@ -37,7 +37,6 @@ void SceneManager::Ini()
 	sceneNames_.emplace_back("Game");
 	sceneNames_.emplace_back("ClearScene");
 	sceneNames_.emplace_back("Debug");
-	sceneNames_.emplace_back("Editor");
 	
 	StageListUpdate();
 	//ビルド開始時のシーン
@@ -73,7 +72,6 @@ void SceneManager::Update()
 		else if (sceneName_ == "Game")Transition<GameScene>();
 		else if (sceneName_ == "ClearScene")Transition<ClearScene>();
 		else if (sceneName_ == "Debug")Transition<DebugScene>();
-		else if (sceneName_ == "Editor")Transition<EditorScene>();
 		isSceneChange_ = false;
 	}
 
@@ -140,6 +138,12 @@ void SceneManager::Draw()
 		if (ImGui::Button("Change Scene", ImVec2(50, 50))) {
 			isSceneChange_ = true;
 		}
+
+		std::string currentSceneName = "CurrentScene : ";
+		currentSceneName += currentSceneName_;
+
+		ImGui::Text(currentSceneName.c_str());
+
 		ImGui::End();
 	}
 #endif // _DEBUG

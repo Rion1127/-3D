@@ -36,6 +36,7 @@ private:
 	static std::vector<std::string> stageNames_;
 	static bool isSceneChange_;
 	static std::string sceneName_;	//シーンの文字列
+	static std::string currentSceneName_;	//現在のシーンの文字列
 	static std::string stageName_;	//ステージの文字列
 public:
 	static void Ini();
@@ -49,6 +50,8 @@ public:
 		scurrentScene_.reset();
 		scurrentScene_ = std::move(std::make_unique<NextScene>());
 		scurrentScene_->Init();
+
+		currentSceneName_ = scurrentScene_->sceneName_;
 	}
 	static void SetChangeStart(const SceneName sceneName);
 	static void SetStageName(const std::string stageName) { stageName_ = stageName; };
