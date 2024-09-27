@@ -42,6 +42,12 @@ Material::Material()
 	constMapMat_->diffuse = diffuse_;
 	constMapMat_->specular = specular_;
 	constMapMat_->alpha = alpha_;
+	constMapMat_->baseColor = {
+			baseColor_.r,
+			baseColor_.g,
+			baseColor_.b,
+	};
+	constMapMat_->isUseBaseColor = false;
 }
 
 void Material::LoadTexture(const std::string& directoryPath)
@@ -66,6 +72,7 @@ void Material::Draw(UINT descriptorSize)
 
 void Material::Draw()
 {
+	constMapMat_->isUseBaseColor = true;
 	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
 	//ルートパラメータ配列2番目を指定
 	RDirectX::GetInstance()->GetCommandList()->

@@ -200,6 +200,26 @@ void Sprite::Draw(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
 	Draw(LT.x, LT.y, RT.x, RT.y, LB.x, LB.y, RB.x, RB.y);
 }
 
+void Sprite::AddConstBuffDraw()
+{
+	if (isVisible_ == false) {
+		return;
+	}
+
+	TextureManager::GetInstance()->SetGraphicsDescriptorTable(texture_.textureHandle);
+	//定数バッファビュー(CBV)の設定コマンド
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(1, constBuffMaterial_->GetGPUVirtualAddress());
+	//定数バッファビュー(CBV)の設定コマンド
+	RDirectX::GetInstance()->GetCommandList()->
+		SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
+}
+
+void Sprite::VertexDraw()
+{
+	vertex_.Draw();
+}
+
 void Sprite::SetSprite_Size(Vector2 LT, Vector2 RT, Vector2 LB, Vector2 RB)
 {
 	isVertChange = true;

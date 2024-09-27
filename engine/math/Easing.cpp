@@ -230,16 +230,24 @@ float Easing::Cubic::easeInOut(float start, float end, float t)
 #pragma endregion
 
 #pragma region Sine
+//t 経過時間    b最初の位置    c移動量    d移動時間 
 float Easing::Sine::easeIn(float t, float b, float c, float d)
 {
 	return -c * cosf(t / d * (3.1415f / 2.f)) + c + b;
 }
-
+/// <summary>
+/// easeOut
+/// </summary>
+/// <param name="t">経過時間</param>
+/// <param name="b">最初の位置</param>
+/// <param name="c">移動量</param>
+/// <param name="d">最大移動時間</param>
+/// <returns></returns>
 float Easing::Sine::easeOut(float t, float b, float c, float d)
 {
 	return c * sinf(t / d * (3.1415f / 2.f)) + b;
 }
-
+//t 経過時間    b最初の位置    c移動量    d移動時間 
 float Easing::Sine::easeInOut(float t, float b, float c, float d)
 {
 	return -c / 2.f * (cosf(3.1415f * t / d) - 1.f) + b;

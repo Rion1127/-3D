@@ -15,7 +15,8 @@ public:
     void UnRegister(ICollider* arg_collider);
 
 private:
-    void Collision(ICollider* arg_col1, ICollider* arg_col2);
+    void Collision2d(ICollider* arg_col1, ICollider* arg_col2);
+    void Collision3d(ICollider* arg_col1, ICollider* arg_col2);
 
     //--Circle_to----------------------------------------
     bool Circle2Circle(ICollider* arg_col1, ICollider* arg_col2);
@@ -24,6 +25,9 @@ private:
     //--Rect_to------------------------------------------
     bool Rect2Rect(ICollider* arg_col1, ICollider* arg_col2);
     bool Rect2Circle(ICollider* arg_col1, ICollider* arg_col2);
+
+    //--Sphere_to----------------------------------------
+    bool Sphere2Sphere(ICollider* arg_col1, ICollider* arg_col2);
 
     //>> 変数
     std::list<ICollider*> colliders_;

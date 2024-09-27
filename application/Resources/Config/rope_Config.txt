@@ -1,0 +1,15 @@
+catchRadius 4
+distance 4
+switchingTimer 0
+switchingTime 80
+switchingSpeed 0.6
+nonCatchNormal 0.3
+nonCatchAdd 0.002
+nonCatchSubNormal 0.93
+nonCatchSubAdd 0.02
+catchNormal 0.06
+catchSub 0.98
+weight 1
+catchCount 1
+swingRange 5
+swingTime 20

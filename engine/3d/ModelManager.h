@@ -1,16 +1,20 @@
 #pragma once
 #include "Model.h"
+#include "AssimpModel.h"
 #include <unordered_map>
 class ModelManager
 {
 private:
-	static std::unordered_map<std::string, std::unique_ptr<Model>> models_;
+	std::unordered_map<std::string, std::unique_ptr<Model>> models_;
+	std::unordered_map<std::string, std::unique_ptr<AssimpModel>> assimpModels_;
 public:
 	static ModelManager* GetInstance();
 
 	Model* GetModel(std::string modelName) { return models_[modelName].get(); }
-	//ƒ‚ƒfƒ‹‰Šú‰»(CreateOBJ()‚É“ü‚Á‚Ä‚¢‚é)
-	static void LoadModel(const std::string& modelname, bool smoothing);
+	AssimpModel* GetAssimpModel(std::string modelName) { return assimpModels_[modelName].get(); }
+	//ãƒ¢ãƒ‡ãƒ«åˆæœŸåŒ–(CreateOBJ()ã«å…¥ã£ã¦ã„ã‚‹)
+	void LoadModel(const std::string& modelname, bool smoothing,bool isShadow, const std::string& keyName);
+	void LoadAssimpModel(const std::string& fileName, const std::string& keyName);
 private:
 	ModelManager() {};
 

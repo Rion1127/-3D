@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cassert>
 #include "Timer.h"
+#include "ModelManager.h"
 
 /**
  * @file JsonLoader.cpp
@@ -92,7 +93,7 @@ void JsonLoader::LoadFile(const std::string& fileName, const std::string& dataNa
 			newobj->SetScale(scale);
 			//モデルを読み込む
 			std::string modelName_ = object["model_name"].get<std::string>();
-			newobj->SetModel(Model::CreateOBJ_uniptr(modelName_, true,false));
+			newobj->SetModel(ModelManager::GetInstance()->GetModel(modelName_));
 			//表示フラグを代入
 			nlohmann::json& visible = object["isvisible"];
 			bool isVisible = visible.get<uint32_t>();
@@ -145,7 +146,7 @@ void JsonLoader::SetObjects(std::unordered_map<std::string, std::unique_ptr<Obje
 		newObj->SetRot(data->object.at(i)->GetRot());
 		newObj->SetScale(data->object.at(i)->GetScale());
 		std::string modelName_ = data->object.at(i)->GetModel()->GetModelName();
-		newObj->SetModel(Model::CreateOBJ_uniptr(modelName_, false,false));
+		newObj->SetModel(ModelManager::GetInstance()->GetModel(modelName_));
 		newObj->SetIsVisible(data->object.at(i)->GetIsVisible());
 
 		if (modelName_ == "skySphere") {

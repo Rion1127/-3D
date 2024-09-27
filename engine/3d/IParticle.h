@@ -5,7 +5,6 @@
 #include "WorldTransform.h"
 #include "Timer.h"
 #include "PipelineManager.h"
-#include "GameSpeed.h"
 #include "Object3d.h"
 
 /**

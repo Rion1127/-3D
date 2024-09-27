@@ -1,6 +1,5 @@
 #include "ModelManager.h"
-
-std::unordered_map<std::string, std::unique_ptr<Model>> ModelManager::models_;
+#include "AssimpLoader.h"
 
 ModelManager* ModelManager::GetInstance()
 {
@@ -8,10 +7,17 @@ ModelManager* ModelManager::GetInstance()
 	return &instance;
 }
 
-void ModelManager::LoadModel(const std::string& modelname, bool smoothing)
+void ModelManager::LoadModel(const std::string& modelname, bool smoothing, bool isShadow, const std::string& keyName)
 {
 	std::unique_ptr<Model> instance = std::make_unique<Model>();
-	instance = Model::CreateOBJ_uniptr(modelname, smoothing);
+	instance = Model::CreateOBJ_uniptr(modelname, smoothing, isShadow);
 
-	models_.insert(std::make_pair(modelname, std::move(instance)));
+	models_.insert(std::make_pair(keyName, std::move(instance)));
+}
+
+void ModelManager::LoadAssimpModel(const std::string& fileName, const std::string& keyName)
+{
+	auto model = AssimpLoader::GetInstance()->Load(fileName);
+
+	assimpModels_.insert(std::make_pair(keyName, std::move(model)));
 }

@@ -3,6 +3,8 @@
 #include "LightGroup.h"
 #include "Model.h"
 #include "Camera.h"
+#include "Color.h"
+#include <d3d12.h>
 
 /**
  * @file Object3d.h
@@ -12,12 +14,20 @@
 class Object3d
 {
 private:
+	struct constBuffData {
+		Color color;
+		bool isUseDiffuseColor;
+	};
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	std::unique_ptr<Model> model_ = nullptr;
-	Model* modelptr_ = nullptr;
+	Model* model_ = nullptr;
 	bool isVisible_ = true;
 	BillBoard billBoard;
+
+	Color color_;
+	bool isUseDiffuseColor_;
+	// 頂点バッファの生成
+	ComPtr<ID3D12Resource> colorBuff_ = nullptr;
 public:
 	WorldTransform WT_;
 public:
@@ -33,9 +43,10 @@ public:
 
 public:
 	//セッター
-	void SetModel(std::unique_ptr<Model> model) { model_ = std::move(model); }
-	void SetModel(Model* model) { modelptr_ = model; }
+	void SetModel(Model* model) { model_ = model; }
 	void SetAmbient(const std::string& name, const Vector3& ambient) { model_->materials_.find(name)->second->SetAmbient(ambient); }
+	void SetAmbient(const std::string& name, const Color& ambient) { model_->materials_.find(name)->second->SetAmbient(ambient); }
+	void SetColor(const Color& color) { color_ = color; }
 	void SetPos(const Vector3& pos) { WT_.position_ = pos; }
 	void SetScale(const Vector3& scale) { WT_.scale_ = scale; }
 	void SetRot(const Vector3& rot) { WT_.rotation_ = rot; }
@@ -43,6 +54,8 @@ public:
 	void SetShadowOffsetPos(const Vector3& pos) { model_->SetShadowOffsetPos(pos); }
 	void SetShadowAtten(const Vector3& Atten) { model_->SetShadowAtten(Atten); }
 	void SetShadowFactorAngle(const Vector2& FactorAngle) { model_->SetShadowFactorAngle(FactorAngle); }
+	void SetIsUseDiffuseColor(bool flag) { isUseDiffuseColor_ = flag; }
+	void SetParent(WorldTransform* parent) { WT_.parent_ = parent; }
 public:
 	//ゲッター
 	WorldTransform* GetTransform() { return &WT_; }
@@ -50,6 +63,6 @@ public:
 	Vector3 GetScale() { return WT_.scale_; }
 	Vector3 GetRot() { return WT_.rotation_; }
 	bool GetIsVisible() { return isVisible_; }
-	Model* GetModel() { return model_.get(); }
+	Model* GetModel() { return model_; }
 };
 

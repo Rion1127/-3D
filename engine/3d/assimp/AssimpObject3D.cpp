@@ -14,8 +14,23 @@
 AssimpObject3D::AssimpObject3D()
 {
 	constBuff_ = CreateBuff(constMap_);
-	SetModel(AssimpLoader::GetInstance()->Load("application/Resources/boneTest/AMove.fbx"));
 	animation_.timer.SetLimitTime(180);
+
+	
+}
+
+AssimpObject3D::~AssimpObject3D()
+{
+	AssimpModel::lightGroup_->SetCircleShadowActive(shadowNum_, false);
+}
+
+void AssimpObject3D::Init(bool isActiveShadow)
+{
+	isActiveShadow_ = isActiveShadow;
+	if (isActiveShadow == false)return;
+	if (model_ == nullptr || AssimpModel::lightGroup_ == nullptr) return;
+	shadowNum_ = AssimpModel::lightGroup_->GetIsNotAvtiveCircleShadow();
+	AssimpModel::lightGroup_->SetCircleShadowActive(shadowNum_, isActiveShadow);
 }
 
 void AssimpObject3D::Update()
@@ -26,6 +41,7 @@ void AssimpObject3D::Update()
 	if (model_->scene->HasAnimations()) {
 		PlayAnimation();
 	}
+	if(isActiveShadow_) model_->ShadowUpdate(shadowNum_,worldTransform_.position_);
 
 	ConstBuffDataSkin* constMap = nullptr;
 	result = constBuff_->Map(0, nullptr, (void**)&constMap);
@@ -72,14 +88,16 @@ void AssimpObject3D::PlayAnimation()
 	}
 
 	// 現在のフレーム
-	float endTime = (float)model_->scene->mAnimations[animation_.index]->mDuration - 6.f;
+	float endTime = (float)model_->scene->mAnimations[animation_.index]->mDuration /*- 6.f*/;
 	float currentTime = animation_.timer.GetTimeRate() * endTime;
 	ParseNodeHeirarchy(currentTime, animation_.index, identity, model_->scene->mRootNode);
 	//リセットしたらもう行列を一度計算しなおす
-	if (currentTime >= endTime) {
-		animation_.timer.Reset();
-		currentTime = animation_.timer.GetTimeRate() * endTime;
-		ParseNodeHeirarchy(currentTime, animation_.index, identity, model_->scene->mRootNode);
+	if (isRepeatAnimation_) {
+		if (currentTime >= endTime) {
+			animation_.timer.Reset();
+			currentTime = animation_.timer.GetTimeRate() * endTime;
+			ParseNodeHeirarchy(currentTime, animation_.index, identity, model_->scene->mRootNode);
+		}
 	}
 
 

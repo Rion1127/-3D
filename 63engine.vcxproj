@@ -11,10 +11,48 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="application\Sourcecode\Camera\CameraManager.cpp" />
+    <ClCompile Include="application\Sourcecode\ColliderObject.cpp" />
+    <ClCompile Include="application\Sourcecode\FeverLight.cpp" />
+    <ClCompile Include="application\Sourcecode\Field\Field.cpp" />
+    <ClCompile Include="application\Sourcecode\Field\FieldManager.cpp" />
+    <ClCompile Include="application\Sourcecode\FileOutPut.cpp" />
     <ClCompile Include="application\Sourcecode\HitStop.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\BaseHuman.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\DebuHuman.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHumanDrawer.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Catch.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Chase.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Idle.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_KnockBack.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Spawn.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_WakeUp.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\HumanDrawer.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\HumanManager.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Catch.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Chase.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Idle.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\Normalhuman_KnockBack.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Spawn.cpp" />
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_WakeUp.cpp" />
+    <ClCompile Include="application\Sourcecode\KnockBack.cpp" />
     <ClCompile Include="application\Sourcecode\LoadManager.cpp" />
+    <ClCompile Include="application\Sourcecode\ParticleAscension.cpp" />
+    <ClCompile Include="application\Sourcecode\ParticleFire.cpp" />
+    <ClCompile Include="application\Sourcecode\ParticleManager.cpp" />
+    <ClCompile Include="application\Sourcecode\ParticleTrail.cpp" />
+    <ClCompile Include="application\Sourcecode\Player\Player.cpp" />
+    <ClCompile Include="application\Sourcecode\Player\PlayerManager.cpp" />
+    <ClCompile Include="application\Sourcecode\Player\Rope.cpp" />
+    <ClCompile Include="application\Sourcecode\PopEditor.cpp" />
+    <ClCompile Include="application\Sourcecode\Ranking.cpp" />
+    <ClCompile Include="application\Sourcecode\RescueCount.cpp" />
+    <ClCompile Include="application\Sourcecode\Rescue_Humans.cpp" />
+    <ClCompile Include="application\Sourcecode\ResultHuman.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\ClearScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\DebugScene.cpp" />
+    <ClCompile Include="application\Sourcecode\Scene\EditorScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\GameOverScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\GameScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\SceneManager.cpp" />
@@ -27,7 +65,10 @@
     <ClCompile Include="application\Sourcecode\System\Camera2d.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\ColliderManager.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\CollisionChecker.cpp" />
+    <ClCompile Include="application\Sourcecode\TestDrawer.cpp" />
+    <ClCompile Include="application\Sourcecode\Tutorial.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CircleGauge.cpp" />
     <ClCompile Include="ColliderTag.cpp" />
     <ClCompile Include="engine\2d\IPostEffect.cpp" />
     <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
@@ -37,10 +78,14 @@
     <ClCompile Include="engine\3d\assimp\AssimpLoader.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpObject3D.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpModel.cpp" />
+    <ClCompile Include="engine\3d\assimp\AssimpObjects.cpp" />
+    <ClCompile Include="engine\3d\IParticle.cpp" />
     <ClCompile Include="engine\3d\light\CircleShadow.cpp" />
     <ClCompile Include="engine\3d\light\LightManager.cpp" />
     <ClCompile Include="engine\3d\Line3D.cpp" />
     <ClCompile Include="engine\3d\Model.cpp" />
+    <ClCompile Include="engine\3d\ModelManager.cpp" />
+    <ClCompile Include="engine\3d\SphereCollider.cpp" />
     <ClCompile Include="engine\math\Collision.cpp" />
     <ClCompile Include="engine\3d\DebugCamera.cpp" />
     <ClCompile Include="engine\base\DirectX.cpp" />
@@ -79,13 +124,52 @@
     <ClCompile Include="application\Sourcecode\Collision\ICollider.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\RectCollider.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\TitleScene.cpp" />
+    <ClCompile Include="RingCrushParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="application\Sourcecode\Camera\CameraManager.h" />
+    <ClInclude Include="application\Sourcecode\ColliderObject.h" />
+    <ClInclude Include="application\Sourcecode\FeverLight.h" />
+    <ClInclude Include="application\Sourcecode\Field\Field.h" />
+    <ClInclude Include="application\Sourcecode\Field\FieldManager.h" />
+    <ClInclude Include="application\Sourcecode\FileOutPut.h" />
     <ClInclude Include="application\Sourcecode\GameStatus.h" />
     <ClInclude Include="application\Sourcecode\HitStop.h" />
+    <ClInclude Include="application\Sourcecode\Human\BaseHuman.h" />
+    <ClInclude Include="application\Sourcecode\Human\DebuHuman.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHumanDrawer.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Catch.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Chase.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Idle.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_KnockBack.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Spawn.h" />
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_WakeUp.h" />
+    <ClInclude Include="application\Sourcecode\Human\HumanDrawer.h" />
+    <ClInclude Include="application\Sourcecode\Human\HumanManager.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Catch.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Chase.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Idle.h" />
+    <ClInclude Include="application\Sourcecode\Human\Normalhuman_KnockBack.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Spawn.h" />
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_WakeUp.h" />
+    <ClInclude Include="application\Sourcecode\KnockBack.h" />
     <ClInclude Include="application\Sourcecode\LoadManager.h" />
     <ClInclude Include="application\Sourcecode\ObjectsName.h" />
+    <ClInclude Include="application\Sourcecode\ParticleAscension.h" />
+    <ClInclude Include="application\Sourcecode\ParticleFire.h" />
+    <ClInclude Include="application\Sourcecode\ParticleManager.h" />
+    <ClInclude Include="application\Sourcecode\ParticleTrail.h" />
+    <ClInclude Include="application\Sourcecode\Player\Player.h" />
+    <ClInclude Include="application\Sourcecode\Player\PlayerManager.h" />
+    <ClInclude Include="application\Sourcecode\Player\Rope.h" />
+    <ClInclude Include="application\Sourcecode\PopEditor.h" />
+    <ClInclude Include="application\Sourcecode\Ranking.h" />
+    <ClInclude Include="application\Sourcecode\RescueCount.h" />
+    <ClInclude Include="application\Sourcecode\Rescue_Humans.h" />
+    <ClInclude Include="application\Sourcecode\ResultHuman.h" />
     <ClInclude Include="application\Sourcecode\Scene\DebugScene.h" />
+    <ClInclude Include="application\Sourcecode\Scene\EditorScene.h" />
     <ClInclude Include="application\Sourcecode\Scene\GameOverScene.h" />
     <ClInclude Include="application\Sourcecode\Scene\GameScene.h" />
     <ClInclude Include="application\Sourcecode\Scene\SceneManager.h" />
@@ -99,7 +183,10 @@
     <ClInclude Include="application\Sourcecode\Collision\ColliderManager.h" />
     <ClInclude Include="application\Sourcecode\Collision\CollisionChecker.h" />
     <ClInclude Include="application\Sourcecode\System\Camera2d.h" />
+    <ClInclude Include="application\Sourcecode\TestDrawer.h" />
+    <ClInclude Include="application\Sourcecode\Tutorial.h" />
     <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CircleGauge.h" />
     <ClInclude Include="ColliderTag.h" />
     <ClInclude Include="engine\2d\IPostEffect.h" />
     <ClInclude Include="engine\2d\MultipleRenderTarget.h" />
@@ -109,10 +196,14 @@
     <ClInclude Include="engine\3d\assimp\AssimpLoader.h" />
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h" />
     <ClInclude Include="engine\3d\assimp\AssimpModel.h" />
+    <ClInclude Include="engine\3d\assimp\AssimpObjects.h" />
+    <ClInclude Include="engine\3d\IParticle.h" />
     <ClInclude Include="engine\3d\light\CircleShadow.h" />
     <ClInclude Include="engine\3d\light\LightManager.h" />
     <ClInclude Include="engine\3d\Line3D.h" />
     <ClInclude Include="engine\3d\Model.h" />
+    <ClInclude Include="engine\3d\ModelManager.h" />
+    <ClInclude Include="engine\3d\SphereCollider.h" />
     <ClInclude Include="engine\base\REngine.h" />
     <ClInclude Include="engine\math\Collision.h" />
     <ClInclude Include="engine\3d\DebugCamera.h" />
@@ -153,6 +244,7 @@
     <ClInclude Include="application\Sourcecode\Collision\RectCollider.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="application\Sourcecode\Scene\ClearScene.h" />
+    <ClInclude Include="RingCrushParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="application\Resources\shader\assimp.hlsli" />
@@ -170,6 +262,7 @@
     <None Include="application\Resources\shader\Particle.hlsli" />
     <None Include="application\Resources\shader\Particle3D.hlsli" />
     <None Include="application\Resources\shader\PostEffect.hlsli" />
+    <None Include="application\Resources\shader\Radial360.hlsli" />
     <None Include="application\Resources\shader\RadialBlur.hlsli" />
     <None Include="application\Resources\shader\SkySphere.hlsli" />
     <None Include="application\Resources\shader\Smoke.hlsli" />
@@ -368,6 +461,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="application\Resources\shader\PostEffectVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\Radial360PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\Radial360VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

@@ -7,6 +7,19 @@
 
 const Color Color::white = Color(255,255,255,255);
 
+const Color Color::kRed = Color(255, 0, 0, 255);
+const Color Color::kGreen = Color(0, 255, 0, 255);
+const Color Color::kBlue = Color(0, 0, 255, 255);
+const Color Color::kYellow = Color(255, 255, 0, 255);
+const Color Color::kPink = Color(255, 0, 255, 255);
+const Color Color::kLightblue = Color(0, 255, 255, 255);
+const Color Color::kWhite = Color(255, 255, 255, 255);
+const Color Color::kBlack = Color(0, 0, 0, 255);
+
+const Color Color::kHuman = kBlack;
+const Color Color::kField = Color(210.f / 225.f, 40.f / 225.f, 20.f / 225.f, 255);
+const Color Color::kFlower = Color(255, 0, 255, 255);
+
 Color::Color() : r(255), g(255), b(255), a(255)
 {
 }

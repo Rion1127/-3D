@@ -21,7 +21,7 @@ struct Animation
 class AssimpObject3D
 {
 private:
-	std::unique_ptr<AssimpModel> model_;
+	AssimpModel* model_;
 	WorldTransform worldTransform_;
 	//エイリアステンプレート
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -36,15 +36,23 @@ private:
 	ConstBuffDataSkin* constMap_ = nullptr;
 
 	Animation animation_;
+
+	int32_t shadowNum_ = 0;
+	bool isActiveShadow_ = false;
+	bool isRepeatAnimation_ = false;
 public:
 	AssimpObject3D();
-
+	~AssimpObject3D();
+	void Init(bool isActiveShadow = true);
 	void Update();
 
 	void Draw();
-public:
+
+	
+private:
 	void PlayAnimation();
 	void ParseNodeHeirarchy(const float currentTime, const uint32_t index, const Matrix4& parentMat, const aiNode* rootNode);
+public:
 	aiNodeAnim* FindNodeAnim(const std::string& nodeName, aiAnimation* animation);
 
 	uint32_t FindScaleIndex(const aiNodeAnim* nodeAnim, const float currentTime);
@@ -58,6 +66,8 @@ public:
 	void SetPos(Vector3 pos) { worldTransform_.position_ = pos; }
 	void SetScale(Vector3 scale) { worldTransform_.scale_ = scale; }
 	void SetRot(Vector3 rot) { worldTransform_.rotation_ = rot; }
-	void SetModel(std::unique_ptr<AssimpModel> model) { model_ = std::move(model); }
+	void SetModel(AssimpModel* model) { model_ = model; };
+	void SetAnimationTime(int32_t time) { animation_.timer.SetLimitTime(time); };
+	void SetRepeatAnimation(bool flag) { isRepeatAnimation_ = flag; };
 };
 

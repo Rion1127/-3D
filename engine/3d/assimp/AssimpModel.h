@@ -44,11 +44,19 @@ struct AssimpModel
 
 	std::vector<std::unique_ptr<Vertices>> vertices_;
 	std::vector<std::unique_ptr<Material>> materials_;
+	//ライト
+	
+	static std::shared_ptr<LightGroup> lightGroup_;
+	static void SetLight(std::shared_ptr<LightGroup> lightGroup) { AssimpModel::lightGroup_ = lightGroup; }
 public:
 	AssimpModel();
 	static void CreateModel(const std::string& fileName);
 
+	void Init();
+
 	void PlayAnimetion();
+
+	void ShadowUpdate(int32_t activeNum, const Vector3& pos);
 
 	void Draw(const WorldTransform& WT);
 };

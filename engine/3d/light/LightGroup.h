@@ -15,7 +15,7 @@ private:
 	static const uint32_t sDirLightNum = 3;
 	static const uint32_t sPointLightNum = 3;
 	static const uint32_t sSpotLightNum = 3;
-	static const uint32_t sCircleShadowNum = 30;
+	static const uint32_t sCircleShadowNum = 70;
 	//定数バッファ用データ構造体
 	struct ConstBufferData {
 		//環境光の色

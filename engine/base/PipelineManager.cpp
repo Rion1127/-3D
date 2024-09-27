@@ -27,9 +27,21 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Object3D")->Setshader("BasicVS.hlsl", ShaderType::VS);
 	GetPipelineObjects("Object3D")->Setshader("BasicPS.hlsl", ShaderType::PS);
 
-	GetPipelineObjects("Object3D")->AddrootParams(4);
+	GetPipelineObjects("Object3D")->AddrootParams(5);
 
 	Create("Object3D", BACK, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
+
+	AddPipeline("Object3D_NotCull");
+	GetPipelineObjects("Object3D_NotCull")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3D_NotCull")->AddInputLayout("NORMAL", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("Object3D_NotCull")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("Object3D_NotCull")->Setshader("BasicVS.hlsl", ShaderType::VS);
+	GetPipelineObjects("Object3D_NotCull")->Setshader("BasicPS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("Object3D_NotCull")->AddrootParams(5);
+
+	Create("Object3D_NotCull", CULL_MODE::NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ALL, MODE_WRAP);
 
 	//スプライト
 	AddPipeline("Sprite");
@@ -42,6 +54,18 @@ void PipelineManager::ObjShaderIni()
 	GetPipelineObjects("Sprite")->AddrootParams(3);
 
 	Create("Sprite", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
+
+	//円形ゲージスプライト
+	AddPipeline("CircleGauge");
+	GetPipelineObjects("CircleGauge")->AddInputLayout("POSITION", DXGI_FORMAT_R32G32B32_FLOAT);
+	GetPipelineObjects("CircleGauge")->AddInputLayout("TEXCOORD", DXGI_FORMAT_R32G32_FLOAT);
+
+	GetPipelineObjects("CircleGauge")->Setshader("Radial360VS.hlsl", ShaderType::VS);
+	GetPipelineObjects("CircleGauge")->Setshader("Radial360PS.hlsl", ShaderType::PS);
+
+	GetPipelineObjects("CircleGauge")->AddrootParams(4);
+
+	Create("CircleGauge", NONE, TOPOLOGY_TRIANGLE, DEPTH_WRITE_MASK_ZERO, MODE_WRAP);
 
 	//トゥーンオブジェクト3D
 	AddPipeline("Toon");

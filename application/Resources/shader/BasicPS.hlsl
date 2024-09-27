@@ -8,7 +8,10 @@ PSOutput main(VSOutput input) : SV_TARGET
     PSOutput output;
 	//テクスチャマッピング
     float4 texcolor = tex.Sample(smp, input.uv);
-	
+    if (isUseDiffuseColor_)
+    {
+        texcolor.rgb = m_diffuse;
+    }
 	//光沢度
     const float shininess = 20.0f;
 	//頂点から視点への方向ベクトル
@@ -17,7 +20,6 @@ PSOutput main(VSOutput input) : SV_TARGET
     float3 ambient = m_ambient * 0.3f * ambientColor;
 	//シェーディング
     float4 shadecolor = float4(ambient, m_alpha);
-    float4 color = { 1, 1, 1, 1 };
 	//平行光源
     for (int i = 0; i < DIRLIGHT_NUM; i++)
     {
@@ -132,8 +134,7 @@ PSOutput main(VSOutput input) : SV_TARGET
         }
     }
 		
-   
-    output.target0 = shadecolor * texcolor;
+    output.target0 = shadecolor * (texcolor + color);
     output.target1 = float4(1 - (shadecolor * texcolor).rgb, 1);
 	//シェーディングによる色で描画
     return output;

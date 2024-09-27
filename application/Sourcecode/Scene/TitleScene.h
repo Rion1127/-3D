@@ -5,16 +5,13 @@
 #include "mSound.h"
 #include "Texture.h"
 #include "IScene.h"
+#include "LightManager.h"
 
 #include "Spline.h"
 
 class TitleScene :
     public IScene
 {
-private:
-	SoundManager* sound_ = nullptr;
-	
-	bool isSceneChange_;
 public:
 	~TitleScene();
 
@@ -25,5 +22,22 @@ public:
 	void Draw()override;
 	void DrawRenderTexture()override;
 	void DrawPostEffect() override;
+private:
+	//>> 変数
+	SoundManager* sound_ = nullptr;
+	//デバッグカメラ
+	DebugCamera debugCamera_;
+	//ライトマネージャー
+	std::shared_ptr<LightManager> lightManager_ = nullptr;
+	
+	bool isSceneChange_;
+
+	Sprite title_;
+	Sprite backGround_;
+	Sprite uiSprite_;
+	
+	TimerFloat titleFloatTimer_;
+	TimerFloat uiFloatTimer_;
+	int32_t uiAnimationIndex_;
 };
 

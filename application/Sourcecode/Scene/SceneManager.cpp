@@ -8,6 +8,7 @@
 #include "TitleScene.h"
 #include "DebugScene.h"
 #include "GameOverScene.h"
+#include "EditorScene.h"
 #include "Framework.h"
 #include "imgui.h"
 #include "ClearScene.h"
@@ -35,13 +36,16 @@ void SceneManager::Ini()
 	sceneNames_.emplace_back("Title");
 	sceneNames_.emplace_back("Game");
 	sceneNames_.emplace_back("ClearScene");
+	sceneNames_.emplace_back("Debug");
+	sceneNames_.emplace_back("Editor");
 	
 	StageListUpdate();
 	//ビルド開始時のシーン
 	Transition<GameScene>();
 	//Transition<TitleScene>();
+	//Transition<DebugScene>();
 	//Transition<ClearScene>();
-	//Transition<StageEditorScene>();
+	//Transition<EditorScene>();
 
 	animeTimer_.SetLimitTime(100);
 	whiteSprite_.Init();
@@ -68,6 +72,8 @@ void SceneManager::Update()
 		}
 		else if (sceneName_ == "Game")Transition<GameScene>();
 		else if (sceneName_ == "ClearScene")Transition<ClearScene>();
+		else if (sceneName_ == "Debug")Transition<DebugScene>();
+		else if (sceneName_ == "Editor")Transition<EditorScene>();
 		isSceneChange_ = false;
 	}
 

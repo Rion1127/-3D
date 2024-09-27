@@ -56,6 +56,13 @@ public:
 
 	//モデルを読み込む
 	static Model* CreateOBJ(const std::string& modelname, bool smoothing = false);
+	/// <summary>
+	/// モデルを読み込む
+	/// </summary>
+	/// <param name="modelname">モデルの名前</param>
+	/// <param name="smoothing">影を滑らかにする</param>
+	/// <param name="isShadow">影を落とすかどうか</param>
+	/// <returns></returns>
 	static std::unique_ptr<Model> CreateOBJ_uniptr(const std::string& modelname, bool smoothing = false, bool isShadow = true);
 
 	void SetModel(const Model* model);

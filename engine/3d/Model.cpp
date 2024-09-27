@@ -22,7 +22,7 @@ std::shared_ptr<LightGroup> Model::lightGroup_ = nullptr;
 Model::Model(bool isShadowSet)
 {
 	isShadowActive_ = isShadowSet;
-	if (isShadowActive_) {
+	if (isShadowActive_ && lightGroup_ != nullptr) {
 		shadowNum_ = lightGroup_->GetIsNotAvtiveCircleShadow();
 		lightGroup_->SetCircleShadowActive(shadowNum_,true);
 		shadowAtten_ = { 0.5f,0.6f,0.0f };
@@ -32,7 +32,7 @@ Model::Model(bool isShadowSet)
 
 Model::~Model()
 {
-	if (isShadowActive_)
+	if (isShadowActive_ && lightGroup_ != nullptr)
 	{
 		lightGroup_->SetCircleShadowActive(shadowNum_, false);
 	}

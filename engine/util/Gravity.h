@@ -44,6 +44,6 @@ public:
 	void SetGravityLimit(const float& limit) { gravityLimit_ = limit; }
 	void SetIsActive(bool flag) { isActive_ = flag; }
 public:
-	float const GetGravityValue() { return gravityValue_; }
-	float const GetAddValue() { return addValue_; }
+	float const GetGravityValue() const { return gravityValue_; }
+	float const GetAddValue() const { return addValue_; }
 };

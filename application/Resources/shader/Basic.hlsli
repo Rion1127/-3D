@@ -11,6 +11,8 @@ cbuffer Material : register(b1)
     float3 m_diffuse : packoffset(c1); // ディフューズ係数
     float3 m_specular : packoffset(c2); // スペキュラー係数
     float m_alpha : packoffset(c2.w); // アルファ
+    float3 m_basecolor : packoffset(c3); // ベースカラー
+    bool m_isUseBaseColor : packoffset(c4); // ベースカラーを使用するフラグ
 }
 
 //平行光源
@@ -55,7 +57,7 @@ struct CircleShadow
 static const int DIRLIGHT_NUM = 3;
 static const int POINTLIGHT_NUM = 3;
 static const int SPOTLIGHT_NUM = 3;
-static const int CIRCLESHADOW_NUM = 30;
+static const int CIRCLESHADOW_NUM = 70;
 
 cbuffer Light : register(b2)
 {
@@ -66,7 +68,11 @@ cbuffer Light : register(b2)
     CircleShadow circleShadows[CIRCLESHADOW_NUM];   //丸影
 }
 
-
+cbuffer ConstBufferDataColor : register(b3)
+{
+    float4 color;
+    bool isUseDiffuseColor_;
+}
 
 
 //頂点シェーダの出力構造体

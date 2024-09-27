@@ -3,6 +3,7 @@
 
 #include "RectCollider.h"
 #include "CircleCollider.h"
+#include "SphereCollider.h"
 #include "HitStop.h"
 
 void ColliderManager::Update(void)
@@ -33,7 +34,12 @@ void ColliderManager::Update(void)
             if ((*it2)->Get_IsActive() == false) { continue; }
 
             // 2.it1とit2の衝突判定を確認
-            Collision(*it1, *it2); // <-No.3は上記のCollision()内にて行われている。
+            if ((*it1)->shape_ < SHAPE_3D || (*it2)->shape_ < SHAPE_3D) {
+                Collision2d(*it1, *it2); // <-No.3は上記のCollision()内にて行われている。
+            }
+            else {
+                Collision3d(*it1, *it2); // <-No.3は上記のCollision()内にて行われている。
+            }
         }
 
         // 4.callbackの実行
@@ -57,8 +63,9 @@ void ColliderManager::UnRegister(ICollider* arg_collider)
     // リストから抹消
     colliders_.remove(arg_collider);
 }
-
-void ColliderManager::Collision(ICollider* arg_col1, ICollider* arg_col2)
+///////////////////////
+//2Dの当たり判定
+void ColliderManager::Collision2d(ICollider* arg_col1, ICollider* arg_col2)
 {
     bool isCol = false;
     bool temp = false;
@@ -114,4 +121,38 @@ bool ColliderManager::Rect2Circle(ICollider* arg_col1, ICollider* arg_col2)
         return CollisionChecker::Check_OBB2Circle(rect->square_, circle->circle_);
     }
 }
+///////////////////////
+
+///////////////////////
+//3Dの当たり判定
+void ColliderManager::Collision3d(ICollider* arg_col1, ICollider* arg_col2)
+{
+    bool isCol = false;
+    bool temp = false;
+
+    // 矩形と矩形
+    temp = Sphere2Sphere(arg_col1, arg_col2);
+    isCol = (std::max)(isCol, temp);        // trueがfalseに書き換わらないように
+
+    if (!isCol) { return; }
+
+    // 3.衝突判定フラグや接触相手のptrを取得
+    arg_col1->Set_IsCol(true);
+    arg_col1->Record_Collider(arg_col2);
+
+    arg_col2->Set_IsCol(true);
+    arg_col2->Record_Collider(arg_col1);
+}
+
+bool ColliderManager::Sphere2Sphere(ICollider* arg_col1, ICollider* arg_col2)
+{
+    bool isCorrectShape = (arg_col1->Get_Shape() == SHAPE_SPHERE) && (arg_col2->Get_Shape() == SHAPE_SPHERE);
+    if (!isCorrectShape) { return false; }
+
+    SphereCollider* rect1 = static_cast<SphereCollider*>(arg_col1);
+    SphereCollider* rect2 = static_cast<SphereCollider*>(arg_col2);
+    bool isCol = BallCollision(rect1->sphere_, rect2->sphere_);
+    return isCol;
+}
+///////////////////////
 

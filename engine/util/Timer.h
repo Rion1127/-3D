@@ -31,11 +31,11 @@ public:
 	void SetIsLoop(bool flag) { isLoop_ = flag; }
 public:
 	//ゲッター
-	int32_t GetTimer() { return timer_; }
-	int32_t GetLimitTimer() { return limitTime_; }
+	int32_t GetTimer() const { return timer_; }
+	int32_t GetLimitTimer() const { return limitTime_; }
     int32_t* GetLimitTImerPtr(void) { return &limitTime_; }
-	bool GetIsEnd() { return isEnd_; }
-	float GetTimeRate() { return (float)timer_ / limitTime_; }
+	bool GetIsEnd() const { return isEnd_; }
+	float GetTimeRate() const { return (float)timer_ / limitTime_; }
 };
 
 class TimerFloat {

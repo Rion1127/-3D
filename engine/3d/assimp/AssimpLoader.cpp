@@ -20,7 +20,7 @@ AssimpLoader* AssimpLoader::GetInstance()
 std::unique_ptr<AssimpModel> AssimpLoader::Load(const std::string& fileName)
 {
 	std::unique_ptr<AssimpModel> result =
-		std::move(std::make_unique<AssimpModel>());
+		std::make_unique<AssimpModel>();
 
 
 	//以下のフラグの数値を代入していく
@@ -30,7 +30,9 @@ std::unique_ptr<AssimpModel> AssimpLoader::Load(const std::string& fileName)
 	flag |= aiProcess_Triangulate;
 	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_FlipUVs;
+
 	//flag |= aiProcess_GenUVCoords;
+
 	/*flag |= aiProcess_TransformUVCoords;
 	flag |= aiProcess_GenSmoothNormals;
 	flag |= aiProcess_RemoveRedundantMaterials;
@@ -106,6 +108,8 @@ void AssimpLoader::LoadVertices(Vertices* vert, const aiMesh* aimesh)
 
 void AssimpLoader::LoadMaterial(std::string fileName, Material* material, const aiMaterial* aimaterial)
 {
+	material->texture_ = *TextureManager::GetInstance()->GetTexture("White");
+	aiColor4D diffusColor;
 	//テクスチャ
 	aiString path;
 	if (aimaterial->Get(AI_MATKEY_TEXTURE_DIFFUSE(0), path) == AI_SUCCESS)
@@ -122,6 +126,22 @@ void AssimpLoader::LoadMaterial(std::string fileName, Material* material, const 
 		TextureManager::GetInstance()->
 			LoadGraph(material->textureFilename_, material->textureFilename_);
 		material->texture_ = *TextureManager::GetInstance()->GetTexture(material->textureFilename_);
+	}
+	else if (aiGetMaterialColor(aimaterial, AI_MATKEY_COLOR_DIFFUSE, &diffusColor) == AI_SUCCESS)
+	{
+		Color color = {
+			diffusColor.r * 255.f,
+			diffusColor.g * 255.f,
+			diffusColor.b * 255.f,
+			diffusColor.a * 255.f,
+		};
+		material->SetBaseColor(color);
+		//ここでテクスチャではなくマテリアルの色を使う設定にしている
+		material->SetIsUseBaseColor(true);
+	}
+	else 
+	{
+		material->texture_ = *TextureManager::GetInstance()->GetTexture("White");
 	}
 }
 

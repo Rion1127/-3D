@@ -172,6 +172,57 @@
     <Filter Include="シェーダーファイル\application\Sprite\DiscardMask">
       <UniqueIdentifier>{67643f55-0ef3-44e4-933f-54e77c5a5927}</UniqueIdentifier>
     </Filter>
+    <Filter Include="application\ソースファイル\Player">
+      <UniqueIdentifier>{ce539e1f-e823-4aa6-b5eb-a8784d1c72a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\Player">
+      <UniqueIdentifier>{12648e73-a478-4e62-a037-402af6e0c826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\Field">
+      <UniqueIdentifier>{129f9b27-459d-4bfa-814a-8085691719e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\Field">
+      <UniqueIdentifier>{caf8bffb-3821-4bc6-98da-7a60e2ee806e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\Camera">
+      <UniqueIdentifier>{ddaac505-3134-47a3-87ae-fcd9b0d3f301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\Camera">
+      <UniqueIdentifier>{29d907ef-9b5c-455c-b66d-a2f5f5105cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\human">
+      <UniqueIdentifier>{5d15a35c-1806-4a7f-8f53-0419b5078d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\human">
+      <UniqueIdentifier>{2f9bbe6e-6c7c-4f2d-9e17-d3b5a4757a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\CircleGauge">
+      <UniqueIdentifier>{d3a14173-8444-41d5-9d21-ae00c5cbc5b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\human\NormalHuman">
+      <UniqueIdentifier>{d8cdf8c2-64e5-40c7-941b-55bbfcb1556a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\human\NormalHuman">
+      <UniqueIdentifier>{6f85c083-5049-4f5b-a97c-ac86f1cb3384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\human\NormalHuman\State">
+      <UniqueIdentifier>{b70b24ce-6bd6-44cc-ae25-83e4cb68c098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\human\NormalHuman\State">
+      <UniqueIdentifier>{c8655026-85c3-4906-8691-03b08167ae48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\human\DebuHuman">
+      <UniqueIdentifier>{65c5ed6f-4495-4295-a0d6-1f1a3820e2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\human\DebuHuman">
+      <UniqueIdentifier>{eaa55d26-04d0-4f3f-972a-fe50aa6217ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\human\DebuHuman\State">
+      <UniqueIdentifier>{afbedf09-921b-44f3-b744-1a0172186bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ソースファイル\human\DebuHuman\State">
+      <UniqueIdentifier>{dabaa2e0-a718-4547-a578-3bc6fa358392}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -376,6 +427,144 @@
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="engine\2d\SpriteVertex.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\SphereCollider.cpp">
+      <Filter>engine\ソース ファイル\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Player\Player.cpp">
+      <Filter>application\ソースファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Player\PlayerManager.cpp">
+      <Filter>application\ソースファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Player\Rope.cpp">
+      <Filter>application\ソースファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Field\FieldManager.cpp">
+      <Filter>application\ソースファイル\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Field\Field.cpp">
+      <Filter>application\ソースファイル\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Camera\CameraManager.cpp">
+      <Filter>application\ソースファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\HumanManager.cpp">
+      <Filter>application\ソースファイル\human</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\BaseHuman.cpp">
+      <Filter>application\ソースファイル\human</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleGauge.cpp">
+      <Filter>application\ソースファイル\CircleGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\TestDrawer.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\assimp\AssimpObjects.cpp">
+      <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\ModelManager.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\KnockBack.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ColliderObject.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\HumanDrawer.cpp">
+      <Filter>application\ソースファイル\human</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\RescueCount.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\FileOutPut.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Ranking.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Catch.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Chase.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Idle.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\Normalhuman_KnockBack.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_Spawn.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\NormalHuman_WakeUp.cpp">
+      <Filter>application\ソースファイル\human\NormalHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\DebuHuman.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Catch.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Chase.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Idle.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_KnockBack.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_Spawn.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHuman_WakeUp.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman\State</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Human\FatHumanDrawer.cpp">
+      <Filter>application\ソースファイル\human\DebuHuman</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\PopEditor.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Scene\EditorScene.cpp">
+      <Filter>application\ソースファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\FeverLight.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Rescue_Humans.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\Tutorial.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\IParticle.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ParticleManager.cpp">
+      <Filter>application\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ParticleFire.cpp">
+      <Filter>application\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="RingCrushParticle.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ParticleAscension.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ParticleTrail.cpp">
+      <Filter>application\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ResultHuman.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -599,6 +788,147 @@
     <ClInclude Include="engine\2d\SpriteVertex.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="engine\3d\SphereCollider.h">
+      <Filter>engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Player\Player.h">
+      <Filter>application\ヘッダーファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Player\PlayerManager.h">
+      <Filter>application\ヘッダーファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Player\Rope.h">
+      <Filter>application\ヘッダーファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Field\FieldManager.h">
+      <Filter>application\ヘッダーファイル\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Field\Field.h">
+      <Filter>application\ヘッダーファイル\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Camera\CameraManager.h">
+      <Filter>application\ヘッダーファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\HumanManager.h">
+      <Filter>application\ヘッダーファイル\human</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\BaseHuman.h">
+      <Filter>application\ヘッダーファイル\human</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleGauge.h">
+      <Filter>application\ソースファイル\CircleGauge</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
+      <Filter>application\ヘッダーファイル\human</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\TestDrawer.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\assimp\AssimpObjects.h">
+      <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\ModelManager.h">
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\KnockBack.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ColliderObject.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\RescueCount.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\FileOutPut.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Ranking.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Catch.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Chase.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Idle.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\Normalhuman_KnockBack.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_Spawn.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\NormalHuman_WakeUp.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\HumanDrawer.h">
+      <Filter>application\ヘッダーファイル\human\NormalHuman</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Catch.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Chase.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Idle.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_KnockBack.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_Spawn.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHuman_WakeUp.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman\State</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Human\FatHumanDrawer.h">
+      <Filter>application\ヘッダーファイル\human\DebuHuman</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\PopEditor.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Scene\EditorScene.h">
+      <Filter>application\ヘッダーファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\FeverLight.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Rescue_Humans.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Tutorial.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\IParticle.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ParticleManager.h">
+      <Filter>application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ParticleFire.h">
+      <Filter>application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="RingCrushParticle.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ParticleAscension.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ParticleTrail.h">
+      <Filter>application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ResultHuman.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -685,6 +1015,9 @@
     </None>
     <None Include="application\Resources\shader\Sprite\DiscardMask.hlsli">
       <Filter>シェーダーファイル\application\Sprite\DiscardMask</Filter>
+    </None>
+    <None Include="application\Resources\shader\Radial360.hlsli">
+      <Filter>シェーダーファイル\application</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -843,6 +1176,12 @@
     </FxCompile>
     <FxCompile Include="application\Resources\shader\Sprite\DiscardMaskPS.hlsl">
       <Filter>シェーダーファイル\application\Sprite\DiscardMask</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\Radial360PS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
+    </FxCompile>
+    <FxCompile Include="application\Resources\shader\Radial360VS.hlsl">
+      <Filter>シェーダーファイル\application</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
