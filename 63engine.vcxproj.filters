@@ -181,6 +181,12 @@
     <Filter Include="application\ソースファイル\CircleGauge">
       <UniqueIdentifier>{d3a14173-8444-41d5-9d21-ae00c5cbc5b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="application\ソースファイル\Particle">
+      <UniqueIdentifier>{516e2c3e-fe53-418d-b317-ef0f58b802ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="application\ヘッダーファイル\Particle">
+      <UniqueIdentifier>{bf70fc40-15d3-4129-bcba-674e2a391ae7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="engine\base\main.cpp">
@@ -339,9 +345,6 @@
     <ClCompile Include="application\Sourcecode\Shader\Bloom.cpp">
       <Filter>engine\ソース ファイル\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="engine\3d\Line3D.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="application\Sourcecode\Scene\SceneManager.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
@@ -384,17 +387,11 @@
     <ClCompile Include="ColliderTag.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="engine\2d\SpriteVertex.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="engine\3d\SphereCollider.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="CircleGauge.cpp">
       <Filter>application\ソースファイル\CircleGauge</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Sourcecode\TestDrawer.cpp">
-      <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\assimp\AssimpObjects.cpp">
       <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
@@ -402,32 +399,29 @@
     <ClCompile Include="engine\3d\ModelManager.cpp">
       <Filter>engine\ソース ファイル\Object3D</Filter>
     </ClCompile>
-    <ClCompile Include="application\Sourcecode\ColliderObject.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Sourcecode\RescueCount.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Sourcecode\FileOutPut.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="engine\3d\IParticle.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="application\Sourcecode\ParticleManager.cpp">
-      <Filter>application\ソースファイル</Filter>
-    </ClCompile>
     <ClCompile Include="application\Sourcecode\ParticleFire.cpp">
-      <Filter>application\ソースファイル</Filter>
+      <Filter>application\ソースファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="RingCrushParticle.cpp">
-      <Filter>engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="application\Sourcecode\ParticleAscension.cpp">
-      <Filter>engine\ソース ファイル</Filter>
+    <ClCompile Include="application\Sourcecode\ParticleManager.cpp">
+      <Filter>application\ソースファイル\Particle</Filter>
     </ClCompile>
     <ClCompile Include="application\Sourcecode\ParticleTrail.cpp">
-      <Filter>application\ソースファイル</Filter>
+      <Filter>application\ソースファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\FileOutPut.cpp">
+      <Filter>engine\ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\SpriteVertex.cpp">
+      <Filter>engine\ソース ファイル\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Line3D.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
+    </ClCompile>
+    <ClCompile Include="application\Sourcecode\ColliderObject.cpp">
+      <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,9 +584,6 @@
     <ClInclude Include="resource.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="engine\3d\Line3D.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="application\Sourcecode\Scene\SceneManager.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
@@ -647,9 +638,6 @@
     <ClInclude Include="application\Sourcecode\GameStatus.h">
       <Filter>application\ヘッダーファイル</Filter>
     </ClInclude>
-    <ClInclude Include="engine\2d\SpriteVertex.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\SphereCollider.h">
       <Filter>engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
@@ -659,23 +647,11 @@
     <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
       <Filter>application\ヘッダーファイル\human</Filter>
     </ClInclude>
-    <ClInclude Include="application\Sourcecode\TestDrawer.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpObjects.h">
       <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\ModelManager.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Sourcecode\ColliderObject.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Sourcecode\RescueCount.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Sourcecode\FileOutPut.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
       <Filter>application\ヘッダーファイル\human\DebuHuman</Filter>
@@ -683,20 +659,26 @@
     <ClInclude Include="engine\3d\IParticle.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="application\Sourcecode\ParticleManager.h">
-      <Filter>application\ヘッダーファイル</Filter>
-    </ClInclude>
     <ClInclude Include="application\Sourcecode\ParticleFire.h">
-      <Filter>application\ヘッダーファイル</Filter>
+      <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="RingCrushParticle.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Sourcecode\ParticleAscension.h">
-      <Filter>engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="application\Sourcecode\ParticleManager.h">
+      <Filter>application\ヘッダーファイル\Particle</Filter>
     </ClInclude>
     <ClInclude Include="application\Sourcecode\ParticleTrail.h">
-      <Filter>application\ヘッダーファイル</Filter>
+      <Filter>application\ヘッダーファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\FileOutPut.h">
+      <Filter>engine\ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\SpriteVertex.h">
+      <Filter>engine\ヘッダー ファイル\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Line3D.h">
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\ColliderObject.h">
+      <Filter>engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

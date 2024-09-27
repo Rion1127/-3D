@@ -15,11 +15,9 @@
     <ClCompile Include="application\Sourcecode\FileOutPut.cpp" />
     <ClCompile Include="application\Sourcecode\HitStop.cpp" />
     <ClCompile Include="application\Sourcecode\LoadManager.cpp" />
-    <ClCompile Include="application\Sourcecode\ParticleAscension.cpp" />
     <ClCompile Include="application\Sourcecode\ParticleFire.cpp" />
     <ClCompile Include="application\Sourcecode\ParticleManager.cpp" />
     <ClCompile Include="application\Sourcecode\ParticleTrail.cpp" />
-    <ClCompile Include="application\Sourcecode\RescueCount.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\ClearScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\DebugScene.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\GameOverScene.cpp" />
@@ -34,7 +32,6 @@
     <ClCompile Include="application\Sourcecode\System\Camera2d.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\ColliderManager.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\CollisionChecker.cpp" />
-    <ClCompile Include="application\Sourcecode\TestDrawer.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="CircleGauge.cpp" />
     <ClCompile Include="ColliderTag.cpp" />
@@ -92,7 +89,6 @@
     <ClCompile Include="application\Sourcecode\Collision\ICollider.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\RectCollider.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\TitleScene.cpp" />
-    <ClCompile Include="RingCrushParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Sourcecode\ColliderObject.h" />
@@ -101,11 +97,9 @@
     <ClInclude Include="application\Sourcecode\HitStop.h" />
     <ClInclude Include="application\Sourcecode\LoadManager.h" />
     <ClInclude Include="application\Sourcecode\ObjectsName.h" />
-    <ClInclude Include="application\Sourcecode\ParticleAscension.h" />
     <ClInclude Include="application\Sourcecode\ParticleFire.h" />
     <ClInclude Include="application\Sourcecode\ParticleManager.h" />
     <ClInclude Include="application\Sourcecode\ParticleTrail.h" />
-    <ClInclude Include="application\Sourcecode\RescueCount.h" />
     <ClInclude Include="application\Sourcecode\Scene\DebugScene.h" />
     <ClInclude Include="application\Sourcecode\Scene\GameOverScene.h" />
     <ClInclude Include="application\Sourcecode\Scene\GameScene.h" />
@@ -120,7 +114,6 @@
     <ClInclude Include="application\Sourcecode\Collision\ColliderManager.h" />
     <ClInclude Include="application\Sourcecode\Collision\CollisionChecker.h" />
     <ClInclude Include="application\Sourcecode\System\Camera2d.h" />
-    <ClInclude Include="application\Sourcecode\TestDrawer.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="CircleGauge.h" />
     <ClInclude Include="ColliderTag.h" />
@@ -180,7 +173,6 @@
     <ClInclude Include="application\Sourcecode\Collision\RectCollider.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="application\Sourcecode\Scene\ClearScene.h" />
-    <ClInclude Include="RingCrushParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="application\Resources\shader\assimp.hlsli" />

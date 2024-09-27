@@ -14,7 +14,6 @@
 #include "Timer.h"
 #include "CircleGauge.h"
 #include "FileOutPut.h"
-#include "RescueCount.h"
 #include "ParticleManager.h"
 /**
  * @file GameScene.h

@@ -10,7 +10,6 @@
 
 #include "ColliderManager.h"
 #include "AssimpObject3D.h"
-#include "TestDrawer.h"
 
 #include "SphereCollider.h"
 #include "ParticleManager.h"

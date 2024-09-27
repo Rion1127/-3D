@@ -2,8 +2,6 @@
 #include "PipelineManager.h"
 
 #include "ParticleFire.h"
-#include "RingCrushParticle.h"
-#include "ParticleAscension.h"
 
 /**
  * @file ParticleManager.cpp
@@ -41,23 +39,6 @@ void ParticleManager::InitParticle(const std::string& name)
 		emitter->isActive = true;
 		emitter->time = 20;
 		emitter->scale = 1.f;
-	}
-	else if (name == "ringCrush") {
-		emitter->particle = std::make_unique<RingCrushParticle>();
-		//各々のパーティクルのAdd()の中にマジックナンバーで書いてもいい
-		emitter->addVec = { 0.2f,0.1f, 0.2f, };
-		emitter->addNum = 48;
-		emitter->isActive = true;
-		emitter->time = 20;
-		emitter->scale = 1.f;
-	}
-	else if (name == "light") {
-		emitter->particle = std::make_unique<ParticleAscension>();
-		//各々のパーティクルのAdd()の中にマジックナンバーで書いてもいい
-		emitter->addNum = 2;
-		emitter->time = 180;
-		emitter->addVec = { 0.1f,0.15f, 0.1f };
-		emitter->scale = 0.8f;
 	}
 }
 
