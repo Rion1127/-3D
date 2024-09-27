@@ -23,6 +23,11 @@ void DebugScene::Init()
 	Model::SetLight(lightManager_->GetLightGroup());
 	AssimpModel::SetLight(lightManager_->GetLightGroup());
 	Camera2d::GetInstance()->Init();
+
+	testState_ = TestState::IDLE;
+	assimpDrawer_.SetAnimationTimer(30);
+	assimpDrawer_.SetRepeatAnimation(true);
+	assimpDrawer_.Init(&testState_);
 }
 
 void DebugScene::Update()
@@ -36,6 +41,8 @@ void DebugScene::Update()
 	
 	colliderManager_.Update();
 	lightManager_->Update();
+
+	assimpDrawer_.Update();
 
 	ParticleManager::GetInstance()->Update();
 }
@@ -52,6 +59,7 @@ void DebugScene::Draw()
 	//assimpオブジェクト//
 	/////////////////
 	PipelineManager::PreDraw("assimp", TRIANGLELIST);
+	assimpDrawer_.Draw();
 	
 	ParticleManager::GetInstance()->Draw();
 }

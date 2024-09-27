@@ -40,6 +40,7 @@
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
     <ClCompile Include="engine\2d\Sprite.cpp" />
     <ClCompile Include="engine\2d\SpriteVertex.cpp" />
+    <ClCompile Include="engine\3d\assimp\AssimpDrawer.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpLoader.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpObject3D.cpp" />
     <ClCompile Include="engine\3d\assimp\AssimpModel.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="engine\2d\MultiTexture.h" />
     <ClInclude Include="engine\2d\Sprite.h" />
     <ClInclude Include="engine\2d\SpriteVertex.h" />
+    <ClInclude Include="engine\3d\assimp\AssimpDrawer.h" />
     <ClInclude Include="engine\3d\assimp\AssimpLoader.h" />
     <ClInclude Include="engine\3d\assimp\AssimpObject3D.h" />
     <ClInclude Include="engine\3d\assimp\AssimpModel.h" />

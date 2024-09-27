@@ -9,7 +9,7 @@
 #include "DebugCamera.h"
 
 #include "ColliderManager.h"
-#include "AssimpObject3D.h"
+#include "AssimpDrawer.h"
 
 #include "SphereCollider.h"
 #include "ParticleManager.h"
@@ -36,6 +36,9 @@ private:
 	std::shared_ptr<LightManager> lightManager_ = nullptr;
 
 	ColliderManager colliderManager_;
+
+	AssimpDrawer assimpDrawer_;
+	TestState testState_;
 private:
 	void CallBack();
 };

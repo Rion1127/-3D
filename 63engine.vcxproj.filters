@@ -423,6 +423,9 @@
     <ClCompile Include="application\Sourcecode\ColliderObject.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="engine\3d\assimp\AssimpDrawer.cpp">
+      <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -679,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="application\Sourcecode\ColliderObject.h">
       <Filter>engine\ヘッダー ファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\assimp\AssimpDrawer.h">
+      <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

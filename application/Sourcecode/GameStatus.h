@@ -69,45 +69,7 @@ struct MoveInfo3d_t
 };
 
 enum TestState {
-	ZERO,
-	ONE,
-	TWO
-};
-
-enum HumanState {
-	SPAWN,
 	IDLE,
 	WALK,
-	CHASE,
-	CATCH,
-	KNOCKBACK,
-	WAKEUP,
-	FEVER
-};
-
-enum SwingPower {
-	POWER_ZERO,
-	WEAK,
-	STRONG,
-};
-
-enum HumanType {
-	NORMAL,
-	DEBU
-};
-
-struct PopPos {
-	int32_t popNum_normal;
-	int32_t popNum_debu;
-	int32_t popNum_group;
-	int32_t popNum_group_humans;
-};
-
-struct PopData {
-	int32_t popTime;
-	int32_t popPos;
-	PopPos popPos1;
-	PopPos popPos2;
-	PopPos popPos3;
-	bool isPop = true;
+	RUN
 };
