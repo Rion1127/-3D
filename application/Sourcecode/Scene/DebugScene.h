@@ -14,7 +14,7 @@
 #include "SphereCollider.h"
 #include "ParticleManager.h"
 
-#include "RescueCount.h"
+#include "ValueSprite.h"
 
 class DebugScene :
     public IScene

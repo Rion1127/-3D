@@ -426,7 +426,7 @@
     <ClCompile Include="engine\3d\assimp\AssimpDrawer.cpp">
       <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
     </ClCompile>
-    <ClCompile Include="RescueCount.cpp">
+    <ClCompile Include="ValueSprite.cpp">
       <Filter>engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -686,7 +686,7 @@
     <ClInclude Include="engine\3d\assimp\AssimpDrawer.h">
       <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="RescueCount.h">
+    <ClInclude Include="ValueSprite.h">
       <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

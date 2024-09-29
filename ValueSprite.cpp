@@ -1,4 +1,4 @@
-#include "RescueCount.h"
+#include "ValueSprite.h"
 
 void ValueSprite::Init(int32_t digit, const std::string& textureName, bool isZeroDisplay)
 {

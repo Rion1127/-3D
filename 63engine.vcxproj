@@ -90,7 +90,7 @@
     <ClCompile Include="application\Sourcecode\Collision\ICollider.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\RectCollider.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\TitleScene.cpp" />
-    <ClCompile Include="RescueCount.cpp" />
+    <ClCompile Include="ValueSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Sourcecode\ColliderObject.h" />
@@ -174,7 +174,7 @@
     <ClInclude Include="engine\util\Timer.h" />
     <ClInclude Include="application\Sourcecode\Collision\ICollider.h" />
     <ClInclude Include="application\Sourcecode\Collision\RectCollider.h" />
-    <ClInclude Include="RescueCount.h" />
+    <ClInclude Include="ValueSprite.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="application\Sourcecode\Scene\ClearScene.h" />
   </ItemGroup>
