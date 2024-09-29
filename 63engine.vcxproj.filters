@@ -426,6 +426,9 @@
     <ClCompile Include="engine\3d\assimp\AssimpDrawer.cpp">
       <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
     </ClCompile>
+    <ClCompile Include="RescueCount.cpp">
+      <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -647,9 +650,6 @@
     <ClInclude Include="CircleGauge.h">
       <Filter>application\ソースファイル\CircleGauge</Filter>
     </ClInclude>
-    <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
-      <Filter>application\ヘッダーファイル\human</Filter>
-    </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpObjects.h">
       <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
     </ClInclude>
@@ -685,6 +685,9 @@
     </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpDrawer.h">
       <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="RescueCount.h">
+      <Filter>engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

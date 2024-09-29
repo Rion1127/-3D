@@ -28,6 +28,9 @@ void DebugScene::Init()
 	assimpDrawer_.SetAnimationTimer(30);
 	assimpDrawer_.SetRepeatAnimation(true);
 	assimpDrawer_.Init(&testState_);
+
+	rescueCount_.Init(3);
+	rescueCount_.SetPos(Vector2(600,200));
 }
 
 void DebugScene::Update()
@@ -39,11 +42,15 @@ void DebugScene::Update()
 	Camera::scurrent_->Update(CameraMode::LookAT);
 #endif // _DEBUG
 	
-	colliderManager_.Update();
-	lightManager_->Update();
+	number++;
+	rescueCount_.SetValue(number);
 
 	assimpDrawer_.Update();
+	rescueCount_.Update();
 
+
+	colliderManager_.Update();
+	lightManager_->Update();
 	ParticleManager::GetInstance()->Update();
 }
 
@@ -60,6 +67,9 @@ void DebugScene::Draw()
 	/////////////////
 	PipelineManager::PreDraw("assimp", TRIANGLELIST);
 	assimpDrawer_.Draw();
+
+	PipelineManager::PreDraw("Sprite", TRIANGLELIST);
+	rescueCount_.Draw();
 	
 	ParticleManager::GetInstance()->Draw();
 }

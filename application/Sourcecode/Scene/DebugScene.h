@@ -14,6 +14,8 @@
 #include "SphereCollider.h"
 #include "ParticleManager.h"
 
+#include "RescueCount.h"
+
 class DebugScene :
     public IScene
 {
@@ -39,6 +41,9 @@ private:
 
 	AssimpDrawer assimpDrawer_;
 	TestState testState_;
+
+	ValueSprite rescueCount_;
+	int32_t number;
 private:
 	void CallBack();
 };
