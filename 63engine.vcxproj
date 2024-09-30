@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application\Sourcecode\ColliderObject.cpp" />
+    <ClCompile Include="application\Sourcecode\Collision\IObject.cpp" />
     <ClCompile Include="application\Sourcecode\FileOutPut.cpp" />
     <ClCompile Include="application\Sourcecode\HitStop.cpp" />
     <ClCompile Include="application\Sourcecode\LoadManager.cpp" />
@@ -95,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Sourcecode\ColliderObject.h" />
+    <ClInclude Include="application\Sourcecode\Collision\IObject.h" />
     <ClInclude Include="application\Sourcecode\FileOutPut.h" />
     <ClInclude Include="application\Sourcecode\GameStatus.h" />
     <ClInclude Include="application\Sourcecode\HitStop.h" />

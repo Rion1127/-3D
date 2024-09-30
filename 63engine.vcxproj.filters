@@ -432,6 +432,9 @@
     <ClCompile Include="engine\ObjectManager.cpp">
       <Filter>application\ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="application\Sourcecode\Collision\IObject.cpp">
+      <Filter>engine\ソース ファイル\Object3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\math\myMath.h">
@@ -691,6 +694,9 @@
     </ClInclude>
     <ClInclude Include="engine\ObjectManager.h">
       <Filter>application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="application\Sourcecode\Collision\IObject.h">
+      <Filter>engine\ヘッダー ファイル\Object3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
