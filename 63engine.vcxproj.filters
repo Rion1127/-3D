@@ -363,7 +363,7 @@
     <ClCompile Include="application\Sourcecode\Scene\ClearScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
+    <ClCompile Include="engine\collision\CircleCollider.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="application\Sourcecode\Collision\ColliderManager.cpp">
@@ -384,13 +384,13 @@
     <ClCompile Include="application\Sourcecode\Scene\GameOverScene.cpp">
       <Filter>application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderTag.cpp">
+    <ClCompile Include="engine\collision\ColliderTag.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\SphereCollider.cpp">
       <Filter>engine\ソース ファイル\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CircleGauge.cpp">
+    <ClCompile Include="engine\2d\CircleGauge.cpp">
       <Filter>application\ソースファイル\CircleGauge</Filter>
     </ClCompile>
     <ClCompile Include="engine\3d\assimp\AssimpObjects.cpp">
@@ -426,8 +426,11 @@
     <ClCompile Include="engine\3d\assimp\AssimpDrawer.cpp">
       <Filter>engine\ソース ファイル\Object3D\assimp</Filter>
     </ClCompile>
-    <ClCompile Include="ValueSprite.cpp">
+    <ClCompile Include="engine\2d\ValueSprite.cpp">
       <Filter>engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ObjectManager.cpp">
+      <Filter>application\ソースファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -605,7 +608,7 @@
     <ClInclude Include="application\Sourcecode\Scene\TitleScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CircleCollider.h">
+    <ClInclude Include="engine\collision\CircleCollider.h">
       <Filter>engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
     <ClInclude Include="application\Sourcecode\Collision\ColliderManager.h">
@@ -635,7 +638,7 @@
     <ClInclude Include="application\Sourcecode\Scene\GameOverScene.h">
       <Filter>application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderTag.h">
+    <ClInclude Include="engine\collision\ColliderTag.h">
       <Filter>engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
     <ClInclude Include="application\Sourcecode\System\Camera2d.h">
@@ -647,7 +650,7 @@
     <ClInclude Include="engine\3d\SphereCollider.h">
       <Filter>engine\ヘッダー ファイル\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CircleGauge.h">
+    <ClInclude Include="engine\2d\CircleGauge.h">
       <Filter>application\ソースファイル\CircleGauge</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\assimp\AssimpObjects.h">
@@ -655,9 +658,6 @@
     </ClInclude>
     <ClInclude Include="engine\3d\ModelManager.h">
       <Filter>engine\ヘッダー ファイル\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="application\Sourcecode\Human\DebuHuman.h">
-      <Filter>application\ヘッダーファイル\human\DebuHuman</Filter>
     </ClInclude>
     <ClInclude Include="engine\3d\IParticle.h">
       <Filter>engine\ヘッダー ファイル</Filter>
@@ -686,8 +686,11 @@
     <ClInclude Include="engine\3d\assimp\AssimpDrawer.h">
       <Filter>engine\ヘッダー ファイル\Object3D\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="ValueSprite.h">
+    <ClInclude Include="engine\2d\ValueSprite.h">
       <Filter>engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ObjectManager.h">
+      <Filter>application\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

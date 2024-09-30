@@ -32,9 +32,9 @@
     <ClCompile Include="application\Sourcecode\System\Camera2d.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\ColliderManager.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\CollisionChecker.cpp" />
-    <ClCompile Include="CircleCollider.cpp" />
-    <ClCompile Include="CircleGauge.cpp" />
-    <ClCompile Include="ColliderTag.cpp" />
+    <ClCompile Include="engine\collision\CircleCollider.cpp" />
+    <ClCompile Include="engine\2d\CircleGauge.cpp" />
+    <ClCompile Include="engine\collision\ColliderTag.cpp" />
     <ClCompile Include="engine\2d\IPostEffect.cpp" />
     <ClCompile Include="engine\2d\MultipleRenderTarget.cpp" />
     <ClCompile Include="engine\2d\MultiTexture.cpp" />
@@ -90,7 +90,8 @@
     <ClCompile Include="application\Sourcecode\Collision\ICollider.cpp" />
     <ClCompile Include="application\Sourcecode\Collision\RectCollider.cpp" />
     <ClCompile Include="application\Sourcecode\Scene\TitleScene.cpp" />
-    <ClCompile Include="ValueSprite.cpp" />
+    <ClCompile Include="engine\2d\ValueSprite.cpp" />
+    <ClCompile Include="engine\ObjectManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application\Sourcecode\ColliderObject.h" />
@@ -116,9 +117,9 @@
     <ClInclude Include="application\Sourcecode\Collision\ColliderManager.h" />
     <ClInclude Include="application\Sourcecode\Collision\CollisionChecker.h" />
     <ClInclude Include="application\Sourcecode\System\Camera2d.h" />
-    <ClInclude Include="CircleCollider.h" />
-    <ClInclude Include="CircleGauge.h" />
-    <ClInclude Include="ColliderTag.h" />
+    <ClInclude Include="engine\collision\CircleCollider.h" />
+    <ClInclude Include="engine\2d\CircleGauge.h" />
+    <ClInclude Include="engine\collision\ColliderTag.h" />
     <ClInclude Include="engine\2d\IPostEffect.h" />
     <ClInclude Include="engine\2d\MultipleRenderTarget.h" />
     <ClInclude Include="engine\2d\MultiTexture.h" />
@@ -174,7 +175,8 @@
     <ClInclude Include="engine\util\Timer.h" />
     <ClInclude Include="application\Sourcecode\Collision\ICollider.h" />
     <ClInclude Include="application\Sourcecode\Collision\RectCollider.h" />
-    <ClInclude Include="ValueSprite.h" />
+    <ClInclude Include="engine\2d\ValueSprite.h" />
+    <ClInclude Include="engine\ObjectManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="application\Sourcecode\Scene\ClearScene.h" />
   </ItemGroup>
@@ -596,7 +598,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;$(ProjectDir)engine;$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)engine\\util;$(ProjectDir)engine\3d\assimp;$(ProjectDir)application;$(ProjectDir)application\Sourcecode;$(ProjectDir)application\Sourcecode\Scene;$(ProjectDir)application\Sourcecode\Particle;$(ProjectDir)application\Sourcecode\Shader;$(ProjectDir)application\Sourcecode\Player;$(ProjectDir)application\Sourcecode\Player\State;$(ProjectDir)application\Sourcecode\Enemy\Bullet;$(ProjectDir)application\Sourcecode\Enemy;$(ProjectDir)application\Sourcecode\Stage;$(ProjectDir)application\Sourcecode\Interface;$(ProjectDir)application\Sourcecode\System;$(ProjectDir)engine\external\ImGui;$(ProjectDir)application\Sourcecode\StageObject\Boxes;$(ProjectDir)application\Sourcecode\StageObject;$(ProjectDir)application\Sourcecode\StageEditor;$(ProjectDir)application\Sourcecode\Collision;$(ProjectDir)application\Sourcecode\Draw;$(ProjectDir)application\Sourcecode\Draw\Base;$(ProjectDir)application\Sourcecode\Draw\Data;$(ProjectDir)application\Sourcecode\Draw\Drawer;$(ProjectDir)application\Sourcecode\Draw\Math;$(ProjectDir)application\Sourcecode\Draw\Particle;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;$(ProjectDir)engine;$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)engine\\util;$(ProjectDir)engine\3d\assimp;$(ProjectDir)application;$(ProjectDir)application\Sourcecode;$(ProjectDir)application\Sourcecode\Scene;$(ProjectDir)application\Sourcecode\Particle;$(ProjectDir)application\Sourcecode\Shader;$(ProjectDir)application\Sourcecode\Player;$(ProjectDir)application\Sourcecode\Player\State;$(ProjectDir)application\Sourcecode\Enemy\Bullet;$(ProjectDir)application\Sourcecode\Enemy;$(ProjectDir)application\Sourcecode\Stage;$(ProjectDir)application\Sourcecode\Interface;$(ProjectDir)application\Sourcecode\System;$(ProjectDir)engine\external\ImGui;$(ProjectDir)application\Sourcecode\StageObject\Boxes;$(ProjectDir)application\Sourcecode\StageObject;$(ProjectDir)application\Sourcecode\StageEditor;$(ProjectDir)application\Sourcecode\Collision;$(ProjectDir)application\Sourcecode\Draw;$(ProjectDir)application\Sourcecode\Draw\Base;$(ProjectDir)application\Sourcecode\Draw\Data;$(ProjectDir)application\Sourcecode\Draw\Drawer;$(ProjectDir)application\Sourcecode\Draw\Math;$(ProjectDir)application\Sourcecode\Draw\Particle;$(ProjectDir)engine\collision;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -625,7 +627,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;$(ProjectDir)engine;$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)engine\\util;$(ProjectDir)engine\3d\assimp;$(ProjectDir)application;$(ProjectDir)application\Sourcecode;$(ProjectDir)application\Sourcecode\Scene;$(ProjectDir)application\Sourcecode\Particle;$(ProjectDir)application\Sourcecode\Shader;$(ProjectDir)application\Sourcecode\Player;$(ProjectDir)application\Sourcecode\Player\State;$(ProjectDir)application\Sourcecode\Enemy\Bullet;$(ProjectDir)application\Sourcecode\Enemy;$(ProjectDir)application\Sourcecode\Stage;$(ProjectDir)application\Sourcecode\Interface;$(ProjectDir)application\Sourcecode\System;$(ProjectDir)engine\external\ImGui;$(ProjectDir)application\Sourcecode\StageObject\Boxes;$(ProjectDir)application\Sourcecode\StageObject;$(ProjectDir)application\Sourcecode\StageEditor;$(ProjectDir)application\Sourcecode\Collision;$(ProjectDir)application\Sourcecode\Draw;$(ProjectDir)application\Sourcecode\Draw\Base;$(ProjectDir)application\Sourcecode\Draw\Data;$(ProjectDir)application\Sourcecode\Draw\Drawer;$(ProjectDir)application\Sourcecode\Draw\Math;$(ProjectDir)application\Sourcecode\Draw\Particle;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)packages\Assimp_native_4.1_v142.4.1.0\build\native\include;$(ProjectDir)engine;$(ProjectDir)engine\2d;$(ProjectDir)engine\3d;$(ProjectDir)engine\3d\light;$(ProjectDir)engine\audio;$(ProjectDir)engine\input;$(ProjectDir)engine\math;$(ProjectDir)engine\base;$(ProjectDir)engine\external;$(ProjectDir)engine\\util;$(ProjectDir)engine\3d\assimp;$(ProjectDir)application;$(ProjectDir)application\Sourcecode;$(ProjectDir)application\Sourcecode\Scene;$(ProjectDir)application\Sourcecode\Particle;$(ProjectDir)application\Sourcecode\Shader;$(ProjectDir)application\Sourcecode\Player;$(ProjectDir)application\Sourcecode\Player\State;$(ProjectDir)application\Sourcecode\Enemy\Bullet;$(ProjectDir)application\Sourcecode\Enemy;$(ProjectDir)application\Sourcecode\Stage;$(ProjectDir)application\Sourcecode\Interface;$(ProjectDir)application\Sourcecode\System;$(ProjectDir)engine\external\ImGui;$(ProjectDir)application\Sourcecode\StageObject\Boxes;$(ProjectDir)application\Sourcecode\StageObject;$(ProjectDir)application\Sourcecode\StageEditor;$(ProjectDir)application\Sourcecode\Collision;$(ProjectDir)application\Sourcecode\Draw;$(ProjectDir)application\Sourcecode\Draw\Base;$(ProjectDir)application\Sourcecode\Draw\Data;$(ProjectDir)application\Sourcecode\Draw\Drawer;$(ProjectDir)application\Sourcecode\Draw\Math;$(ProjectDir)application\Sourcecode\Draw\Particle;$(ProjectDir)engine\collision;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>

@@ -24,7 +24,7 @@ private:
     //>> 変数
     uint32_t id_{};
     // 生成するオブジェクトの種類
-    ObjectType kind_;
+    //ObjectType kind_;
     //
     std::vector<ICollider*> iColliderPtrs_;
 
@@ -34,13 +34,13 @@ protected:
 
 public:
     //>> getter
-    ObjectType Get_ObjectType(void) const { return kind_; }
+    //ObjectType Get_ObjectType(void) const { return kind_; }
     bool Get_IsDead(void) const { return isDead_; }
     std::vector<ICollider*>* Get_IColliderPtrs(void) { return &iColliderPtrs_; }
 
 protected:
     //>> setter
     // オブジェクトの種類を設定する関数、継承先クラスのコンストラクタ内でのみ使う事。
-    void Set_ObjectType(ObjectType arg_objType) { kind_ = arg_objType; }
+    //void Set_ObjectType(ObjectType arg_objType) { kind_ = arg_objType; }
     void Add_ColliderPtr(ICollider* arg_iColliderPtr) { iColliderPtrs_.push_back(arg_iColliderPtr); }
 };
